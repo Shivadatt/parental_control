@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Parent Control</string>
+
+    <string name="guardian_notification_title">Parent Control</string>
+    <string name="guardian_notification_text">Syncing device status with your family. Tap to review.</string>
+    <string name="guardian_notification_error_text">Background sync needs attention. Tap to review.</string>
+    <string name="guardian_channel_name">Background sync</string>
+    <string name="guardian_channel_description">Keeps the device policy and status synchronized while visible.</string>
+    <string name="guardian_boot_failed">Background sync could not start automatically. Open Parent Control.</string>
+
+    <string name="location_notification_title">Location sharing is on</string>
+    <string name="location_notification_text">This device shares its location with your family while this is on.</string>
+    <string name="location_channel_name">Location sharing</string>
+    <string name="location_channel_description">Shows when this device is sharing its location.</string>
+
+    <string name="device_admin_explanation">Parent Control uses device administration for parental controls. Suspending apps requires Device Owner provisioning performed during setup; this screen only enables the admin component.</string>
+</resources>

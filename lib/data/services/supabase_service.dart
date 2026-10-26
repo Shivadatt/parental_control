@@ -14,7 +14,14 @@ class SupabaseService extends GetxService {
 
   Future<SupabaseService> init() async {
     if (!isConfigured) {
-      _initError = AppException.backendNotConfigured();
+      final problem = Env.configurationProblem;
+      _initError = problem == null
+          ? AppException.backendNotConfigured()
+          : AppException(
+              AppErrorCodes.backendNotConfigured,
+              'The backend configuration was rejected. $problem '
+              'Fix the --dart-define values and restart the app.',
+            );
       return this;
     }
     try {

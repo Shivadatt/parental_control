@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<device-admin xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- No legacy password/lock policies are requested. App suspension is a
+         Device Owner capability and must never be applied without it. -->
+    <uses-policies />
+</device-admin>

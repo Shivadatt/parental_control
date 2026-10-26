@@ -2,12 +2,15 @@
 .env
 .env.*
 !.env.example
+secrets.env
+*.secrets.env
 *.jks
 *.keystore
 key.properties
 google-services.json
 firebase_options.dart
 local.properties
+supabase/.temp/
 
 # Local tooling / scratch data
 .tools/
@@ -59,3 +62,6 @@ app.*.map.json
 /android/app/debug
 /android/app/profile
 /android/app/release
+
+# FVM Version Cache
+.fvm/

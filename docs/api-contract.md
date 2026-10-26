@@ -12,7 +12,8 @@ shared contract.
 - Dependencies are already installed. **Do not edit `pubspec.yaml`**, do not run
   `flutter pub get`, `flutter test`, `flutter build`, or any repo-wide analyzer.
 - One scoped analyzer run per agent at the very end is allowed:
-  `cmd //c "C:\Users\ASUS\fvm\versions\3.44.6\bin\dart.bat analyze lib/features/<your-dir> lib/data/repositories/<your-files>"`
+  `cmd //c "C:\Users\ASUS\fvm\versions\3.44.6\bin\dart.bat analyze lib/features/<your-dir> lib/data/repositories/<your-files> test/features/<your-dir>"`
+  (omit paths that do not apply; this is ONE run — do not loop analyzer runs).
 - Never delete, stub, or comment out existing widgets to silence an error. Never add
   `// ignore_for_file:` or edit `analysis_options.yaml`. Never fabricate success.
 - Do not edit files outside your ownership block. Do not run destructive git commands.
@@ -163,7 +164,8 @@ child can be in only one active family. RLS: select members of own family.
 `microphone_granted bool`, `notifications_granted bool`, `created_at`, `updated_at`.
 Unique `(family_id,installation_id)`. Unique partial index: one active device per
 child account (`child_user_id where status='active'`). RLS: select family parent or
-the child owner. No direct writes.
+the child owner. No direct writes. Clients receive column-level SELECT only;
+`secret_hash` and `installation_id` are service-only columns.
 
 ### device_pairing_tokens
 `id`, `child_user_id`, `code_hash text unique`, `expires_at`, `redeemed_at`,
@@ -253,22 +255,39 @@ writes. Populated by `device-telemetry` action `apps_upload`.
 `(parent_user_id, attempted_at)` and `(code_hash, attempted_at)`. Service role only.
 
 ### RPC helpers (security definer, execute only service_role or internal)
-- `private.is_family_member(uuid)`, `private.is_family_parent(uuid)` stable,
-  `search_path` fixed.
+- `private.is_family_member(uuid)`, `private.is_family_parent(uuid)`,
+  `private.shares_active_family(uuid)`, `private.realtime_topic_allowed(text)` —
+  boolean policy helpers, stable, `search_path` fixed.
 - `private.apply_policy_version(p_device_id uuid, p_policy jsonb, p_actor uuid,
   p_idempotency_key text)` — atomic: insert next version, insert `apply_policy`
   command whose payload includes `{policy_id, version, policy}`, return JSON rows.
 - `private.expire_stale_sessions()` and `private.detect_offline_devices()` for cron.
 - `private.record_audit(...)` internal helper.
-All `SECURITY DEFINER` functions set `search_path = public, private, pg_temp` and
-revoke execute from `anon, authenticated`.
+All `SECURITY DEFINER` functions set `search_path = public, private, pg_temp`.
+The four boolean helpers above are executable by `authenticated` because RLS and
+Realtime evaluate policies as the caller; every state-changing function revokes
+execute from `anon, authenticated`.
 
 ## 5. Edge Functions
 
 Paths under `supabase/functions/<name>/index.ts`; shared code under
-`supabase/functions/_shared/`. `supabase/config.toml` must set each function
-`verify_jwt = true` (the Flutter/native clients send the publishable key as the
-Bearer token; the device secret is still required for device operations).
+`supabase/functions/_shared/`. `supabase/config.toml` JWT settings:
+
+- `verify_jwt = true`: `auth-bootstrap`, `pairing`, `device-register`,
+  `device-policy`, `family-admin`, `remote-session` (user JWT only).
+- `verify_jwt = false`: `device-command`, `device-telemetry` (mixed/device
+  callers). A publishable key (`sb_publishable_...`) is **not a JWT** and cannot
+  pass gateway JWT verification, so these functions authenticate themselves:
+  `poll` / `ack` / telemetry require `x-device-id` + `x-device-secret` with a
+  constant-time SHA-256 comparison against `devices.secret_hash`,
+  `status='active'`, `credential_revoked_at is null`; `create` requires a real
+  user JWT parsed with `supabase.auth.getUser(token)`. Never treat the
+  publishable key, a device id, or a user JWT alone as device proof.
+- User-auth functions must still call `getUser` and re-check role/membership even
+  though the gateway verified the JWT.
+- Native device calls send `apikey: <publishableKey>` and
+  `Authorization: Bearer <publishableKey>` only to satisfy the gateway; identity
+  comes exclusively from the device headers.
 
 ### auth-bootstrap
 - `set_role` (user): `{role:"parent"|"child", display_name?}` → profile row.
@@ -308,23 +327,33 @@ Bearer token; the device secret is still required for device operations).
 ### device-register
 `register` (child): `{family_id, installation_id, secret_hash, display_name,
 platform, android_version, app_version}` → device row. Validate 64-hex hash,
-installation id 8..128, active child membership, one active device per child. If
-revoked device with same installation id → 403 `device_revoked` (re-link required).
-Idempotent re-register rotates the hash and updates metadata. Audit
-`device_registered` / `device_recredentialed`.
+installation id 8..128, active child membership, one active device per child. A
+revoked device for that child in the family blocks registration of any new
+installation (403 `device_revoked`, audit `device_registration_blocked`) until the
+parent removes the child and a later pairing request is approved; a child cannot
+clear a revocation itself. `revoke_device` also cancels pending pairing requests
+in that family, so a request redeemed before revocation cannot be approved
+afterwards. Idempotent re-register rotates the hash and updates metadata. The
+response omits `installation_id` and `secret_hash`. Audit `device_registered` /
+`device_recredentialed`.
 
 ### device-command
 - `create` (parent): `{device_id, type, payload, idempotency_key, ttl_seconds?}` →
   `{command}`. Valid types and payload schemas. ttl clamp 60..900. Idempotent on
-  `(device_id,idempotency_key)`. Audit `command_created`.
+  `(device_id,idempotency_key)`. `apply_policy` is routed through
+  `apply_policy_version`, so the created command always carries
+  `{policy_id, version, policy}` and the ack can update `device_policies`
+  (policy commands use the RPC's 900-second expiry). Audit `command_created`
+  (plus `policy_updated` for a new policy).
 - `poll` (device auth): → `{commands:[...], server_time}`. Marks pending as
   delivered; marks expired commands expired; limit 20; never returns another
   device's commands.
 - `ack` (device auth): `{command_id, status:"succeeded"|"failed"|"expired", result}`
   → `{command}`. Idempotent; 410 if ack after expiry (mark expired). On
   `apply_policy` success/failure update the matching `device_policies` row
-  (`acknowledged_at`, `enforcement_status`, `last_error`), update
-  `devices.policy_version`, audit `command_acked`/`command_failed`.
+  (`acknowledged_at`, `enforcement_status`, `last_error`); only a successful ack
+  updates `devices.policy_version`, from the server-side policy row. Audit
+  `command_acked`/`command_failed`.
 
 ### device-policy
 `update` (parent): `{device_id, policy, idempotency_key}` → `{policy, command}`.
@@ -332,12 +361,14 @@ Validate policy schema strictly. Calls atomic RPC `apply_policy_version`; comman
 payload contains full policy for offline execution. Audit `policy_updated`.
 
 ### device-telemetry (device auth on every action)
-- `heartbeat`: `{battery_level, is_charging, online, policy_version,
+- `heartbeat`: `{battery_level, is_charging, online,
   capabilities:{enforcement_mode, usage_access_granted, location_granted,
   background_location_granted, camera_granted, microphone_granted,
   notifications_granted}}` → `{server_time, pending_policy_version}`. Updates
-  device presence. Creates `low_battery` alert at ≤20% (not charging) at most once
-  per 6 hours. Never claims freshness when data absent.
+  device presence. `policy_version` is ignored if sent: it is advanced only by a
+  successful `apply_policy` ack, so a heartbeat cannot claim enforcement. Creates
+  `low_battery` alert at ≤20% (not charging) at most once per 6 hours. Never
+  claims freshness when data absent.
 - `usage_upload`: `{entries:[{day:"YYYY-MM-DD", package_name, app_label, total_ms,
   last_used_at?}]}` (1..500) → `{accepted, uploaded_at}`. Upserts; family_id derived
   from device; validates package name/size.
@@ -371,7 +402,14 @@ payload contains full policy for offline execution. Audit `policy_updated`.
   credentials from `TURN_URL`/`TURN_SECRET`/`TURN_TTL_SECONDS` (HMAC, coturn REST).
   No TURN secrets in the app. Only when accepted/active and not expired.
 - Signaling: clients insert/select `webrtc_signals` directly (RLS-protected) and use
-  Supabase Realtime `postgres_changes`; no public broadcast channels.
+  private Supabase Realtime `postgres_changes` channels with topics
+  `remote-session:<sessionId>`, `remote-session-family:<familyId>`,
+  `webrtc-signals:<sessionId>` and `safety-alerts:<familyId>`. Record delivery is
+  filtered by the source-table RLS policies; the guarded `realtime.messages`
+  policy additionally calls `private.realtime_topic_allowed(topic)` for the
+  topic shapes above (defense-in-depth; Supabase documents `realtime.messages`
+  authorization as applying to broadcast/presence). No public broadcast
+  channels are used. Hosted Realtime behavior is **NOT TESTED**.
 - Session must stop on end, decline, expiry, device revoke, unlink; no media before
   consent.
 
@@ -411,6 +449,7 @@ Page classes must be `const`-constructible and read args from `Get.arguments`
 | `/child/enrollment` | `ChildEnrollmentPage` | E |
 | `/child/restrictions` | `ChildRestrictionsPage` | E |
 | `/child/session` | `ChildSessionPage` (args sessionId?) | E |
+| `/child/requests` | `ChildRequestsPage` | E |
 
 Tabs composed by ParentShellPage (C) and owned as follows:
 
@@ -425,6 +464,16 @@ and must not duplicate their business logic. Child shell tabs live under
 
 No route is added to `AppPages` by agents; the lead writes it at integration. Use
 `AppRoutes` constants only. Required class names and paths must match exactly.
+
+Each routed page has a `Bindings` subclass that the lead wires into `AppPages`.
+Put it beside the page as `lib/features/<feature>/<page>_binding.dart` and name it
+`<PageName>Binding` (e.g. `LoginPage` → `lib/features/auth/login_binding.dart` class
+`LoginBinding`). Bindings register controllers with
+`Get.lazyPut(() => XController(repo: Get.find<XRepository>()), fenix: true)` and
+never construct repositories. Tabs inside a shell may instead initialise their own
+controller with `GetX<XController>(init: XController(repo: Get.find<...>()), ...)`.
+Every binding class name must be listed in the agent report. Pages must be
+`const`-constructible and must not reach into another feature's controller.
 
 ### Auth/onboarding flow (Agent B)
 - Splash: if backend missing → `AppRoutes.configuration`; else listen to auth.

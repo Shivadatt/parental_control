@@ -7,9 +7,13 @@ abstract class AuthRepository {
   Stream<void> get authChanges;
 
   Future<void> signIn({required String email, required String password});
-  Future<void> signUp({required String email, required String password});
+  Future<void> signUp({
+    required String email,
+    required String password,
+    String? displayName,
+  });
   Future<void> signOut();
-  Future<void> resendVerificationEmail();
+  Future<void> resendVerificationEmail({String? email});
   Future<bool> refreshEmailVerification();
   Future<Profile?> fetchProfile();
   Future<Profile> setInitialRole({
@@ -54,6 +58,9 @@ abstract class DeviceRepository {
     required String familyId,
     required DeviceIdentity identity,
     required String displayName,
+    String platform = 'android',
+    String? androidVersion,
+    String? appVersion,
   });
   Future<void> revokeDevice(String deviceId);
   Future<List<InstalledApp>> fetchReportedApps(String deviceId);
@@ -67,7 +74,6 @@ abstract class DeviceRepository {
     required BatteryStatus battery,
     required bool online,
     required DeviceCapabilities capabilities,
-    int? policyVersion,
   });
 }
 
@@ -90,6 +96,7 @@ abstract class PolicyRepository {
     int ttlSeconds = 300,
   });
   Future<DeviceCommand> acknowledgeCommand({
+    required DeviceIdentity identity,
     required String commandId,
     required bool success,
     required Map<String, dynamic> result,
