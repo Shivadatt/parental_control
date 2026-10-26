@@ -492,24 +492,146 @@ process listings. `secrets.env` and `supabase/.temp/` were not gitignored.
 states why inline values are prohibited; `.gitignore` covers `secrets.env`,
 `*.secrets.env` and `supabase/.temp/`.
 
+## BUG-021 — Private Realtime rejected every subscriber (P1)
+
+**Status:** FIXED — HOSTED VERIFIED.
+**Component:** [supabase/migrations/20260101000200_rls.sql](../supabase/migrations/20260101000200_rls.sql),
+hosted `realtime.messages` policy.
+
+**Expected:** An authenticated family member or session participant can join the
+matching private topic; a foreign parent and an anonymous client are rejected.
+
+**Actual:** The SELECT policy required
+`realtime.messages.extension = 'postgres_changes'`. That column is populated for
+delivered rows, but a channel join is authorized against the topic before any
+message row exists, so the predicate was false for everyone. All private
+subscriptions returned `Unauthorized: ...`, including the legitimate parent and
+child.
+
+**Fix:** Authorize on the topic alone through
+`private.realtime_topic_allowed(realtime.topic())`, guarded so the policy is only
+created when `realtime.messages` exists. Row delivery remains filtered by each
+source table's RLS.
+
+**Evidence:** Hosted probe after applying the policy in the SQL Editor:
+parent A, child A and the remote-session participant reached `SUBSCRIBED`; parent B
+and an anon client received `CHANNEL_ERROR ... Unauthorized` for family A's topic.
+The hosted dashboard confirmed the policy DDL with “Success. No rows returned”.
+
+## BUG-022 — Lists inside `SectionCard` raised framework assertions (P2)
+
+**Status:** FIXED — DEVICE VERIFIED.
+**Component:** [lib/core/widgets/section_card.dart](../lib/core/widgets/section_card.dart)
+
+**Expected:** Cards containing `ListTile`/`SwitchListTile` render and respond to
+taps without framework assertions.
+
+**Actual:** `SectionCard` wrapped its column in a decorated `Container`. The
+`ListTile`s therefore had no `Material` ancestor, which raises “ListTile
+background color or ink splashes may be invisible” and blocks a clean test run.
+Thirteen such assertions occurred during the physical-device enrollment flow.
+
+**Fix:** Wrap the card contents in `Material(type: MaterialType.transparency)`, so
+the decoration is preserved and the tiles get a Material ancestor.
+
+**Evidence:** `flutter analyze` → no issues; `flutter test` → 98/98; the
+on-device integration run proceeded through enrollment and the shell with no
+ListTile assertion.
+
+## BUG-023 — Edge Functions had no server-role table privileges (P1)
+
+**Status:** FIXED — HOSTED VERIFIED.
+**Component:** [supabase/migrations/20260101000300_service_role_grants.sql](../supabase/migrations/20260101000300_service_role_grants.sql)
+
+**Expected:** Edge Functions, which use the auto-injected service-role client for
+every write, can read and write the public tables.
+
+**Actual:** The migrations granted privileges to `anon` and `authenticated` only.
+`service_role` has `BYPASSRLS`, which skips policies but does not grant table or
+sequence privileges, so the server client could not perform the writes the
+functions depend on.
+
+**Fix:** Added an explicit service-role migration granting `usage` on schema
+`public`, CRUD on all tables, sequence usage/select, and matching default
+privileges for future objects. RLS stays enabled everywhere; no client policy was
+broadened.
+
+**Evidence:** The migration was applied in the hosted SQL Editor, and the hosted
+auth, pairing and device suites then passed (24/24, 42/42 and 6/6). Before the
+grant, those server-side writes were not possible.
+
+## BUG-024 — A reinstalled phone cannot recover its device credential (P2)
+
+**Status:** OPEN — WORKAROUND EXISTS.
+**Components:** [lib/features/child/child_shell_controller.dart](../lib/features/child/child_shell_controller.dart),
+[supabase/functions/device-register/index.ts](../supabase/functions/device-register/index.ts)
+
+**Reproduction:** Enroll a child phone; clear app data or reinstall; sign in as
+the linked child.
+
+**Expected:** The app detects that it has no valid device credential and either
+re-registers (when allowed) or tells the user that a parent must unlink and re-link
+the child.
+
+**Actual:** The child shell loads the server device row and reports “Device setup
+Registered”, but the local sync credential is gone. The guardian then fails every
+heartbeat with “Heartbeat failed: Device credentials are not valid.”, and no UI
+action prompts recovery. Registering the new installation is rejected by
+`device-register` with `409 device_already_registered` while the old active row
+exists. Only a parent unlink → new pairing code → child approval → fresh install
+restores background protection.
+
+**Impact:** After data loss, background protection silently stays non-functional
+while the parent UI still lists the phone as the active device. The server
+fail-closed behavior is correct; the client recovery path is missing.
+
+**Workaround:** Parent unlinks the child, the child creates a new linking code,
+the parent redeems it, the child approves, then the app is reinstalled and
+re-enrolled. This was executed twice against the hosted project (6/6 assertions
+per run).
+
+**Fix direction (not implemented):** On a `401/403` from the sync endpoint, mark
+the local enrollment invalid and surface a “Re-link this phone” action. Do not let
+the client replace an active device row by itself; keep the revocation gate.
+
+## BUG-025 — The live harness could report failures as passes (P2)
+
+**Status:** FIXED — RERUN AND VERIFIED.
+**Component:** [.tools/live/verify_devices.mjs](../.tools/live/verify_devices.mjs) (gitignored harness)
+
+**Observed:** The helper `pass(cond, name, detail)` called `record(status, name)`
+while `record` expects `(name, status, detail)`. Every assertion was stored with
+its name in the status field, so failures would also have looked like passes. A
+second defect read `iceServers` while the server returns `ice_servers`, producing
+a false TURN assertion.
+
+**Impact:** Verification integrity. The first reported 42/42 was not trustworthy.
+
+**Fix:** `record(name, cond ? 'PASS' : 'FAIL', detail)` and the correct ICE field.
+The suite was rerun; `phase2.json` now stores per-check statuses and the rerun
+genuinely passed 42/42. Hosted result files are timestamped so earlier runs remain
+distinguishable.
+
 ## Open / not tested
 
-No open P0/P1 code defect is currently known from the analyzer, the Flutter and
-Kotlin test suites, the APK build or the local backend suites. The following are
-**NOT TESTED** or **BLOCKED**, not passes:
+No open P0 is known. One open P2 remains: **BUG-024**, the missing recovery path
+after app data loss. The following are **NOT TESTED**, **BLOCKED** or
+**NOT CONFIGURED**, not passes:
 
-- Physical-device behavior of the child enrollment/requests/rules/session screens.
-  Install, launch and the honest configuration gate passed; the screens behind the
-  gate could not be reached without a configured backend. See
-  [verification-report.md](verification-report.md).
-- Device Owner enrollment and `setPackagesSuspended()` on a fully managed device:
-  the connected realme RMX2161 is not Device Owner.
-- Live Supabase Auth, RLS, Realtime, Edge Functions and command delivery: no
-  project is deployed, linked or altered. Browser automation was denied and CLI
-  project creation with an agent-generated database password was blocked by the
-  security gate. The pre-existing, unrelated project
-  `irlqctcddjmkwqdvsdsm` was not touched. The owner must create the project in
-  the dashboard and keep the database password local; see the handoff in
-  [backend.md](backend.md).
-- FCM delivery (`google-services.json` absent) and TURN relay (no TURN secret).
-- Real two-device WebRTC media connectivity.
+- Hosted email delivery: no custom SMTP provider. The confirmation/reset email
+  round-trip and the deep link are not exercised end to end.
+- FCM: no Firebase project or `google-services.json`.
+- TURN: no `TURN_URL`/`TURN_SECRET`; ICE returns STUN-only with
+  `turn_configured:false`.
+- Device Owner provisioning and `setPackagesSuspended()` on the realme RMX2161:
+  the phone is not Device Owner, so Instagram suspension and reboot persistence
+  are blocked.
+- Two-device WebRTC media: only one physical phone is connected. Signaling,
+  session authorization and ICE response were verified server-side; no media
+  path between two devices was exercised.
+- Backups/restore: not configured or verified.
+- Parent screens on a physical device: parent flows were exercised through the
+  hosted API harness, not by driving the parent UI on the phone.
+- Usage Access and location uploads from the physical phone: the guardian service
+  starts and heartbeats, but Usage Access is denied on this phone, so the usage
+  upload path is not tested. Location sharing was not started.

@@ -460,7 +460,8 @@ begin
   end if;
 
   if v_device.status = 'revoked' then
-    return to_jsonb(v_device) || jsonb_build_object('sessions_ended', 0);
+    return (to_jsonb(v_device) - 'installation_id' - 'secret_hash')
+      || jsonb_build_object('sessions_ended', 0);
   end if;
 
   update public.devices
@@ -497,7 +498,10 @@ begin
     jsonb_build_object('child_user_id', v_device.child_user_id)
   );
 
-  return to_jsonb(v_device) || jsonb_build_object('sessions_ended', v_sessions);
+  -- installation_id and secret_hash are service-only. The parent UI does not
+  -- use them, and this RPC response is relayed to the parent by family-admin.
+  return (to_jsonb(v_device) - 'installation_id' - 'secret_hash')
+    || jsonb_build_object('sessions_ended', v_sessions);
 end;
 $$;
 

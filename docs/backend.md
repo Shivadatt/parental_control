@@ -1,60 +1,41 @@
 # Backend deployment and operations
 
-**Status: NOT DEPLOYED.** The backend source is complete in this repository, but
-no Supabase project was created, linked, migrated or deployed; no secret was set;
-no Edge Function, database or Realtime endpoint was called. Everything below is
-a manual runbook for the owner/lead. Commands are documented, not executed.
+**Status: DEPLOYED — hosted project verified for Auth, data, Edge Functions and
+private Realtime (2026-10-26).** The app is built against hosted Supabase project
+`hhqgreaoqulmfwfwarhc`. Device Owner enforcement, email delivery, FCM and TURN
+remain blocked or not configured; [verification-report.md](verification-report.md)
+records the exact claim behind every label.
 
-Local verification covers the Deno commands and the SQL authorization suite against
-a disposable plain PostgreSQL 16 database; see [Local checks](#local-checks). No
-Supabase-hosted component has been exercised.
+## Hosted project record (2026-10-26)
 
-## Current blocker and owner handoff (2026-10-26)
+| Item | State |
+|---|---|
+| Project | `hhqgreaoqulmfwfwarhc`, organization `spg7753@gmail.com's Org`, region `ap-northeast-2` (Seoul), PostgreSQL 17.11, compute NANO, dashboard status Healthy |
+| Configuration method | Authenticated Supabase Dashboard only: SQL Editor migrations, Auth settings, dashboard function deployment. No CLI project mutation and no undocumented API were used. |
+| Migrations | All four files in `supabase/migrations/` applied in order through the SQL Editor. The final Realtime policy DDL returned `Success. No rows returned`. |
+| Auth | Email confirmation ON; signups ON; anonymous sign-ins OFF; manual linking OFF; Site URL `http://localhost:3000` (development value; change before a web release); redirect allowlist contains `parentcontrol://auth-callback`. QA parent/child accounts were created and dashboard-confirmed. |
+| Edge Functions | All nine deployed from the dashboard: `auth-bootstrap`, `pairing`, `device-register`, `device-policy`, `family-admin`, `remote-session` with Verify JWT ON; `device-command`, `device-telemetry`, `cron` with Verify JWT OFF. |
+| Realtime | `parentcontrol_private_topics` policy present on `realtime.messages`. Live probe: the family's parent and child and the remote-session participant subscribe; a foreign parent and an anon client are rejected. |
+| Edge secrets | None set. `TURN_URL`/`TURN_SECRET` and `CRON_SECRET` are absent, so TURN is not configured and the scheduled `cron` endpoint is not enabled. |
+| Email delivery | No custom SMTP provider. Confirmation and reset email round-trips are **BLOCKED / NOT TESTED**. |
+| FCM | **NOT CONFIGURED**: no Firebase project or `google-services.json`. |
+| Backups | **NOT CONFIGURED / UNVERIFIED** on the current plan; no restore was tested. |
+| Client keys | The Flutter build contains `SUPABASE_URL` and the publishable key only. The service-role key and database password were never read, stored or printed by this work. |
 
-The dashboard session shown by the owner (`spg7753@gmail.com's Org`, 0 projects)
-and the authenticated Supabase CLI session (`anvikinnovations-cmyk's Org`, which
-contains one unrelated pre-existing project, `irlqctcddjmkwqdvsdsm`) are different
-accounts. Browser automation was denied, and creating a project through the CLI
-with an agent-generated database password was blocked by the security gate.
-Nothing hosted was created, linked, altered or deployed.
+## What remains owner-only
 
-To unblock, the owner must choose one path:
+1. Custom SMTP (or a verified sending domain) plus one real confirmation/reset
+   round-trip.
+2. Firebase/FCM credentials and a delivery test.
+3. TURN credentials for restrictive networks. ICE currently returns STUN-only
+   with `turn_configured:false`.
+4. Device Owner provisioning on a disposable device (factory reset) to exercise
+   package suspension, including Instagram.
+5. Backup and retention decisions, plus a restore drill.
 
-1. In the dashboard for the intended account, create a free project named
-   `parent-control` in `ap-south-1` (Mumbai), let the dashboard generate the
-   database password, and store it in a password manager. Provide only the
-   project ref/URL and the publishable/anon key. Keep the database password out
-   of chat and run the `supabase link` / `supabase db push` commands locally.
-2. Or explicitly authorize deploying into the existing project
-   `irlqctcddjmkwqdvsdsm`, after confirming it holds no production data.
-
-The app cannot pass its configuration gate until one of these is done. After the
-project exists, the remaining sequence is:
-
-```bash
-# The owner enters the database password locally when prompted; never paste it
-# into chat or a committed file.
-supabase link --project-ref <PROJECT_REF>
-supabase db push
-
-# Local, gitignored file with CRON_SECRET and optional STUN_URL/TURN_* values.
-supabase secrets set --env-file <LOCAL_SECRETS_ENV> --project-ref <PROJECT_REF>
-
-supabase functions deploy auth-bootstrap pairing device-register device-policy \
-  family-admin remote-session --project-ref <PROJECT_REF> --use-api
-supabase functions deploy device-command device-telemetry cron \
-  --no-verify-jwt --project-ref <PROJECT_REF> --use-api
-
-"C:/Users/ASUS/fvm/versions/3.44.6/bin/flutter.bat" build apk --debug \
-  --dart-define=SUPABASE_URL=<SUPABASE_URL> \
-  --dart-define=SUPABASE_ANON_KEY=<PUBLISHABLE_KEY>
-```
-
-For live testing, create two pre-confirmed test accounts (parent and child) in
-Authentication -> Users, or confirm real email addresses. Do not disable email
-confirmation in a production project. One physical phone is connected; a second
-Android device or emulator is required for the two-role pairing and WebRTC
-matrix. Sections 3-7 below give the full details and verification queries.
+Sections 3-7 below are the reproducible dashboard/CLI runbook for migrations,
+functions, Realtime and secrets. Sections 4-5 were executed through the dashboard
+in the state recorded above; the CLI forms are retained for recreation.
 
 ## Layout
 
@@ -65,6 +46,8 @@ supabase/
     20260101000000_core.sql           tables, constraints, triggers, RLS helpers
     20260101000100_functions.sql      private RPCs, service-only wrappers, realtime, cron
     20260101000200_rls.sql            RLS policies and grants
+    20260101000300_service_role_grants.sql
+                                      explicit server-role table/sequence privileges
   functions/
     _shared/                          cors, envelope, auth, validation, policy, audit,
                                       rate-limit, turn (server-only)
@@ -284,6 +267,12 @@ from pg_policies
 where schemaname = 'realtime' and tablename = 'messages';
 ```
 
+Channel authorization is topic-based. Do **not** add a predicate on
+`realtime.messages.extension` (for example `= 'postgres_changes'`): a join is
+authorized before any message row exists, so that predicate evaluates false and
+rejects every subscriber, including legitimate family members (BUG-021). Record
+delivery is still filtered by each source table's RLS.
+
 Topic formats are `remote-session:<sessionId>`, `remote-session-family:<familyId>`,
 `webrtc-signals:<sessionId>` and `safety-alerts:<familyId>` (a numeric suffix is
 allowed). Family topics require active membership; session topics require being
@@ -468,8 +457,9 @@ request changes:
 
 ## Local checks
 
-No deployment or live endpoint was touched. These commands were run locally by the
-implementation lead on 2026-10-26.
+These commands were run locally by the implementation lead on 2026-10-26. They
+are independent of the hosted project and do not by themselves prove its state;
+the hosted run is recorded in [verification-report.md](verification-report.md).
 
 ```bash
 deno check supabase/functions/auth-bootstrap/index.ts \

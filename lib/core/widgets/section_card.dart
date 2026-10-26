@@ -28,42 +28,46 @@ class SectionCard extends StatelessWidget {
         border: Border.all(color: AppColors.border),
       ),
       padding: padding,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (title != null) ...[
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        title!,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                              fontWeight: FontWeight.w700,
-                            ),
-                      ),
-                      if (subtitle != null) ...[
-                        const SizedBox(height: 4),
+      // ListTiles and SwitchListTiles inside a card need their own Material
+      // ancestor; the decorated Container above them would otherwise suppress
+      // ink effects and raise a framework assertion.
+      child: Material(
+        type: MaterialType.transparency,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (title != null) ...[
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                         Text(
-                          subtitle!,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: AppColors.muted,
-                              ),
+                          title!,
+                          style: Theme.of(context).textTheme.titleMedium
+                              ?.copyWith(fontWeight: FontWeight.w700),
                         ),
+                        if (subtitle != null) ...[
+                          const SizedBox(height: 4),
+                          Text(
+                            subtitle!,
+                            style: Theme.of(context).textTheme.bodySmall
+                                ?.copyWith(color: AppColors.muted),
+                          ),
+                        ],
                       ],
-                    ],
+                    ),
                   ),
-                ),
-                ?trailing,
-              ],
-            ),
-            const SizedBox(height: 14),
+                  ?trailing,
+                ],
+              ),
+              const SizedBox(height: 14),
+            ],
+            child,
           ],
-          child,
-        ],
+        ),
       ),
     );
   }

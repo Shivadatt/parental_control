@@ -336,27 +336,22 @@ revoke all on function private.realtime_topic_allowed(text)
 grant execute on function private.realtime_topic_allowed(text) to authenticated;
 
 -- The realtime schema does not exist in a plain PostgreSQL test database.
+-- Channel-level authorization is topic-based only. Do not gate on
+-- realtime.messages.extension: Realtime evaluates this policy at channel join,
+-- where the extension is not one of the message-row values, so an extension
+-- predicate denies every subscriber including authorized ones. Row visibility
+-- for postgres_changes is still governed by each table's own RLS.
 do $$
 begin
   if to_regclass('realtime.messages') is not null then
-    if not exists (
-      select 1
-      from pg_policies
-      where schemaname = 'realtime'
-        and tablename = 'messages'
-        and policyname = 'parentcontrol_private_topics'
-    ) then
-      execute $ddl$
-        create policy parentcontrol_private_topics
-          on realtime.messages
-          for select
-          to authenticated
-          using (
-            realtime.messages.extension = 'postgres_changes'
-            and private.realtime_topic_allowed(realtime.topic())
-          )
-      $ddl$;
-    end if;
+    execute 'drop policy if exists parentcontrol_private_topics on realtime.messages';
+    execute $ddl$
+      create policy parentcontrol_private_topics
+        on realtime.messages
+        for select
+        to authenticated
+        using (private.realtime_topic_allowed(realtime.topic()))
+    $ddl$;
   else
     raise notice 'realtime.messages not found; private channel policy not created';
   end if;

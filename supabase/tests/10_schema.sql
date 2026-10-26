@@ -258,5 +258,25 @@ begin
     not has_function_privilege('anon', 'public.poll_device_commands(uuid,integer)', 'execute'),
     'anon must not execute service RPCs'
   );
+  perform tests.assert_true(
+    has_table_privilege(
+      'service_role', 'public.profiles', 'select,insert,update,delete'
+    ),
+    'service_role must write through PostgREST'
+  );
+  perform tests.assert_true(
+    has_table_privilege(
+      'service_role', 'public.device_pairing_tokens', 'select,insert,update,delete'
+    ),
+    'service_role must access service-only tables'
+  );
+  perform tests.assert_true(
+    not has_table_privilege('anon', 'public.profiles', 'select'),
+    'anon must not read profiles'
+  );
+  perform tests.assert_true(
+    not has_column_privilege('authenticated', 'public.profiles', 'role', 'update'),
+    'authenticated must not update profile roles'
+  );
 end;
 $$;
