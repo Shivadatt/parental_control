@@ -8,11 +8,12 @@
 reset role;
 
 -- Realtime evaluates this policy once for the subscribed topic, not per row.
--- A direct SELECT over realtime.messages therefore admits every
--- extension='postgres_changes' row when the topic is allowed; the internal queue
--- is never delivered to clients, and the public tables' own RLS filters the
--- actual payload rows. These assertions verify the topic gate and the extension
--- filter, which is what the Realtime server checks.
+-- The policy must authorize on the topic alone: at channel join the message
+-- extension is not populated, and an extension predicate rejected every real
+-- subscriber (BUG-021). In this local stub `realtime.topic()` is a fixed setting,
+-- so a direct SELECT admits every row when the topic is allowed; the real
+-- Realtime server delivers only rows for that topic. The public tables' own RLS
+-- filters the payload rows.
 select tests.assert_true(
   exists (
     select 1 from pg_policies
@@ -39,8 +40,8 @@ select set_config('request.jwt.claim.role', 'authenticated', false);
 select set_config('request.jwt.claim.sub', '33333333-3333-4333-8333-333333333333', false);
 select set_config('realtime.topic', 'safety-alerts:' || tests.get('family1'), false);
 select tests.assert_true(
-  count(*) = 5 and count(*) filter (where extension = 'postgres_changes') = 5,
-  'child1 may subscribe to family1 alerts and broadcast rows are excluded'
+  count(*) = 6,
+  'child1 may subscribe to family1 alerts (topic gate, no extension filter)'
 )
 from realtime.messages;
 
@@ -49,7 +50,7 @@ select tests.assert_true(count(*) = 0, 'child1 cannot subscribe to family2 alert
 from realtime.messages;
 
 select set_config('realtime.topic', 'remote-session:50000000-0000-4000-8000-000000000001', false);
-select tests.assert_true(count(*) = 5, 'child1 may subscribe to its own session1')
+select tests.assert_true(count(*) = 6, 'child1 may subscribe to its own session1')
 from realtime.messages;
 
 select set_config('realtime.topic', 'remote-session:50000000-0000-4000-8000-000000000002', false);
@@ -58,7 +59,7 @@ from realtime.messages;
 
 select set_config('realtime.topic', 'safety-alerts:' || tests.get('family1'), false);
 select set_config('request.jwt.claim.sub', '77777777-7777-4777-8777-777777777777', false);
-select tests.assert_true(count(*) = 5, 'child4 may subscribe to its own family alerts')
+select tests.assert_true(count(*) = 6, 'child4 may subscribe to its own family alerts')
 from realtime.messages;
 
 select set_config('realtime.topic', 'remote-session:50000000-0000-4000-8000-000000000001', false);
@@ -68,7 +69,7 @@ from realtime.messages;
 -- parent1 in family1
 select set_config('request.jwt.claim.sub', '11111111-1111-4111-8111-111111111111', false);
 select set_config('realtime.topic', 'remote-session:50000000-0000-4000-8000-000000000001', false);
-select tests.assert_true(count(*) = 5, 'parent1 may subscribe to family1 session1')
+select tests.assert_true(count(*) = 6, 'parent1 may subscribe to family1 session1')
 from realtime.messages;
 
 select set_config('realtime.topic', 'remote-session:50000000-0000-4000-8000-000000000002', false);

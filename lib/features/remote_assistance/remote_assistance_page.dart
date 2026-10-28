@@ -9,6 +9,25 @@ import '../../data/models/remote_session.dart';
 import '../../data/services/connectivity_service.dart';
 import 'remote_assistance_controller.dart';
 
+/// Title for the pre-request consent dialog.
+String requestDialogTitle(SessionKind kind) =>
+    'Request ${kind == SessionKind.video ? 'video' : 'audio'} assistance?';
+
+/// Copy for the pre-request consent dialog.
+///
+/// Exposed so tests can pin the wording: sending the request does not open
+/// anything, and the parent joining alone never opens the child's microphone.
+String requestDialogMessage(SessionKind kind) {
+  final childMedia = kind == SessionKind.video
+      ? 'camera and microphone open'
+      : 'microphone opens';
+  return 'Sending this request notifies the child. The child must accept it, '
+      'then tap Join on their own phone to start the session. You join from '
+      'the session screen afterwards. This phone\'s camera and microphone are '
+      'never opened; the child\'s $childMedia only after the child accepts and '
+      'joins. The request expires in 10 minutes.';
+}
+
 class RemoteAssistancePage extends GetView<RemoteAssistanceController> {
   const RemoteAssistancePage({super.key});
 
@@ -64,12 +83,14 @@ class RemoteAssistancePage extends GetView<RemoteAssistanceController> {
                 child: SectionCard(
                   title: 'Assistance with explicit consent',
                   child: Text(
-                    'A request is delivered to the child account. The child must '
-                    'accept before any session is created. Camera and microphone '
-                    'are never opened by this app until the child has accepted '
-                    'and you tap Join. Nothing is recorded, and no screenshots '
-                    'or screen capture are taken. Requests expire quickly; '
-                    'accepted sessions are short-lived.',
+                    'A request is delivered to the child account. Nothing opens '
+                    'until the child accepts it and then taps Join on their own '
+                    'session screen; you join from the session screen on this '
+                    'phone. This phone\'s camera and microphone are never opened '
+                    'by the app. Nothing is recorded, and no screenshots or '
+                    'screen capture are taken. Requests expire quickly; accepted '
+                    'sessions are short-lived. The status on each card is the '
+                    'server\'s session status, not a media indicator.',
                     style: TextStyle(height: 1.45),
                   ),
                 ),
@@ -121,9 +142,9 @@ class RemoteAssistancePage extends GetView<RemoteAssistanceController> {
               ),
               const PageSection(
                 child: Text(
-                  'Video sessions use the camera and microphone only after the '
-                  'child consents and you join. Audio sessions use the '
-                  'microphone only.',
+                  'Audio and video come from the child device only, after the '
+                  'child accepts and joins. This phone\'s camera and microphone '
+                  'are never opened, so audio assistance is listen-only.',
                   style: TextStyle(color: AppColors.muted, fontSize: 12),
                 ),
               ),
@@ -164,6 +185,7 @@ class RemoteAssistancePage extends GetView<RemoteAssistanceController> {
                     child: _SessionCard(
                       session: session,
                       statusLabel: controller.statusLabel(session),
+                      expiryLabel: controller.expiryLabel(session),
                       onOpen: () => _openSession(context, session),
                     ),
                   ),
@@ -178,11 +200,8 @@ class RemoteAssistancePage extends GetView<RemoteAssistanceController> {
   Future<void> _request(BuildContext context, SessionKind kind) async {
     final confirmed = await ConfirmDialog.show(
       context,
-      title: 'Request ${kind == SessionKind.video ? 'video' : 'audio'} assistance?',
-      message:
-          'The child will receive a consent request. No camera or microphone is '
-          'opened unless the child accepts and you tap Join on the next screen. '
-          'The request expires in 10 minutes.',
+      title: requestDialogTitle(kind),
+      message: requestDialogMessage(kind),
       confirmLabel: 'Send request',
     );
     if (!confirmed) return;
@@ -210,11 +229,13 @@ class _SessionCard extends StatelessWidget {
   const _SessionCard({
     required this.session,
     required this.statusLabel,
+    required this.expiryLabel,
     required this.onOpen,
   });
 
   final RemoteSession session;
   final String statusLabel;
+  final String expiryLabel;
   final VoidCallback onOpen;
 
   @override
@@ -253,19 +274,17 @@ class _SessionCard extends StatelessWidget {
             ),
             if (session.childDisplayName != null)
               KeyValueRow(label: 'Child', value: session.childDisplayName!),
+            KeyValueRow(label: 'Media', value: session.mediaNote),
             KeyValueRow(
               label: 'Requested',
               value:
                   '${formatDateTime(session.requestedAt)} · ${relativeTime(session.requestedAt)}',
             ),
             if (session.status.isOpen && !session.isExpired)
-              KeyValueRow(
-                label: 'Expires in',
-                value: formatDurationMs(session.remaining.inMilliseconds),
-              ),
+              KeyValueRow(label: 'Expires', value: expiryLabel),
             const SizedBox(height: 6),
             const Text(
-              'Tap to view status',
+              'Tap to open the session screen',
               style: TextStyle(color: AppColors.muted, fontSize: 12),
             ),
           ],
@@ -280,8 +299,11 @@ class _SessionCard extends StatelessWidget {
       case RemoteSessionStatus.requested:
         return StatusTone.info;
       case RemoteSessionStatus.accepted:
+        return StatusTone.info;
       case RemoteSessionStatus.active:
-        return StatusTone.success;
+        // Server state only. A success tone would imply healthy live media,
+        // which this screen cannot know.
+        return StatusTone.info;
       case RemoteSessionStatus.declined:
       case RemoteSessionStatus.expired:
         return StatusTone.warning;

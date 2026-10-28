@@ -12,6 +12,9 @@
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE_LOCATION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE" />
+    <!-- Keeps the CPU awake only while the microphone foreground service runs. -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <!-- Usage Access is granted by the user in system settings; this declaration
          does not grant it. -->
@@ -82,6 +85,12 @@
             android:exported="false"
             android:foregroundServiceType="location" />
 
+        <service
+            android:name=".AudioAssistanceService"
+            android:exported="false"
+            android:stopWithTask="false"
+            android:foregroundServiceType="microphone" />
+
         <receiver
             android:name=".ParentControlDeviceAdminReceiver"
             android:exported="true"
@@ -110,11 +119,9 @@
             android:name="flutterEmbedding"
             android:value="2" />
     </application>
-
     <!-- Required to query activities that can process text, see:
          https://developer.android.com/training/package-visibility and
          https://developer.android.com/reference/android/content/Intent#ACTION_PROCESS_TEXT.
-
          In particular, this is used by the Flutter engine in io.flutter.plugin.text.ProcessTextPlugin. -->
     <queries>
         <intent>

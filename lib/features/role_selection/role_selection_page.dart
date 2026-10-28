@@ -137,7 +137,7 @@ class _RoleSelectionPageState extends State<RoleSelectionPage> {
             tone: BannerTone.info,
             title: 'Last choice on this device',
             message:
-                '${_roleTitle(intendedRole)} mode. Sign in or create an '
+                '${_roleTitle(intendedRole)}. Sign in or create an '
                 'account; the server profile still decides access.',
           ),
         ],

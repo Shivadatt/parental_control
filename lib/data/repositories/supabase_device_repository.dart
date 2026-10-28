@@ -112,6 +112,15 @@ class SupabaseDeviceRepository implements DeviceRepository {
       });
 
   @override
+  Future<void> recoverDevice(String deviceId) => _guard(() async {
+        await _edgeApi.invoke(
+          'family-admin',
+          action: 'recover_device',
+          body: {'device_id': deviceId},
+        );
+      });
+
+  @override
   Future<List<InstalledApp>> fetchReportedApps(String deviceId) =>
       _guard(() async {
         final rows = await _supabase.client

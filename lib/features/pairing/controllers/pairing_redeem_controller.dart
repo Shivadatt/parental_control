@@ -5,8 +5,9 @@ import 'package:parent_control/data/models/pairing.dart';
 import 'package:parent_control/data/repositories/repository_contracts.dart';
 import 'package:parent_control/data/services/connectivity_service.dart';
 
-/// Parent-side redemption. The request shown always comes from the server; the
-/// screen never approves a child on the parent's behalf.
+/// Parent-side linking. The guardian sends a Child ID or legacy code and the
+/// request shown always comes from the server; the screen never approves a
+/// child on the parent's behalf.
 class PairingRedeemController extends GetxController {
   PairingRedeemController({
     required PairingRepository pairingRepository,
@@ -22,8 +23,14 @@ class PairingRedeemController extends GetxController {
   final Rxn<PairingRequest> request = Rxn<PairingRequest>();
 
   String _familyId = '';
+  String _lastIdentifier = '';
 
   String get familyId => _familyId;
+
+  /// The identifier the guardian submitted. The server deliberately does not
+  /// return the child's display name until the child approves, so this is what
+  /// the confirmation screen shows while the request is pending.
+  String get lastIdentifier => _lastIdentifier;
   bool get isOnline => _connectivity.isOnline.value;
   bool get hasRequest => request.value != null;
 
@@ -46,7 +53,10 @@ class PairingRedeemController extends GetxController {
     error.value = null;
   }
 
-  Future<bool> redeem(String code) async {
+  /// Sends a pairing request for [input], which may be the child's permanent
+  /// Child ID or a legacy 8-character linking code. The server decides whether
+  /// the identifier exists; the child always approves on their own device.
+  Future<bool> redeem(String input) async {
     if (isRedeeming.value) return false;
     error.value = null;
     if (_familyId.isEmpty) {
@@ -56,7 +66,7 @@ class PairingRedeemController extends GetxController {
       );
       return false;
     }
-    final normalized = Validators.normalizePairingCode(code);
+    final normalized = Validators.normalizePairingCode(input);
     final problem = Validators.pairingCode(normalized);
     if (problem != null) {
       error.value = AppException(AppErrorCodes.validation, problem);
@@ -69,12 +79,18 @@ class PairingRedeemController extends GetxController {
 
     isRedeeming.value = true;
     request.value = null;
+    _lastIdentifier = normalized;
     try {
-      final redeemed = await _pairing.redeemLinkingCode(
-        code: normalized,
-        familyId: _familyId,
-      );
-      request.value = redeemed;
+      final result = Validators.isChildId(normalized)
+          ? await _pairing.inviteChild(
+              childId: normalized,
+              familyId: _familyId,
+            )
+          : await _pairing.redeemLinkingCode(
+              code: normalized,
+              familyId: _familyId,
+            );
+      request.value = result;
       return true;
     } on AppException catch (exception) {
       error.value = exception;

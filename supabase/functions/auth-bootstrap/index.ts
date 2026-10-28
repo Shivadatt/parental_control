@@ -14,7 +14,12 @@ import {
   requireUser,
 } from "../_shared/auth.ts";
 import { recordAudit } from "../_shared/audit.ts";
-import { readEnum, readOptionalString, readString } from "../_shared/validation.ts";
+import {
+  generateChildContactId,
+  readEnum,
+  readOptionalString,
+  readString,
+} from "../_shared/validation.ts";
 
 const ROLES = ["parent", "child"] as const;
 
@@ -60,6 +65,25 @@ Deno.serve(async (req: Request): Promise<Response> => {
             targetId: auth.user.id,
             metadata: { role },
           });
+          if (role === "child") {
+            // Assign the permanent Child ID at enrollment. Best effort: a
+            // failure here must not block the role decision, and
+            // pairing.get_contact_id assigns lazily on its first read.
+            const assigned = await db
+              .from("child_contact_ids")
+              .upsert(
+                {
+                  child_user_id: auth.user.id,
+                  contact_id: generateChildContactId(),
+                },
+                { onConflict: "child_user_id", ignoreDuplicates: true },
+              );
+            if (assigned.error) {
+              console.error(
+                `contact_id_assign_failed:${assigned.error.code ?? "unknown"}`,
+              );
+            }
+          }
         }
         return ok(result.data);
       }

@@ -14,7 +14,7 @@ class ParentSettingsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetX<ParentSettingsController>(
+    return GetBuilder<ParentSettingsController>(
       tag: 'parent-settings-tab',
       init: ParentSettingsController(
         authRepository: Get.find<AuthRepository>(),

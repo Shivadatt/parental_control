@@ -138,6 +138,53 @@ class DeviceDetailPage extends GetView<DeviceDetailController> {
                 .bodySmall
                 ?.copyWith(color: AppColors.muted),
           ),
+          const SizedBox(height: 16),
+          if (controller.recoveryError.value != null) ...[
+            InfoBanner(
+              tone: BannerTone.danger,
+              title: 'Could not start recovery',
+              message: controller.recoveryError.value!.message,
+            ),
+            const SizedBox(height: 12),
+          ],
+          if (controller.recoveryStarted.value) ...[
+            const InfoBanner(
+              tone: BannerTone.info,
+              icon: Icons.sync_alt,
+              title: 'Recovery started on the server',
+              message:
+                  'The old credential is revoked and the family link is removed. On the child '
+                  'phone, sign in, create a new linking code, then open Link a child here, '
+                  'redeem the code and have the child approve the request. Recovery is not '
+                  'complete until that approval.',
+            ),
+            const SizedBox(height: 12),
+          ],
+          SectionCard(
+            title: 'Lost or reinstalled phone',
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const Text(
+                  'Use recovery when the child reinstalled Parent Control or the phone lost '
+                  'its device credential. The server revokes the old credential and removes '
+                  'the family link, so the old phone stops reporting. A new device is only '
+                  'linked after a fresh one-time pairing code and the child approves it.',
+                  style: TextStyle(height: 1.45, color: AppColors.muted),
+                ),
+                const SizedBox(height: 12),
+                AppButton(
+                  label: 'Start device recovery',
+                  icon: Icons.settings_backup_restore,
+                  outlined: true,
+                  isLoading: controller.isRecovering.value,
+                  onPressed: controller.recoveryStarted.value
+                      ? null
+                      : () => _confirmRecovery(context),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -423,6 +470,22 @@ class DeviceDetailPage extends GetView<DeviceDetailController> {
         ],
       ),
     );
+  }
+
+  Future<void> _confirmRecovery(BuildContext context) async {
+    final confirmed = await ConfirmDialog.show(
+      context,
+      title: 'Start device recovery?',
+      message:
+          'This revokes the current credential and removes the child from the family. '
+          'The child must sign in, create a new linking code and approve the new pairing '
+          'before this phone can report again. Only start recovery for a phone you still '
+          'control or that was reinstalled.',
+      confirmLabel: 'Start recovery',
+      destructive: true,
+    );
+    if (!confirmed || !context.mounted) return;
+    await controller.recoverDevice();
   }
 
   Future<void> _confirmRevoke(BuildContext context) async {

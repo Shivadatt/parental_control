@@ -22,6 +22,53 @@ class SupabasePairingRepository implements PairingRepository {
   final EdgeApi _edgeApi;
 
   @override
+  Future<ChildContactId> fetchChildContactId() async {
+    try {
+      final map = await _invokeMap('get_contact_id');
+      final contact = ChildContactId.fromJson(map);
+      if (!contact.isUsable || !Validators.isChildId(contact.canonicalId)) {
+        throw const AppException(
+          AppErrorCodes.unknown,
+          'The server did not return a usable Child ID. Try again.',
+        );
+      }
+      return contact;
+    } catch (error) {
+      throw _mapError(error);
+    }
+  }
+
+  @override
+  Future<PairingRequest> inviteChild({
+    required String childId,
+    required String familyId,
+  }) async {
+    final normalized = Validators.normalizePairingCode(childId);
+    if (!Validators.isChildId(normalized)) {
+      throw const AppException(
+        AppErrorCodes.validation,
+        'Enter the Child ID shown on the child device, for example '
+        'PC-7K4M2QRX.',
+      );
+    }
+    if (familyId.trim().isEmpty) {
+      throw const AppException(
+        AppErrorCodes.validation,
+        'Open this screen from a family before linking a child.',
+      );
+    }
+    try {
+      final map = await _invokeMap(
+        'invite',
+        body: {'child_id': normalized, 'family_id': familyId.trim()},
+      );
+      return _pairingRequest(map);
+    } catch (error) {
+      throw _mapError(error);
+    }
+  }
+
+  @override
   Future<PairingCode> createLinkingCode() async {
     try {
       final map = await _invokeMap('create');
@@ -61,20 +108,24 @@ class SupabasePairingRepository implements PairingRepository {
         'redeem',
         body: {'code': normalized, 'family_id': familyId.trim()},
       );
-      final request = PairingRequest.fromJson(map);
-      if (request.id.isEmpty ||
-          request.childUserId.isEmpty ||
-          request.familyId.isEmpty) {
-        throw const AppException(
-          AppErrorCodes.unknown,
-          'The server did not return a valid pairing request. Refresh and try '
-              'again.',
-        );
-      }
-      return request;
+      return _pairingRequest(map);
     } catch (error) {
       throw _mapError(error);
     }
+  }
+
+  PairingRequest _pairingRequest(Map<String, dynamic> map) {
+    final request = PairingRequest.fromJson(map);
+    if (request.id.isEmpty ||
+        request.childUserId.isEmpty ||
+        request.familyId.isEmpty) {
+      throw const AppException(
+        AppErrorCodes.unknown,
+        'The server did not return a valid pairing request. Refresh and try '
+            'again.',
+      );
+    }
+    return request;
   }
 
   @override

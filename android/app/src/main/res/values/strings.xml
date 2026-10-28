@@ -14,5 +14,11 @@
     <string name="location_channel_name">Location sharing</string>
     <string name="location_channel_description">Shows when this device is sharing its location.</string>
 
+    <string name="audio_assistance_channel_name">Audio assistance</string>
+    <string name="audio_assistance_channel_description">Shows when one-way audio assistance is active.</string>
+    <string name="audio_assistance_notification_title">Audio assistance active</string>
+    <string name="audio_assistance_notification_text">Microphone is being shared with your guardian.</string>
+    <string name="audio_assistance_stop_action">Stop</string>
+
     <string name="device_admin_explanation">Parent Control uses device administration for parental controls. Suspending apps requires Device Owner provisioning performed during setup; this screen only enables the admin component.</string>
 </resources>

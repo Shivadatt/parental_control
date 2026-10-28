@@ -251,7 +251,10 @@ class ChildShellController extends GetxController {
     }
   }
 
-  Future<void> _stopNativeServices({required bool clearPreference}) async {
+  Future<void> _stopNativeServices({
+    required bool clearPreference,
+    bool stopMicrophone = true,
+  }) async {
     if (clearPreference) {
       locationSharingEnabled.value = false;
       try {
@@ -261,6 +264,9 @@ class ChildShellController extends GetxController {
       }
     }
     if (!_deviceAdmin.isAvailable) return;
+    if (stopMicrophone) {
+      await _stopMicrophoneService();
+    }
     try {
       await _deviceAdmin.stopLocationTracking();
     } catch (_) {
@@ -270,6 +276,50 @@ class ChildShellController extends GetxController {
       await _deviceAdmin.stopGuardianService();
     } catch (_) {
       // Reported through the service status or the next visible action.
+    }
+  }
+
+  /// Stops the visible microphone foreground service. A stopped enrolment must
+  /// never leave an audio assistance service capturing on this phone.
+  Future<void> _stopMicrophoneService() async {
+    if (!_deviceAdmin.isAvailable) return;
+    try {
+      await _deviceAdmin.stopAudioAssistanceService();
+    } catch (_) {
+      // Best effort: the next load reports what Android still runs.
+    }
+  }
+
+  /// Ends any assistance session that is still open for this phone. Called
+  /// before the enrolment is removed so a dead peer never stays "live" on the
+  /// guardian's screen. Best effort, like the other teardown steps.
+  Future<void> _endOpenAssistanceSessions({required String reason}) async {
+    final currentFamily = family.value;
+    final currentDevice = device.value;
+    if (currentFamily == null || currentDevice == null) return;
+    if (!_connectivity.isOnline.value) return;
+    List<RemoteSession> sessions;
+    try {
+      sessions = await _remoteSessionRepository.fetchForFamily(
+        currentFamily.id,
+        limit: 10,
+      );
+    } catch (_) {
+      return;
+    }
+    final userId = _session.userId.value;
+    for (final entry in sessions) {
+      if (!entry.status.isOpen) continue;
+      if (entry.deviceId != currentDevice.id) continue;
+      if (userId.isNotEmpty && entry.childUserId != userId) continue;
+      try {
+        await _remoteSessionRepository.end(
+          sessionId: entry.id,
+          reason: reason,
+        );
+      } catch (_) {
+        // Local capture and the microphone service are already stopped.
+      }
     }
   }
 
@@ -833,11 +883,19 @@ class ChildShellController extends GetxController {
     actionError.value = null;
     actionMessage.value = null;
     try {
+      // Stop capture and end any live assistance session before the server
+      // link is removed, so the microphone cannot outlive the enrolment and
+      // the guardian does not keep seeing a live session with no peer.
+      await _stopMicrophoneService();
+      await _endOpenAssistanceSessions(reason: 'unlinked');
       await _pairingRepository.unlink(
         familyId: currentFamily.id,
         childUserId: userId,
       );
-      await _stopNativeServices(clearPreference: true);
+      await _stopNativeServices(
+        clearPreference: true,
+        stopMicrophone: false,
+      );
       try {
         await _deviceAdmin.clearBackgroundSync();
       } catch (_) {
@@ -872,6 +930,11 @@ class ChildShellController extends GetxController {
     if (isSigningOut.value) return;
     isSigningOut.value = true;
     actionError.value = null;
+    // Stop the microphone service and end any open assistance session while
+    // the credentials are still valid: after sign-out the session end call
+    // would be rejected and the guardian would keep seeing a live session.
+    await _stopMicrophoneService();
+    await _endOpenAssistanceSessions(reason: 'signed_out');
     try {
       await _authRepository.signOut();
     } catch (caught) {
@@ -881,7 +944,10 @@ class ChildShellController extends GetxController {
     }
     String? warning;
     try {
-      await _stopNativeServices(clearPreference: true);
+      await _stopNativeServices(
+        clearPreference: true,
+        stopMicrophone: false,
+      );
       if (_deviceAdmin.isAvailable) {
         await _deviceAdmin.clearBackgroundSync();
       }

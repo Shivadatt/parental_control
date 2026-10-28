@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 
 import 'package:get/get.dart';
 import 'package:parent_control/core/errors/app_exception.dart';
@@ -11,11 +12,13 @@ import 'package:parent_control/data/services/device_admin_service.dart';
 import 'package:parent_control/data/services/local_settings_service.dart';
 import 'package:parent_control/data/services/session_service.dart';
 
-/// Links this child account to a family and registers this Android phone.
+/// Shows this child's stable Child ID, answers guardian pairing requests and
+/// registers this Android phone.
 ///
-/// The linking code is created on this device and approved here; no family can
-/// attach the account without that approval. Device registration only happens
-/// after the server confirms the child membership.
+/// The Child ID is a stable identifier assigned by the server. Knowing it only
+/// lets a guardian open a pairing request; nothing is linked and no data is
+/// shared until the child approves on this device. Device registration only
+/// happens after the server confirms the child membership.
 class ChildEnrollmentController extends GetxController {
   ChildEnrollmentController({
     required FamilyRepository familyRepository,
@@ -40,14 +43,15 @@ class ChildEnrollmentController extends GetxController {
   static const Duration pollInterval = Duration(seconds: 15);
 
   final RxBool isLoading = true.obs;
-  final RxBool isCreatingCode = false.obs;
   final RxBool isCheckingRequests = false.obs;
   final RxBool isResponding = false.obs;
   final RxBool isRegistering = false.obs;
   final Rxn<AppException> error = Rxn<AppException>();
   final Rxn<AppException> actionError = Rxn<AppException>();
   final RxnString actionMessage = RxnString();
-  final Rxn<PairingCode> linkingCode = Rxn<PairingCode>();
+  final Rxn<ChildContactId> contactId = Rxn<ChildContactId>();
+  final RxBool isLoadingContactId = false.obs;
+  final Rxn<AppException> contactError = Rxn<AppException>();
   final RxList<PairingRequest> pendingRequests = <PairingRequest>[].obs;
   final Rxn<Family> family = Rxn<Family>();
   final Rxn<Device> device = Rxn<Device>();
@@ -56,6 +60,7 @@ class ChildEnrollmentController extends GetxController {
   final Rxn<DateTime> lastCheckedAt = Rxn<DateTime>();
 
   Timer? _pollTimer;
+  String? _contactIdUserId;
 
   bool get isOnline => _connectivity.isOnline.value;
   bool get isLinked => family.value != null;
@@ -79,6 +84,7 @@ class ChildEnrollmentController extends GetxController {
     if (!showLoading && isLoading.value) return;
     if (showLoading) isLoading.value = true;
     error.value = null;
+    await _restoreCachedContactId();
     if (!_connectivity.isOnline.value) {
       error.value = AppException.network();
       isLoading.value = false;
@@ -110,6 +116,7 @@ class ChildEnrollmentController extends GetxController {
         if (label.trim().isNotEmpty) displayName.value = label.trim();
       }
       await _loadPending();
+      unawaited(refreshContactId(silent: contactId.value != null));
       lastCheckedAt.value = DateTime.now();
     } catch (caught) {
       error.value = AppException.from(caught);
@@ -130,22 +137,68 @@ class ChildEnrollmentController extends GetxController {
     pendingRequests.assignAll(await _pairing.fetchPendingForChild());
   }
 
-  Future<void> createCode() async {
-    if (isCreatingCode.value) return;
-    actionError.value = null;
-    actionMessage.value = null;
+  Future<void> refreshContactId({bool silent = false}) async {
+    if (isLoadingContactId.value) return;
+    final userId = _session.userId.value;
+    if (userId.isEmpty) return;
+    contactError.value = null;
     if (!_connectivity.isOnline.value) {
-      actionError.value = AppException.network();
+      if (!silent) contactError.value = AppException.network();
       return;
     }
-    isCreatingCode.value = true;
+    isLoadingContactId.value = true;
     try {
-      linkingCode.value = await _pairing.createLinkingCode();
-      await checkRequests(silent: true);
+      final contact = await _pairing.fetchChildContactId();
+      contactId.value = contact;
+      _contactIdUserId = userId;
+      await _settings.setCachedChildContactId(
+        userId,
+        jsonEncode({
+          'contact_id': contact.id,
+          'contact_id_canonical': contact.canonicalId,
+          'qr_payload': contact.qrPayload,
+          'created_at': contact.assignedAt?.toUtc().toIso8601String(),
+        }),
+      );
     } catch (caught) {
-      actionError.value = AppException.from(caught);
+      final failure = AppException.from(caught);
+      contactError.value = failure;
+      if (failure.isAuth ||
+          failure.code == AppErrorCodes.forbidden ||
+          failure.code == AppErrorCodes.notFound) {
+        await _settings.clearCachedChildContactId(userId);
+        contactId.value = null;
+      }
     } finally {
-      isCreatingCode.value = false;
+      isLoadingContactId.value = false;
+    }
+  }
+
+  Future<void> _restoreCachedContactId() async {
+    final userId = _session.userId.value;
+    if (userId != _contactIdUserId) {
+      contactId.value = null;
+      contactError.value = null;
+      _contactIdUserId = userId;
+    }
+    if (userId.isEmpty) {
+      contactId.value = null;
+      return;
+    }
+    final cached = _settings.cachedChildContactId(userId);
+    if (cached == null || cached.isEmpty) return;
+    try {
+      final decoded = jsonDecode(cached);
+      if (decoded is Map<String, dynamic>) {
+        final contact = ChildContactId.fromJson(decoded);
+        if (contact.isUsable) {
+          contactId.value = contact;
+          return;
+        }
+      }
+      await _settings.clearCachedChildContactId(userId);
+    } catch (_) {
+      await _settings.clearCachedChildContactId(userId);
     }
   }
 
@@ -198,7 +251,6 @@ class ChildEnrollmentController extends GetxController {
       actionMessage.value = approve
           ? 'Family linked. Finish registering this phone below.'
           : 'Request declined. No family was linked.';
-      if (approve) linkingCode.value = null;
       await load(showLoading: false);
       return true;
     } catch (caught) {

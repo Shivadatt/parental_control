@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 
 import '../../core/errors/app_exception.dart';
+import '../../core/utils/formatters.dart';
 import '../../data/models/remote_session.dart';
 import '../../data/repositories/repository_contracts.dart';
 import '../../data/services/session_service.dart';
@@ -86,8 +87,22 @@ class RemoteAssistanceController extends GetxController {
 
   /// The server may not have run its expiry job yet. Showing a client-side
   /// expiry label is honest and never writes a status.
+  ///
+  /// The label reflects the server's session status only; it never claims that
+  /// audio or video is connected.
   String statusLabel(RemoteSession session) {
     if (session.status.isOpen && session.isExpired) return 'Expired';
     return session.status.label;
+  }
+
+  /// Expiry wording from the shared formatter, so a future expiry reads
+  /// "in 5 min" instead of the old past-tense "Just now".
+  ///
+  /// Returns an absolute timestamp once the session is closed and the relative
+  /// wording would no longer be useful.
+  String expiryLabel(RemoteSession session) {
+    if (!session.status.isOpen) return formatDateTime(session.expiresAt);
+    if (session.isExpired) return 'Expired';
+    return relativeTime(session.expiresAt);
   }
 }

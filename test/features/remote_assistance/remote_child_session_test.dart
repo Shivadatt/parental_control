@@ -2,11 +2,24 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:parent_control/data/models/remote_session.dart';
 import 'package:parent_control/data/repositories/repository_contracts.dart';
+import 'package:parent_control/data/services/device_admin_service.dart';
 import 'package:parent_control/data/services/session_service.dart';
 import 'package:parent_control/features/remote_assistance/remote_session_controller.dart';
 
 class _MockRemoteSessionRepository extends Mock
     implements RemoteSessionRepository {}
+
+class _FakeDeviceAdminService extends DeviceAdminService {
+  @override
+  Future<Map<String, bool>> requestPermissions({
+    bool camera = false,
+    bool microphone = false,
+    bool location = false,
+    bool backgroundLocation = false,
+    bool notifications = false,
+  }) async =>
+      const {'camera': true, 'microphone': true};
+}
 
 RemoteSession _session({
   RemoteSessionStatus status = RemoteSessionStatus.requested,
@@ -55,6 +68,7 @@ void main() {
     controller = RemoteSessionController(
       remoteSessionRepository: repository,
       session: SessionService(),
+      deviceAdmin: _FakeDeviceAdminService(),
       sessionId: 'session-1',
       role: 'child',
     );
@@ -151,6 +165,7 @@ void main() {
     controller = RemoteSessionController(
       remoteSessionRepository: repository,
       session: SessionService(),
+      deviceAdmin: _FakeDeviceAdminService(),
       sessionId: 'session-1',
       role: 'parent',
     );

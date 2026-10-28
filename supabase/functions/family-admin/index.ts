@@ -78,6 +78,38 @@ Deno.serve(async (req: Request): Promise<Response> => {
         return ok(rpc.data);
       }
 
+      case "recover_device": {
+        const auth = await requireUser(req, db, { requireVerifiedEmail: true });
+        requireRole(auth.profile, "parent");
+        const deviceId = readUuid(body.device_id, "device_id");
+        const rpc = await db.rpc("request_device_recovery", {
+          p_device_id: deviceId,
+          p_actor_user_id: auth.user.id,
+        });
+        if (rpc.error) {
+          const message = rpc.error.message ?? "";
+          if (message.includes("device_not_found")) {
+            throw new ApiError("device_not_found", "The device was not found.", 404);
+          }
+          if (message.includes("forbidden")) {
+            throw new ApiError(
+              "forbidden",
+              "A parent in this family is required.",
+              403,
+            );
+          }
+          console.error(
+            `request_device_recovery_rpc_failed:${rpc.error.code ?? "unknown"}`,
+          );
+          throw new ApiError(
+            "internal_error",
+            "Device recovery could not be started.",
+            500,
+          );
+        }
+        return ok(rpc.data);
+      }
+
       case "ack_alert": {
         const auth = await requireUser(req, db, { requireVerifiedEmail: true });
         requireRole(auth.profile, "parent");

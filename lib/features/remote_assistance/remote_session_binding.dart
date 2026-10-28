@@ -1,22 +1,36 @@
 import 'package:get/get.dart';
 
 import '../../data/repositories/repository_contracts.dart';
+import '../../data/services/device_admin_service.dart';
 import '../../data/services/session_service.dart';
 import 'remote_session_controller.dart';
 
 class RemoteSessionBinding extends Bindings {
   @override
   void dependencies() {
-    final args = _routeArguments();
+    Get.delete<RemoteSessionController>(force: true);
     Get.lazyPut<RemoteSessionController>(
-      () => RemoteSessionController(
-        remoteSessionRepository: Get.find<RemoteSessionRepository>(),
-        session: Get.find<SessionService>(),
-        sessionId: args['sessionId'] ?? '',
-        role: args['role'] ?? '',
-      ),
-      fenix: true,
+      () {
+        final args = _routeArguments();
+        return RemoteSessionController(
+          remoteSessionRepository: Get.find<RemoteSessionRepository>(),
+          session: Get.find<SessionService>(),
+          deviceAdmin: Get.find<DeviceAdminService>(),
+          sessionId: args['sessionId'] ?? '',
+          role: _resolveRole(args['role']),
+        );
+      },
     );
+  }
+
+  /// Roles are deny-by-default. A missing or invalid role used to fall back to
+  /// `''`, which made [RemoteSessionController.isViewOnly] true but still let
+  /// the screen take the mic-capable branch. Unknown roles now resolve to a
+  /// literal view-only value that can never capture audio.
+  String _resolveRole(String? raw) {
+    final normalized = (raw ?? '').trim().toLowerCase();
+    if (normalized == 'parent' || normalized == 'child') return normalized;
+    return 'view-only';
   }
 
   Map<String, String> _routeArguments() {

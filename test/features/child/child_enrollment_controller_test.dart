@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
+import 'package:parent_control/core/errors/app_exception.dart';
 import 'package:parent_control/data/models/account.dart';
 import 'package:parent_control/data/models/device.dart';
 import 'package:parent_control/data/models/pairing.dart';
@@ -54,6 +57,11 @@ void main() {
       deviceAdmin: deviceAdmin,
     );
     when(() => settings.setActiveFamilyId(any())).thenAnswer((_) async {});
+    when(() => settings.cachedChildContactId(any())).thenReturn(null);
+    when(() => settings.setCachedChildContactId(any(), any()))
+        .thenAnswer((_) async {});
+    when(() => settings.clearCachedChildContactId(any()))
+        .thenAnswer((_) async {});
     when(() => deviceAdmin.isAvailable).thenReturn(true);
     when(() => deviceAdmin.getCapabilities()).thenAnswer(
       (_) async => const DeviceCapabilities(
@@ -81,6 +89,26 @@ void main() {
     );
     when(() => families.fetchFamily('family-1'))
         .thenAnswer((_) async => testFamily());
+  }
+
+  void stubSignedInChild() {
+    session.setAuthenticated(
+      id: 'child-1',
+      address: 'mia@example.test',
+      verified: true,
+    );
+    when(() => families.fetchMyMembership()).thenAnswer((_) async => null);
+    when(() => pairing.fetchChildContactId())
+        .thenAnswer((_) async => testChildContactId());
+  }
+
+  String cachedContactJson(ChildContactId contact) {
+    return jsonEncode({
+      'contact_id': contact.id,
+      'contact_id_canonical': contact.canonicalId,
+      'qr_payload': contact.qrPayload,
+      'created_at': contact.assignedAt?.toUtc().toIso8601String(),
+    });
   }
 
   test('loads a linked child family and its pending requests', () async {
@@ -236,4 +264,94 @@ void main() {
       ),
     );
   });
+
+  // The child setup screen shows the permanent Child ID. The old linking-code
+  // API (createCode / linkingCode / isCreatingCode) is intentionally not
+  // referenced anywhere below.
+  test('load exposes the stable Child ID returned by the server', () async {
+    stubSignedInChild();
+
+    await controller.load();
+    await pumpEventQueue();
+
+    expect(controller.contactId.value?.id, 'PC-7K4M2QRX');
+    expect(controller.contactId.value?.canonicalId, 'PC7K4M2QRX');
+    expect(controller.contactId.value?.qrPayload, contains('v=2'));
+    expect(controller.contactError.value, isNull);
+    verify(() => pairing.fetchChildContactId()).called(1);
+    verify(
+      () => settings.setCachedChildContactId('child-1', any()),
+    ).called(1);
+    verifyNever(() => pairing.createLinkingCode());
+  });
+
+  test('a second load refetches but never regenerates the Child ID', () async {
+    stubSignedInChild();
+
+    await controller.load();
+    await pumpEventQueue();
+    final first = controller.contactId.value;
+
+    await controller.load();
+    await pumpEventQueue();
+
+    expect(controller.contactId.value?.canonicalId, first?.canonicalId);
+    expect(controller.contactId.value?.id, first?.id);
+    // refreshContactId fires once per online load(); it never mints a new ID.
+    verify(() => pairing.fetchChildContactId()).called(2);
+    verifyNever(() => pairing.createLinkingCode());
+  });
+
+  test('restores the cached Child ID offline without a network call', () async {
+    session.setAuthenticated(
+      id: 'child-1',
+      address: 'mia@example.test',
+      verified: true,
+    );
+    final cached = testChildContactId();
+    when(() => settings.cachedChildContactId('child-1'))
+        .thenReturn(cachedContactJson(cached));
+    connectivity.isOnline.value = false;
+
+    await controller.load();
+    await pumpEventQueue();
+
+    expect(controller.contactId.value?.id, 'PC-7K4M2QRX');
+    expect(controller.contactId.value?.canonicalId, 'PC7K4M2QRX');
+    expect(controller.error.value?.code, AppErrorCodes.network);
+    verifyNever(() => pairing.fetchChildContactId());
+    verifyNever(() => pairing.createLinkingCode());
+    verifyNever(
+      () => settings.setCachedChildContactId(any(), any()),
+    );
+  });
+
+  for (final code in <String>[
+    AppErrorCodes.unauthorized,
+    AppErrorCodes.forbidden,
+    AppErrorCodes.notFound,
+  ]) {
+    test('a $code failure clears the cached Child ID', () async {
+      session.setAuthenticated(
+        id: 'child-1',
+        address: 'mia@example.test',
+        verified: true,
+      );
+      final cached = testChildContactId();
+      when(() => settings.cachedChildContactId('child-1'))
+          .thenReturn(cachedContactJson(cached));
+      when(() => families.fetchMyMembership()).thenAnswer((_) async => null);
+      when(() => pairing.fetchChildContactId())
+          .thenThrow(AppException(code, 'Rejected with $code'));
+
+      await controller.load();
+      await pumpEventQueue();
+
+      expect(controller.contactId.value, isNull);
+      expect(controller.contactError.value?.code, code);
+      verify(
+        () => settings.clearCachedChildContactId('child-1'),
+      ).called(1);
+    });
+  }
 }

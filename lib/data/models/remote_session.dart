@@ -48,6 +48,10 @@ enum RemoteSessionStatus {
 
   bool get isTerminal => !isOpen;
 
+  /// The server's status, worded so it never claims media is flowing.
+  ///
+  /// `active` means the server considers the session started, not that any
+  /// audio or video track is connected.
   String get label {
     switch (this) {
       case RemoteSessionStatus.requested:
@@ -55,7 +59,7 @@ enum RemoteSessionStatus {
       case RemoteSessionStatus.accepted:
         return 'Accepted';
       case RemoteSessionStatus.active:
-        return 'Live';
+        return 'Session active';
       case RemoteSessionStatus.declined:
         return 'Declined';
       case RemoteSessionStatus.ended:
@@ -109,13 +113,44 @@ class RemoteSession {
       status != RemoteSessionStatus.ended &&
       DateTime.now().isAfter(expiresAt);
 
-  bool get isLive =>
-      status == RemoteSessionStatus.active &&
-      !isExpired;
+  /// True when the server reports the session active and the local expiry
+  /// window has not passed.
+  ///
+  /// This is session state only. It does not mean audio or video is connected;
+  /// that is known only by the live session screen.
+  bool get isServerActive =>
+      status == RemoteSessionStatus.active && !isExpired;
+
+  @Deprecated(
+    'Server state, not media state. Use isServerActive; media liveness is '
+    'tracked only by the session screen.',
+  )
+  bool get isLive => isServerActive;
 
   Duration get remaining {
     final difference = expiresAt.difference(DateTime.now());
     return difference.isNegative ? Duration.zero : difference;
+  }
+
+  /// What this list can honestly say about media for this session.
+  ///
+  /// The session list receives no live track telemetry, so it never claims a
+  /// stream is connected; it only states who still has to act.
+  String get mediaNote {
+    switch (status) {
+      case RemoteSessionStatus.requested:
+        return 'Off — waiting for the child to accept';
+      case RemoteSessionStatus.accepted:
+        return 'Off — waiting for the child to join';
+      case RemoteSessionStatus.active:
+        return 'Started by the child; not verified here';
+      case RemoteSessionStatus.declined:
+      case RemoteSessionStatus.expired:
+      case RemoteSessionStatus.failed:
+        return 'No media was opened';
+      case RemoteSessionStatus.ended:
+        return 'No media is open';
+    }
   }
 
   factory RemoteSession.fromJson(Map<String, dynamic> json) {

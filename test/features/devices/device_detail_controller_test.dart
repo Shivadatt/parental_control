@@ -113,4 +113,52 @@ void main() {
     expect(revoked, isFalse);
     expect(controller.revokeError.value?.code, AppErrorCodes.forbidden);
   });
+
+  test('recovery is reported only after the server confirms it', () async {
+    final device = buildDevice(lastSeen: DateTime.now());
+    when(() => deviceRepository.recoverDevice('device-1'))
+        .thenAnswer((_) async {});
+    when(() => deviceRepository.fetchDevice('device-1'))
+        .thenAnswer((_) async => device);
+    when(() => policyRepository.fetchLatestPolicy('device-1'))
+        .thenAnswer((_) async => null);
+    when(() => policyRepository.fetchRecentCommands('device-1', limit: 10))
+        .thenAnswer((_) async => const <DeviceCommand>[]);
+
+    final controller = DeviceDetailController(
+      deviceId: 'device-1',
+      deviceRepository: deviceRepository,
+      policyRepository: policyRepository,
+      connectivity: connectivity,
+    );
+    addTearDown(controller.onClose);
+
+    final started = await controller.recoverDevice();
+
+    expect(started, isTrue);
+    expect(controller.recoveryStarted.value, isTrue);
+    expect(controller.recoveryError.value, isNull);
+    verify(() => deviceRepository.recoverDevice('device-1')).called(1);
+  });
+
+  test('recovery does not claim success when the server rejects it', () async {
+    when(() => deviceRepository.recoverDevice('device-1')).thenThrow(
+      const AppException(AppErrorCodes.forbidden, 'A parent is required'),
+    );
+
+    final controller = DeviceDetailController(
+      deviceId: 'device-1',
+      deviceRepository: deviceRepository,
+      policyRepository: policyRepository,
+      connectivity: connectivity,
+    );
+    addTearDown(controller.onClose);
+
+    final started = await controller.recoverDevice();
+
+    expect(started, isFalse);
+    expect(controller.recoveryStarted.value, isFalse);
+    expect(controller.recoveryError.value?.code, AppErrorCodes.forbidden);
+    verifyNever(() => deviceRepository.fetchDevice('device-1'));
+  });
 }

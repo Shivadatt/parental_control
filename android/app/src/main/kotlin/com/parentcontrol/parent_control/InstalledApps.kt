@@ -21,7 +21,7 @@ object InstalledAppsProvider {
         }
         val result = ArrayList<InstalledPackage>(packages.size)
         for (info in packages) {
-            val name = info.packageName ?: continue
+            val name = info.packageName
             val applicationInfo = info.applicationInfo ?: continue
             val label = try {
                 packageManager.getApplicationLabel(applicationInfo).toString()

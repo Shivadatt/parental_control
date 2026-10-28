@@ -124,7 +124,8 @@ class ChildRequestsTab extends GetView<ChildShellController> {
                           session.parentDisplayName ?? 'Your guardian',
                         ),
                         subtitle: Text(
-                          '${session.kind.label} · expires '
+                          '${session.kind.label} · '
+                          '${session.expiresAt.isBefore(DateTime.now()) ? 'expired' : 'expires'} '
                           '${relativeTime(session.expiresAt)}',
                         ),
                         trailing: const Icon(Icons.chevron_right),

@@ -9,7 +9,12 @@ import {
   constantTimeSecretEqual,
   dedupeStrings,
   distanceMeters,
+  formatChildContactId,
+  generateChildContactId,
   generatePairingCode,
+  identifierHash,
+  isChildContactId,
+  isLinkingIdentifier,
   isPairingCode,
   isUuid,
   normalizePairingCode,
@@ -107,6 +112,59 @@ Deno.test("pairing codes normalise and generate within the contract alphabet", (
   }
 });
 
+Deno.test("generated Child IDs match the permanent identifier format", () => {
+  const childIdRe = /^PC[23456789ABCDEFGHJKMNPQRSTVWXYZ]{8}$/;
+  for (let i = 0; i < 200; i += 1) {
+    const childId = generateChildContactId();
+    assert(childIdRe.test(childId), `generated Child ID ${childId} must match`);
+    assertEqual(childId.length, 10, "Child ID length (PC + 8 characters)");
+  }
+});
+
+Deno.test("isChildContactId accepts canonical only", () => {
+  assert(isChildContactId("PC7K4M2QRX"), "canonical Child ID accepted");
+  assert(isChildContactId(generateChildContactId()), "generated Child ID accepted");
+  assert(!isChildContactId("PC-7K4M2QRX"), "dashed display form rejected");
+  assert(!isChildContactId("pc7k4m2qrx"), "lowercase rejected");
+  assert(!isChildContactId("PC12345678"), "ambiguous characters rejected");
+  assert(!isChildContactId("XX7K4M2QRX"), "wrong prefix rejected");
+  assert(!isChildContactId("PC7K4M2QR"), "too short rejected");
+});
+
+Deno.test("formatChildContactId inserts the display dash", () => {
+  assertEqual(formatChildContactId("PC7K4M2QRX"), "PC-7K4M2QRX", "display form");
+});
+
+Deno.test("isLinkingIdentifier accepts codes and canonical Child IDs", () => {
+  assert(isLinkingIdentifier("4K9M2QRT"), "8-character code accepted");
+  assert(isLinkingIdentifier("PC7K4M2QRX"), "canonical Child ID accepted");
+  assert(!isLinkingIdentifier("PC-7K4M2QRX"), "dashed Child ID rejected");
+  assert(!isLinkingIdentifier("ABC"), "short identifier rejected");
+  assert(!isLinkingIdentifier("PC12345678"), "ambiguous Child ID rejected");
+});
+
+Deno.test("generatePairingCode keeps its legacy 8-character format", () => {
+  const legacyRe = /^[23456789ABCDEFGHJKMNPQRSTVWXYZ]{8}$/;
+  const seen = new Set<string>();
+  for (let i = 0; i < 100; i += 1) {
+    const code = generatePairingCode();
+    assertEqual(code.length, 8, "legacy code length");
+    assert(legacyRe.test(code), `legacy code ${code} must match`);
+    assert(isPairingCode(code), `legacy code ${code} must be accepted`);
+    seen.add(code);
+  }
+  assert(seen.size > 90, "generated codes must vary");
+});
+
+Deno.test("two sample Child ID generations differ", () => {
+  const first = generateChildContactId();
+  const second = generateChildContactId();
+  assert(
+    first !== second,
+    `expected two different Child IDs, got ${first} twice`,
+  );
+});
+
 Deno.test("SHA-256 and constant-time comparisons", async () => {
   assertEqual(
     await sha256Hex("abc"),
@@ -121,6 +179,90 @@ Deno.test("SHA-256 and constant-time comparisons", async () => {
 
   assert(await constantTimeSecretEqual("secret", "secret"), "secret matches");
   assert(!(await constantTimeSecretEqual("secret", "other")), "secret mismatch");
+});
+
+Deno.test("identifierHash is a keyed HMAC that differs from plain SHA-256", async () => {
+  const value = "PC7K4M2QRX";
+  const digests = await Promise.all([
+    identifierHash(value, "pepper-1"),
+    sha256Hex(value),
+  ]);
+  const [keyed, plain] = digests;
+  assert(keyed !== plain, "peppered digest must differ from unsalted SHA-256");
+  // Pinned once from an independent implementation (OpenSSL
+  // `openssl dgst -sha256 -hmac pepper-1`). If this changes, previously stored
+  // pairing_attempts.code_hash values stop matching: treat it as breaking.
+  assertEqual(
+    keyed,
+    "a059cfea2d3b2220a0f0f7a3f96396858c78c38c765f736135520bdd38c73e2d",
+    "stable HMAC-SHA-256 vector for PC7K4M2QRX with pepper-1",
+  );
+  assertEqual(
+    plain,
+    "0dda31e891580e01c635ea09453553d57eeae9ed3834ad03dc6074a57ce1fa3d",
+    "legacy SHA-256 for the same identifier is unchanged",
+  );
+});
+
+Deno.test("identifierHash is deterministic and key/input sensitive", async () => {
+  const base = await identifierHash("PC7K4M2QRX", "pepper-1");
+  assertEqual(
+    await identifierHash("PC7K4M2QRX", "pepper-1"),
+    base,
+    "same input and pepper are deterministic",
+  );
+  assert(
+    (await identifierHash("PC7K4M2QRX", "pepper-2")) !== base,
+    "a different pepper changes the digest",
+  );
+  assert(
+    (await identifierHash("PC7K4M2QX", "pepper-1")) !== base,
+    "a different identifier changes the digest",
+  );
+  assert(
+    (await identifierHash("pc7k4m2qrx", "pepper-1")) !== base,
+    "value is used as given, without case folding",
+  );
+});
+
+Deno.test("identifierHash always emits 64 lowercase hex characters", async () => {
+  const hex64 = /^[0-9a-f]{64}$/;
+  const values = ["4K9M2QRT", "PC7K4M2QRX", "", " child-id ", "ünïcode"];
+  for (const value of values) {
+    const keyed = await identifierHash(value, "pepper-1");
+    assert(hex64.test(keyed), `keyed digest for ${JSON.stringify(value)} is hex64`);
+    assertEqual(keyed.length, 64, "keyed digest length");
+  }
+});
+
+Deno.test("identifierHash falls back to sha256Hex without a pepper", async () => {
+  // The warning guard is module-level, so this must be the first test in the
+  // file to call identifierHash with an empty key.
+  const warnings: string[] = [];
+  const originalWarn = console.warn;
+  console.warn = (...args: unknown[]) => {
+    warnings.push(args.map((arg) => String(arg)).join(" "));
+  };
+  try {
+    const legacy = await identifierHash("PC7K4M2QRX", "");
+    assert(
+      /^[0-9a-f]{64}$/.test(legacy),
+      "unkeyed fallback still satisfies pairing_attempts.code_hash",
+    );
+    assertEqual(
+      legacy,
+      await sha256Hex("PC7K4M2QRX"),
+      "empty pepper keeps the legacy digest",
+    );
+    assertEqual(
+      await identifierHash("4K9M2QRT", ""),
+      await sha256Hex("4K9M2QRT"),
+      "fallback applies to codes as well as Child IDs",
+    );
+  } finally {
+    console.warn = originalWarn;
+  }
+  assertEqual(warnings, ["pairing_hash_pepper_missing"], "warns once per isolate");
 });
 
 Deno.test("date-only validation rejects impossible dates", () => {

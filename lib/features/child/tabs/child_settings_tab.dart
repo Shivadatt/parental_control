@@ -5,6 +5,7 @@ import 'package:parent_control/core/theme/app_theme.dart';
 import 'package:parent_control/core/utils/formatters.dart';
 import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/features/child/controllers/child_shell_controller.dart';
+import 'package:parent_control/features/child/widgets/media_self_test_sheet.dart';
 
 class ChildSettingsTab extends GetView<ChildShellController> {
   const ChildSettingsTab({super.key});
@@ -51,6 +52,8 @@ class ChildSettingsTab extends GetView<ChildShellController> {
             _accountCard(),
             const SizedBox(height: 12),
             _permissionsCard(context),
+            const SizedBox(height: 12),
+            _mediaTestCard(context),
             const SizedBox(height: 12),
             _enforcementCard(),
             const SizedBox(height: 12),
@@ -184,6 +187,30 @@ class ChildSettingsTab extends GetView<ChildShellController> {
             actionLabel:
                 caps.isAdminActive || caps.isDeviceOwner ? null : 'Enable',
             onAction: controller.requestDeviceAdmin,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _mediaTestCard(BuildContext context) {
+    return SectionCard(
+      title: 'Camera and microphone test',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Open the main or front camera and the microphone for a few '
+            'seconds on this phone. The preview stays on this screen and is '
+            'not recorded, saved, or sent.',
+            style: TextStyle(height: 1.45, color: AppColors.muted),
+          ),
+          const SizedBox(height: 12),
+          AppButton(
+            label: 'Test camera and microphone',
+            icon: Icons.videocam_outlined,
+            outlined: true,
+            onPressed: () => MediaSelfTestSheet.show(context),
           ),
         ],
       ),

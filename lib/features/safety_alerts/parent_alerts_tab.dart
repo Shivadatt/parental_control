@@ -22,7 +22,7 @@ class ParentAlertsTab extends StatelessWidget {
         message: 'Create or join a family to see safety alerts.',
       );
     }
-    return GetX<SafetyAlertsController>(
+    return GetBuilder<SafetyAlertsController>(
       tag: 'parent-alerts-tab:$familyId',
       init: SafetyAlertsController(
         alertRepository: Get.find<AlertRepository>(),

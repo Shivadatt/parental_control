@@ -7,31 +7,72 @@ import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/data/models/remote_session.dart';
 import 'package:parent_control/features/remote_assistance/remote_session_controller.dart';
 
-class ChildSessionPage extends GetView<RemoteSessionController> {
+/// The child side of a consented assistance session.
+///
+/// Leaving this screen is a session-ending action, not just a route pop: the
+/// other participant is told the truth instead of being left looking at a
+/// "live" session with a dead peer.
+class ChildSessionPage extends StatefulWidget {
   const ChildSessionPage({super.key});
 
   @override
+  State<ChildSessionPage> createState() => _ChildSessionPageState();
+}
+
+class _ChildSessionPageState extends State<ChildSessionPage> {
+  /// A server-confirmed end is in flight. Blocks double taps and route pops.
+  bool _ending = false;
+
+  /// Truthful message from the last failed end attempt (server not confirmed).
+  String? _endFailure;
+
+  RemoteSessionController get _controller =>
+      Get.find<RemoteSessionController>();
+
+  @override
   Widget build(BuildContext context) {
-    return Obx(
-      () => Scaffold(
-        appBar: AppBar(
-          title: const Text('Assistance'),
-          actions: [
-            IconButton(
-              tooltip: 'Refresh status',
-              onPressed: controller.isLoading.value
-                  ? null
-                  : () => controller.load(showLoading: false),
-              icon: const Icon(Icons.refresh),
-            ),
-          ],
-        ),
-        body: _body(context),
-      ),
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (didPop, _) async {
+        if (didPop) return;
+        await _handleBack(context);
+      },
+      child: Obx(() {
+        final controller = _controller;
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text('Assistance'),
+            actions: [
+              IconButton(
+                tooltip: 'Refresh status',
+                onPressed: controller.isLoading.value
+                    ? null
+                    : () => controller.load(showLoading: false),
+                icon: const Icon(Icons.refresh),
+              ),
+            ],
+          ),
+          body: Stack(
+            children: [
+              _body(context, controller),
+              if (_ending) const Positioned.fill(child: _EndingOverlay()),
+            ],
+          ),
+        );
+      }),
     );
   }
 
-  Widget _body(BuildContext context) {
+  Widget _body(BuildContext context, RemoteSessionController controller) {
+    if (!controller.isChildRole) {
+      return const EmptyState(
+        icon: Icons.lock_outline,
+        title: 'Not available for this account',
+        message:
+            'This screen is only for the child device. Open the assistance '
+            'request from the child account.',
+      );
+    }
     if (controller.isLoading.value) {
       return const LoadingState(label: 'Loading assistance request…');
     }
@@ -50,8 +91,10 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
     return ListView(
       padding: const EdgeInsets.only(top: 8, bottom: 32),
       children: [
-        PageSection(child: _statusCard(session)),
-        ..._banners(),
+        PageSection(child: _statusCard(session, controller)),
+        if (_endFailure != null)
+          PageSection(child: _endFailureCard(context)),
+        ..._banners(controller, session),
         if (session.isExpired && session.status.isOpen)
           const PageSection(
             child: InfoBanner(
@@ -64,21 +107,21 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
             ),
           )
         else if (session.status == RemoteSessionStatus.requested)
-          PageSection(child: _consentCard(context))
+          PageSection(child: _consentCard(context, controller))
         else if (session.status.isTerminal)
           PageSection(child: _terminalCard(session))
         else if (controller.hasActivePeer.value)
-          PageSection(child: _mediaCard(session))
+          PageSection(child: _mediaCard(session, controller))
         else
-          PageSection(child: _joinCard(context, session)),
+          PageSection(child: _joinCard(context, session, controller)),
         if (controller.canEnd)
           PageSection(
             child: AppButton(
-              label: 'End session',
+              label: _ending ? 'Ending session…' : 'End session',
               icon: Icons.call_end,
               destructive: true,
-              isLoading: controller.isEnding.value,
-              onPressed: () => _confirmEnd(context),
+              isLoading: _ending,
+              onPressed: _ending ? null : () => _requestEnd(context),
             ),
           )
         else
@@ -86,7 +129,7 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
             child: AppButton(
               label: 'Close',
               outlined: true,
-              onPressed: () => Get.back<void>(),
+              onPressed: _ending ? null : () => _handleBack(context),
             ),
           ),
         const PageSection(
@@ -101,7 +144,13 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
     );
   }
 
-  List<Widget> _banners() {
+  /// Banners that describe live media are suppressed once the session is over
+  /// or expired: a stopped session must not keep showing "connecting" advice.
+  List<Widget> _banners(
+    RemoteSessionController controller,
+    RemoteSession session,
+  ) {
+    final live = session.status.isOpen && !session.isExpired;
     return [
       if (controller.realtimeError.value != null)
         PageSection(
@@ -113,7 +162,7 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
                 'the current status.',
           ),
         ),
-      if (controller.turnWarning != null)
+      if (live && controller.turnWarning != null)
         PageSection(
           child: InfoBanner(
             tone: BannerTone.warning,
@@ -121,7 +170,7 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
             message: controller.turnWarning!,
           ),
         ),
-      if (controller.iceError.value != null)
+      if (live && controller.iceError.value != null)
         PageSection(
           child: InfoBanner(
             tone: BannerTone.danger,
@@ -129,7 +178,7 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
             message: controller.iceError.value!.message,
           ),
         ),
-      if (controller.permissionDenied.value)
+      if (live && controller.permissionDenied.value)
         const PageSection(
           child: InfoBanner(
             tone: BannerTone.danger,
@@ -140,7 +189,7 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
                 'again.',
           ),
         ),
-      if (controller.actionError.value != null)
+      if (controller.actionError.value != null && _endFailure == null)
         PageSection(
           child: InfoBanner(
             tone: BannerTone.danger,
@@ -148,7 +197,7 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
             message: controller.actionError.value!.message,
           ),
         ),
-      if (controller.connectionWarning.value != null)
+      if (live && controller.connectionWarning.value != null)
         PageSection(
           child: InfoBanner(
             tone: BannerTone.warning,
@@ -159,7 +208,45 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
     ];
   }
 
-  Widget _statusCard(RemoteSession session) {
+  /// Shown when the server did not confirm the end. The child must be able to
+  /// retry or stay; the page never claims the guardian's view changed.
+  Widget _endFailureCard(BuildContext context) {
+    return SectionCard(
+      title: 'The session is still open',
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(_endFailure!, style: const TextStyle(height: 1.4)),
+          const SizedBox(height: 6),
+          const Text(
+            'The server has not confirmed that this session ended, so your '
+            'guardian may still see it as live. Nothing is recorded.',
+            style: TextStyle(color: AppColors.muted, fontSize: 12, height: 1.4),
+          ),
+          const SizedBox(height: 14),
+          AppButton(
+            label: 'Retry',
+            icon: Icons.refresh,
+            onPressed: _ending
+                ? null
+                : () => _attemptEnd(
+                      context,
+                      reason: 'left_screen',
+                      popOnSuccess: false,
+                    ),
+          ),
+          const SizedBox(height: 8),
+          AppButton(
+            label: 'Stay in session',
+            outlined: true,
+            onPressed: _ending ? null : () => setState(() => _endFailure = null),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _statusCard(RemoteSession session, RemoteSessionController controller) {
     return SectionCard(
       title: session.kind.label,
       trailing: StatusChip(
@@ -199,7 +286,10 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
     );
   }
 
-  Widget _consentCard(BuildContext context) {
+  Widget _consentCard(
+    BuildContext context,
+    RemoteSessionController controller,
+  ) {
     return SectionCard(
       title: 'Your guardian is asking to talk',
       child: Column(
@@ -241,7 +331,11 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
     );
   }
 
-  Widget _joinCard(BuildContext context, RemoteSession session) {
+  Widget _joinCard(
+    BuildContext context,
+    RemoteSession session,
+    RemoteSessionController controller,
+  ) {
     return SectionCard(
       title: 'Ready when you are',
       child: Column(
@@ -280,12 +374,17 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
     );
   }
 
-  Widget _mediaCard(RemoteSession session) {
+  /// The media card only claims the microphone is on when the controller can
+  /// confirm both live tracks and the visible microphone service.
+  Widget _mediaCard(RemoteSession session, RemoteSessionController controller) {
+    final video = session.kind == SessionKind.video;
+    final mediaLive = controller.isMediaLive;
+    final connecting = controller.isJoining.value;
     final waiting = !controller.isConnected.value;
     return SectionCard(
       child: Column(
         children: [
-          if (session.kind == SessionKind.video && controller.isRemoteVideoActive.value)
+          if (video && controller.isRemoteVideoActive.value)
             AspectRatio(
               aspectRatio: 16 / 9,
               child: ClipRRect(
@@ -308,41 +407,56 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
               child: Column(
                 children: [
                   Icon(
-                    session.kind == SessionKind.video
-                        ? Icons.videocam
-                        : Icons.graphic_eq,
+                    video ? Icons.videocam : Icons.graphic_eq,
                     size: 52,
-                    color: AppColors.primary,
+                    color: mediaLive ? AppColors.primary : AppColors.muted,
                   ),
                   const SizedBox(height: 10),
-                  Text(
-                    controller.isConnected.value
-                        ? (session.kind == SessionKind.video
-                            ? 'Camera and microphone are on'
-                            : 'Microphone is on')
-                        : (session.kind == SessionKind.video
-                            ? 'Camera and microphone on — waiting for the parent'
-                            : 'Microphone on — waiting for the parent'),
-                    style: const TextStyle(fontWeight: FontWeight.w700),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Text(
+                      _mediaHeadline(
+                        video: video,
+                        mediaLive: mediaLive,
+                        connecting: connecting,
+                        connected: !waiting,
+                      ),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(fontWeight: FontWeight.w700),
+                    ),
                   ),
                 ],
               ),
             ),
           const SizedBox(height: 12),
-          Row(
+          Wrap(
+            spacing: 8,
+            runSpacing: 6,
+            crossAxisAlignment: WrapCrossAlignment.center,
             children: [
               StatusChip(
-                label: controller.isConnected.value ? 'Connected' : 'Connecting…',
-                tone: controller.isConnected.value
-                    ? StatusTone.success
-                    : StatusTone.warning,
+                label: waiting ? 'Connecting media…' : 'Media connected',
+                tone: waiting ? StatusTone.warning : StatusTone.success,
               ),
-              const Spacer(),
-              const Text(
-                'Ending stops camera and microphone.',
-                style: TextStyle(color: AppColors.muted, fontSize: 12),
+              StatusChip(
+                label: _mediaChipLabel(
+                  video: video,
+                  mediaLive: mediaLive,
+                  connecting: connecting,
+                ),
+                tone: mediaLive
+                    ? StatusTone.success
+                    : (connecting ? StatusTone.warning : StatusTone.danger),
               ),
             ],
+          ),
+          const SizedBox(height: 8),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              'Ending stops camera and microphone.',
+              style: TextStyle(color: AppColors.muted, fontSize: 12),
+            ),
           ),
           if (waiting) ...[
             const SizedBox(height: 10),
@@ -357,6 +471,46 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
     );
   }
 
+  static String _mediaHeadline({
+    required bool video,
+    required bool mediaLive,
+    required bool connecting,
+    required bool connected,
+  }) {
+    if (mediaLive) {
+      if (connected) {
+        return video ? 'Camera and microphone are on' : 'Microphone is on';
+      }
+      return video
+          ? 'Camera and microphone on — waiting for your guardian'
+          : 'Microphone on — waiting for your guardian';
+    }
+    if (connecting) {
+      return video
+          ? 'Starting the camera and microphone…'
+          : 'Starting the microphone…';
+    }
+    if (connected) {
+      return video
+          ? 'Connected, but camera and microphone are not sharing'
+          : 'Connected, but not sharing audio';
+    }
+    return video
+        ? 'Camera and microphone are not sharing'
+        : 'Microphone is stopped — not sharing audio';
+  }
+
+  static String _mediaChipLabel({
+    required bool video,
+    required bool mediaLive,
+    required bool connecting,
+  }) {
+    final subject = video ? 'Camera and microphone' : 'Microphone';
+    if (mediaLive) return '$subject live';
+    if (connecting) return '$subject starting…';
+    return '$subject off';
+  }
+
   Widget _terminalCard(RemoteSession session) {
     final message = _terminalMessage(session);
     return InfoBanner(
@@ -369,6 +523,7 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
   }
 
   Future<void> _confirmAccept(BuildContext context) async {
+    final controller = _controller;
     final confirmed = await ConfirmDialog.show(
       context,
       title: 'Accept this assistance request?',
@@ -382,6 +537,7 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
   }
 
   Future<void> _join(BuildContext context, RemoteSession session) async {
+    final controller = _controller;
     final confirmed = await ConfirmDialog.show(
       context,
       title: 'Start the live session?',
@@ -398,7 +554,32 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
     await controller.join();
   }
 
-  Future<void> _confirmEnd(BuildContext context) async {
+  /// Back, AppBar up and the Close button all land here. A session that is
+  /// still open on the server is ended first; the route is only popped after
+  /// the server confirms it, so the parent is never left looking at a live
+  /// session that no longer has a peer.
+  Future<void> _handleBack(BuildContext context) async {
+    if (_ending) return;
+    final session = _controller.session.value;
+    if (session == null || !session.status.isOpen) {
+      _pop(context);
+      return;
+    }
+    final confirmed = await ConfirmDialog.show(
+      context,
+      title: 'Leave and end the session?',
+      message:
+          'Leaving this screen stops your microphone and camera immediately '
+          'and ends the session for your guardian. Nothing is recorded.',
+      confirmLabel: 'End and leave',
+      cancelLabel: 'Stay',
+      destructive: true,
+    );
+    if (!confirmed || !context.mounted) return;
+    await _attemptEnd(context, reason: 'left_screen', popOnSuccess: true);
+  }
+
+  Future<void> _requestEnd(BuildContext context) async {
     final confirmed = await ConfirmDialog.show(
       context,
       title: 'End this session?',
@@ -408,8 +589,43 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
       confirmLabel: 'End session',
       destructive: true,
     );
-    if (!confirmed) return;
-    await controller.endSession(reason: 'ended_by_child');
+    if (!confirmed || !context.mounted) return;
+    await _attemptEnd(context, reason: 'ended_by_child', popOnSuccess: false);
+  }
+
+  Future<void> _attemptEnd(
+    BuildContext context, {
+    required String reason,
+    required bool popOnSuccess,
+  }) async {
+    if (_ending) return;
+    final controller = _controller;
+    setState(() {
+      _ending = true;
+      _endFailure = null;
+    });
+    bool ended = false;
+    try {
+      ended = await controller.endSession(reason: reason);
+    } catch (_) {
+      ended = false;
+    }
+    if (!mounted) return;
+    if (ended) {
+      setState(() => _ending = false);
+      if (popOnSuccess && context.mounted) _pop(context);
+      return;
+    }
+    setState(() {
+      _ending = false;
+      _endFailure = controller.endError ??
+          'The server did not confirm that this session ended.';
+    });
+  }
+
+  void _pop(BuildContext context) {
+    final navigator = Navigator.of(context);
+    if (navigator.canPop()) navigator.pop();
   }
 
   static StatusTone _tone(RemoteSession session) {
@@ -470,5 +686,47 @@ class ChildSessionPage extends GetView<RemoteSessionController> {
       case RemoteSessionStatus.active:
         return session.status.label;
     }
+  }
+}
+
+/// Blocking state while the server end call is in flight. It keeps the user on
+/// the page and prevents a second tap or a route pop from racing the request.
+class _EndingOverlay extends StatelessWidget {
+  const _EndingOverlay();
+
+  @override
+  Widget build(BuildContext context) {
+    return AbsorbPointer(
+      child: ColoredBox(
+        color: AppColors.background.withValues(alpha: 0.97),
+        child: const Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              CircularProgressIndicator(),
+              SizedBox(height: 16),
+              Text(
+                'Ending session…',
+                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
+              ),
+              SizedBox(height: 6),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 32),
+                child: Text(
+                  'Stopping the microphone and camera, and ending the session '
+                  'for both of you.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 12,
+                    height: 1.4,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

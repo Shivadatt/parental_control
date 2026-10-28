@@ -35,6 +35,19 @@ abstract class FamilyRepository {
 }
 
 abstract class PairingRepository {
+  /// The signed-in child's stable Child ID. The server assigns and returns it;
+  /// calling this repeatedly never regenerates an existing ID.
+  Future<ChildContactId> fetchChildContactId();
+
+  /// Asks the server to send a pairing request to the child that owns [childId].
+  /// The child must still approve on their own device.
+  Future<PairingRequest> inviteChild({
+    required String childId,
+    required String familyId,
+  });
+
+  /// Legacy 8-character link code, still supported so older child builds and
+  /// already-issued codes keep working.
   Future<PairingCode> createLinkingCode();
   Future<PairingRequest> redeemLinkingCode({
     required String code,
@@ -63,6 +76,7 @@ abstract class DeviceRepository {
     String? appVersion,
   });
   Future<void> revokeDevice(String deviceId);
+  Future<void> recoverDevice(String deviceId);
   Future<List<InstalledApp>> fetchReportedApps(String deviceId);
   Future<int> uploadReportedApps({
     required DeviceIdentity identity,

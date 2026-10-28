@@ -1,13 +1,20 @@
 import 'package:parent_control/core/config/env.dart';
 import 'package:parent_control/core/utils/validators.dart';
 
-/// A strictly parsed `parentcontrol://pair?code=…&v=1` payload. Anything else
-/// (web links, other schemes, newer versions, extra query fields) is rejected
-/// so the scanner never acts on unexpected content.
+/// A strictly parsed pairing payload.
+///
+/// Two versions are accepted and nothing else:
+///   * `parentcontrol://pair?code=XXXXXXXX&v=1` — legacy short-lived code
+///   * `parentcontrol://pair?id=PC7K4M2QRX&v=2` — permanent Child ID
+///
+/// Web links, other schemes, unknown versions, extra query fields and repeated
+/// parameters are rejected so the scanner never acts on unexpected content.
 class PairingQrPayload {
-  const PairingQrPayload({required this.code});
+  const PairingQrPayload({required this.value, required this.isChildId});
 
-  final String code;
+  /// Normalized identifier (no dashes, upper case).
+  final String value;
+  final bool isChildId;
 
   static PairingQrPayload? tryParse(String raw) {
     final uri = Uri.tryParse(raw.trim());
@@ -16,18 +23,35 @@ class PairingQrPayload {
     if (uri.host.toLowerCase() != 'pair') return null;
     if (uri.path != '' && uri.path != '/') return null;
     if (uri.userInfo.isNotEmpty || uri.hasPort || uri.hasFragment) return null;
+
     final keys = uri.queryParametersAll.keys.toSet();
-    if (keys.length != 2 ||
-        !keys.contains('code') ||
-        !keys.contains('v')) {
-      return null;
+    if (keys.length != 2 || !keys.contains('v')) return null;
+    final version = _single(uri, 'v');
+
+    if (version == '1') {
+      if (!keys.contains('code')) return null;
+      final code = _single(uri, 'code');
+      if (code == null) return null;
+      final normalized = Validators.normalizePairingCode(code);
+      if (!Validators.isLinkingCode(normalized)) return null;
+      return PairingQrPayload(value: normalized, isChildId: false);
     }
-    final versions = uri.queryParametersAll['v'] ?? const <String>[];
-    final codes = uri.queryParametersAll['code'] ?? const <String>[];
-    if (versions.length != 1 || versions.first != '1') return null;
-    if (codes.length != 1) return null;
-    final normalized = Validators.normalizePairingCode(codes.first);
-    if (Validators.pairingCode(normalized) != null) return null;
-    return PairingQrPayload(code: normalized);
+
+    if (version == '2') {
+      if (!keys.contains('id')) return null;
+      final id = _single(uri, 'id');
+      if (id == null) return null;
+      final normalized = Validators.normalizePairingCode(id);
+      if (!Validators.isChildId(normalized)) return null;
+      return PairingQrPayload(value: normalized, isChildId: true);
+    }
+
+    return null;
+  }
+
+  static String? _single(Uri uri, String key) {
+    final values = uri.queryParametersAll[key] ?? const <String>[];
+    if (values.length != 1) return null;
+    return values.first;
   }
 }

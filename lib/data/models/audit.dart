@@ -45,6 +45,8 @@ class AuditLogEntry {
         return 'Device enrolled';
       case 'device_revoked':
         return 'Device credential revoked';
+      case 'device_recovery_started':
+        return 'Device recovery started';
       case 'policy_updated':
         return 'Restriction policy updated';
       case 'command_acked':

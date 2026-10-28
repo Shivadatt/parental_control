@@ -91,6 +91,18 @@ class NativeBridge(
                 "startLocationTracking" -> result.success(startLocationTracking(call))
                 "stopLocationTracking" -> result.success(stopLocationTracking())
                 "getDailyUsage" -> dailyUsage(call, result)
+                "startAudioAssistanceService" -> {
+                    val sessionId = stringArgument(call, "sessionId")
+                    result.success(AudioAssistanceService.start(activity, sessionId))
+                }
+                "stopAudioAssistanceService" -> {
+                    AudioAssistanceService.stop(activity)
+                    result.success(true)
+                }
+                "getAudioAssistanceStatus" -> result.success(audioAssistanceStatus())
+                "areNotificationsGranted" ->
+                    result.success(NativePermissions.hasNotifications(activity))
+                "isMicrophoneOneTimeGrant" -> result.success(microphoneOneTimeGrant())
                 else -> result.notImplemented()
             }
         } catch (error: SecurityException) {
@@ -223,6 +235,38 @@ class NativeBridge(
         }
         runAsync(result) { JsonConvert.toMap(policyApplier.apply(policy)) }
     }
+
+    /**
+     * Truthful snapshot of the microphone foreground service.
+     *
+     * `isRunning` is only true after startForeground actually succeeded.
+     * `lastError` carries the last machine-readable start failure reason
+     * ("permission_denied", "notification_permission_required",
+     * "start_foreground_failed", "start_foreground_service_failed") and is
+     * null after a successful start.
+     */
+    private fun audioAssistanceStatus(): Map<String, Any?> = mapOf(
+        "isRunning" to AudioAssistanceService.isRunning,
+        "activeSessionId" to AudioAssistanceService.activeSessionId,
+        "lastError" to AudioAssistanceService.lastError
+    )
+
+    /**
+     * Best-effort one-time grant probe for RECORD_AUDIO.
+     *
+     * Android does not expose the one-time permission flag through the public
+     * SDK: PackageManager.getPermissionFlags() and the flag constants
+     * (FLAG_PERMISSION_ONE_TIME / FLAG_ONE_TIME) are hidden APIs and blocked for
+     * apps. Guessing a flag value would fabricate a state, so `oneTime` is
+     * reported as false unless a public API becomes available; `granted` is
+     * always the live checkSelfPermission() result. Callers must therefore
+     * still verify the grant right before starting, which both the companion
+     * start() gate and the service do.
+     */
+    private fun microphoneOneTimeGrant(): Map<String, Any?> = mapOf(
+        "granted" to NativePermissions.hasMicrophone(activity),
+        "oneTime" to false
+    )
 
     private fun guardianStatus(): Map<String, Any?> {
         val secureStore = store

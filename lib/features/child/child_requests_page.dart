@@ -290,7 +290,8 @@ class _SessionRequestTile extends StatelessWidget {
                     style: const TextStyle(fontWeight: FontWeight.w700),
                   ),
                   Text(
-                    '${session.kind.label} · expires '
+                    '${session.kind.label} · '
+                    '${session.expiresAt.isBefore(DateTime.now()) ? 'expired' : 'expires'} '
                     '${relativeTime(session.expiresAt)}',
                     style: Theme.of(context)
                         .textTheme

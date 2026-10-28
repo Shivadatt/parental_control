@@ -6,12 +6,19 @@ export type JsonObject = Record<string, unknown>;
 export class ApiError extends Error {
   readonly code: string;
   readonly status: number;
+  readonly details?: Record<string, unknown>;
 
-  constructor(code: string, message: string, status = 400) {
+  constructor(
+    code: string,
+    message: string,
+    status = 400,
+    details?: Record<string, unknown>,
+  ) {
     super(message);
     this.name = "ApiError";
     this.code = code;
     this.status = status;
+    this.details = details;
   }
 }
 
@@ -30,8 +37,16 @@ export function ok(data: unknown, status = 200): Response {
   return json({ ok: true, data: data ?? {} }, status);
 }
 
-export function fail(code: string, message: string, status = 400): Response {
-  return json({ ok: false, error: { code, message } }, status);
+export function fail(
+  code: string,
+  message: string,
+  status = 400,
+  details?: Record<string, unknown>,
+): Response {
+  const error: Record<string, unknown> = { code, message };
+  // Additive only: existing clients read code/message and ignore the rest.
+  if (details) error.details = details;
+  return json({ ok: false, error }, status);
 }
 
 /**
@@ -40,7 +55,7 @@ export function fail(code: string, message: string, status = 400): Response {
  */
 export function errorResponse(error: unknown): Response {
   if (error instanceof ApiError) {
-    return fail(error.code, error.message, error.status);
+    return fail(error.code, error.message, error.status, error.details);
   }
   const name = error instanceof Error ? error.name : "unknown";
   console.error(`unhandled_edge_error:${name}`);

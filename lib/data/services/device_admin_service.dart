@@ -98,6 +98,48 @@ class DeviceAdminService extends GetxService {
   Future<bool> stopGuardianService() async =>
       await _invoke<bool>('stopGuardianService') ?? false;
 
+  Future<bool> startAudioAssistanceService({required String sessionId}) async =>
+      await _invoke<bool>('startAudioAssistanceService', {'sessionId': sessionId}) ??
+      false;
+
+  Future<bool> stopAudioAssistanceService() async =>
+      await _invoke<bool>('stopAudioAssistanceService') ?? false;
+
+  Future<bool> isAudioAssistanceServiceRunning() async {
+    final map = await _invokeMap('getAudioAssistanceStatus');
+    return map?['isRunning'] == true;
+  }
+
+  /// Session id the native service reports as active, or null when the service
+  /// is not running or the bridge is unavailable.
+  ///
+  /// This is the only authoritative source for the native session id; the
+  /// `audio_assistance_started` event carries the same value.
+  Future<String?> getActiveAudioSessionId() async {
+    final map = await _invokeMap('getAudioAssistanceStatus');
+    final value = jsonStringOr(map?['activeSessionId']);
+    return value.isEmpty ? null : value;
+  }
+
+  /// Whether the OS will display notifications (always true below Android 13).
+  ///
+  /// The microphone foreground service must be able to show its ongoing
+  /// notification, so this is checked before asking the service to start.
+  Future<bool> areNotificationsGranted() async =>
+      await _invoke<bool>('areNotificationsGranted') ?? false;
+
+  /// True only when RECORD_AUDIO is currently granted on a one-time basis.
+  ///
+  /// Android exposes no public API for the one-time flag, so the native side
+  /// reports `oneTime: false`; this method therefore returns false whenever the
+  /// grant cannot be proven temporary. Treat it as a hint only: always rely on
+  /// the live permission check before starting the service.
+  Future<bool> isMicrophoneOneTimeGrant() async {
+    final map = await _invokeMap('isMicrophoneOneTimeGrant');
+    if (map == null) return false;
+    return jsonBoolOr(map['granted']) && jsonBoolOr(map['oneTime']);
+  }
+
   Future<bool> configureBackgroundSync({
     required String supabaseUrl,
     required String publishableKey,

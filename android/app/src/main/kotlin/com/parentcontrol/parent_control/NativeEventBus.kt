@@ -61,4 +61,33 @@ object NativeEventBus {
             )
         )
     }
+
+    /** Authoritative confirmation that the microphone foreground service runs. */
+    fun emitAudioAssistanceStarted(sessionId: String?) {
+        emit(
+            mapOf(
+                "type" to "audio_assistance_started",
+                "sessionId" to sessionId
+            )
+        )
+    }
+
+    /** The service did not start; [reason] is machine-readable. */
+    fun emitAudioAssistanceStartFailed(reason: String) {
+        emit(
+            mapOf(
+                "type" to "audio_assistance_start_failed",
+                "reason" to reason
+            )
+        )
+    }
+
+    fun emitAudioAssistanceStopped(reason: String) {
+        emit(
+            mapOf(
+                "type" to "audio_assistance_stopped",
+                "reason" to reason
+            )
+        )
+    }
 }

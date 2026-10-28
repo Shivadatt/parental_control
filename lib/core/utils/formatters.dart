@@ -15,10 +15,30 @@ String formatTime(DateTime? value) {
   return DateFormat.jm().format(value);
 }
 
-String relativeTime(DateTime? value) {
+/// Human-readable distance between [value] and [now] (defaults to the current
+/// time).
+///
+/// Past values read `Just now` (< 60 s), `N min ago`, `N h ago`, `N d ago`,
+/// then an absolute date after a week.
+///
+/// Future values are never described as `Just now`: they read
+/// `in a few seconds` (< 60 s), `in N min`, `in N h`, or `in N d`. Callers
+/// that prefix the value with `expires` therefore render `expires in 5 min`,
+/// not `expires Just now`.
+///
+/// [now] exists so tests and countdown widgets can pin the reference instant;
+/// production callers should leave it unset.
+String relativeTime(DateTime? value, {DateTime? now}) {
   if (value == null) return 'Never';
-  final difference = DateTime.now().difference(value);
-  if (difference.isNegative) return 'Just now';
+  final reference = now ?? DateTime.now();
+  final difference = reference.difference(value);
+  if (difference.isNegative) {
+    final ahead = value.difference(reference);
+    if (ahead.inSeconds < 60) return 'in a few seconds';
+    if (ahead.inMinutes < 60) return 'in ${ahead.inMinutes} min';
+    if (ahead.inHours < 24) return 'in ${ahead.inHours} h';
+    return 'in ${ahead.inDays} d';
+  }
   if (difference.inSeconds < 60) return 'Just now';
   if (difference.inMinutes < 60) return '${difference.inMinutes} min ago';
   if (difference.inHours < 24) return '${difference.inHours} h ago';

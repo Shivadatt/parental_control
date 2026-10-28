@@ -242,7 +242,7 @@ class GuardianService : Service() {
         if (commandId.isEmpty()) return
         if (store.handledCommands().contains(commandId)) return
         val commandType = command.optString("type", "")
-        val expiresAt = TimeUtils.parseIso(command.optString("expires_at", null))
+        val expiresAt = TimeUtils.parseIso(command.optString("expires_at"))
         if (expiresAt != null && expiresAt < System.currentTimeMillis()) {
             store.markCommandHandled(commandId)
             pendingAcks += 1

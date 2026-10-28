@@ -1,5 +1,43 @@
 import '../../core/utils/json_utils.dart';
 
+/// A stable, shareable identifier for a child account.
+///
+/// This is an identifier, not a credential: a guardian who knows it can open a
+/// pairing request, but nothing is linked and no data is shared until the child
+/// approves on their own device.
+class ChildContactId {
+  const ChildContactId({
+    required this.id,
+    required this.canonicalId,
+    required this.qrPayload,
+    this.assignedAt,
+  });
+
+  /// Display form, for example `PC-7K4M2QRX`.
+  final String id;
+
+  /// Canonical form, for example `PC7K4M2QRX`.
+  final String canonicalId;
+
+  final String qrPayload;
+  final DateTime? assignedAt;
+
+  bool get isUsable => id.isNotEmpty && qrPayload.isNotEmpty;
+
+  factory ChildContactId.fromJson(Map<String, dynamic> json) {
+    final id = jsonStringOr(json['contact_id']);
+    return ChildContactId(
+      id: id,
+      canonicalId: jsonStringOr(
+        json['contact_id_canonical'],
+        id.replaceAll('-', '').replaceAll(' ', '').toUpperCase(),
+      ),
+      qrPayload: jsonStringOr(json['qr_payload']),
+      assignedAt: jsonDate(json['created_at']),
+    );
+  }
+}
+
 class PairingCode {
   const PairingCode({
     required this.code,

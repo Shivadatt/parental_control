@@ -168,10 +168,14 @@ the child owner. No direct writes. Clients receive column-level SELECT only;
 `secret_hash` and `installation_id` are service-only columns.
 
 ### device_pairing_tokens
-`id`, `child_user_id`, `code_hash text unique`, `expires_at`, `redeemed_at`,
-`redeemed_by`, `status check ('active','redeemed','revoked','expired')`,
-`attempts int default 0`, `max_attempts int default 10`, `created_at`, `created_by`.
-Expiry 10 minutes. No client access (service role only).
+`id`, `child_user_id`, `code_hash text unique`, `purpose text not null default
+'code' check ('code','invite')`, `expires_at`, `redeemed_at`, `redeemed_by`,
+`status check ('active','redeemed','revoked','expired')`, `attempts int default 0`,
+`max_attempts int default 10`, `created_at`, `created_by`. Index
+`(child_user_id, purpose, status)`. A `code` token is the child-initiated secret
+with a 10-minute expiry; an `invite` token is server-minted for a Child ID invite
+and lives 24 hours. Existing rows keep `purpose='code'`. No client access
+(service role only).
 
 ### pairing_requests
 `id`, `token_id unique -> device_pairing_tokens`, `family_id`, `parent_user_id`,
@@ -254,6 +258,19 @@ writes. Populated by `device-telemetry` action `apps_upload`.
 `id`, `parent_user_id`, `code_hash`, `attempted_at`, `success bool`. Index
 `(parent_user_id, attempted_at)` and `(code_hash, attempted_at)`. Service role only.
 
+### child_contact_ids
+`child_user_id uuid pk -> profiles on delete cascade`, `contact_id text not null
+unique check (contact_id ~ '^PC[23456789ABCDEFGHJKMNPQRSTVWXYZ]{8}$')`,
+`created_at timestamptz not null default now()`, `rotated_at timestamptz nullable`.
+RLS is enabled with **no policies**; all privileges are revoked from `public`,
+`anon` and `authenticated`, and only `service_role` holds
+select/insert/update/delete. The client never reads this table: the owning child
+receives its value solely through `pairing.get_contact_id`, and a parent sees
+only the request the ID creates. There is no client read, list or search path;
+the only lookup is the rate-limited `invite` path (the `invite` action, or
+`redeem` given a Child ID), which answers an unusable value with a uniform
+`invalid_code`.
+
 ### RPC helpers (security definer, execute only service_role or internal)
 - `private.is_family_member(uuid)`, `private.is_family_parent(uuid)`,
   `private.shares_active_family(uuid)`, `private.realtime_topic_allowed(text)` —
@@ -298,31 +315,126 @@ Paths under `supabase/functions/<name>/index.ts`; shared code under
   `family_created` atomically via RPC `private.create_family_with_owner`.
 
 ### pairing
-- `create` (child): → `{code, qr_payload, expires_at}`. 8-char Crockford base32
-  (`23456789ABCDEFGHJKMNPQRSTVWXYZ`), 10-minute expiry, revokes previous active
-  tokens. `qr_payload = "parentcontrol://pair?code=<code>&v=1"`. Max 5 active code
-  creations per 24h. Audit `pairing_code_created`.
-- `redeem` (parent): `{code, family_id}` → pairing request object
+- `get_contact_id` (child): `{action:"get_contact_id"}` →
+  `{contact_id, contact_id_canonical, qr_payload, created_at}`. Requires a
+  verified child JWT. Assigns the permanent Child ID on first call and returns
+  the same value for the life of the account (idempotent); a concurrent insert
+  that loses the race re-reads the winning row after a `23505` and returns it.
+  `auth-bootstrap` `set_role('child')` also assigns best-effort when the child
+  role is first set; a failure there is non-fatal and this action is the backstop.
+- `create` (child): legacy short-lived code → `{code, qr_payload, expires_at}`.
+  8-char Crockford base32 (`23456789ABCDEFGHJKMNPQRSTVWXYZ`), 10-minute expiry,
+  token tagged `purpose='code'`. Revokes only previous active `code` tokens and
+  cancels only the `pending_child` requests whose tokens it actually replaced,
+  so a live Child ID invitation is never destroyed by a code mint.
+  `qr_payload = "parentcontrol://pair?code=<code>&v=1"`. Limits: 5 live `code`
+  tokens per child per 24h and 10 code creations per rolling hour. Audit
+  `pairing_code_created`. The shipped child UI no longer offers this action; it
+  exists for older clients.
+- `invite` (parent): `{action:"invite", child_id, family_id}` → the same pairing
+  request object as `redeem` (`status:"pending_child"`). `child_id` is the Child
+  ID in canonical or `PC-XXXXXXXX` form (normalized before lookup). The parent
+  must be an active parent of `family_id`. Lookup failures, a target profile
+  whose role is not `child`, and malformed input all return the uniform 400
+  `invalid_code`. An already-linked child returns 409 `child_already_linked`
+  (no request and no token is created). An existing live `pending_child` request
+  for the same child, family and parent is returned instead of creating a
+  duplicate; a second guardian in the same family gets their own request. The
+  server otherwise enforces the per-child invite quota, mints a single-use
+  `device_pairing_tokens` row with `purpose='invite'` (24h TTL), inserts
+  `pairing_requests` with `status='pending_child'`, and audits
+  `pairing_invited` with `{child_user_id, via:"child_id"}` — never the ID itself.
+- `redeem` (parent): `{code, family_id}` where `code` is EITHER an 8-character
+  legacy code OR a Child ID; the server normalizes and auto-detects the format
+  (`PC` + 8 chars). → pairing request object
   `{id, token_id, family_id, family_name, parent_user_id, parent_display_name,
   child_user_id, child_display_name, status:"pending_child", created_at, expires_at}`.
-  Normalize code (uppercase, strip non-alphanumerics). Compare SHA-256. Rate limit:
-  5 attempts per parent per 10 minutes and 10 per token; count failures. 400
-  `invalid_code` (same response for unknown/expired to prevent enumeration), 410
-  `code_expired`, 429 `rate_limited`, 409 `child_already_linked`. Parent must be
-  active parent in family. Do not expose any directory search. Audit
-  `pairing_redeemed` with family_id.
+  A Child ID is routed to the `invite` flow above; an 8-character code is
+  normalized, SHA-256 hashed and matched against
+  `device_pairing_tokens.code_hash`. Both failure paths return the same
+  400 `invalid_code` with the message "The linking code or Child ID is not
+  valid." so neither format can be used to learn which part was wrong. 409
+  `code_unavailable` when that code was already used, 409 `child_already_linked`,
+  429 `rate_limited`. Parent must be an active parent in the family. Do not
+  expose any directory search. Audit `pairing_redeemed` with family_id.
 - `pending_child` (child): → list of request rows for the calling child, status
   pending_child, not expired, with parent_display_name, family_name.
 - `respond` (child): `{request_id, approve:boolean}` → `{status, family_id?}`.
   Validates ownership, status, expiry. Approve creates active child membership
   (409 if another active family), marks request approved, token redeemed, audit
   `pairing_approved`; reject marks rejected + token revoked, audit
-  `pairing_rejected`.
-- `cancel` (parent): `{request_id}` → idempotent cancelled; token revoked; audit.
+  `pairing_rejected`. Unchanged by the Child ID workflow: approval is still the
+  only step that creates or activates the `family_members` row, whether the
+  request came from a legacy code or a Child ID invite.
+- `cancel` (parent): `{request_id}` → `{status:"cancelled", request_id}`; token
+  revoked; audit. If the child answered between the read and the update the
+  response is 409 `conflict` with the stored status and the token is left
+  untouched.
 - `list_family` (parent): `{family_id}` → list of requests with profiles/family.
 - `unlink` (parent or child): `{family_id, child_user_id}` → marks membership
   removed, revokes all child devices (secret_hash null), ends open sessions, audit
   `member_removed`. Child may only unlink self; parent must be family parent.
+
+Request and response bodies (data inside the standard `{ok,data}` envelope):
+
+```json
+{"action":"get_contact_id"}
+→ {"contact_id":"PC-7K4M2QRX","contact_id_canonical":"PC7K4M2QRX",
+   "qr_payload":"parentcontrol://pair?id=PC7K4M2QRX&v=2",
+   "created_at":"2026-10-27T12:00:00.000Z"}
+
+{"action":"invite","child_id":"PC-7K4M2QRX","family_id":"<family uuid>"}
+→ {"id":"<request uuid>","token_id":"<token uuid>","family_id":"<family uuid>",
+   "family_name":"QA Family","parent_user_id":"<parent uuid>",
+   "parent_display_name":"Parent","child_user_id":"<child uuid>",
+   "child_display_name":"Child","status":"pending_child",
+   "created_at":"...","expires_at":"... (24h later)","responded_at":null,
+   "families":{"id":"<family uuid>","name":"QA Family"},
+   "parent_profile":{"display_name":"Parent"},
+   "child_profile":{"display_name":"Child"}}
+
+{"action":"redeem","code":"PC-7K4M2QRX","family_id":"<family uuid>"}
+→ same pairing request object as above
+```
+
+**Child ID format.** Canonical value is `PC` + exactly 8 characters from
+`23456789ABCDEFGHJKMNPQRSTVWXYZ`, stored canonical (`PC7K4M2QRX`) and displayed
+as `PC-XXXXXXXX` (`PC-7K4M2QRX`). Input is upper-cased and dashes/spaces are
+stripped before lookup. It is assigned once per child, never regenerated on
+launch, and returned only to the child that owns it. Its QR form is
+`parentcontrol://pair?id=<canonical>&v=2`; the parent scanner still accepts the
+legacy `parentcontrol://pair?code=<code>&v=1`.
+
+**Pairing error codes.** `invalid_code` (400, uniform for unknown, expired,
+malformed and wrong-role identifiers on both paths; message "The linking code or
+Child ID is not valid."), `child_already_linked` (409), `rate_limited` (429 with
+`details.retry_after_seconds`), `not_configured` (recognized by the parent page
+as "Pairing is not configured"; the app normally raises
+`backend_not_configured` before any HTTP call, and the function's own equivalent
+for a missing server client is `server_misconfigured`). Elsewhere in this
+function: `code_unavailable` (409, code already used) and `code_expired` (410,
+returned by `cancel`/`respond` for an expired request — `redeem` reports an
+expired code as `invalid_code` instead).
+
+**Rate limits.** All counters are server-side; 429 bodies carry
+`details.retry_after_seconds`:
+- 5 **failed** lookups per parent per 10 minutes. Successful lookups no longer
+  count, so a parent linking several children cleanly is not throttled.
+- 10 failed lookups per identifier per 10 minutes (code hash or Child ID hash).
+- 5 live legacy `code` tokens per child per 24h (revoked/expired rows are not
+  debt) and 10 code creations per child per rolling hour.
+- 3 pending invites per child (live `pending_child` requests, whichever entry
+  point created them) and 10 invites per child per 24h.
+- The Child ID `invite` action and `redeem` of a Child ID share the same quota
+  counters, so neither entry point bypasses the cap.
+
+**Security invariants.** The Child ID is an identifier, not an authentication
+credential: knowing it only lets a signed-in parent who is already a parent of
+the family open a normal request, and nothing is linked until the child approves
+on their own device. RLS, active family membership and (for telemetry) the device
+credential remain authoritative for every data path. The client never receives
+service-role credentials and never reads `child_contact_ids` directly; lookups
+are rate-limited and every unusable answer is uniform.
 
 ### device-register
 `register` (child): `{family_id, installation_id, secret_hash, display_name,

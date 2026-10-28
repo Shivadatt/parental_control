@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:get/get.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:parent_control/core/errors/app_exception.dart';
 import 'package:parent_control/data/models/account.dart';
@@ -27,6 +28,7 @@ class _MockDeviceAdminService extends Mock implements DeviceAdminService {}
 class _MockChildPreferences extends Mock implements ChildPreferences {}
 
 void main() {
+  TestWidgetsFlutterBinding.ensureInitialized();
   late MockFamilyRepository families;
   late MockPairingRepository pairing;
   late _MockDeviceRepository devices;
@@ -120,6 +122,27 @@ void main() {
         .thenAnswer((_) async => const <InstalledApp>[]);
     when(() => deviceAdmin.stopLocationTracking()).thenAnswer((_) async => true);
     when(() => deviceAdmin.stopGuardianService()).thenAnswer((_) async => true);
+    when(() => deviceAdmin.stopAudioAssistanceService())
+        .thenAnswer((_) async => true);
+    when(() => deviceAdmin.clearBackgroundSync()).thenAnswer((_) async {});
+    when(
+      () => remoteSessions.fetchForFamily(any(), limit: any(named: 'limit')),
+    ).thenAnswer((_) async => const <RemoteSession>[]);
+    when(
+      () => remoteSessions.end(
+        sessionId: any(named: 'sessionId'),
+        reason: any(named: 'reason'),
+      ),
+    ).thenAnswer((_) async {});
+    when(
+      () => pairing.unlink(
+        familyId: any(named: 'familyId'),
+        childUserId: any(named: 'childUserId'),
+      ),
+    ).thenAnswer((_) async {});
+    when(() => auth.signOut()).thenAnswer((_) async {});
+    when(() => settings.clearOnSignOut()).thenAnswer((_) async {});
+    when(() => preferences.clear()).thenAnswer((_) async {});
   });
 
   tearDown(() => controller.onClose());
@@ -336,5 +359,57 @@ void main() {
     expect(controller.policyError.value, isNotNull);
     expect(controller.isLoading.value, isFalse);
     expect(controller.isEnrolled, isTrue);
+  });
+
+  RemoteSession openSession() => RemoteSession(
+        id: 'session-1',
+        familyId: familyId,
+        deviceId: deviceId,
+        parentUserId: 'parent-1',
+        childUserId: 'child-1',
+        kind: SessionKind.audio,
+        status: RemoteSessionStatus.active,
+        requestedAt: DateTime.utc(2026, 1, 1),
+        expiresAt: DateTime.utc(2026, 1, 1, 0, 10),
+      );
+
+  test('sign-out stops the microphone service and ends an open session',
+      () async {
+    Get.testMode = true;
+    addTearDown(() => Get.testMode = false);
+    session.userId.value = 'child-1';
+    await controller.load();
+    when(
+      () => remoteSessions.fetchForFamily(familyId, limit: any(named: 'limit')),
+    ).thenAnswer((_) async => [openSession()]);
+
+    await controller.signOut();
+
+    verifyInOrder([
+      () => deviceAdmin.stopAudioAssistanceService(),
+      () => remoteSessions.end(sessionId: 'session-1', reason: 'signed_out'),
+      () => auth.signOut(),
+    ]);
+    verify(() => deviceAdmin.stopGuardianService()).called(1);
+  });
+
+  test('unlink stops the microphone service and ends an open session',
+      () async {
+    session.userId.value = 'child-1';
+    await controller.load();
+    when(
+      () => remoteSessions.fetchForFamily(familyId, limit: any(named: 'limit')),
+    ).thenAnswer((_) async => [openSession()]);
+
+    final removed = await controller.unlink();
+
+    expect(removed, isTrue);
+    verify(() => deviceAdmin.stopAudioAssistanceService()).called(1);
+    verify(
+      () => remoteSessions.end(sessionId: 'session-1', reason: 'unlinked'),
+    ).called(1);
+    verify(
+      () => pairing.unlink(familyId: familyId, childUserId: 'child-1'),
+    ).called(1);
   });
 }

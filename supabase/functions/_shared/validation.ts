@@ -13,6 +13,14 @@ export const PAIRING_ALPHABET = "23456789ABCDEFGHJKMNPQRSTVWXYZ";
 export const PAIRING_CODE_LENGTH = 8;
 export const PAIRING_CODE_RE = /^[23456789ABCDEFGHJKMNPQRSTVWXYZ]{8}$/;
 
+// A permanent Child ID is an identifier, never a credential. The "PC" prefix
+// makes it impossible to confuse with an 8-character linking code, so the
+// server can route on format alone without one path becoming an oracle for the
+// other.
+export const CHILD_CONTACT_PREFIX = "PC";
+export const CHILD_CONTACT_BODY_LENGTH = 8;
+export const CHILD_CONTACT_RE = /^PC[23456789ABCDEFGHJKMNPQRSTVWXYZ]{8}$/;
+
 const encoder = new TextEncoder();
 
 export function isRecord(value: unknown): value is Record<string, unknown> {
@@ -233,26 +241,92 @@ export function isPairingCode(value: unknown): value is string {
   return typeof value === "string" && PAIRING_CODE_RE.test(value);
 }
 
-/** Cryptographically random 8-character code from the contract alphabet. */
-export function generatePairingCode(): string {
+/** True for a canonical (unformatted) Child ID such as `PCAB12CD34`. */
+export function isChildContactId(value: unknown): value is string {
+  return typeof value === "string" && CHILD_CONTACT_RE.test(value);
+}
+
+/** True for an 8-character linking code or a Child ID. */
+export function isLinkingIdentifier(value: unknown): value is string {
+  return isPairingCode(value) || isChildContactId(value);
+}
+
+/** `PCAB12CD34` → `PC-AB12CD34` for display. Canonical form is what is stored. */
+export function formatChildContactId(canonical: string): string {
+  return `${canonical.slice(0, CHILD_CONTACT_PREFIX.length)}-${
+    canonical.slice(CHILD_CONTACT_PREFIX.length)
+  }`;
+}
+
+function randomAlphabetString(length: number): string {
   const alphabetLength = PAIRING_ALPHABET.length; // 30
   const limit = Math.floor(256 / alphabetLength) * alphabetLength; // 240
   const bytes = new Uint8Array(16);
-  let code = "";
-  while (code.length < PAIRING_CODE_LENGTH) {
+  let result = "";
+  while (result.length < length) {
     crypto.getRandomValues(bytes);
     for (const byte of bytes) {
-      if (byte < limit && code.length < PAIRING_CODE_LENGTH) {
-        code += PAIRING_ALPHABET[byte % alphabetLength];
+      if (byte < limit && result.length < length) {
+        result += PAIRING_ALPHABET[byte % alphabetLength];
       }
     }
   }
-  return code;
+  return result;
+}
+
+/** Cryptographically random 8-character code from the contract alphabet. */
+export function generatePairingCode(): string {
+  return randomAlphabetString(PAIRING_CODE_LENGTH);
+}
+
+/** Cryptographically random canonical Child ID, e.g. `PC7K4M2QRX`. */
+export function generateChildContactId(): string {
+  return CHILD_CONTACT_PREFIX + randomAlphabetString(CHILD_CONTACT_BODY_LENGTH);
 }
 
 export async function sha256Hex(value: string): Promise<string> {
   const digest = await crypto.subtle.digest("SHA-256", encoder.encode(value));
   return Array.from(new Uint8Array(digest))
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
+}
+
+// Emitted once per isolate so a missing pepper is visible without flooding logs.
+let pairingHashPepperWarned = false;
+
+/**
+ * Keyed digest used for stored pairing-attempt lookups.
+ *
+ * The identifier space (30^8) is small enough that an unsalted SHA-256 can be
+ * brute-forced from a database dump, so pairing_attempts must use an HMAC keyed
+ * by a server-side secret. When no pepper is configured we fall back to the
+ * legacy plain SHA-256 so the function remains deployable without the secret.
+ */
+export async function identifierHash(
+  value: string,
+  pepper?: string,
+): Promise<string> {
+  const key = pepper ?? Deno.env.get("PAIRING_HASH_PEPPER") ?? "";
+  if (key.length === 0) {
+    if (!pairingHashPepperWarned) {
+      pairingHashPepperWarned = true;
+      console.warn("pairing_hash_pepper_missing");
+    }
+    return await sha256Hex(value);
+  }
+  const cryptoKey = await crypto.subtle.importKey(
+    "raw",
+    encoder.encode(key),
+    { name: "HMAC", hash: "SHA-256" },
+    false,
+    ["sign"],
+  );
+  const signature = await crypto.subtle.sign(
+    "HMAC",
+    cryptoKey,
+    encoder.encode(value),
+  );
+  return Array.from(new Uint8Array(signature))
     .map((byte) => byte.toString(16).padStart(2, "0"))
     .join("");
 }

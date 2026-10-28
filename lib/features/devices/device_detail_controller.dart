@@ -29,6 +29,9 @@ class DeviceDetailController extends GetxController {
   final Rxn<AppException> commandsError = Rxn<AppException>();
   final RxBool isRevoking = false.obs;
   final Rxn<AppException> revokeError = Rxn<AppException>();
+  final RxBool isRecovering = false.obs;
+  final Rxn<AppException> recoveryError = Rxn<AppException>();
+  final RxBool recoveryStarted = false.obs;
   final RxBool isOffline = false.obs;
 
   @override
@@ -139,6 +142,31 @@ class DeviceDetailController extends GetxController {
       return false;
     } finally {
       isRevoking.value = false;
+    }
+  }
+
+  /// Starts the parent-authorized replacement of a lost device credential.
+  /// The server revokes the old credential and removes the family link; a new
+  /// device can only appear through a fresh one-time pairing and child
+  /// approval. Nothing local is treated as proof of recovery.
+  Future<bool> recoverDevice() async {
+    if (isRecovering.value) return false;
+    isRecovering.value = true;
+    recoveryError.value = null;
+    recoveryStarted.value = false;
+    try {
+      await _deviceRepository.recoverDevice(deviceId);
+      recoveryStarted.value = true;
+      await load();
+      return true;
+    } on AppException catch (exception) {
+      recoveryError.value = exception;
+      return false;
+    } catch (exception) {
+      recoveryError.value = AppException.from(exception);
+      return false;
+    } finally {
+      isRecovering.value = false;
     }
   }
 }

@@ -280,3 +280,266 @@ begin
   );
 end;
 $$;
+
+-- ---------------------------------------------------------------------------
+-- Permanent Child ID (migration 20260101000500_child_contact_ids.sql)
+-- ---------------------------------------------------------------------------
+do $$
+declare
+  v_bad text;
+  v_default text;
+  v_temp_user uuid := '9a0c0de0-0000-4000-8000-0000000000c1';
+begin
+  perform tests.assert_true(
+    to_regclass('public.child_contact_ids') is not null,
+    'child_contact_ids table is missing'
+  );
+
+  perform tests.assert_true(
+    (select data_type from information_schema.columns
+      where table_schema = 'public' and table_name = 'child_contact_ids'
+        and column_name = 'child_user_id') = 'uuid'
+    and (select is_nullable from information_schema.columns
+      where table_schema = 'public' and table_name = 'child_contact_ids'
+        and column_name = 'child_user_id') = 'NO',
+    'child_contact_ids.child_user_id must be a NOT NULL uuid'
+  );
+  perform tests.assert_true(
+    (select data_type from information_schema.columns
+      where table_schema = 'public' and table_name = 'child_contact_ids'
+        and column_name = 'contact_id') = 'text'
+    and (select is_nullable from information_schema.columns
+      where table_schema = 'public' and table_name = 'child_contact_ids'
+        and column_name = 'contact_id') = 'NO',
+    'child_contact_ids.contact_id must be a NOT NULL text column'
+  );
+  perform tests.assert_true(
+    (select data_type from information_schema.columns
+      where table_schema = 'public' and table_name = 'child_contact_ids'
+        and column_name = 'created_at') = 'timestamp with time zone'
+    and (select is_nullable from information_schema.columns
+      where table_schema = 'public' and table_name = 'child_contact_ids'
+        and column_name = 'created_at') = 'NO',
+    'child_contact_ids.created_at must be a NOT NULL timestamptz'
+  );
+  perform tests.assert_true(
+    (select data_type from information_schema.columns
+      where table_schema = 'public' and table_name = 'child_contact_ids'
+        and column_name = 'rotated_at') = 'timestamp with time zone'
+    and (select is_nullable from information_schema.columns
+      where table_schema = 'public' and table_name = 'child_contact_ids'
+        and column_name = 'rotated_at') = 'YES',
+    'child_contact_ids.rotated_at must be a nullable timestamptz'
+  );
+
+  perform tests.assert_true(
+    exists (
+      select 1 from pg_constraint c
+      where c.conrelid = 'public.child_contact_ids'::regclass
+        and c.contype = 'p'
+        and c.conkey = array[
+          (select a.attnum from pg_attribute a
+            where a.attrelid = 'public.child_contact_ids'::regclass
+              and a.attname = 'child_user_id')
+        ]
+    ),
+    'child_contact_ids.child_user_id must be the primary key'
+  );
+  perform tests.assert_true(
+    exists (
+      select 1 from pg_constraint c
+      where c.conrelid = 'public.child_contact_ids'::regclass
+        and c.contype = 'u'
+        and c.conkey = array[
+          (select a.attnum from pg_attribute a
+            where a.attrelid = 'public.child_contact_ids'::regclass
+              and a.attname = 'contact_id')
+        ]
+    ),
+    'child_contact_ids.contact_id must be unique'
+  );
+
+  perform tests.assert_true(
+    (select c.relrowsecurity from pg_class c
+      where c.oid = 'public.child_contact_ids'::regclass),
+    'RLS must be enabled on child_contact_ids'
+  );
+
+  select string_agg(format('anon:%s', p), ', ') into v_bad
+  from unnest(array['select', 'insert', 'update', 'delete']) as p
+  where has_table_privilege('anon', 'public.child_contact_ids', p);
+  perform tests.assert_true(
+    v_bad is null,
+    'anon must have no child_contact_ids privileges: ' || coalesce(v_bad, '')
+  );
+
+  select string_agg(format('authenticated:%s', p), ', ') into v_bad
+  from unnest(array['select', 'insert', 'update', 'delete']) as p
+  where has_table_privilege('authenticated', 'public.child_contact_ids', p);
+  perform tests.assert_true(
+    v_bad is null,
+    'authenticated must have no child_contact_ids privileges: '
+      || coalesce(v_bad, '')
+  );
+
+  perform tests.assert_true(
+    has_table_privilege(
+      'service_role', 'public.child_contact_ids', 'select,insert,update,delete'
+    ),
+    'service_role must access child_contact_ids'
+  );
+
+  -- The check constraint is behavioural: create a throw-away profile so the FK
+  -- does not mask the check violation, then clean it up below.
+  insert into auth.users (id, email, email_confirmed_at)
+  values (v_temp_user, 'schema-child-id@example.test', now());
+
+  perform tests.expect_error(
+    format(
+      'insert into public.child_contact_ids (child_user_id, contact_id) '
+        || 'values (%L::uuid, %L)',
+      v_temp_user, 'PC12345678'
+    ),
+    '23514', 'check constraint',
+    'child_contact_ids must reject ambiguous character 0/1'
+  );
+  perform tests.expect_error(
+    format(
+      'insert into public.child_contact_ids (child_user_id, contact_id) '
+        || 'values (%L::uuid, %L)',
+      v_temp_user, 'XX7K4M2QRX'
+    ),
+    '23514', 'check constraint',
+    'child_contact_ids must reject a wrong prefix'
+  );
+
+  perform tests.assert_true(
+    (select count(*) from public.child_contact_ids
+      where child_user_id = v_temp_user) = 0,
+    'rejected Child IDs must not be stored'
+  );
+
+  insert into public.child_contact_ids (child_user_id, contact_id)
+  values (v_temp_user, 'PC7K4M2QRX');
+  perform tests.assert_true(
+    (select count(*) from public.child_contact_ids
+      where child_user_id = v_temp_user
+        and contact_id = 'PC7K4M2QRX') = 1,
+    'the check constraint must accept a canonical Child ID'
+  );
+
+  -- device_pairing_tokens.purpose: NOT NULL, defaults to 'code', and only the
+  -- two documented values pass its check constraint.
+  perform tests.assert_true(
+    exists (
+      select 1 from information_schema.columns
+      where table_schema = 'public' and table_name = 'device_pairing_tokens'
+        and column_name = 'purpose'
+    ),
+    'device_pairing_tokens.purpose column is missing'
+  );
+  perform tests.assert_true(
+    (select is_nullable from information_schema.columns
+      where table_schema = 'public' and table_name = 'device_pairing_tokens'
+        and column_name = 'purpose') = 'NO',
+    'device_pairing_tokens.purpose must be NOT NULL'
+  );
+  select column_default into v_default
+  from information_schema.columns
+  where table_schema = 'public' and table_name = 'device_pairing_tokens'
+    and column_name = 'purpose';
+  perform tests.assert_true(
+    v_default = '''code''::text',
+    'device_pairing_tokens.purpose must default to ''code'', got '
+      || coalesce(v_default, '<none>')
+  );
+
+  insert into public.device_pairing_tokens (child_user_id, code_hash, expires_at)
+  values (v_temp_user, repeat('4', 64), now() + interval '5 minutes');
+  perform tests.assert_true(
+    (select purpose from public.device_pairing_tokens
+      where code_hash = repeat('4', 64)) = 'code',
+    'device_pairing_tokens.purpose must default to code'
+  );
+
+  insert into public.device_pairing_tokens
+    (child_user_id, code_hash, expires_at, purpose)
+  values (v_temp_user, repeat('5', 64), now() + interval '5 minutes', 'invite');
+  perform tests.assert_true(
+    (select purpose from public.device_pairing_tokens
+      where code_hash = repeat('5', 64)) = 'invite',
+    'device_pairing_tokens.purpose must accept invite'
+  );
+
+  perform tests.expect_error(
+    format(
+      'insert into public.device_pairing_tokens '
+        || '(child_user_id, code_hash, expires_at, purpose) '
+        || 'values (%L::uuid, %L, now() + interval ''5 minutes'', %L)',
+      v_temp_user, repeat('6', 64), 'legacy'
+    ),
+    '23514', 'check constraint',
+    'device_pairing_tokens.purpose must reject values other than code/invite'
+  );
+
+  -- Deleting the throw-away account cascades through profiles to every row
+  -- created above, leaving later fixtures untouched.
+  delete from auth.users where id = v_temp_user;
+end;
+$$;
+
+-- ---------------------------------------------------------------------------
+-- Atomic pairing-request RPCs (migration 20260101000600_atomic_pairing_invite.sql)
+-- Both the private implementation and the public PostgREST wrapper must be
+-- SECURITY DEFINER with a pinned search_path, and only service_role may
+-- execute them (BUG-033).
+-- ---------------------------------------------------------------------------
+do $$
+declare
+  v_functions text[] := array[
+    'public.create_pairing_invite(uuid,uuid,uuid,text,timestamptz)',
+    'public.create_pairing_request(uuid,uuid,uuid,uuid,timestamptz)',
+    'private.create_pairing_invite(uuid,uuid,uuid,text,timestamptz)',
+    'private.create_pairing_request(uuid,uuid,uuid,uuid,timestamptz)'
+  ];
+  v_fn text;
+  v_oid oid;
+  v_prosecdef boolean;
+  v_proconfig text[];
+begin
+  foreach v_fn in array v_functions loop
+    v_oid := to_regprocedure(v_fn);
+    perform tests.assert_true(
+      v_oid is not null,
+      'pairing RPC is missing: ' || v_fn
+    );
+
+    select p.prosecdef, p.proconfig into v_prosecdef, v_proconfig
+    from pg_proc p where p.oid = v_oid;
+    perform tests.assert_true(
+      coalesce(v_prosecdef, false),
+      'pairing RPC must be SECURITY DEFINER: ' || v_fn
+    );
+    perform tests.assert_true(
+      exists (
+        select 1 from unnest(coalesce(v_proconfig, '{}'::text[])) as c
+        where c like 'search_path=%'
+      ),
+      'pairing RPC must pin search_path: ' || v_fn
+    );
+
+    perform tests.assert_true(
+      not has_function_privilege('anon', v_fn, 'execute'),
+      'anon must not execute pairing RPC: ' || v_fn
+    );
+    perform tests.assert_true(
+      not has_function_privilege('authenticated', v_fn, 'execute'),
+      'authenticated must not execute pairing RPC: ' || v_fn
+    );
+    perform tests.assert_true(
+      has_function_privilege('service_role', v_fn, 'execute'),
+      'service_role must execute pairing RPC: ' || v_fn
+    );
+  end loop;
+end;
+$$;

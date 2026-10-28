@@ -41,24 +41,25 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
     super.dispose();
   }
 
-  Future<void> _redeem(String code) async {
-    if (code.trim().isEmpty) {
+  Future<void> _redeem(String input) async {
+    if (input.trim().isEmpty) {
       setState(() {
-        _scanMessage = 'Enter the code shown on the child device.';
+        _scanMessage =
+            'Enter the Child ID or linking code shown on the child device.';
       });
       return;
     }
     FocusScope.of(context).unfocus();
-    final ok = await _controller.redeem(code);
+    final ok = await _controller.redeem(input);
     if (!mounted) return;
     setState(() {
       _scanMessage = ok ? null : _scanMessage;
     });
   }
 
-  void _onScanned(String code) {
-    _code.text = code;
-    unawaited(_redeem(code));
+  void _onScanned(String value) {
+    _code.text = value;
+    unawaited(_redeem(value));
   }
 
   void _onRejected(String message) {
@@ -131,18 +132,19 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
             padding: const EdgeInsets.only(bottom: 14),
             child: InfoBanner(
               tone: BannerTone.warning,
-              title: 'Only Parent Control codes are accepted',
+              title: 'Only Parent Control pairing codes are accepted',
               message: _scanMessage!,
               actionLabel: 'Dismiss',
               onAction: () => setState(() => _scanMessage = null),
             ),
           ),
         SectionCard(
-          title: 'Scan the child’s linking code',
+          title: 'Scan the child’s QR code',
           subtitle:
-              'The child device shows a QR code while signed in. Only '
-              'parentcontrol://pair?code=…&v=1 is read; other QR content is '
-              'ignored.',
+              'The child device shows a QR code containing their permanent '
+              'Child ID. Both parentcontrol://pair?id=…&v=2 and the older '
+              'parentcontrol://pair?code=…&v=1 are accepted; other QR content '
+              'is ignored.',
           child: Column(
             children: [
               SizedBox(
@@ -170,24 +172,24 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
         ),
         const SizedBox(height: 14),
         SectionCard(
-          title: 'Or type the 8-character code',
-          subtitle: 'Spaces and dashes are ignored. Codes expire after 10 '
-              'minutes.',
+          title: 'Or enter the Child ID or linking code',
+          subtitle: 'Dashes and spaces are ignored. Older child builds may '
+              'still show a short-lived 8-character code.',
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               AppTextField(
                 controller: _code,
-                label: 'Linking code',
-                hint: 'For example: 4K9M2QRT',
+                label: 'Child ID or linking code',
+                hint: 'PC-7K4M2QRX or 4K9M2QRT',
                 textCapitalization: TextCapitalization.characters,
                 textInputAction: TextInputAction.done,
-                prefixIcon: Icons.pin_outlined,
+                prefixIcon: Icons.badge_outlined,
                 onFieldSubmitted: (_) => _redeem(_code.text),
               ),
               const SizedBox(height: 14),
               AppButton(
-                label: 'Redeem code',
+                label: 'Send pairing request',
                 icon: Icons.verified_user_outlined,
                 isLoading: _controller.isRedeeming.value,
                 onPressed: _controller.isRedeeming.value
@@ -203,15 +205,17 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
           icon: Icons.how_to_reg_outlined,
           title: 'The child must approve',
           message:
-              'Redeeming sends a request to the child account. The child sees '
+              'Sending the request notifies the child account. The child sees '
               'the family and parent name and approves on their own device. '
-              'Nothing is linked and no data is shared before that approval. '
-              'This screen never approves on the child’s behalf.',
+              'Knowing the Child ID alone does not grant access to the child’s '
+              'device or data, and nothing is shared before the child '
+              'approves. This screen never approves on the child’s behalf.',
         ),
         const SizedBox(height: 12),
         Text(
-          'The server enforces code expiry and rate limits. Failures are shown '
-          'exactly as reported; no request is invented locally.',
+          'The server validates the Child ID or code and rate-limits attempts. '
+          'Failures are shown exactly as reported; no request is invented '
+          'locally.',
           textAlign: TextAlign.center,
           style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: AppColors.muted,
@@ -235,9 +239,9 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
         ? 'Waiting for child approval'
         : request.status.label;
     final message = isPending
-        ? 'The request is pending on the server. The child must open their '
-            'device and approve it. Nothing is linked yet, and this app will '
-            'not approve it for them.'
+        ? 'The request is pending on the server. The child must approve it on '
+            'their own device. Nothing is linked yet, and this app never '
+            'approves it for them.'
         : request.status == PairingRequestStatus.approved
             ? 'The server reports this request approved. The child membership '
                 'is now active for this family.'
@@ -254,7 +258,12 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
             children: [
               KeyValueRow(
                 label: 'Child',
-                value: request.childDisplayName,
+                // Before approval the server returns a neutral label instead of
+                // the child's name, so confirm with the identifier the guardian
+                // actually entered.
+                value: request.status == PairingRequestStatus.pendingChild
+                    ? _controller.lastIdentifier
+                    : request.childDisplayName,
               ),
               KeyValueRow(
                 label: 'Family',
@@ -320,9 +329,9 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
   String _errorTitle(String code) {
     switch (code) {
       case 'invalid_code':
-        return 'Code not recognised';
+        return 'Child ID or code not recognised';
       case 'code_expired':
-        return 'Code expired';
+        return 'Linking code expired';
       case 'rate_limited':
         return 'Too many attempts';
       case 'child_already_linked':
@@ -333,21 +342,24 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
       case AppErrorCodes.timeout:
         return 'Connection problem';
       case AppErrorCodes.validation:
-        return 'Check the code';
+        return 'Check the Child ID or code';
       default:
-        return 'Redemption failed';
+        return 'Pairing request failed';
     }
   }
 
   String _errorGuidance(String code) {
     switch (code) {
       case 'invalid_code':
-        return ' Ask the child to generate a fresh code and enter all 8 '
-            'characters.';
+        return ' Check the Child ID (for example PC-7K4M2QRX) or the '
+            '8-character code. Ask the child to read it from their setup '
+            'screen; their ID is shown there automatically.';
       case 'code_expired':
-        return ' Codes are valid for 10 minutes. Ask the child for a new one.';
+        return ' That linking code has expired. Use the child’s permanent '
+            'Child ID instead, or ask them for a fresh code.';
       case 'rate_limited':
-        return ' Wait before trying again; the server throttles attempts.';
+        return ' Wait before trying again; the server limits lookup attempts '
+            'for this account.';
       case 'child_already_linked':
         return ' A child account can be in one active family at a time.';
       case 'not_configured':
@@ -401,15 +413,16 @@ class _LinkingScannerState extends State<_LinkingScanner> {
         if (_lastRejected != raw) {
           _lastRejected = raw;
           widget.onRejected(
-            'This QR code is not a Parent Control linking code. Scan the code '
-            'shown on the child device inside the app.',
+            'This QR code is not a Parent Control pairing code. Scan the QR '
+            'code shown inside the app on the child device, or enter the Child '
+            'ID below.',
           );
         }
         continue;
       }
       _handled = true;
       unawaited(_scanner.stop());
-      widget.onDetected(payload.code);
+      widget.onDetected(payload.value);
       return;
     }
   }
@@ -443,100 +456,109 @@ class _LinkingScannerState extends State<_LinkingScanner> {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        MobileScanner(
-          controller: _scanner,
-          onDetect: _handleCapture,
-          errorBuilder: (context, error) {
-            final permissionDenied = error.errorCode ==
-                MobileScannerErrorCode.permissionDenied;
-            return ColoredBox(
-              color: const Color(0xFF0F172A),
-              child: Padding(
-                padding: const EdgeInsets.all(18),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Icon(
-                      permissionDenied
-                          ? Icons.no_photography_outlined
-                          : Icons.videocam_off_outlined,
-                      color: Colors.white70,
-                      size: 34,
-                    ),
-                    const SizedBox(height: 10),
-                    Text(
-                      permissionDenied
-                          ? 'Camera permission required'
-                          : 'Camera unavailable',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                    const SizedBox(height: 6),
-                    Text(
-                      permissionDenied
-                          ? 'Scanning needs camera access. The app cannot open '
-                              'system settings for you; use the Android Settings '
-                              'app if the button below is refused.'
-                          : 'The scanner could not start. You can still type '
-                              'the code below.',
-                      textAlign: TextAlign.center,
-                      style: const TextStyle(
-                        color: Colors.white70,
-                        fontSize: 12,
-                        height: 1.4,
-                      ),
-                    ),
-                    if (_permissionNote != null) ...[
-                      const SizedBox(height: 8),
-                      Text(
-                        _permissionNote!,
-                        textAlign: TextAlign.center,
-                        style: const TextStyle(
-                          color: Color(0xFFFFD37A),
-                          fontSize: 11.5,
-                          height: 1.4,
+    return ValueListenableBuilder<MobileScannerState>(
+      valueListenable: _scanner,
+      builder: (context, scannerState, _) {
+        return Stack(
+          children: [
+            MobileScanner(
+              controller: _scanner,
+              onDetect: _handleCapture,
+              errorBuilder: (context, error) {
+                final permissionDenied = error.errorCode ==
+                    MobileScannerErrorCode.permissionDenied;
+                return ColoredBox(
+                  color: const Color(0xFF0F172A),
+                  child: Padding(
+                    padding: const EdgeInsets.all(18),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          permissionDenied
+                              ? Icons.no_photography_outlined
+                              : Icons.videocam_off_outlined,
+                          color: Colors.white70,
+                          size: 34,
                         ),
-                      ),
-                    ],
-                    const SizedBox(height: 10),
-                    OutlinedButton.icon(
-                      onPressed: _retryCamera,
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        side: const BorderSide(color: Colors.white54),
-                      ),
-                      icon: const Icon(Icons.camera_alt_outlined, size: 18),
-                      label: const Text('Start camera'),
+                        const SizedBox(height: 10),
+                        Text(
+                          permissionDenied
+                              ? 'Camera permission required'
+                              : 'Camera unavailable',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                        const SizedBox(height: 6),
+                        Text(
+                          permissionDenied
+                              ? 'Scanning needs camera access. The app cannot '
+                                  'open system settings for you; use the Android '
+                                  'Settings app if the button below is refused.'
+                              : 'The scanner could not start. You can still '
+                                  'enter the Child ID or code below.',
+                          textAlign: TextAlign.center,
+                          style: const TextStyle(
+                            color: Colors.white70,
+                            fontSize: 12,
+                            height: 1.4,
+                          ),
+                        ),
+                        if (_permissionNote != null) ...[
+                          const SizedBox(height: 8),
+                          Text(
+                            _permissionNote!,
+                            textAlign: TextAlign.center,
+                            style: const TextStyle(
+                              color: Color(0xFFFFD37A),
+                              fontSize: 11.5,
+                              height: 1.4,
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: 10),
+                        OutlinedButton.icon(
+                          onPressed: _retryCamera,
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            side: const BorderSide(color: Colors.white54),
+                          ),
+                          icon: const Icon(Icons.camera_alt_outlined, size: 18),
+                          label: const Text('Start camera'),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
+                );
+              },
+            ),
+            // The caption describes a live viewfinder, so it must not sit on top
+            // of the permission-denied panel and imply a working preview.
+            if (scannerState.error == null)
+              Positioned(
+                left: 12,
+                right: 12,
+                bottom: 12,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.55),
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: const Text(
+                    'Point the camera at the child’s QR code',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.white, fontSize: 12),
+                  ),
                 ),
               ),
-            );
-          },
-        ),
-        Positioned(
-          left: 12,
-          right: 12,
-          bottom: 12,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.black.withValues(alpha: 0.55),
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: const Text(
-              'Point the camera at the child’s QR code',
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.white, fontSize: 12),
-            ),
-          ),
-        ),
-      ],
+          ],
+        );
+      },
     );
   }
 }

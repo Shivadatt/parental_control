@@ -20,6 +20,7 @@ class _ChildEnrollmentPageState extends State<ChildEnrollmentPage> {
   late final ChildEnrollmentController controller;
   late final TextEditingController _name;
   Worker? _nameWorker;
+  bool _showQr = false;
 
   @override
   void initState() {
@@ -68,7 +69,8 @@ class _ChildEnrollmentPageState extends State<ChildEnrollmentPage> {
     final fatal = controller.error.value;
     if (fatal != null &&
         controller.family.value == null &&
-        controller.device.value == null) {
+        controller.device.value == null &&
+        controller.contactId.value == null) {
       return ErrorState(error: fatal, onRetry: () => controller.load());
     }
     final canPop = Navigator.of(context).canPop();
@@ -121,7 +123,7 @@ class _ChildEnrollmentPageState extends State<ChildEnrollmentPage> {
         else if (controller.isLinked)
           ..._deviceStep(context)
         else
-          ..._linkingStep(context),
+          ..._childIdStep(context),
         if (canPop) ...[
           const SizedBox(height: 16),
           AppButton(
@@ -171,109 +173,150 @@ class _ChildEnrollmentPageState extends State<ChildEnrollmentPage> {
     );
   }
 
-  List<Widget> _linkingStep(BuildContext context) {
-    final code = controller.linkingCode.value;
+  List<Widget> _childIdStep(BuildContext context) {
+    final contact = controller.contactId.value;
+    final failure = controller.contactError.value;
+    final family = controller.family.value;
+    final statusLine = controller.isLinked && family != null
+        ? 'Status: Linked to ${family.name}'
+        : 'Status: Not linked to a parent';
     return [
       SectionCard(
-        title: 'Link to your family',
+        title: 'Your Child ID',
+        trailing: StatusChip(
+          label: controller.isLinked ? 'Linked' : 'Not linked',
+          tone: controller.isLinked ? StatusTone.success : StatusTone.neutral,
+          icon: controller.isLinked ? Icons.check_circle_outline : null,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const Text(
-              'Create a short-lived linking code and show it to your guardian. '
-              'They redeem it from the parent app. You will see their request '
-              'below and must approve it before anything is linked.',
+              'This ID identifies this account only. Knowing it does not give '
+              'anyone access to this phone. Your guardian enters it once in the '
+              'parent app, and nothing is linked until you approve the request '
+              'shown below.',
               style: TextStyle(height: 1.45),
             ),
             const SizedBox(height: 14),
-            if (code == null || code.isExpired)
-              AppButton(
-                label: code == null
-                    ? 'Create linking code'
-                    : 'Create a new code',
-                icon: Icons.qr_code_2,
-                isLoading: controller.isCreatingCode.value,
-                onPressed: controller.isCreatingCode.value
-                    ? null
-                    : controller.createCode,
-              ),
-            if (code != null && code.isExpired) ...[
+            if (contact == null && controller.isLoadingContactId.value) ...[
+              const LinearProgressIndicator(minHeight: 4),
               const SizedBox(height: 10),
-              const InfoBanner(
-                tone: BannerTone.warning,
-                message:
-                    'This code has expired. Create a new one to continue.',
+              Text(
+                'Loading your Child ID…',
+                style: Theme.of(context)
+                    .textTheme
+                    .bodySmall
+                    ?.copyWith(color: AppColors.muted),
               ),
-            ],
-            if (code != null && !code.isExpired) ...[
-              const SizedBox(height: 16),
-              Center(
-                child: Container(
-                  padding: const EdgeInsets.all(12),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.border),
-                  ),
-                  child: QrImageView(
-                    data: code.qrPayload,
-                    size: 196,
-                    backgroundColor: Colors.white,
-                  ),
-                ),
+            ] else if (contact == null && failure != null) ...[
+              InfoBanner(
+                tone: BannerTone.danger,
+                title: 'Child ID unavailable',
+                message: failure.message.isEmpty
+                    ? 'The Child ID could not be loaded.'
+                    : failure.message,
+                actionLabel: 'Retry',
+                onAction: () => controller.refreshContactId(),
               ),
-              const SizedBox(height: 14),
+            ] else if (contact != null) ...[
               Center(
                 child: SelectableText(
-                  code.code,
+                  contact.id,
                   style: const TextStyle(
-                    fontSize: 26,
+                    fontSize: 30,
                     fontWeight: FontWeight.w700,
-                    letterSpacing: 5,
+                    letterSpacing: 2,
                   ),
                 ),
               ),
               const SizedBox(height: 6),
               Center(
                 child: Text(
-                  'Expires ${relativeTime(code.expiresAt)}',
+                  statusLine,
                   style: Theme.of(context)
                       .textTheme
                       .bodySmall
                       ?.copyWith(color: AppColors.muted),
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 16),
               Row(
                 children: [
                   Expanded(
                     child: AppButton(
-                      label: 'Check for requests',
-                      icon: Icons.refresh,
+                      label: 'Copy ID',
+                      icon: Icons.copy,
                       outlined: true,
-                      isLoading: controller.isCheckingRequests.value,
-                      onPressed: controller.isCheckingRequests.value
-                          ? null
-                          : () => controller.checkRequests(),
+                      onPressed: () async {
+                        await Clipboard.setData(
+                          ClipboardData(text: contact.id),
+                        );
+                        controller.actionMessage.value = 'Child ID copied.';
+                      },
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: AppButton(
-                      label: 'Copy code',
-                      icon: Icons.copy,
+                      label: _showQr ? 'Hide QR' : 'Show QR',
+                      icon: Icons.qr_code_2,
                       outlined: true,
-                      onPressed: () async {
-                        await Clipboard.setData(
-                          ClipboardData(text: code.code),
-                        );
-                        controller.actionMessage.value =
-                            'Linking code copied.';
-                      },
+                      onPressed: () => setState(() => _showQr = !_showQr),
                     ),
                   ),
                 ],
               ),
+              if (_showQr) ...[
+                const SizedBox(height: 16),
+                Center(
+                  child: Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(16),
+                      border: Border.all(color: AppColors.border),
+                    ),
+                    child: QrImageView(
+                      data: contact.qrPayload,
+                      size: 196,
+                      backgroundColor: Colors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 10),
+                Center(
+                  child: Text(
+                    'Your guardian can scan this QR instead of typing the ID.',
+                    textAlign: TextAlign.center,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(color: AppColors.muted, height: 1.4),
+                  ),
+                ),
+              ],
+              const SizedBox(height: 16),
+              AppButton(
+                label: 'Check for requests',
+                icon: Icons.refresh,
+                outlined: true,
+                isLoading: controller.isCheckingRequests.value,
+                onPressed: controller.isCheckingRequests.value
+                    ? null
+                    : () => controller.checkRequests(),
+              ),
+              if (!controller.isOnline && failure == null) ...[
+                const SizedBox(height: 10),
+                Text(
+                  'Showing the Child ID saved on this phone. It refreshes when '
+                  'you are online.',
+                  style: Theme.of(context)
+                      .textTheme
+                      .bodySmall
+                      ?.copyWith(color: AppColors.muted, height: 1.4),
+                ),
+              ],
             ],
           ],
         ),
@@ -294,13 +337,14 @@ class _ChildEnrollmentPageState extends State<ChildEnrollmentPage> {
             ],
           ),
         ),
-      ] else if (code != null) ...[
+      ] else if (contact != null) ...[
         const SizedBox(height: 12),
         const InfoBanner(
           tone: BannerTone.info,
           message:
-              'No guardian request has arrived yet. Keep this screen open or '
-              'check again after your guardian enters the code.',
+              'No guardian request has arrived yet. Your guardian needs to '
+              'enter your Child ID in the parent app. Keep this screen open or '
+              'check again.',
         ),
       ],
       const SizedBox(height: 16),

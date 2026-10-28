@@ -61,9 +61,10 @@ not something the app can grant itself.
 
 1. Sign in as the Parent and create/join a family.
 2. Sign in as the Child on the child phone. On the **Child device**, open
-   **Set up linking** and create a one-time code/QR; on the **Parent device**, open
-   **Link a child** and redeem it. The Child approves the incoming request, then
-   registers the phone.
+   **Set up this phone**: the **Your Child ID** card shows the account's
+   permanent ID. On the **Parent device**, open **Link a child**, scan the
+   child's QR or type the ID. The Child approves the incoming request, then
+   registers the phone. See [Permanent Child ID pairing](#permanent-child-id-pairing).
 3. On the Child device, grant the requested permissions through the official
    Android screens:
    - Usage Access (`Settings > Special app access > Usage access`)
@@ -77,6 +78,58 @@ The parent policy screen shows **Pending acknowledgement** until the Child devic
 applies the policy and acknowledges the command. Only then may it show **Enforced**.
 If the Child is offline, or the APK lacks Device Owner, the parent sees that state;
 nothing is silently treated as blocked.
+
+## Permanent Child ID pairing
+
+The child no longer creates a linking code. Each child account has one permanent
+**Child ID**, assigned by the server when the child role is set (or on the first
+read for accounts that predate the feature) and returned unchanged afterwards —
+displayed as `PC-7K4M2QRX`, stored canonically as `PC7K4M2QRX`. It is an
+identifier, not a password: it lets a signed-in parent in a family open a request
+that the child must still approve. Nothing is linked by knowing the ID.
+
+### What the child sees
+
+On **Set up this phone**, the **Your Child ID** card shows the ID in
+`PC-XXXXXXXX` form, a **Not linked** / **Linked** status chip, and a status line
+that names the family once linked. **Copy ID** copies the display form,
+**Show QR** renders `parentcontrol://pair?id=<canonical>&v=2`, and **Check for
+requests** refreshes the pending list. The ID is cached per signed-in user id as
+non-sensitive display data, so it is shown while offline and refreshed from the
+server whenever the phone is online. An incoming request appears under "Waiting
+for your approval" with the family and parent name; the child taps **Approve**
+(after a confirmation dialog) or **Decline**. Approving links the account;
+declining leaves it unlinked.
+
+### What the parent does
+
+**Link a child** accepts the Child ID typed with or without dashes, scans the
+v=2 QR, and still accepts a legacy 8-character code with its `v=1` QR (older
+child builds may still show one). A Child ID goes to `pairing.invite`; a code
+goes to `pairing.redeem`. Both show **Waiting for child approval**; the parent
+screen never approves on the child's behalf. Identifier failures are uniform: an
+unknown, expired or wrong-role identifier reads "The linking code or Child ID is
+not valid."; an already-linked child is reported as already in a family; and
+rate limiting says to wait before retrying.
+
+### Approval
+
+Approval is unchanged and remains the only step that creates the `family_members`
+row and redeems the single-use token. Until the child approves, knowing the ID
+gives no access to the device, telemetry or audit data.
+
+### Unlink, revocation and re-link
+
+- Unlinking (child self-service or parent) removes the family membership and
+  revokes the child's device credentials. It does **not** delete or change the
+  Child ID row, so the same ID stays visible on the child screen.
+- Revoking a device also leaves the Child ID intact; the child registers the
+  phone again after a new pairing.
+- After unlinking, the **same** Child ID can be used to link again: the parent
+  sends a new request and the child approves it. No new ID is generated, and an
+  ID is never recycled to another account.
+- Invite quotas still apply per child (3 pending requests, 10 requests per 24h),
+  so repeated unlink/re-link cycles are throttled rather than unlimited.
 
 ## Recovery and unlink
 
@@ -99,7 +152,9 @@ nothing is silently treated as blocked.
   the last-resort recovery step and must be an explicit owner decision.
 - **Credential revocation:** revoking the child device in the parent app invalidates
   its device credential server-side; the guardian service cannot keep uploading or
-  polling with a revoked credential. Re-pairing creates a new device identity.
+  polling with a revoked credential. Re-pairing creates a new device identity; the
+  account's Child ID is unchanged and is what the parent uses to start the new
+  request.
 
 ## Verification status on this workstation
 

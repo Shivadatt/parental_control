@@ -9,6 +9,7 @@ class LocalSettingsService extends GetxService {
   static const _lastSyncKey = 'last_sync_at';
   static const _notificationsKey = 'notifications_enabled';
   static const _locationSharingKey = 'location_sharing_enabled';
+  static const _childContactPrefix = 'child_contact_id_';
 
   SharedPreferences? _prefs;
 
@@ -59,9 +60,32 @@ class LocalSettingsService extends GetxService {
   Future<void> setLocationSharingEnabled(bool value) =>
       _store.setBool(_locationSharingKey, value);
 
+  /// Raw JSON so this service keeps no dependency on the pairing models.
+  String? cachedChildContactId(String userId) {
+    if (userId.isEmpty) return null;
+    return _store.getString('$_childContactPrefix$userId');
+  }
+
+  Future<void> setCachedChildContactId(String userId, String json) async {
+    if (userId.isEmpty) return;
+    await _store.setString('$_childContactPrefix$userId', json);
+  }
+
+  Future<void> clearCachedChildContactId(String userId) async {
+    if (userId.isEmpty) return;
+    await _store.remove('$_childContactPrefix$userId');
+  }
+
   Future<void> clearOnSignOut() async {
     await _store.remove(_activeFamilyKey);
     await _store.remove(_lastSyncKey);
+    // The Child ID is only an identifier, but it names the account that was
+    // signed in on a shared phone, so signing out forgets every cached copy.
+    for (final key in _store.getKeys().toList()) {
+      if (key.startsWith(_childContactPrefix)) {
+        await _store.remove(key);
+      }
+    }
     // Keep the cached role to preselect the role card next time; it is not
     // security-relevant and the server decides the actual permissions.
   }

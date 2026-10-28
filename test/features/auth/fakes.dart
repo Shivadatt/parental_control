@@ -61,6 +61,22 @@ FamilyMember testMember({
   );
 }
 
+/// The signed-in child's permanent Child ID. [id] is the display form and
+/// [canonicalId] the dash-free form used on the wire.
+ChildContactId testChildContactId({
+  String id = 'PC-7K4M2QRX',
+  String canonicalId = 'PC7K4M2QRX',
+  String? qrPayload,
+  DateTime? assignedAt,
+}) {
+  return ChildContactId(
+    id: id,
+    canonicalId: canonicalId,
+    qrPayload: qrPayload ?? 'parentcontrol://pair?id=$canonicalId&v=2',
+    assignedAt: assignedAt ?? DateTime.utc(2026, 1, 2),
+  );
+}
+
 PairingRequest testPairingRequest({
   String id = 'request-1',
   String familyId = 'family-1',
