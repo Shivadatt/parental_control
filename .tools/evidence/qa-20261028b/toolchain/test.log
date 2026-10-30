@@ -1,0 +1,169 @@
+Can't load Kernel binary: Invalid kernel binary format version (expected 125, found 130).
+00:00 +0: loading D:/parentcontrol_app/test/core/config/env_test.dart
+00:00 +0: D:/parentcontrol_app/test/core/config/env_test.dart: Env.backendConfigurationProblem rejects a missing URL or key
+00:00 +1: D:/parentcontrol_app/test/core/config/env_test.dart: Env.backendConfigurationProblem rejects malformed and remote plain-http URLs
+00:00 +2: D:/parentcontrol_app/test/core/config/env_test.dart: Env.backendConfigurationProblem allows http only for local development hosts
+00:00 +3: D:/parentcontrol_app/test/core/config/env_test.dart: Env.backendConfigurationProblem rejects privileged server keys
+00:00 +4: D:/parentcontrol_app/test/core/config/env_test.dart: Env.backendConfigurationProblem accepts publishable and legacy anon keys
+00:00 +5: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isChildId accepts the canonical Child ID
+00:00 +6: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isChildId accepts the dashed display form
+00:00 +7: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isChildId rejects a legacy 8-character linking code
+00:00 +8: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isChildId rejects the empty string and the bare prefix
+00:00 +9: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isChildId rejects ambiguous characters excluded from the alphabet
+00:00 +10: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isChildId rejects a wrong prefix
+00:00 +11: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isChildId rejects a wrong length
+00:00 +12: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isChildId normalizes lowercase and separators before matching
+00:00 +13: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isLinkingCode accepts an 8-character code from the alphabet
+00:00 +14: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isLinkingCode rejects codes with the wrong length
+00:00 +15: D:/parentcontrol_app/test/core/validators_test.dart: Validators.isLinkingCode rejects a Child ID
+00:00 +16: D:/parentcontrol_app/test/core/validators_test.dart: Validators.pairingCode requires a Child ID or linking code
+00:00 +17: D:/parentcontrol_app/test/core/validators_test.dart: Validators.pairingCode explains both accepted formats for a malformed value
+00:00 +18: D:/parentcontrol_app/test/core/validators_test.dart: Validators.pairingCode rejects a Child ID with ambiguous characters
+00:00 +19: D:/parentcontrol_app/test/core/validators_test.dart: Validators.pairingCode accepts a Child ID, its display form and a legacy code
+00:00 +20: D:/parentcontrol_app/test/core/validators_test.dart: normalizePairingCode upper-cases and strips separators
+00:01 +21: D:/parentcontrol_app/test/features/app_restrictions/app_restrictions_controller_test.dart: shows pending acknowledgement and an unreported app snapshot
+00:01 +22: D:/parentcontrol_app/test/features/app_restrictions/app_restrictions_controller_test.dart: shows enforced only after the device acknowledged the version
+00:01 +23: D:/parentcontrol_app/test/features/app_restrictions/app_restrictions_controller_test.dart: validates package names before adding a blocked app
+00:01 +24: D:/parentcontrol_app/test/features/audit_logs/audit_logs_controller_test.dart: shows an honest empty state when the family has no audit entries
+00:02 +25: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: (setUpAll)
+00:02 +25: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: signed-out accounts are cleared and sent back to the entry screen
+00:02 +26: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: unverified accounts are routed to verification before any profile read
+00:02 +27: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a verified account without a server role is sent to the role lock
+00:02 +28: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a missing server profile never invents a role
+00:02 +29: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a parent with no family is sent to setup without a fake family
+00:02 +30: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a parent resumes the remembered family returned by the server
+00:02 +31: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a child goes to the child shell without reading parent families
+00:02 +32: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: (tearDownAll)
+00:03 +32: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: (setUpAll)
+00:03 +32: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: unverified accounts are routed to verification and keep no profile
+00:03 +33: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified accounts without a server role are sent to role lock
+00:03 +34: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified parents land on the parent shell with the server family
+00:03 +35: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: an unconfirmed email error opens verification without a form error
+00:03 +36: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: invalid credentials stay on the form with the server error
+00:03 +37: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: offline sign-in never calls the repository
+00:03 +38: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: invalid input is rejected before any network call
+00:03 +39: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: (tearDownAll)
+00:03 +39: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: (setUpAll)
+00:03 +39: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: loads a linked child family and its pending requests
+00:03 +40: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: does not treat a parent membership as a linked child
+00:03 +41: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: registers this phone only after the server confirms the family
+00:03 +42: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: refuses device registration before a family is linked
+00:03 +43: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: reports offline instead of pretending to load or register
+00:03 +44: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: declining a pairing request leaves the family unlinked
+00:03 +45: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: refuses to answer a request that already expired
+00:03 +46: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: load exposes the stable Child ID returned by the server
+00:03 +47: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: a second load refetches but never regenerates the Child ID
+00:03 +48: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: restores the cached Child ID offline without a network call
+00:03 +49: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: a unauthorized failure clears the cached Child ID
+00:03 +50: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: a forbidden failure clears the cached Child ID
+00:03 +51: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: a not_found failure clears the cached Child ID
+00:03 +52: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: (tearDownAll)
+00:04 +52: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: (setUpAll)
+00:04 +52: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +53: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +54: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +55: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +56: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +57: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +58: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +59: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +60: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +61: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +62: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +63: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +64: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:05 +65: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:06 +66: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:06 +67: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:06 +68: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:07 +69: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:07 +70: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:07 +71: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:07 +72: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:07 +73: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:07 +74: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: shows the permanent Child ID and the status line
+00:07 +75: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a family removed on the server clears any stale rows
+00:07 +76: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: Show QR renders the server payload and can be hidden
+00:07 +77: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: Show QR renders the server payload and can be hidden
+00:07 +78: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: Show QR renders the server payload and can be hidden
+00:07 +79: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: Show QR renders the server payload and can be hidden
+00:07 +80: D:/parentcontrol_app/test/features/child/child_enrollment_page_test.dart: Show QR renders the server payload and can be hidden
+00:08 +81: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +82: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +83: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +84: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +85: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +86: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +87: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +88: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +89: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +90: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +91: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +92: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +93: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +94: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +95: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +96: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +97: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +98: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +99: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +100: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:08 +101: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +102: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +103: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +104: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +105: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +106: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +107: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +108: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +109: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +110: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +111: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +112: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +113: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +114: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +115: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +116: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +117: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +118: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +119: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:09 +120: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:10 +121: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:10 +122: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: (setUpAll)
+00:10 +122: D:/parentcontrol_app/test/features/family/family_page_test.dart: (tearDownAll)
+00:10 +122: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: child cannot start media before accepting the request
+00:10 +123: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: accepting only records consent and opens no media or negotiation
+00:10 +124: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: declining keeps media off and stops the session
+00:10 +125: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: the parent side cannot answer a request for the child
+00:10 +126: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: an expired request cannot be accepted or start media
+00:10 +127: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: accepting an already accepted session is idempotent
+00:11 +128: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: (tearDownAll)
+00:11 +128: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: (setUpAll)
+00:11 +128: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: does not fetch ICE or send signals before the child accepts
+00:11 +129: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: shows a declined session as declined and never opens media
+00:11 +130: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: treats an accepted session past its expiry as expired and refuses media
+00:11 +131: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: stops local media even when the server end call fails
+00:11 +132: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: asks Android for camera and microphone before opening media
+00:11 +133: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: (tearDownAll)
+00:12 +133: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: (setUpAll)
+00:12 +133: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: locking the initial role calls the server exactly once
+00:12 +134: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a prefilled display name comes from the signed-in profile
+00:12 +135: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: choosing a role before sign-in only stores a local hint
+00:12 +136: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: role assignment is refused outside the lock flow
+00:12 +137: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a blank display name never reaches the server
+00:12 +138: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: offline locking never calls the server
+00:12 +139: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a server role error is surfaced unchanged
+00:12 +140: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: (tearDownAll)
+00:12 +140: D:/parentcontrol_app/test/features/safety_alerts/safety_alerts_controller_test.dart: keeps an alert unacknowledged when the server rejects the change
+00:12 +141: D:/parentcontrol_app/test/features/safety_alerts/safety_alerts_controller_test.dart: updates an alert only after the server confirms acknowledgement
+00:13 +142: D:/parentcontrol_app/test/features/safe_zones/safe_zones_controller_test.dart: accepts a radius only between 50 and 5000 metres
+00:13 +143: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: (setUpAll)
+00:13 +143: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: flags stale usage from the last upload timestamp
+00:13 +144: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: does not fetch or show numbers when Usage Access is denied
+00:13 +145: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: presents pending then acknowledged policy states
+00:13 +146: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: (tearDownAll)
+00:14 +146: D:/parentcontrol_app/test/features/settings/parent_settings_controller_test.dart: shows the signed-in parent, family and local-only preferences
+00:14 +147: D:/parentcontrol_app/test/features/settings/parent_settings_controller_test.dart: updates a local toggle only after the local save succeeds
+00:14 +148: D:/parentcontrol_app/test/features/settings/parent_settings_controller_test.dart: keeps the previous toggle value when the local save fails
+00:15 +149: D:/parentcontrol_app/test/widget_test.dart: configuration screen never pretends a backend is connected
+00:17 +150: All tests passed!

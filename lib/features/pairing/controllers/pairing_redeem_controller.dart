@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:get/get.dart';
 import 'package:parent_control/core/errors/app_exception.dart';
 import 'package:parent_control/core/utils/validators.dart';
@@ -12,10 +14,16 @@ class PairingRedeemController extends GetxController {
   PairingRedeemController({
     required PairingRepository pairingRepository,
     required this._connectivity,
-  })  : _pairing = pairingRepository;
+    this.statusPollInterval = const Duration(seconds: 10),
+  }) : _pairing = pairingRepository;
 
   final PairingRepository _pairing;
   final ConnectivityService _connectivity;
+
+  /// `null` disables the pending-status poll (used by controller tests).
+  final Duration? statusPollInterval;
+
+  Timer? _statusPollTimer;
 
   final RxBool isRedeeming = false.obs;
   final RxBool isCheckingStatus = false.obs;
@@ -36,6 +44,7 @@ class PairingRedeemController extends GetxController {
 
   void start(String? familyId) {
     _familyId = familyId?.trim() ?? '';
+    _stopStatusPolling();
     error.value = null;
     request.value = null;
     if (_familyId.isEmpty) {
@@ -49,6 +58,7 @@ class PairingRedeemController extends GetxController {
   void clearError() => error.value = null;
 
   void reset() {
+    _stopStatusPolling();
     request.value = null;
     error.value = null;
   }
@@ -82,15 +92,13 @@ class PairingRedeemController extends GetxController {
     _lastIdentifier = normalized;
     try {
       final result = Validators.isChildId(normalized)
-          ? await _pairing.inviteChild(
-              childId: normalized,
-              familyId: _familyId,
-            )
+          ? await _pairing.inviteChild(childId: normalized, familyId: _familyId)
           : await _pairing.redeemLinkingCode(
               code: normalized,
               familyId: _familyId,
             );
       request.value = result;
+      _syncStatusPolling();
       return true;
     } on AppException catch (exception) {
       error.value = exception;
@@ -130,6 +138,7 @@ class PairingRedeemController extends GetxController {
         return;
       }
       request.value = latest;
+      _syncStatusPolling();
     } on AppException catch (exception) {
       error.value = exception;
     } catch (exception) {
@@ -137,5 +146,35 @@ class PairingRedeemController extends GetxController {
     } finally {
       isCheckingStatus.value = false;
     }
+  }
+
+  /// Keeps the confirmation card current while the request is pending, so the
+  /// guardian sees the child's approval without pressing "Check status".
+  void _syncStatusPolling() {
+    final current = request.value;
+    final pending =
+        current != null &&
+        current.status == PairingRequestStatus.pendingChild &&
+        !current.isExpired;
+    final interval = statusPollInterval;
+    if (!pending || interval == null) {
+      _stopStatusPolling();
+      return;
+    }
+    _statusPollTimer ??= Timer.periodic(interval, (_) {
+      if (!_connectivity.isOnline.value) return;
+      unawaited(checkStatus());
+    });
+  }
+
+  void _stopStatusPolling() {
+    _statusPollTimer?.cancel();
+    _statusPollTimer = null;
+  }
+
+  @override
+  void onClose() {
+    _stopStatusPolling();
+    super.onClose();
   }
 }

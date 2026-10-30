@@ -1,0 +1,397 @@
+Start begin: 10-28 15:40:27.926
+Start end:   10-28 15:40:48.686
+Now:         10-28 17:43:22.955
+Notification Clients:
+   pid    uid  name
+   513   1041  audioserver
+   704   1000  android.uid.system
+  3264  10171  com.google.android.tts
+ 17001  10236  com.parentcontrol.parent_control
+Global session refs:
+  session  cnt     pid    uid  name
+      185    1     704   1000  android.uid.system
+      249    1   17001  10236  com.parentcontrol.parent_control
+Hardware status: 0
+Vibrator infos(size=1):
+  - AudioVibratorInfo{id: 1, resonantFrequency: 150.000000, qFactor: 11.000000, maxAmplitude: nan}
+Bluetooth latency modes are enabled
+
+ ## BEGIN thread dump 
+
+Output thread 0x70df339d5790, name AudioOut_D, tid 588, type 0 (MIXER):
+  I/O handle: 13
+  Standby: no
+  Sample rate: 48000 Hz
+  HAL frame count: 1088
+  HAL format: 0x1 (AUDIO_FORMAT_PCM_16_BIT)
+  HAL buffer size: 4352 bytes
+  Channel count: 2
+  Channel mask: 0x00000003 (front-left, front-right)
+  Processing format: 0x1 (AUDIO_FORMAT_PCM_16_BIT)
+  Processing frame size: 4 bytes
+  Pending config events: none
+  Output devices: 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+  Input device: 0 (AUDIO_DEVICE_NONE)
+  Audio source: 0 (AUDIO_SOURCE_DEFAULT)
+  Timestamp stats: n=56958 disc=73 cold=0 nRdy=0 err=1 rate=0.947333 jitterMs(ave=3.28401 std=18.9586 min=-0.0212667 max=385.991) localSR(39923.4, 0.013081) correctedJitterMs(ave=3.52561 std=6.55513 min=-35.6917 max=174.238)
+  Timestamp corrected: no
+  Last write occurred (msecs): 37
+  Process time ms stats: ave=5.86376 std=15.7109 min=0.1788 max=389.588
+  Hal write jitter ms stats: ave=0.0923968 std=22.2382 min=-22.1717 max=374.204
+  Threadloop write latency stats: ave=65.765 std=21.4955 min=22.6901 max=275.649
+  Master volume: 1.000000
+  Master mute: off
+  Mixer channel Mask: 0x3 (front-left, front-right)
+  Normal frame count: 1088
+  Total writes: 48752
+  Delayed writes: 0
+  Blocked in write: no
+  Suspend count: 0
+  Fast track availMask=0xfe
+  Standby delay ns=3000000000
+  Hw supports pause: no
+  Hw paused: no
+  Flush pending: no
+  AudioStreamOut: 0x70dcf7418e10 flags 0x2 (AUDIO_OUTPUT_FLAG_PRIMARY)
+  Frames written: 53042176
+  Suspended frames: 0
+  Hal stream dump:
+      Signal power history (resolution: 1000.0 ms):
+       10-28 17:29:44.381: [  -63.3 ] sum(-13.5)
+       10-28 17:33:30.462: [  -63.3 ] sum(-13.5)
+       10-28 17:34:23.209: [  -63.3 ] sum(-13.5)
+       10-28 17:35:17.990: [  -63.3 ] sum(-13.5)
+       10-28 17:41:06.662: [  -63.3 ] sum(-13.5)
+       10-28 17:41:08.726: [  -63.3 ] sum(-13.5)
+       10-28 17:41:16.104: [  -71.5  -46.6  -58.6  -49.4  -56.6  -61.6  -41.4  -62.6  -40.4  -37.6
+       10-28 17:41:26.102:    -41.5  -54.7  -45.3  -44.7  -43.2  -41.5  -58.5  -52.7  -66.6  -67.3
+       10-28 17:41:36.229:    -39.6  -36.2  -66.2  -47.0  -58.9  -55.1  -66.8  -72.6  -55.6  -66.5
+       10-28 17:41:46.228:    -47.5  -66.0  -71.8  -72.5  -70.3  -50.5  -50.7  -55.3  -67.8  -54.1
+       10-28 17:41:56.249:    -68.2  -53.2  -52.2  -52.8  -61.5  -49.3  -56.9  -55.2  -46.7  -51.1
+       10-28 17:42:06.262:    -51.2  -46.1  -38.4  -48.8  -64.9  -50.0  -47.0  -60.9  -41.7  -45.4
+       10-28 17:42:16.298:    -54.7  -49.9  -59.4  -64.7  -51.6  -45.0  -37.9  -53.8  -40.7  -43.8
+       10-28 17:42:25.937:    -41.9  -63.6  -52.2  -55.3  -50.6  -57.8  -61.8  -64.6  -47.5  -64.7
+       10-28 17:42:35.734:    -58.1  -47.3  -66.1  -65.6  -56.4  -46.1  -63.2  -48.5  -58.7  -37.2
+       10-28 17:42:45.753:    -51.4  -66.6  -48.5  -41.6  -53.2  -67.1  -67.8  -65.4  -45.1  -46.8
+       10-28 17:42:54.981:    -47.3  -53.9  -51.4  -53.2  -54.6  -49.6  -62.2  -46.9  -51.1  -48.6
+       10-28 17:43:05.165:    -64.7  -39.1  -38.7  -71.2  -65.6  -53.9  -65.4  -74.5  -60.0  -49.2
+       10-28 17:43:14.085:    -66.5  -73.6  -62.8  -73.9  -71.5  -65.0  -58.8  -56.0  -51.1  -38.3
+      Signal power history (resolution: 50.0 ms):
+       10-28 17:43:11.350:    -64.9  -68.5  -66.2  -69.4  -68.7  -71.5  -67.3  -65.0  -66.4  -65.7
+       10-28 17:43:12.467:    -66.4  -67.1  -73.5  -75.4  -70.8  -66.9  -47.4  -40.9  -39.0  -45.7
+       10-28 17:43:13.112:    -56.5  -60.3  -62.2  -62.8  -65.1  -63.3  -62.1  -64.3  -68.5  -67.4
+       10-28 17:43:13.662:    -72.8  -69.9  -70.0  -70.2  -69.2  -69.7  -62.3  -63.2  -58.3  -59.4
+       10-28 17:43:14.386:    -68.7  -69.1  -72.2  -72.6  -74.5  -72.8  -73.9  -72.4  -76.7  -77.2
+       10-28 17:43:14.938:    -73.8  -71.5  -73.2  -71.1  -73.1  -68.9  -64.0  -70.1  -61.7  -55.3
+       10-28 17:43:15.659:    -53.3  -63.8  -65.8  -65.6  -68.8  -65.8  -67.7  -68.0  -67.8  -67.1
+       10-28 17:43:16.334:    -71.1  -69.4  -70.3  -72.7  -72.3  -63.1  -67.9  -70.5  -73.9  -59.5
+       10-28 17:43:17.288:    -63.1  -59.4  -72.5  -64.2  -59.9  -61.4  -60.7  -66.6  -70.0  -72.4
+       10-28 17:43:17.796:    -66.3  -69.8  -67.5  -69.7  -68.1  -74.0  -74.6  -71.9  -66.3  -74.4
+       10-28 17:43:18.336:    -71.4  -74.4  -73.6  -74.6  -73.5  -74.5  -73.5  -73.6  -72.8  -73.4
+       10-28 17:43:18.867:    -74.1  -72.8  -73.4  -72.8  -73.9  -73.1  -71.7  -71.1  -70.7  -46.0
+       10-28 17:43:19.353:    -58.0  -50.7  -48.6  -63.2  -58.5  -54.8  -52.6  -53.7  -59.2  -64.8
+       10-28 17:43:19.873:    -69.1  -70.9  -55.9  -54.9  -59.2  -59.8  -62.6  -64.6  -63.8  -65.5
+       10-28 17:43:20.355:    -70.8  -75.2  -73.0  -72.4  -74.0  -72.6  -73.2  -74.7  -74.9  -57.5
+       10-28 17:43:20.863:    -42.2  -59.7  -62.1  -60.5  -62.3  -60.5  -58.5  -58.8  -44.1  -43.6
+       10-28 17:43:21.354:    -36.7  -37.0  -37.0  -33.7  -47.2  -53.5  -47.5  -46.2  -38.9  -42.1
+       10-28 17:43:21.900:    -39.0  -48.6  -41.0  -42.8  -37.3  -36.6  -33.9  -35.6  -36.2  -42.2
+       10-28 17:43:22.402:    -52.3  -56.8  -55.6  -51.8  -48.7  -48.5  -54.3  -53.7  -56.3  -55.3
+
+    -29.3 -|
+    -33.7 -|                                                                                                                                                                   *            **
+    -38.0 -|                  *                                                                                                                                             ***     * *   **  *
+    -42.4 -|                 *                                                                                                                                    *       **         *  **     *
+    -46.7 -|                *  *                                                                                                   *  *                                         * **   *            **
+    -51.1 -|                                                                                                                         *    *                                                     *  *
+    -55.4 -|                    *                                      **                                                                * *    **               *               *               **   ***
+    -59.8 -|                     *                **                  *                    * *  ***                                 *   *   *     **               * * ***
+    -64.1 -|* *    * *            ******        **                  *    *** *         *    *  *                                       *     *      ****            * *
+    -68.5 -| * ** * * **   *            ** *****    **             * *      * **** **   **         ** *****   *                               *
+    -72.8 -|     *      * *               *           ******  *****               *  **   *   *      *     *** ********************            *        * *******
+    -77.2 -|             *                                  **                                                                                           *
+    -81.5 -|
+    -85.9 -|
+           |_____________________________________________________________________________________________________________________________________________________________________________________________
+
+
+  Thread throttle time (msecs): 5702
+  AudioMixer tracks: 55 61 
+  Master mono: off
+  Master balance: 0.000000 (balance 0 channelCount 2 volumes: 1 1)
+  No FastMixer
+Bluetooth latency modes are not enabled
+HAL does not support Bluetooth latency modes
+Supported latency modes: { }
+
+  Normal mixer raw underrun counters: partial=0 empty=0
+  2 Tracks of which 1 are active
+    Type     Id Active Client(pid/uid) Session Port Id S  Flags   Format Chn mask  SRate ST Usg CT  G db  L dB  R dB  VS dB  PortVol dB  PortMuted   Server FrmCnt  FrmRdy F Underruns  Flushed BitPerfect InternalMute   Latency
+             61    yes   17001/  10236     249      21 A  0x001 00000001 00000001   8000  0   2  1   -18     0     0     0          -18      false 000EC52B    580r    580 A      9960        0      false        false  104.17 t
+       S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 000444C0   4512       0 f         0        0      false        false   69.81 k
+  0 Effect Chains
+  Local log:
+                                                         Type     Id Active Client(pid/uid) Session Port Id S  Flags   Format Chn mask  SRate ST Usg CT  G db  L dB  R dB  VS dB  PortVol dB  PortMuted   Server FrmCnt  FrmRdy F Underruns  Flushed BitPerfect InternalMute   Latency
+   10-28 16:26:49.649 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:26:49.717 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:26:49.899 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:26:49.967 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:27:24.948 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:27:24.986 AT::remove    (0x70dd07407e58)          58     no   14318/  10236     225      18 T  0x601 00000001 00000001   8000  0   2  1   -18     0     0     0          -18      false 00044EDF    260r    145 f         1        0      false        false   92.63 k
+   10-28 16:27:24.986 removeTrack_l (0x70dd07407e58)          58     no   14318/  10236     225      18 T  0x601 00000001 00000001   8000  0   2  1   -18     0     0     0          -18      false 00044EDF    260r    145 f         1        0      false        false   92.63 k
+   10-28 16:27:25.036 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:27:25.351 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:27:25.419 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:27:27.851 threadLoop_standby
+   10-28 16:27:48.177 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00023400   4512       0 F         0        0      false        false   76.42 k
+   10-28 16:27:48.357 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 000245A0   4512       0 f         0        0      false        false   66.48 k
+   10-28 16:27:50.415 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 000245A0   4512       0 F         0        0      false        false   66.48 k
+   10-28 16:27:50.643 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00025740   4512       0 f         0        0      false        false   73.67 k
+   10-28 16:27:52.626 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00025740   4512       0 F         0        0      false        false   73.67 k
+   10-28 16:27:52.900 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 000268E0   4512       0 f         0        0      false        false   55.31 k
+   10-28 16:27:55.737 threadLoop_standby
+   10-28 16:30:46.848 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 000268E0   4512       0 F         0        0      false        false   55.31 k
+   10-28 16:30:47.053 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00027A80   4512       0 f         0        0      false        false   45.71 k
+   10-28 16:30:49.908 threadLoop_standby
+   10-28 16:31:00.203 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00027A80   4512       0 F         0        0      false        false   45.71 k
+   10-28 16:31:00.383 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00028C20   4512       0 f         0        0      false        false   73.58 k
+   10-28 16:31:02.162 AT::add       (0x70dd07405618)          59     no   14318/  10236     233      19 A  0x000 00000001 00000001   8000  0   2  1  -inf     0     0     0          -18      false 00000000    740       0 f         0        0      false        false       new
+   10-28 16:31:02.262 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:31:02.330 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:31:02.558 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:31:02.625 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:31:25.099 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -15      false 00028C20   4512       0 F         0        0      false        false   73.58 k
+   10-28 16:31:25.342 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -21    -6    -6     0          -15      false 00029DC0   4512       0 f         0        0      false        false   83.21 k
+   10-28 16:31:36.565 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -21    -6    -6     0          -15      false 00029DC0   4512       0 F         0        0      false        false   83.21 k
+   10-28 16:31:36.743 AT::remove    (0x70dd07405618)          59     no   14318/  10236     233      19 T  0x601 00000001 00000001   8000  0   2  1   -18     0     0     0          -18      false 000434AA    260r    134 f         1        0      false        false   79.94 k
+   10-28 16:31:36.744 removeTrack_l (0x70dd07405618)          59     no   14318/  10236     233      19 T  0x601 00000001 00000001   8000  0   2  1   -18     0     0     0          -18      false 000434AA    260r    134 f         1        0      false        false   79.94 k
+   10-28 16:31:36.793 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:31:36.815 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -21    -6    -6     0          -15      false 0002AF60   4512       0 f         0        0      false        false   73.93 k
+   10-28 16:31:36.864 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:31:37.149 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:31:37.238 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:31:39.672 threadLoop_standby
+   10-28 16:32:02.852 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -21    -6    -6     0          -11      false 0002AF60   4512       0 F         0        0      false        false   73.93 k
+   10-28 16:32:03.019 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0002C100   4512       0 f         0        0      false        false   75.38 k
+   10-28 16:32:05.035 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0002C100   4512       0 F         0        0      false        false   75.38 k
+   10-28 16:32:05.264 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0002D2A0   4512       0 f         0        0      false        false   70.42 k
+   10-28 16:32:07.237 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0002D2A0   4512       0 F         0        0      false        false   70.42 k
+   10-28 16:32:07.489 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0002E440   4512       0 f         0        0      false        false   66.28 k
+   10-28 16:32:10.352 threadLoop_standby
+   10-28 16:34:07.410 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0002E440   4512       0 F         0        0      false        false   66.28 k
+   10-28 16:34:07.574 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0002F5E0   4512       0 f         0        0      false        false   71.58 k
+   10-28 16:34:10.463 threadLoop_standby
+   10-28 16:34:10.601 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0002F5E0   4512       0 F         0        0      false        false   71.58 k
+   10-28 16:34:10.770 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00030780   4512       0 f         0        0      false        false   72.65 k
+   10-28 16:34:12.997 AT::add       (0x70dd07405618)          60     no   14318/  10236     241      20 A  0x000 00000001 00000001   8000  0   2  1  -inf     0     0     0          -18      false 00000000    740       0 f         0        0      false        false       new
+   10-28 16:34:13.105 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:34:13.171 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:34:13.352 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:34:13.422 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:35:27.878 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:35:27.929 AT::remove    (0x70dd07405618)          60     no   14318/  10236     241      20 T  0x601 00000001 00000001   8000  0   2  1   -18     0     0     0          -18      false 0009217F    260r     81 f         1        0      false        false   82.24 k
+   10-28 16:35:27.929 removeTrack_l (0x70dd07405618)          60     no   14318/  10236     241      20 T  0x601 00000001 00000001   8000  0   2  1   -18     0     0     0          -18      false 0009217F    260r     81 f         1        0      false        false   82.24 k
+   10-28 16:35:27.946 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:35:28.182 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:35:28.250 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 16:35:30.795 threadLoop_standby
+   10-28 16:38:04.361 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00030780   4512       0 F         0        0      false        false   72.65 k
+   10-28 16:38:04.533 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00031920   4512       0 f         0        0      false        false   74.40 k
+   10-28 16:38:07.418 threadLoop_standby
+   10-28 16:38:26.884 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00031920   4512       0 F         0        0      false        false   74.40 k
+   10-28 16:38:27.054 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00032AC0   4512       0 f         0        0      false        false   67.18 k
+   10-28 16:38:29.929 threadLoop_standby
+   10-28 16:39:21.418 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00032AC0   4512       0 F         0        0      false        false   67.18 k
+   10-28 16:39:21.625 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00033C60   4512       0 f         0        0      false        false   28.87 k
+   10-28 16:39:24.472 threadLoop_standby
+   10-28 16:53:04.963 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00033C60   4512       0 F         0        0      false        false   28.87 k
+   10-28 16:53:05.144 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00034E00   4512       0 f         0        0      false        false   75.51 k
+   10-28 16:53:07.373 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00034E00   4512       0 F         0        0      false        false   75.51 k
+   10-28 16:53:07.590 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00035FA0   4512       0 f         0        0      false        false   75.03 k
+   10-28 16:53:10.460 threadLoop_standby
+   10-28 16:53:56.942 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00035FA0   4512       0 F         0        0      false        false   75.03 k
+   10-28 16:53:57.117 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00037140   4512       0 f         0        0      false        false   69.97 k
+   10-28 16:54:00.001 threadLoop_standby
+   10-28 17:16:25.657 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00037140   4512       0 F         0        0      false        false   69.97 k
+   10-28 17:16:25.833 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 000382E0   4512       0 f         0        0      false        false   74.39 k
+   10-28 17:16:28.719 threadLoop_standby
+   10-28 17:21:13.719 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 000382E0   4512       0 F         0        0      false        false   74.39 k
+   10-28 17:21:13.922 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00039480   4512       0 f         0        0      false        false   72.56 k
+   10-28 17:21:16.797 threadLoop_standby
+   10-28 17:24:37.803 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00039480   4512       0 F         0        0      false        false   72.56 k
+   10-28 17:24:38.018 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003A620   4512       0 f         0        0      false        false   68.90 k
+   10-28 17:24:40.904 threadLoop_standby
+   10-28 17:25:33.600 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003A620   4512       0 F         0        0      false        false   68.90 k
+   10-28 17:25:33.837 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003B7C0   4512       0 f         0        0      false        false   40.70 k
+   10-28 17:25:36.697 threadLoop_standby
+   10-28 17:26:24.506 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003B7C0   4512       0 F         0        0      false        false   40.70 k
+   10-28 17:26:24.821 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003C960   4512       0 f         0        0      false        false   22.95 k
+   10-28 17:26:27.609 threadLoop_standby
+   10-28 17:28:51.727 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003C960   4512       0 F         0        0      false        false   22.95 k
+   10-28 17:28:51.899 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003DB00   4512       0 f         0        0      false        false   72.04 k
+   10-28 17:28:54.786 threadLoop_standby
+   10-28 17:29:44.371 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003DB00   4512       0 F         0        0      false        false   72.04 k
+   10-28 17:29:44.551 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003ECA0   4512       0 f         0        0      false        false   73.48 k
+   10-28 17:29:47.432 threadLoop_standby
+   10-28 17:33:30.449 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003ECA0   4512       0 F         0        0      false        false   73.48 k
+   10-28 17:33:30.627 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003FE40   4512       0 f         0        0      false        false   68.22 k
+   10-28 17:33:33.504 threadLoop_standby
+   10-28 17:34:23.204 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 0003FE40   4512       0 F         0        0      false        false   68.22 k
+   10-28 17:34:23.378 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00040FE0   4512       0 f         0        0      false        false   70.85 k
+   10-28 17:34:26.250 threadLoop_standby
+   10-28 17:35:17.969 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00040FE0   4512       0 F         0        0      false        false   70.85 k
+   10-28 17:35:18.157 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00042180   4512       0 f         0        0      false        false   67.13 k
+   10-28 17:35:21.046 threadLoop_standby
+   10-28 17:41:06.653 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00042180   4512       0 F         0        0      false        false   67.13 k
+   10-28 17:41:06.841 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00043320   4512       0 f         0        0      false        false   57.63 k
+   10-28 17:41:08.699 AT::add       (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 A  0x200 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 00043320   4512       0 F         0        0      false        false   57.63 k
+   10-28 17:41:08.930 AT::remove    (0x70dd0740c4c8)    S     55     no     704/   1000     185      15 S  0x600 00000001 00000003  48000  1   d  4   -17    -6    -6     0          -11      false 000444C0   4512       0 f         0        0      false        false   69.81 k
+   10-28 17:41:11.803 threadLoop_standby
+   10-28 17:41:14.877 AT::add       (0x70dd07405618)          61     no   17001/  10236     249      21 A  0x000 00000001 00000001   8000  0   2  1  -inf     0     0     0          -18      false 00000000    740       0 f         0        0      false        false       new
+   10-28 17:41:15.191 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 17:41:15.278 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 17:41:16.265 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+   10-28 17:41:16.355 CFG_EVENT_CREATE_AUDIO_PATCH: old device 0x2 (AUDIO_DEVICE_OUT_SPEAKER) new device 0x2 (AUDIO_DEVICE_OUT_SPEAKER)
+
+Output thread 0x70df33808790, name AudioOut_15, tid 594, type 0 (MIXER):
+  I/O handle: 21
+  Standby: yes
+  Sample rate: 48000 Hz
+  HAL frame count: 1088
+  HAL format: 0x1 (AUDIO_FORMAT_PCM_16_BIT)
+  HAL buffer size: 4352 bytes
+  Channel count: 2
+  Channel mask: 0x00000003 (front-left, front-right)
+  Processing format: 0x1 (AUDIO_FORMAT_PCM_16_BIT)
+  Processing frame size: 4 bytes
+  Pending config events: none
+  Output devices: 0x10000 (AUDIO_DEVICE_OUT_TELEPHONY_TX)
+  Input device: 0 (AUDIO_DEVICE_NONE)
+  Audio source: 0 (AUDIO_SOURCE_DEFAULT)
+  Timestamp stats: n=0 disc=0 cold=0 nRdy=0 err=1 jitterMs(unavail) localSR(-nan, -nan) correctedJitterMs(unavail)
+  Timestamp corrected: no
+  Master volume: 1.000000
+  Master mute: off
+  Mixer channel Mask: 0x3 (front-left, front-right)
+  Normal frame count: 1088
+  Total writes: 0
+  Delayed writes: 0
+  Blocked in write: no
+  Suspend count: 0
+  Fast track availMask=0xfe
+  Standby delay ns=3000000000
+  Hw supports pause: no
+  Hw paused: no
+  Flush pending: no
+  AudioStreamOut: 0x70dcf74185a0 flags 0 (AUDIO_OUTPUT_FLAG_NONE)
+  Frames written: 0
+  Suspended frames: 0
+  Hal stream dump:
+      Signal power history: (none)
+      Signal power history: (none)
+  Thread throttle time (msecs): 0
+  AudioMixer tracks: 
+  Master mono: off
+  Master balance: 0.000000 (balance 0 channelCount 2 volumes: 1 1)
+  No FastMixer
+Bluetooth latency modes are not enabled
+HAL does not support Bluetooth latency modes
+Supported latency modes: { }
+
+  Normal mixer raw underrun counters: partial=0 empty=0
+  0 Tracks
+  0 Effect Chains
+  Local log:
+                                                         Type     Id Active Client(pid/uid) Session Port Id S  Flags   Format Chn mask  SRate ST Usg CT  G db  L dB  R dB  VS dB  PortVol dB  PortMuted   Server FrmCnt  FrmRdy F Underruns  Flushed BitPerfect InternalMute   Latency
+   10-28 15:40:28.479 threadLoop_standby
+   10-28 15:40:28.577 CFG_EVENT_CREATE_AUDIO_PATCH: old device  (Empty device types) new device 0x10000 (AUDIO_DEVICE_OUT_TELEPHONY_TX)
+
+ ## BEGIN setParameters dump 
+
+  Rejected setParameters:
+
+  App setParameters:
+
+  System setParameters:
+    10-28 15:40:52.498 UID  1000, 1 KVP received: BT_SCO=off
+    10-28 15:40:52.502 UID  1000, 1 KVP received: A2dpSuspended=false
+    10-28 15:40:52.515 UID  1000, 1 KVP received: LeAudioSuspended=false
+    10-28 15:40:54.719 UID  1000, 1 KVP received: screen_state=on
+    10-28 15:41:02.240 UID  1000, 1 KVP received: screen_state=on
+    10-28 15:41:02.320 UID  1000, 1 KVP received: screen_state=on
+
+ ## BEGIN misc af dump 
+
+Patches:
+  Patch 20: No software bridge (thread 0x0 => thread 0x0) thread 0x70df3384cfe8 num sinks (1) first device type 00010000
+  Patch 372: No software bridge (thread 0x0 => thread 0x0) thread 0x70df33a19fe8 num sinks (1) first device type 00000002
+  10-28 15:40:28.419 add patch 12 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal create
+  10-28 15:40:28.583 add patch 20 srcs {mix 21 id 4} sinks {dev 0x10000 id 5} hal create
+  10-28 16:00:32.687 add patch 28 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal create
+  10-28 16:00:32.754 add patch 36 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:00:32.957 add patch 44 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:00:33.027 add patch 52 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:02:46.901 add patch 60 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:02:46.971 add patch 68 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:02:47.210 add patch 76 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:02:47.276 add patch 84 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:14:05.904 add patch 92 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:14:05.975 add patch 100 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:14:06.182 add patch 108 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:14:06.269 add patch 116 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:22:40.707 add patch 124 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:22:40.773 add patch 132 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:22:41.001 add patch 140 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:22:41.069 add patch 148 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:26:49.651 add patch 156 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:26:49.718 add patch 164 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:26:49.902 add patch 172 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:26:49.969 add patch 180 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:27:24.949 add patch 188 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:27:25.051 add patch 196 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:27:25.352 add patch 204 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:27:25.420 add patch 212 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:31:02.264 add patch 220 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:31:02.333 add patch 228 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:31:02.560 add patch 236 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:31:02.627 add patch 244 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:31:36.796 add patch 252 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:31:36.872 add patch 260 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:31:37.152 add patch 268 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:31:37.243 add patch 276 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:34:13.106 add patch 284 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:34:13.173 add patch 292 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:34:13.353 add patch 300 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:34:13.423 add patch 308 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:35:27.885 add patch 316 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:35:27.949 add patch 324 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:35:28.184 add patch 332 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 16:35:28.251 add patch 340 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 17:41:15.193 add patch 348 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 17:41:15.297 add patch 356 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 17:41:16.267 add patch 364 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+  10-28 17:41:16.357 add patch 372 srcs {mix 13 id 1} sinks {dev 0x2 id 2} hal update
+
+Device Effects:
+
+Sound Dose:
+CSD is disabled
+ ## BEGIN power dump
+CE2A.260420.051.A2
+Power Tokens:
+  Client-0:  start: 15:40:27.981 pid: 513
+  Client-1:  start: 15:40:52.490 pid: 704
+  Client-2:  start: 15:42:04.432 pid: 3264
+  Client-4:  start: 17:41:09.070 pid: 17001
+  Thread-64:  start: 17:41:14.870 ThreadBase-tid: 588 wakeLockName: AudioMix wakeFlag: 
+  Track-67:  start: 17:41:14.877 (active) uid: 10236 com.parentcontrol.parent_control  sessions: 6  actual_seconds: 922.508876 { 17001 }
+
+Power Clients: (some snapshots quantized in time)
+  (idle) uid: 1000 android.uid.system  sessions: 62  actual_seconds: 12.153888 { 704 }{ { 17:24:37.804, ~:38.018} { ~:25:33.604, ~.847} { ~:26:24.506, ~.821} { ~:28:51.729, ~.899} { ~:29:44.373, ~.551} { ~:33:30.450, ~.628} { ~:34:23.205, ~.378} { ~:35:17.969, ~:18.157} { ~:41:06.654, ~.841} { ~:08.699, ~.931} }
+    Sum:    10-28 15:41:37.633 duration_boottime: 12.270000 duration_monotonic: 12.282001
+    Max:    10-28 15:41:37.633 duration_boottime: 0.495000 duration_monotonic: 0.495000
+  (idle) uid: 1041 audioserver  sessions: 0  actual_seconds: 0.000000 { 513 }{ }
+  (frozen) uid: 10171 com.google.android.tts  sessions: 0  actual_seconds: 0.000000 { 3264(f) }{ }
+  (active) uid: 10236 com.parentcontrol.parent_control  sessions: 6  actual_seconds: 922.510801 { 17001 }{ { 16:00:32.507, ~:02:46.848} { ~:14:05.803, ~:22:40.750} { ~:26:49.558, ~:27:24.986} { ~:31:02.162, ~:36.744} { ~:34:12.997, ~:35:27.929} { 17:41:14.877, ~} }
+    Sum:    10-28 16:00:32.508 duration_boottime: 922.517029 duration_monotonic: 922.522034
+    Max:    10-28 16:14:05.803 duration_boottime: 514.947021 duration_monotonic: 514.947021
+Power Client History:

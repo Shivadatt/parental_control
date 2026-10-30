@@ -29,12 +29,15 @@ class _TestSessionController extends RemoteSessionController {
   }
 
   bool mediaLive = false;
+  final RxBool checkingAudio = false.obs;
   String? failure;
   int endCalls = 0;
-  final List<String?> endReasons = <String?>[];
 
   @override
   bool get isMediaLive => mediaLive;
+
+  @override
+  bool get isCheckingAudio => checkingAudio.value;
 
   @override
   String? get endError => failure;
@@ -44,9 +47,8 @@ class _TestSessionController extends RemoteSessionController {
   void onInit() {}
 
   @override
-  Future<bool> endSession({String? reason}) async {
+  Future<bool> endSession() async {
     endCalls += 1;
-    endReasons.add(reason);
     if (failure != null) return false;
     final current = session.value;
     if (current != null && current.status.isOpen) {
@@ -62,7 +64,7 @@ class _TestSessionController extends RemoteSessionController {
         expiresAt: current.expiresAt,
         acceptedAt: current.acceptedAt,
         endedAt: DateTime.now(),
-        endedReason: reason,
+        endedReason: 'ended_by_parent',
         consentRecorded: current.consentRecorded,
       );
     }
@@ -138,7 +140,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(controller.endCalls, 1);
-    expect(controller.endReasons.single, 'ended_by_parent');
+    expect(controller.session.value?.endedReason, 'ended_by_parent');
     expect(find.byType(RemoteSessionPage), findsNothing);
   });
 
@@ -202,15 +204,16 @@ void main() {
     expect(find.text('Relay not configured'), findsOneWidget);
     expect(find.text('Permission denied'), findsOneWidget);
 
-    // An expired session is just as stale: no live-media advice is shown.
+    // A lapsed pending request is just as stale: no live-media advice is shown.
     controller.session.value = _session(
+      status: RemoteSessionStatus.requested,
       expiresIn: const Duration(minutes: -1),
     );
     await tester.pump();
 
     expect(find.text('Relay not configured'), findsNothing);
     expect(
-      find.widgetWithText(InfoBanner, 'Session expired'),
+      find.widgetWithText(InfoBanner, 'Request expired'),
       findsWidgets,
     );
   });
@@ -228,18 +231,27 @@ void main() {
     expect(find.text('Audio not live'), findsOneWidget);
 
     controller.isConnected.value = true;
+    controller.checkingAudio.value = true;
+    await tester.pump();
+
+    expect(find.text('One-way audio live'), findsNothing);
+    expect(find.text('Checking audio…'), findsOneWidget);
+    expect(find.text('Audio checking…'), findsOneWidget);
+    expect(find.text('Connecting media…'), findsOneWidget);
+    expect(find.text('Media connected'), findsNothing);
+
+    controller.checkingAudio.value = false;
     await tester.pump();
 
     expect(find.text('One-way audio live'), findsNothing);
     expect(find.text('Audio unavailable'), findsOneWidget);
-    expect(find.text('Media connected'), findsOneWidget);
+    expect(find.text('Audio not live'), findsOneWidget);
 
     controller.mediaLive = true;
-    controller.isConnected.value = false;
-    await tester.pump();
-    controller.isConnected.value = true;
+    controller.isMediaFlowing.value = true;
     await tester.pump();
 
+    expect(find.text('Media connected'), findsOneWidget);
     expect(find.text('One-way audio live'), findsOneWidget);
     expect(find.text('Audio live'), findsOneWidget);
   });

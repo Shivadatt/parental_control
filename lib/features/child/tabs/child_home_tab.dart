@@ -5,6 +5,7 @@ import 'package:parent_control/core/theme/app_theme.dart';
 import 'package:parent_control/core/utils/formatters.dart';
 import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/data/models/device.dart';
+import 'package:parent_control/data/models/remote_session.dart';
 import 'package:parent_control/features/child/controllers/child_shell_controller.dart';
 
 class ChildHomeTab extends GetView<ChildShellController> {
@@ -89,6 +90,10 @@ class ChildHomeTab extends GetView<ChildShellController> {
             ),
             const SizedBox(height: 12),
           ],
+          if (controller.activeSession.value != null) ...[
+            _activeSessionCard(),
+            const SizedBox(height: 12),
+          ],
           if (!controller.isEnrolled)
             _enrollmentCard()
           else ...[
@@ -130,6 +135,72 @@ class ChildHomeTab extends GetView<ChildShellController> {
                   ?.copyWith(color: AppColors.muted),
             ),
           ],
+        ],
+      ),
+    );
+  }
+
+  /// Server state of the newest accepted/active assistance session for this
+  /// phone. It never claims that media is connected or that the guardian can
+  /// hear the phone; only the live session screen can say that.
+  Widget _activeSessionCard() {
+    final session = controller.activeSession.value!;
+    final video = session.kind == SessionKind.video;
+    final started = session.status == RemoteSessionStatus.active;
+    final String title;
+    if (started) {
+      title = video
+          ? 'Video assistance session is active'
+          : 'Audio assistance session is active';
+    } else {
+      title = video
+          ? 'Video assistance session accepted'
+          : 'Audio assistance session accepted';
+    }
+    final String body;
+    if (started) {
+      body = video
+          ? 'This session is open. Open the session screen to check whether '
+              'this phone is sharing its camera and microphone. Only your '
+              'guardian can end the session. Nothing is recorded.'
+          : 'This session is open. Open the session screen to check whether '
+              'this phone is sharing its microphone. Only your guardian can '
+              'end the session. Nothing is recorded.';
+    } else {
+      body = video
+          ? 'You accepted this request, but this phone has not joined it yet. '
+              'Open the session to turn on the camera and microphone. Nothing '
+              'is recorded.'
+          : 'You accepted this request, but this phone has not joined it yet. '
+              'Open the session to turn on the microphone. Nothing is recorded.';
+    }
+    return SectionCard(
+      title: title,
+      trailing: StatusChip(
+        label: session.status.label,
+        tone: started ? StatusTone.success : StatusTone.info,
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(body, style: const TextStyle(height: 1.45)),
+          const SizedBox(height: 14),
+          AppButton(
+            label: 'Open session',
+            icon: Icons.open_in_new,
+            onPressed: controller.openActiveSession,
+          ),
+          const SizedBox(height: 8),
+          AppButton(
+            label: 'Stop sharing',
+            icon: Icons.call_end,
+            outlined: true,
+            destructive: true,
+            isLoading: controller.isStoppingActiveSession.value,
+            onPressed: controller.isStoppingActiveSession.value
+                ? null
+                : controller.stopActiveSession,
+          ),
         ],
       ),
     );

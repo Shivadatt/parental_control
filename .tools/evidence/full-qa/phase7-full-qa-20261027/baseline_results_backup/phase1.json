@@ -1,0 +1,149 @@
+{
+  "when": "2026-10-27T10:14:54.461Z",
+  "results": [
+    {
+      "name": "signin.parentA",
+      "status": "PASS",
+      "detail": {
+        "id": "339f3ff2-d1e5-4eb5-82a6-8f4ed8028c32"
+      }
+    },
+    {
+      "name": "signin.childA",
+      "status": "PASS",
+      "detail": {
+        "id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b"
+      }
+    },
+    {
+      "name": "signin.parentB",
+      "status": "PASS",
+      "detail": {
+        "id": "f0cb5324-4447-4149-bed3-506e7fce6d0c"
+      }
+    },
+    {
+      "name": "signin.childB",
+      "status": "PASS",
+      "detail": {
+        "id": "f4c59b92-af5f-430c-b78b-0b8597684e55"
+      }
+    },
+    {
+      "name": "bootstrap.set_role.parentB",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200",
+        "id": "f0cb5324-4447-4149-bed3-506e7fce6d0c"
+      }
+    },
+    {
+      "name": "bootstrap.set_role.childB",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200",
+        "id": "f4c59b92-af5f-430c-b78b-0b8597684e55"
+      }
+    },
+    {
+      "name": "bootstrap.familyB",
+      "status": "PASS",
+      "detail": {
+        "status": 409,
+        "code": "family_exists",
+        "family_id": "4c4dd6fe-e727-4f66-bfba-7edd801114a8"
+      }
+    },
+    {
+      "name": "pairing.A.create",
+      "status": "FAIL",
+      "detail": {
+        "status": 429,
+        "qr": false
+      }
+    },
+    {
+      "name": "pairing.A.redeem",
+      "status": "SKIP",
+      "detail": {
+        "reason": "no fresh code"
+      }
+    },
+    {
+      "name": "pairing.B.create",
+      "status": "FAIL",
+      "detail": {
+        "status": 429
+      }
+    },
+    {
+      "name": "pairing.B.redeem",
+      "status": "SKIP",
+      "detail": {
+        "reason": "no fresh code"
+      }
+    },
+    {
+      "name": "isolation.parentB_families_exclude_A",
+      "status": "PASS",
+      "detail": {
+        "count": 1,
+        "includesA": false,
+        "error": null
+      }
+    },
+    {
+      "name": "isolation.parentB_cannot_read_family_A",
+      "status": "PASS",
+      "detail": {
+        "rows": 0,
+        "error": null
+      }
+    },
+    {
+      "name": "isolation.parentB_cannot_read_A_members",
+      "status": "PASS",
+      "detail": {
+        "rows": 0,
+        "error": null
+      }
+    },
+    {
+      "name": "isolation.list_family_A_as_B_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 403,
+        "code": "forbidden"
+      }
+    },
+    {
+      "name": "security.child_cannot_self_promote",
+      "status": "PASS",
+      "detail": {
+        "status": 409,
+        "code": "role_already_set"
+      }
+    },
+    {
+      "name": "security.child_direct_role_update_denied",
+      "status": "PASS",
+      "detail": {
+        "error": "42501",
+        "rows": 0
+      }
+    },
+    {
+      "name": "security.anon_profile_read_denied",
+      "status": "PASS",
+      "detail": {
+        "error": "42501",
+        "rows": 0
+      }
+    }
+  ],
+  "familyAId": "c4e15505-05f4-4faf-a268-789f454fbcd4",
+  "familyBId": "4c4dd6fe-e727-4f66-bfba-7edd801114a8",
+  "pairARequestId": null
+}

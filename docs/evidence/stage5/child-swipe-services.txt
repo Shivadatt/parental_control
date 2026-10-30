@@ -1,0 +1,55 @@
+ACTIVITY MANAGER SERVICES (dumpsys activity services)
+  User 0 active services:
+  * ServiceRecord{d0ae27e u0 com.parentcontrol.parent_control/.GuardianService}
+    intent={cmp=com.parentcontrol.parent_control/.GuardianService}
+    packageName=com.parentcontrol.parent_control
+    processName=com.parentcontrol.parent_control
+    baseDir=/data/app/~~JTsEtsgqHHSSVkKPIw1Ssg==/com.parentcontrol.parent_control-OPJz3OKmpskqnNqhC1ZFMQ==/base.apk
+    dataDir=/data/user/0/com.parentcontrol.parent_control
+    app=ProcessRecord{e60c7ea 11223:com.parentcontrol.parent_control/u0a1312}
+    allowWhileInUsePermissionInFgs=true
+    recentCallingPackage=com.parentcontrol.parent_control
+    recentCallingUid=11312
+    allowStartForeground=311
+    startForegroundCount=1
+    infoAllowStartForeground=[callingPackage: com.parentcontrol.parent_control; callingUid: 11312; uidState: RCVR; intent: Intent { cmp=com.parentcontrol.parent_control/.GuardianService }; code:PACKAGE_REPLACED; tempAllowListReason:<broadcast:1000:android.intent.action.MY_PACKAGE_REPLACED,reason:,reasonCode:PACKAGE_REPLACED,duration:20000,callingUid:1000>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null]
+    isForeground=true foregroundId=4101 foregroundNoti=Notification(channel=guardian_status shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 vis=PRIVATE)
+    createTime=-29m29s416ms startingBgTimeout=--
+    lastActivity=-19m8s57ms restartTime=-29m29s415ms createdFromFg=false
+    startRequested=true delayedStop=false stopIfKilled=false callStart=true lastStartId=4
+
+  * ServiceRecord{4fc479 u0 com.parentcontrol.parent_control/.AudioAssistanceService}
+    intent={cmp=com.parentcontrol.parent_control/.AudioAssistanceService}
+    packageName=com.parentcontrol.parent_control
+    processName=com.parentcontrol.parent_control
+    baseDir=/data/app/~~JTsEtsgqHHSSVkKPIw1Ssg==/com.parentcontrol.parent_control-OPJz3OKmpskqnNqhC1ZFMQ==/base.apk
+    dataDir=/data/user/0/com.parentcontrol.parent_control
+    app=ProcessRecord{e60c7ea 11223:com.parentcontrol.parent_control/u0a1312}
+    allowWhileInUsePermissionInFgs=true
+    recentCallingPackage=com.parentcontrol.parent_control
+    recentCallingUid=11312
+    allowStartForeground=12
+    startForegroundCount=1
+    infoAllowStartForeground=[callingPackage: com.parentcontrol.parent_control; callingUid: 11312; uidState: TOP ; intent: Intent { cmp=com.parentcontrol.parent_control/.AudioAssistanceService (has extras) }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null]
+    isForeground=true foregroundId=4303 foregroundNoti=Notification(channel=audio_assistance_channel shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 category=call actions=1 vis=PRIVATE)
+    createTime=-3m44s911ms startingBgTimeout=--
+    lastActivity=-3m44s910ms restartTime=-3m44s910ms createdFromFg=true
+    startRequested=true delayedStop=false stopIfKilled=true callStart=true lastStartId=1
+
+  * ServiceRecord{5d25e02 u0 com.parentcontrol.parent_control/.LocationTrackingService}
+    intent={cmp=com.parentcontrol.parent_control/.LocationTrackingService}
+    packageName=com.parentcontrol.parent_control
+    processName=com.parentcontrol.parent_control
+    baseDir=/data/app/~~JTsEtsgqHHSSVkKPIw1Ssg==/com.parentcontrol.parent_control-OPJz3OKmpskqnNqhC1ZFMQ==/base.apk
+    dataDir=/data/user/0/com.parentcontrol.parent_control
+    app=ProcessRecord{e60c7ea 11223:com.parentcontrol.parent_control/u0a1312}
+    allowWhileInUsePermissionInFgs=true
+    recentCallingPackage=com.parentcontrol.parent_control
+    recentCallingUid=11312
+    allowStartForeground=12
+    startForegroundCount=1
+    infoAllowStartForeground=[callingPackage: com.parentcontrol.parent_control; callingUid: 11312; uidState: TOP ; intent: Intent { cmp=com.parentcontrol.parent_control/.LocationTrackingService (has extras) }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null]
+    isForeground=true foregroundId=4202 foregroundNoti=Notification(channel=location_sharing shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 vis=PRIVATE)
+    createTime=-28m56s183ms startingBgTimeout=--
+    lastActivity=-19m8s5ms restartTime=-28m56s182ms createdFromFg=true
+    startRequested=true delayedStop=false stopIfKilled=false callStart=true lastStartId=3

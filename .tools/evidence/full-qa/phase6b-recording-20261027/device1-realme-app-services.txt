@@ -1,0 +1,8 @@
+=== app services (realme) ===
+ACTIVITY MANAGER SERVICES (dumpsys activity services)
+  (nothing)
+
+=== app process ===
+u0_a1312     27003   943 79109800 266292 0                  0 S com.parentcontrol.parent_control
+
+=== foreground services OS-wide mentioning parentcontrol ===

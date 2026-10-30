@@ -1,0 +1,13 @@
+PASS storage.anon_bucket_list_empty_or_denied :: {"status":200,"count":0,"error":null}
+PASS storage.authenticated_bucket_list_empty_or_denied :: {"status":200,"count":0}
+PASS storage.guess_bucket_recordings_not_accessible :: {"public":400,"list":400,"pub_msg":"Bucket not found","list_msg":"Bucket not found"}
+PASS storage.guess_bucket_screen-recordings_not_accessible :: {"public":400,"list":400,"pub_msg":"Bucket not found","list_msg":"Bucket not found"}
+PASS storage.guess_bucket_screenshots_not_accessible :: {"public":400,"list":400,"pub_msg":"Bucket not found","list_msg":"Bucket not found"}
+PASS storage.guess_bucket_media_not_accessible :: {"public":400,"list":400,"pub_msg":"Bucket not found","list_msg":"Bucket not found"}
+PASS storage.guess_bucket_uploads_not_accessible :: {"public":400,"list":400,"pub_msg":"Bucket not found","list_msg":"Bucket not found"}
+PASS storage.guess_bucket_clips_not_accessible :: {"public":400,"list":400,"pub_msg":"Bucket not found","list_msg":"Bucket not found"}
+PASS storage.guess_bucket_attachments_not_accessible :: {"public":400,"list":400,"pub_msg":"Bucket not found","list_msg":"Bucket not found"}
+PASS storage.authenticated_render_denied :: {"status":400,"msg":"Bucket not found"}
+
+SUMMARY storage: 10/10 not-failed, 0 FAILED, 0 SKIP/INFO/BLOCKED (total 10)
+store_exit=0

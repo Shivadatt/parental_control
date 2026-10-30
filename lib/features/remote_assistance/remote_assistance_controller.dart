@@ -85,24 +85,28 @@ class RemoteAssistanceController extends GetxController {
     }
   }
 
-  /// The server may not have run its expiry job yet. Showing a client-side
-  /// expiry label is honest and never writes a status.
+  /// The server may not have run its pending-expiry job yet. Showing a
+  /// client-side expiry label is honest and never writes a status.
   ///
-  /// The label reflects the server's session status only; it never claims that
-  /// audio or video is connected.
+  /// Only a pending request can expire; a consented session is parent-
+  /// controlled. The label reflects server session state only; it never claims
+  /// that audio or video is connected.
   String statusLabel(RemoteSession session) {
-    if (session.status.isOpen && session.isExpired) return 'Expired';
+    if (session.status == RemoteSessionStatus.requested && session.isExpired) {
+      return 'Request expired';
+    }
     return session.status.label;
   }
 
-  /// Expiry wording from the shared formatter, so a future expiry reads
-  /// "in 5 min" instead of the old past-tense "Just now".
-  ///
-  /// Returns an absolute timestamp once the session is closed and the relative
-  /// wording would no longer be useful.
+  /// Lifetime wording for the list. A pending request counts down; a consented
+  /// session states who controls when it ends.
   String expiryLabel(RemoteSession session) {
-    if (!session.status.isOpen) return formatDateTime(session.expiresAt);
-    if (session.isExpired) return 'Expired';
-    return relativeTime(session.expiresAt);
+    if (session.status == RemoteSessionStatus.requested) {
+      final deadline = session.expiresAt;
+      if (session.isExpired || deadline == null) return 'Expired';
+      return relativeTime(deadline);
+    }
+    if (session.isParentControlled) return 'Until you end it';
+    return '—';
   }
 }

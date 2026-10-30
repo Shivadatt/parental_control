@@ -27,12 +27,23 @@ class _TestSessionController extends RemoteSessionController {
   }
 
   bool mediaLive = false;
+  bool captureActive = false;
+  final RxBool checkingAudio = false.obs;
+  final RxBool audioNotFlowing = false.obs;
   String? failure;
-  int endCalls = 0;
-  final List<String?> endReasons = <String?>[];
+  int stopCalls = 0;
 
   @override
   bool get isMediaLive => mediaLive;
+
+  @override
+  bool get isCaptureActive => captureActive;
+
+  @override
+  bool get isCheckingAudio => checkingAudio.value;
+
+  @override
+  bool get audioUnavailable => audioNotFlowing.value;
 
   @override
   String? get endError => failure;
@@ -43,28 +54,17 @@ class _TestSessionController extends RemoteSessionController {
   void onInit() {}
 
   @override
-  Future<bool> endSession({String? reason}) async {
-    endCalls += 1;
-    endReasons.add(reason);
+  Future<bool> withdrawConsent() async {
+    stopCalls += 1;
     if (failure != null) return false;
-    final current = session.value;
-    if (current != null && current.status.isOpen) {
-      session.value = RemoteSession(
-        id: current.id,
-        familyId: current.familyId,
-        deviceId: current.deviceId,
-        parentUserId: current.parentUserId,
-        childUserId: current.childUserId,
-        kind: current.kind,
-        status: RemoteSessionStatus.ended,
-        requestedAt: current.requestedAt,
-        expiresAt: current.expiresAt,
-        acceptedAt: current.acceptedAt,
-        endedAt: DateTime.now(),
-        endedReason: reason,
-        consentRecorded: current.consentRecorded,
-      );
-    }
+    hasActivePeer.value = false;
+    isConnected.value = false;
+    mediaLive = false;
+    captureActive = false;
+    isMediaFlowing.value = false;
+    checkingAudio.value = false;
+    audioNotFlowing.value = false;
+    sharingStopped.value = true;
     return true;
   }
 }
@@ -86,7 +86,15 @@ RemoteSession _session({
       expiresAt: DateTime.now().add(expiresIn),
     );
 
-Future<void> _openPage(WidgetTester tester) async {
+/// Opens the page on a surface tall enough that the whole ListView (including
+/// the End session button) is laid out, so the tests can assert on it.
+Future<void> _openPage(
+  WidgetTester tester, {
+  Size size = const Size(600, 1400),
+}) async {
+  tester.view.physicalSize = size;
+  tester.view.devicePixelRatio = 1.0;
+  addTearDown(tester.view.reset);
   await tester.pumpWidget(
     GetMaterialApp(
       home: Builder(
@@ -122,50 +130,153 @@ void main() {
 
   tearDown(Get.reset);
 
-  testWidgets('back ends the session before the route pops', (tester) async {
-    controller = _TestSessionController(state: _session());
+  testWidgets('back pops the route without ending a live session',
+      (tester) async {
+    controller = _TestSessionController(
+      state: _session(status: RemoteSessionStatus.active),
+    );
+    controller.hasActivePeer.value = true;
+    controller.isConnected.value = true;
+    controller.captureActive = true;
+    controller.mediaLive = true;
+    controller.isMediaFlowing.value = true;
     Get.put<RemoteSessionController>(controller);
     await _openPage(tester);
+
+    // Only the explicit Stop sharing button turns the microphone off.
+    expect(find.text('Stop sharing'), findsOneWidget);
+    expect(
+      find.textContaining('microphone keeps running while you use other'),
+      findsOneWidget,
+    );
 
     await tester.tap(find.byTooltip('Back'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Leave and end the session?'), findsOneWidget);
-    expect(find.textContaining('microphone'), findsWidgets);
-
-    await tester.tap(find.text('End and leave'));
-    await _pumpFrames(tester);
-    await tester.pumpAndSettle();
-
-    expect(controller.endCalls, 1);
-    expect(controller.endReasons.single, 'left_screen');
+    // No confirmation dialog, no stop call, and the previous route is back.
+    expect(find.text('Leave and end the session?'), findsNothing);
     expect(find.byType(ChildSessionPage), findsNothing);
+    expect(find.text('open session'), findsOneWidget);
+    expect(controller.stopCalls, 0);
+    expect(Get.isRegistered<RemoteSessionController>(), isTrue);
+    expect(Get.find<RemoteSessionController>(), same(controller));
+    expect(controller.session.value?.status, RemoteSessionStatus.active);
+    expect(controller.hasActivePeer.value, isTrue);
+    expect(controller.isEnding.value, isFalse);
   });
 
-  testWidgets('a failed end keeps the child on the page with a retry',
+  testWidgets('disposing the page widget never stops an authorized session',
       (tester) async {
-    controller = _TestSessionController(state: _session())
-      ..failure = 'The network is offline.';
+    controller = _TestSessionController(
+      state: _session(status: RemoteSessionStatus.active),
+    );
+    controller.hasActivePeer.value = true;
+    controller.isConnected.value = true;
+    controller.captureActive = true;
+    controller.mediaLive = true;
+    controller.isMediaFlowing.value = true;
+    Get.put<RemoteSessionController>(controller);
+    await _openPage(tester);
+    expect(find.byType(ChildSessionPage), findsOneWidget);
+
+    // Activity/route recreation destroys the widget tree, not the consent.
+    await tester.pumpWidget(const SizedBox());
+    await tester.pumpAndSettle();
+
+    expect(controller.stopCalls, 0);
+    expect(controller.session.value?.status, RemoteSessionStatus.active);
+    expect(controller.hasActivePeer.value, isTrue);
+    expect(controller.isMediaFlowing.value, isTrue);
+    expect(controller.isEnding.value, isFalse);
+    expect(Get.isRegistered<RemoteSessionController>(), isTrue);
+    expect(Get.find<RemoteSessionController>(), same(controller));
+  });
+
+  testWidgets('Stop sharing confirms, withdraws consent, and keeps the session '
+      'open', (tester) async {
+    controller = _TestSessionController(
+      state: _session(status: RemoteSessionStatus.active),
+    );
+    controller.hasActivePeer.value = true;
+    controller.isConnected.value = true;
+    controller.captureActive = true;
+    controller.mediaLive = true;
+    controller.isMediaFlowing.value = true;
     Get.put<RemoteSessionController>(controller);
     await _openPage(tester);
 
-    await tester.tap(find.byTooltip('Back'));
+    await tester.tap(find.text('Stop sharing'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('End and leave'));
-    await _pumpFrames(tester);
+    expect(find.text('Stop sharing?'), findsOneWidget);
 
-    expect(controller.endCalls, 1);
-    expect(find.byType(ChildSessionPage), findsOneWidget);
-    expect(find.text('The session is still open'), findsOneWidget);
-    expect(find.text('The network is offline.'), findsOneWidget);
-    expect(find.text('Retry'), findsOneWidget);
-    expect(find.text('Stay in session'), findsOneWidget);
-
-    // Retry runs another end attempt instead of leaving silently.
-    await tester.tap(find.text('Retry'));
+    await tester.tap(
+      find.descendant(
+        of: find.byType(AlertDialog),
+        matching: find.text('Stop sharing'),
+      ),
+    );
     await _pumpFrames(tester);
-    expect(controller.endCalls, 2);
+    await tester.pumpAndSettle();
+
+    expect(controller.stopCalls, 1);
     expect(find.byType(ChildSessionPage), findsOneWidget);
+    expect(find.text('Sharing stopped on this phone'), findsOneWidget);
+    // The consent-withdrawal control stays visible for the open session even
+    // after it has been used; it must not depend on live media.
+    expect(find.text('Stop sharing'), findsOneWidget);
+    expect(find.text('End session'), findsNothing);
+    expect(controller.session.value?.status, RemoteSessionStatus.active);
+    expect(controller.session.value?.endedReason, isNull);
+  });
+
+  testWidgets('an active session with no peer keeps Stop sharing visible and '
+      'offers no session end', (tester) async {
+    controller = _TestSessionController(
+      state: _session(status: RemoteSessionStatus.active),
+    );
+    Get.put<RemoteSessionController>(controller);
+    await _openPage(tester);
+
+    expect(find.text('Session is still live'), findsOneWidget);
+    expect(find.text('Reconnect microphone'), findsOneWidget);
+    expect(find.text('End session'), findsNothing);
+    // Consent withdrawal must remain reachable after ICE recovery has torn the
+    // media down; it is a local action and leaves the server session open.
+    expect(find.text('Stop sharing'), findsOneWidget);
+    expect(
+      find.textContaining('Only your guardian can end this session'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('repeated push and pop cycles reuse the same controller',
+      (tester) async {
+    controller = _TestSessionController(
+      state: _session(status: RemoteSessionStatus.active),
+    );
+    controller.hasActivePeer.value = true;
+    controller.isConnected.value = true;
+    controller.captureActive = true;
+    controller.mediaLive = true;
+    controller.isMediaFlowing.value = true;
+    Get.put<RemoteSessionController>(controller);
+    await _openPage(tester);
+
+    for (var cycle = 0; cycle < 3; cycle++) {
+      await tester.tap(find.byTooltip('Back'));
+      await tester.pumpAndSettle();
+      expect(find.byType(ChildSessionPage), findsNothing);
+
+      await tester.tap(find.text('open session'));
+      await tester.pumpAndSettle();
+      expect(find.byType(ChildSessionPage), findsOneWidget);
+      expect(find.text('Microphone is live'), findsOneWidget);
+      expect(Get.find<RemoteSessionController>(), same(controller));
+    }
+
+    expect(controller.stopCalls, 0);
+    expect(controller.session.value?.status, RemoteSessionStatus.active);
+    expect(controller.hasActivePeer.value, isTrue);
   });
 
   testWidgets('a terminal session leaves without a confirmation dialog',
@@ -181,49 +292,93 @@ void main() {
 
     expect(find.text('Leave and end the session?'), findsNothing);
     expect(find.byType(ChildSessionPage), findsNothing);
-    expect(controller.endCalls, 0);
+    expect(controller.stopCalls, 0);
   });
 
-  testWidgets('the media card only claims the microphone is on when it is live',
+  testWidgets('the media card separates an open microphone from audio flow',
       (tester) async {
     controller = _TestSessionController(state: _session());
     controller.hasActivePeer.value = true;
     controller.isConnected.value = false;
+    controller.captureActive = true;
     Get.put<RemoteSessionController>(controller);
     await _openPage(tester);
 
-    expect(find.text('Microphone is on'), findsNothing);
+    // The microphone is open before ICE completes. That is not audio live,
+    // but it must never be reported as the microphone being off.
+    expect(find.text('Microphone is live'), findsNothing);
+    expect(find.text('Microphone is on — reconnecting…'), findsOneWidget);
+    expect(find.text('Microphone on · connecting…'), findsOneWidget);
+    expect(find.text('Microphone off'), findsNothing);
     expect(
-      find.text('Microphone is stopped — not sharing audio'),
+      find.text('Stop sharing turns off camera and microphone on this phone.'),
       findsOneWidget,
     );
-    expect(find.text('Microphone off'), findsOneWidget);
-    expect(find.text('Ending stops camera and microphone.'), findsOneWidget);
 
-    controller.mediaLive = true;
     controller.isConnected.value = true;
+    controller.checkingAudio.value = true;
     await tester.pump();
 
-    expect(find.text('Microphone is on'), findsOneWidget);
+    expect(find.text('Microphone is on — checking audio…'), findsOneWidget);
+    expect(find.text('Microphone on · checking…'), findsOneWidget);
+    expect(find.text('Microphone live'), findsNothing);
+
+    controller.checkingAudio.value = false;
+    controller.audioNotFlowing.value = true;
+    await tester.pump();
+
+    expect(
+      find.text('Microphone is on, but audio is not reaching your guardian'),
+      findsOneWidget,
+    );
+    expect(find.text('Microphone on · not flowing'), findsOneWidget);
+    expect(find.text('Microphone live'), findsNothing);
+
+    controller.mediaLive = true;
+    controller.isMediaFlowing.value = true;
+    await tester.pump();
+
+    expect(find.text('Microphone is live'), findsOneWidget);
     expect(find.text('Microphone live'), findsOneWidget);
     expect(find.text('Microphone off'), findsNothing);
   });
 
-  testWidgets('the media card fits a 320dp wide screen', (tester) async {
-    tester.view.physicalSize = const Size(320, 640);
-    tester.view.devicePixelRatio = 1.0;
-    addTearDown(tester.view.reset);
-
+  testWidgets('a connected session with the microphone off offers Join',
+      (tester) async {
     controller = _TestSessionController(state: _session());
     controller.hasActivePeer.value = true;
     controller.isConnected.value = true;
-    controller.mediaLive = true;
     Get.put<RemoteSessionController>(controller);
     await _openPage(tester);
 
+    expect(
+      find.text('Connected, but the microphone is off on this phone'),
+      findsOneWidget,
+    );
+    expect(find.text('Microphone off'), findsOneWidget);
+    expect(find.text('Microphone live'), findsNothing);
+    // Capture is off while the session is open, so the visible consent action
+    // must be reachable without ending or replacing the session.
+    expect(controller.canJoin, isTrue);
+    expect(find.text('Join with microphone'), findsOneWidget);
+  });
+
+  testWidgets('the media card fits a 320dp wide screen', (tester) async {
+    controller = _TestSessionController(state: _session());
+    controller.hasActivePeer.value = true;
+    controller.isConnected.value = true;
+    controller.captureActive = true;
+    controller.mediaLive = true;
+    controller.isMediaFlowing.value = true;
+    Get.put<RemoteSessionController>(controller);
+    await _openPage(tester, size: const Size(320, 640));
+
     expect(tester.takeException(), isNull);
-    expect(find.text('Microphone is on'), findsOneWidget);
-    expect(find.text('Ending stops camera and microphone.'), findsOneWidget);
+    expect(find.text('Microphone is live'), findsOneWidget);
+    expect(
+      find.text('Stop sharing turns off camera and microphone on this phone.'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('the child page refuses a controller that is not the child role',
@@ -237,5 +392,6 @@ void main() {
 
     expect(find.text('Not available for this account'), findsOneWidget);
     expect(find.text('End session'), findsNothing);
+    expect(find.text('Stop sharing'), findsNothing);
   });
 }

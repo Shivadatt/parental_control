@@ -165,11 +165,30 @@ begin
 
   -- -----------------------------------------------------------------------
   -- cron helpers
+  --
+  -- Only a pending request is swept. session2 is a legacy-shaped consented row
+  -- whose deadline has already passed; under the parent-controlled policy
+  -- (migration 20261028000200) elapsed time must not end it.
   -- -----------------------------------------------------------------------
+  insert into public.remote_sessions (
+    id, family_id, device_id, parent_user_id, child_user_id, kind, status,
+    requested_at, expires_at
+  ) values (
+    '50000000-0000-4000-8000-000000000003', v_family1, v_device1,
+    v_parent1, v_child1, 'audio', 'requested',
+    now() - interval '30 minutes', now() - interval '20 minutes'
+  );
+
   select public.expire_stale_sessions() into v_count;
-  perform tests.assert_true(v_count >= 1, 'stale session sweep expires at least one session');
+  perform tests.assert_true(v_count = 1, 'stale session sweep expires the pending request, got ' || v_count);
+  select status into v_status
+  from public.remote_sessions where id = '50000000-0000-4000-8000-000000000003';
+  perform tests.assert_true(v_status = 'expired', 'stale pending request is expired');
   select status into v_status from public.remote_sessions where id = v_session2;
-  perform tests.assert_true(v_status = 'expired', 'stale session is expired');
+  perform tests.assert_true(
+    v_status = 'active',
+    'an active session is never expired by elapsed time, got ' || coalesce(v_status, '<none>')
+  );
   select status into v_status from public.remote_sessions where id = v_session1;
   perform tests.assert_true(v_status = 'accepted', 'live session is untouched');
 
@@ -269,7 +288,7 @@ begin
       'select public.unlink_child(%L::uuid, %L::uuid, %L::uuid)',
       v_family1, v_child1, v_child4
     ),
-    '42501', 'forbidden',
+    '42501', 'not_family_parent',
     'a child cannot unlink a sibling'
   );
 
@@ -397,7 +416,7 @@ begin
 
   perform tests.expect_error(
     format('select public.revoke_device(%L::uuid, %L::uuid)', v_device7, v_parent2),
-    '42501', 'forbidden',
+    '42501', 'not_family_parent',
     'a parent from another family cannot revoke a device'
   );
 

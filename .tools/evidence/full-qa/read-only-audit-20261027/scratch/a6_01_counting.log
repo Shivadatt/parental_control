@@ -1,0 +1,66 @@
+================ TASK 2: status CHECK constraint as created in the local catalog ================
+              conname               |                                                def                                                 
+------------------------------------+----------------------------------------------------------------------------------------------------
+ device_pairing_tokens_status_check | CHECK ((status = ANY (ARRAY['active'::text, 'redeemed'::text, 'revoked'::text, 'expired'::text])))
+
+-- which status literals the live status constraint accepts:
+ has_active | has_redeemed | has_revoked | has_expired | has_consumed 
+------------+--------------+-------------+-------------+--------------
+ t          | t            | t           | t           | f
+
+-- statuses actually stored in the table right now (fixtures + suite):
+  status  | count 
+----------+-------
+ active   |     3
+ revoked  |     2
+ redeemed |     1
+
+================ scratch children for the counting scenarios ================
+(the on_auth_user_created trigger already makes the profile row, so only role is set)
+INSERT 0 0
+UPDATE 5
+                  id                  | role  |  display_name   
+--------------------------------------+-------+-----------------
+ a1000000-0000-4000-8000-000000000000 | child | Scratch Child 0
+ a2000000-0000-4000-8000-000000000000 | child | Scratch Child 0
+ a3000000-0000-4000-8000-000000000000 | child | Scratch Child 0
+ a4000000-0000-4000-8000-000000000000 | child | Scratch Child 0
+ a5000000-0000-4000-8000-000000000000 | child | Scratch Child 0
+
+-- empirical: inserting status = 'consumed' must fail with 23514:
+psql:.tools/evidence/full-qa/read-only-audit-20261027/scratch/a6_01_counting.sql:50: NOTICE:  CONFIRMED: rejected with SQLSTATE 23514 (new row for relation "device_pairing_tokens" violates check constraint "device_pairing_tokens_status_check")
+DO
+================ TASK 1: the counting bug ================
+-- clean only the scratch-child rows so this script is re-runnable:
+DELETE 0
+-- Scenario A: replay the REAL app sequence = 5 code creations by one child.
+   pairing/index.ts:227-254 -> insert active, then revoke every previous active.
+DO
+-- Scenario B: same 5 rows for child a2..., then unlink_member-style bulk revoke
+   (functions.sql:398-401 sets status=revoked for every active token of the child).
+DO
+-- Scenario C: 1 redeemed + 2 expired + 2 revoked (all past their TTL), child a3...
+INSERT 0 5
+-- Scenario D: 5 rows still status=active but past expires_at (nobody redeemed
+   them and no job flips them), child a4...
+INSERT 0 5
+-- Scenario E (control): a normal child with exactly 1 live active token, child a5...
+INSERT 0 1
+---- per-scenario row mix as actually stored ----
+                child                 |                                          stored_rows                                           
+--------------------------------------+------------------------------------------------------------------------------------------------
+ a1000000-0000-4000-8000-000000000000 | active(live), revoked(live), revoked(live), revoked(live), revoked(live)
+ a2000000-0000-4000-8000-000000000000 | revoked(live), revoked(live), revoked(live), revoked(live), revoked(live)
+ a3000000-0000-4000-8000-000000000000 | expired(past-ttl), expired(past-ttl), redeemed(past-ttl), revoked(past-ttl), revoked(past-ttl)
+ a4000000-0000-4000-8000-000000000000 | active(past-ttl), active(past-ttl), active(past-ttl), active(past-ttl), active(past-ttl)
+ a5000000-0000-4000-8000-000000000000 | active(live)
+
+---- THE TWO COUNT EXPRESSIONS (rate_limit.ts:70-88 current vs proposed) ----
+                  label                   | current_count | proposed_count | current_verdict | proposed_verdict 
+------------------------------------------+---------------+----------------+-----------------+------------------
+ A: 4 revoked + 1 active (5 real creates) |             5 |              1 | BLOCKED (429)   | allowed
+ B: 5 revoked (unlinked/relinked child)   |             5 |              0 | BLOCKED (429)   | allowed
+ C: 1 redeemed + 2 expired + 2 revoked    |             5 |              0 | BLOCKED (429)   | allowed
+ D: 5 active rows past TTL (stale)        |             5 |              0 | BLOCKED (429)   | allowed
+ E: control, 1 live active token          |             1 |              1 | allowed         | allowed
+

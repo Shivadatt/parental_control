@@ -1,0 +1,26 @@
+BLOCKED pairing.create_quota.childA :: {"status":429,"code":"rate_limited","msg":"You have created too many linking codes today. Try again lat"}
+BLOCKED pairing.create_quota.childB :: {"status":429,"code":"rate_limited","msg":"You have created too many linking codes today. Try again lat"}
+BLOCKED pairing.create_quota.childC :: {"status":409,"code":"child_already_linked","msg":"This account is already linked to a family."}
+PASS pairing.parent_cannot_create_code :: {"status":403,"code":"role_required"}
+PASS pairing.anon_cannot_create_code :: {"status":401,"code":"unauthorized"}
+PASS pairing.redeem_into_foreign_family_denied :: {"status":403,"code":"forbidden"}
+PASS pairing.child_cannot_redeem :: {"status":403,"code":"role_required"}
+PASS pairing.anon_redeem_denied :: {"status":401,"code":"unauthorized"}
+PASS pairing.redeem_malformed_family_rejected :: {"status":400,"code":"validation_error"}
+FAIL pairing.unknown_codes_uniform_error :: {"a":400,"b":429,"code_a":"invalid_code","code_b":"rate_limited"}
+FAIL pairing.short_code_rejected :: {"status":429,"code":"rate_limited"}
+PASS pairing.sqlish_code_rejected :: {"status":403,"code":"http_403"}
+NOT_RUN pairing.parent_attempt_rate_limit_enforced :: {"reason":"triggering the 5-per-10-minute window would lock PARENT_A/PARENT_B out of redeeming the code the device agent is pairing with right now","implementation":"supabase/functions/_shared/rate_limit.ts MAX_ATTEMPTS_PER_PARENT=5, MAX_ATTEMPTS_PER_TOKEN=10, CODE_CREATIONS_PER_24H=5"}
+PASS pairing.attempt_window_not_exhausted_by_qa_run :: {"status":400,"code":"invalid_code"}
+PASS pairing.respond_random_request_denied :: {"status":404,"code":"request_not_found"}
+FAIL pairing.respond_malformed_request_id_rejected :: {"status":404,"code":"request_not_found"}
+PASS pairing.cancel_unknown_request_denied :: {"status":404,"code":"request_not_found"}
+PASS pairing.pending_child_requires_child_role :: {"status":403,"code":"role_required"}
+PASS pairing.unlink_removed_child_denied :: {"status":403,"code":"forbidden"}
+BLOCKED pairing.expiry_replay_and_cross_family_redeem :: {"reason":"needs a fresh code; device_pairing_tokens cap (5 per child per 24 h) is exhausted for CHILD_A/CHILD_B/CHILD_C — create returns 429 rate_limited"}
+
+SUMMARY pairing_security: 17/20 not-failed, 3 FAILED, 4 SKIP/INFO/BLOCKED (total 20)
+FAILED: pairing.unknown_codes_uniform_error {"a":400,"b":429,"code_a":"invalid_code","code_b":"rate_limited"}
+FAILED: pairing.short_code_rejected {"status":429,"code":"rate_limited"}
+FAILED: pairing.respond_malformed_request_id_rejected {"status":404,"code":"request_not_found"}
+pair_exit=1

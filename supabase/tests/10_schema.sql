@@ -543,3 +543,49 @@ begin
   end loop;
 end;
 $$;
+
+-- ---------------------------------------------------------------------------
+-- Per-device remote-session request RPC
+-- (migration 20261028000100_remote_session_concurrency.sql). SECURITY DEFINER
+-- with a pinned search_path, executable only by service_role.
+-- ---------------------------------------------------------------------------
+do $$
+declare
+  v_fn text := 'public.request_remote_session(uuid,uuid,text)';
+  v_oid oid := to_regprocedure(v_fn);
+  v_prosecdef boolean;
+  v_proconfig text[];
+begin
+  perform tests.assert_true(
+    v_oid is not null,
+    'remote-session RPC is missing: ' || v_fn
+  );
+
+  select p.prosecdef, p.proconfig into v_prosecdef, v_proconfig
+  from pg_proc p where p.oid = v_oid;
+  perform tests.assert_true(
+    coalesce(v_prosecdef, false),
+    'remote-session RPC must be SECURITY DEFINER: ' || v_fn
+  );
+  perform tests.assert_true(
+    exists (
+      select 1 from unnest(coalesce(v_proconfig, '{}'::text[])) as c
+      where c like 'search_path=%'
+    ),
+    'remote-session RPC must pin search_path: ' || v_fn
+  );
+
+  perform tests.assert_true(
+    not has_function_privilege('anon', v_fn, 'execute'),
+    'anon must not execute remote-session RPC: ' || v_fn
+  );
+  perform tests.assert_true(
+    not has_function_privilege('authenticated', v_fn, 'execute'),
+    'authenticated must not execute remote-session RPC: ' || v_fn
+  );
+  perform tests.assert_true(
+    has_function_privilege('service_role', v_fn, 'execute'),
+    'service_role must execute remote-session RPC: ' || v_fn
+  );
+end;
+$$;

@@ -88,8 +88,9 @@ class RemoteAssistancePage extends GetView<RemoteAssistanceController> {
                     'session screen; you join from the session screen on this '
                     'phone. This phone\'s camera and microphone are never opened '
                     'by the app. Nothing is recorded, and no screenshots or '
-                    'screen capture are taken. Requests expire quickly; accepted '
-                    'sessions are short-lived. The status on each card is the '
+                    'screen capture are taken. A pending request expires if it '
+                    'is not answered; once accepted, the session stays open '
+                    'until the guardian ends it. The status on each card is the '
                     'server\'s session status, not a media indicator.',
                     style: TextStyle(height: 1.45),
                   ),
@@ -281,7 +282,12 @@ class _SessionCard extends StatelessWidget {
                   '${formatDateTime(session.requestedAt)} · ${relativeTime(session.requestedAt)}',
             ),
             if (session.status.isOpen && !session.isExpired)
-              KeyValueRow(label: 'Expires', value: expiryLabel),
+              KeyValueRow(
+                label: session.isParentControlled
+                    ? 'Session duration'
+                    : 'Expires',
+                value: expiryLabel,
+              ),
             const SizedBox(height: 6),
             const Text(
               'Tap to open the session screen',
@@ -294,7 +300,7 @@ class _SessionCard extends StatelessWidget {
   }
 
   static StatusTone _tone(RemoteSession session, String statusLabel) {
-    if (statusLabel == 'Expired') return StatusTone.warning;
+    if (statusLabel.endsWith('expired')) return StatusTone.warning;
     switch (session.status) {
       case RemoteSessionStatus.requested:
         return StatusTone.info;

@@ -1,0 +1,52 @@
+{
+  "devices": [
+    {
+      "id": "a3b7b74e-77a4-4b95-85c4-b1ccf782be9a",
+      "status": "revoked",
+      "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764"
+    },
+    {
+      "id": "3d738837-82cb-4dc4-a578-6a07330c7d1f",
+      "status": "revoked",
+      "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55"
+    },
+    {
+      "id": "91e2b767-4c6e-4b9f-836a-4c4e55b124fa",
+      "status": "revoked",
+      "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764"
+    },
+    {
+      "id": "9dcadadc-34a4-4409-a6ac-6cc551015c0c",
+      "status": "revoked",
+      "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55"
+    },
+    {
+      "id": "311a090c-b5e2-4558-9f23-c06bde05ad97",
+      "status": "revoked",
+      "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55"
+    },
+    {
+      "id": "e6db9dda-afa0-4dcd-817e-28fe7f98a6c9",
+      "status": "revoked",
+      "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764"
+    },
+    {
+      "id": "d9b2fbf9-ef2d-47f8-913e-7a5bb456d0bc",
+      "status": "revoked",
+      "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55"
+    },
+    {
+      "id": "5cd879fe-9303-49ee-9ef6-2d8b478193c7",
+      "status": "revoked",
+      "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55"
+    }
+  ],
+  "sessions": [],
+  "locations": [],
+  "usage": [],
+  "audit": [
+    {
+      "id": "ef7ba9d9-3af2-4375-9f69-d1537136fc0a"
+    }
+  ]
+}

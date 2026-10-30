@@ -1,0 +1,1 @@
+D:/parentcontrol_app/.tools/pgsql16/pgsql/bin/postgres.exe "-D" ".pgdata" "-p" "55432" "-c" "listen_addresses=127.0.0.1"

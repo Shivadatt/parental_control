@@ -125,8 +125,7 @@ class ChildRequestsTab extends GetView<ChildShellController> {
                         ),
                         subtitle: Text(
                           '${session.kind.label} · '
-                          '${session.expiresAt.isBefore(DateTime.now()) ? 'expired' : 'expires'} '
-                          '${relativeTime(session.expiresAt)}',
+                          '${session.expiresAt == null || session.isExpired ? 'request expired' : 'expires ${relativeTime(session.expiresAt!)}'}',
                         ),
                         trailing: const Icon(Icons.chevron_right),
                         onTap: () => Get.toNamed(AppRoutes.childRequests),

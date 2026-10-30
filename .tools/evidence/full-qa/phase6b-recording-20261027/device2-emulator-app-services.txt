@@ -1,0 +1,6 @@
+=== app services (emulator, package absent) ===
+ACTIVITY MANAGER SERVICES (dumpsys activity services)
+  (nothing)
+
+=== ps grep ===
+(no match = not running)

@@ -15,6 +15,7 @@ class DevicesController extends GetxController {
     required this._familyRepository,
     required this._session,
     required this._connectivity,
+    this.refreshInterval = const Duration(seconds: 60),
   });
 
   final DeviceRepository _deviceRepository;
@@ -22,12 +23,18 @@ class DevicesController extends GetxController {
   final SessionService _session;
   final ConnectivityService _connectivity;
 
+  /// `null` disables the periodic refresh (used by controller tests).
+  final Duration? refreshInterval;
+
   final RxBool isLoading = false.obs;
   final Rxn<AppException> error = Rxn<AppException>();
   final Rxn<Family> family = Rxn<Family>();
   final RxList<Device> devices = <Device>[].obs;
   final RxBool isOffline = false.obs;
   final Rxn<DateTime> lastRefreshedAt = Rxn<DateTime>();
+
+  Timer? _refreshTimer;
+  Worker? _connectivityWorker;
 
   bool get hasFamily => family.value != null;
   bool get isEmpty => devices.isEmpty;
@@ -37,6 +44,23 @@ class DevicesController extends GetxController {
   void onInit() {
     super.onInit();
     unawaited(load());
+    _connectivityWorker = ever<bool>(_connectivity.isOnline, (online) {
+      isOffline.value = !online;
+      if (online) unawaited(refresh());
+    });
+    final interval = refreshInterval;
+    if (interval != null) {
+      _refreshTimer = Timer.periodic(interval, (_) {
+        if (_connectivity.isOnline.value) unawaited(refresh());
+      });
+    }
+  }
+
+  @override
+  void onClose() {
+    _refreshTimer?.cancel();
+    _connectivityWorker?.dispose();
+    super.onClose();
   }
 
   Future<void> load() => _fetch(showLoading: true);

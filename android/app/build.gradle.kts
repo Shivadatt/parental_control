@@ -1,7 +1,35 @@
+import java.io.FileInputStream
+import java.util.Properties
+
 plugins {
     id("com.android.application")
     // The Flutter Gradle Plugin must be applied after the Android and Kotlin Gradle plugins.
     id("dev.flutter.flutter-gradle-plugin")
+}
+
+// Release signing is opt-in: android/key.properties is gitignored and never
+// committed. When it is absent (or incomplete) the release build keeps the
+// debug keystore so `flutter run --release` and local builds still work.
+val keystorePropertiesFile = rootProject.file("key.properties")
+val keystoreProperties = Properties()
+val hasKeystoreFile = keystorePropertiesFile.exists()
+if (hasKeystoreFile) {
+    FileInputStream(keystorePropertiesFile).use { keystoreProperties.load(it) }
+}
+val signingPropertyNames = listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+val missingSigningProperties =
+    signingPropertyNames.filter { keystoreProperties.getProperty(it).isNullOrBlank() }
+val hasReleaseSigning = hasKeystoreFile && missingSigningProperties.isEmpty()
+
+if (!hasReleaseSigning) {
+    val reason = if (hasKeystoreFile) {
+        "android/key.properties is missing ${missingSigningProperties.joinToString(", ")}. "
+    } else {
+        "android/key.properties not found (copy android/key.properties.example). "
+    }
+    logger.warn(
+        "WARNING: release build signed with DEBUG key - not shippable. $reason"
+    )
 }
 
 android {
@@ -25,11 +53,26 @@ android {
         versionName = flutter.versionName
     }
 
+    signingConfigs {
+        if (hasReleaseSigning) {
+            create("release") {
+                storeFile = file(keystoreProperties.getProperty("storeFile"))
+                storePassword = keystoreProperties.getProperty("storePassword")
+                keyAlias = keystoreProperties.getProperty("keyAlias")
+                keyPassword = keystoreProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            // Real keystore when android/key.properties exists; otherwise the
+            // debug key keeps local release runs possible (not shippable).
+            signingConfig = if (hasReleaseSigning) {
+                signingConfigs.getByName("release")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

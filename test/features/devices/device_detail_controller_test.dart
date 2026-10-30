@@ -41,7 +41,7 @@ void main() {
   test('presents an offline device honestly and flags unsupported suspension',
       () async {
     final device = buildDevice(
-      lastSeen: DateTime.now().subtract(const Duration(minutes: 10)),
+      lastSeen: DateTime.now().subtract(const Duration(minutes: 31)),
     );
     final policy = DevicePolicy(
       id: 'policy-4',

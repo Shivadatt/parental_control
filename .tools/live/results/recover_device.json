@@ -1,0 +1,244 @@
+{
+  "when": "2026-10-27T04:09:20.610Z",
+  "results": [
+    {
+      "name": "recover.setup_child_role",
+      "status": "INFO",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.setup_reset_unlink",
+      "status": "INFO",
+      "detail": {
+        "status": 404,
+        "code": "membership_not_found"
+      }
+    },
+    {
+      "name": "recover.setup_code_created",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.setup_redeemed",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.setup_approved",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.setup_membership_active",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "name": "recover.old_registered",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.old_device_credential_valid",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.child_role_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 403,
+        "code": "role_required"
+      }
+    },
+    {
+      "name": "recover.foreign_parent_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 403,
+        "code": "forbidden"
+      }
+    },
+    {
+      "name": "recover.unknown_device_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 404,
+        "code": "device_not_found"
+      }
+    },
+    {
+      "name": "recover.malformed_device_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 400,
+        "code": "validation_error"
+      }
+    },
+    {
+      "name": "recover.denials_leave_membership_active",
+      "status": "PASS",
+      "detail": {
+        "status": "active"
+      }
+    },
+    {
+      "name": "recover.denials_leave_credential_valid",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.parent_recovery_started",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.old_device_id_echoed",
+      "status": "PASS",
+      "detail": {
+        "match": true
+      }
+    },
+    {
+      "name": "recover.device_revoked_count",
+      "status": "PASS",
+      "detail": {
+        "count": 1
+      }
+    },
+    {
+      "name": "recover.membership_removed",
+      "status": "PASS",
+      "detail": {
+        "status": "removed"
+      }
+    },
+    {
+      "name": "recover.old_device_row_revoked",
+      "status": "PASS",
+      "detail": {
+        "status": "revoked",
+        "revoked": true,
+        "error": null
+      }
+    },
+    {
+      "name": "recover.old_credential_replay_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 401,
+        "code": "invalid_device_credentials"
+      }
+    },
+    {
+      "name": "recover.unlinked_registration_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 403,
+        "code": "forbidden"
+      }
+    },
+    {
+      "name": "recover.audit_event_written",
+      "status": "PASS",
+      "detail": {
+        "found": true,
+        "error": null
+      }
+    },
+    {
+      "name": "recover.audit_has_no_secret_fields",
+      "status": "PASS",
+      "detail": {
+        "keys": [
+          "already_unlinked",
+          "child_user_id",
+          "devices_revoked"
+        ]
+      }
+    },
+    {
+      "name": "recover.setup_code_created",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.setup_redeemed",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.setup_approved",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.setup_membership_active",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "name": "recover.fresh_registered",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.fresh_credential_valid",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "recover.fresh_device_distinct",
+      "status": "PASS",
+      "detail": {}
+    },
+    {
+      "name": "recover.old_credential_still_revoked",
+      "status": "PASS",
+      "detail": {
+        "status": 401,
+        "code": "invalid_device_credentials"
+      }
+    }
+  ]
+}

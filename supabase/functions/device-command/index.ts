@@ -31,6 +31,7 @@ import {
   readString,
   readUuid,
 } from "../_shared/validation.ts";
+import { decideEnforcement, policyTargetsApps } from "./enforcement.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 interface CommandRow {
@@ -318,15 +319,19 @@ Deno.serve(async (req: Request): Promise<Response> => {
         if (command.type === "apply_policy" && isRecord(command.payload)) {
           const policyId = command.payload.policy_id;
           if (isUuid(policyId)) {
-            const enforcement = nextStatus === "succeeded" ? "enforced" : "failed";
+            // Never derive "enforced" from the command status alone. The ack
+            // counters decide, and missing counters stay "pending".
+            const decision = decideEnforcement({
+              result,
+              ackStatus: nextStatus,
+              targetsApps: policyTargetsApps(command.payload.policy),
+            });
             const policyUpdate = await db
               .from("device_policies")
               .update({
                 acknowledged_at: nowIso,
-                enforcement_status: enforcement,
-                last_error: nextStatus === "succeeded"
-                  ? null
-                  : (errorMessage ?? "Command expired before acknowledgement."),
+                enforcement_status: decision.status,
+                last_error: decision.lastError,
               })
               .eq("id", policyId)
               .eq("device_id", device.id)
@@ -337,7 +342,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
             const appliedVersion = (policyUpdate.data as { version?: number } | null)
               ?.version;
             if (
-              nextStatus === "succeeded" &&
+              decision.advancePolicyVersion &&
               typeof appliedVersion === "number" &&
               Number.isInteger(appliedVersion) &&
               appliedVersion >= 0

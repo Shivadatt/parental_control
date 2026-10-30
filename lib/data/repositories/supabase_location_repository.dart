@@ -140,7 +140,15 @@ class SupabaseLocationRepository implements LocationRepository {
   @override
   Future<void> deleteSafeZone(String zoneId) async {
     try {
-      await _supabase.client.from('safe_zones').delete().eq('id', zoneId);
+      // Deletion is server-mediated: the client DELETE grant and policy on
+      // safe_zones were removed in migration 20261030000200. family-admin
+      // re-checks family parent membership and writes a `zone_deleted` audit
+      // row, which the direct table DELETE never did.
+      await _edgeApi.invoke(
+        'family-admin',
+        action: 'delete_zone',
+        body: {'zone_id': zoneId},
+      );
     } catch (error) {
       throw _mapError(error, 'The safe zone could not be deleted.');
     }

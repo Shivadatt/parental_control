@@ -1,0 +1,19 @@
+SQL suite status — qa-20261028 pass
+===================================
+TCP probe 127.0.0.1:55432: OPEN (Wed Oct 28 08:23:42 IST 2026)
+Read-only version query (.tools/pgsql16/pgsql/bin/psql -w ... -tAc "select version()"):
+  PostgreSQL 16.9, compiled by Visual C++ build 1943, 64-bit   (PSQL_EXIT=0)
+  -> matches the "PostgreSQL 16.9 on 127.0.0.1:55432" claim in
+     docs/verification-report.md:29 and docs/backend.md:705-708.
+
+SQL suite: NOT RUN IN THIS PASS.
+Reason: supabase/tests/README.md requires an EMPTY, DISPOSABLE database;
+fixtures use fixed UUIDs and are not re-runnable. Creating a database was
+explicitly out of scope for this pass, and the already-running instance was not
+reused (a run against it would be invalid). No database was created, reset or
+dropped; no migration was applied.
+
+Doc claims about prior SQL runs (exit 0, 19 public tables, 0 ERROR/ASSERTION
+FAILED, run_pairing_invite_race.sh blocked 3404 ms) remain UNVERIFIED in this
+pass; their logs exist: .tools/sql_rerun_185456.log,
+.tools/sql-tests-20261027.log.

@@ -1,0 +1,35 @@
+================ scratch parents ================
+INSERT 0 3
+UPDATE 3
+DELETE 0
+================ scenario P: one parent links 5 DIFFERENT children, all successful ================
+recordPairingAttempt(db, parent, codeHash, true) is what pairing/index.ts:330/353/401 does on a
+successful redeem, so every successful link writes one row.
+INSERT 0 5
+---- the two queries rate_limit.ts actually issues (10-minute window) ----
+ per_parent_count | if_only_success_counted | if_only_failures_counted 
+------------------+-------------------------+--------------------------
+                5 |                       5 |                        0
+
+psql:.tools/evidence/full-qa/read-only-audit-20261027/scratch/a6_02_attempts.sql:58: NOTICE:  VERDICT per-parent: count=5 >= MAX_ATTEMPTS_PER_PARENT=5 -> ApiError rate_limited 429. The 6th child cannot be linked.
+psql:.tools/evidence/full-qa/read-only-audit-20261027/scratch/a6_02_attempts.sql:58: NOTICE:  CONTROL: counting only failures gives 0 -> a parent with 0 failures would be allowed.
+DO
+---- proof the success column is stored but never filtered ----
+ success | count 
+---------+-------
+ t       |     5
+
+================ scenario Q: per-code limit, 1 success + 9 failures on ONE code ================
+INSERT 0 10
+ per_code_count | per_code_success_count | per_code_failure_count 
+----------------+------------------------+------------------------
+             10 |                      1 |                      9
+
+psql:.tools/evidence/full-qa/read-only-audit-20261027/scratch/a6_02_attempts.sql:96: NOTICE:  VERDICT per-code: count=10 >= MAX_ATTEMPTS_PER_TOKEN=10 -> 429 "Ask for a new code.", even though only 1 row was a success.
+DO
+---- mixed success/false rows as requested (5 rows, 3 true / 2 false) ----
+INSERT 0 5
+ current_count | failures_only_count 
+---------------+---------------------
+             5 |                   2
+

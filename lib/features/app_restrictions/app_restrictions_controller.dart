@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:parent_control/core/errors/app_exception.dart';
 import 'package:parent_control/core/utils/formatters.dart';
 import 'package:parent_control/data/models/device.dart';
+import 'package:parent_control/data/models/policy_enforcement.dart';
 import 'package:parent_control/data/repositories/repository_contracts.dart';
 import 'package:parent_control/data/services/connectivity_service.dart';
 import 'package:uuid/uuid.dart';
@@ -32,6 +33,8 @@ class AppRestrictionsController extends GetxController {
   final RxBool policyReady = false.obs;
   final Rxn<Device> device = Rxn<Device>();
   final Rxn<DevicePolicy> latestPolicy = Rxn<DevicePolicy>();
+  final Rxn<PolicyEnforcementReport> enforcementReport =
+      Rxn<PolicyEnforcementReport>();
   final RxList<InstalledApp> reportedApps = <InstalledApp>[].obs;
   final RxBool hasLoadedSnapshot = false.obs;
   final Rxn<AppException> appsError = Rxn<AppException>();
@@ -65,8 +68,19 @@ class AppRestrictionsController extends GetxController {
   int? get currentVersion => currentPolicy?.version;
   bool get awaitingAcknowledgement =>
       currentStatus == PolicyEnforcementStatus.pending;
-  bool get enforcementUnsupported => currentStatus ==
-      PolicyEnforcementStatus.unsupported;
+
+  /// The device said it cannot suspend packages, or the server recorded it.
+  bool get enforcementUnsupported =>
+      currentStatus == PolicyEnforcementStatus.unsupported ||
+      (enforcementReport.value?.isUnsupported ?? false);
+
+  /// A green "enforced" claim requires counts that prove it.
+  bool get enforcementProven =>
+      currentStatus == PolicyEnforcementStatus.enforced &&
+      (enforcementReport.value?.provesFullEnforcement ?? false);
+
+  /// "Applied to N of M apps", or null when the device reported no counts.
+  String? get appliedCountsText => enforcementReport.value?.appliedSummary;
 
   String get appsSnapshotMessage {
     if (appsError.value != null) {
@@ -158,6 +172,7 @@ class AppRestrictionsController extends GetxController {
       device.value = await _deviceRepository.fetchDevice(deviceId);
       latestPolicy.value = await _policyRepository.fetchLatestPolicy(deviceId);
       policyReady.value = true;
+      await _loadEnforcementReport(latestPolicy.value);
       try {
         final apps = await _deviceRepository.fetchReportedApps(deviceId);
         reportedApps.assignAll(apps);
@@ -397,6 +412,7 @@ class AppRestrictionsController extends GetxController {
       );
       latestPolicy.value = result.policy;
       savedPolicy.value = result.policy;
+      await _loadEnforcementReport(result.policy);
       statusMessage.value = describePolicy(result.policy);
       _startAckPolling();
       return true;
@@ -417,6 +433,7 @@ class AppRestrictionsController extends GetxController {
       if (policy == null) return;
       latestPolicy.value = policy;
       savedPolicy.value = policy;
+      await _loadEnforcementReport(policy);
       if (policy.status != PolicyEnforcementStatus.pending) {
         _ackTimer?.cancel();
       }
@@ -466,6 +483,7 @@ class AppRestrictionsController extends GetxController {
         if (policy != null) {
           latestPolicy.value = policy;
           savedPolicy.value = policy;
+          await _loadEnforcementReport(policy);
           if (policy.status != PolicyEnforcementStatus.pending) {
             statusMessage.value = describePolicy(policy);
             timer.cancel();
@@ -479,6 +497,41 @@ class AppRestrictionsController extends GetxController {
     });
   }
 
+  /// Loads the ack counters from the matching apply_policy command.
+  ///
+  /// `device_policies` stores the status but no counts, and Phase 1 adds no
+  /// columns, so the command result is the only provable evidence. Failures
+  /// leave the report empty instead of reusing another version's counts.
+  Future<void> _loadEnforcementReport(DevicePolicy? policy) async {
+    if (policy == null) {
+      enforcementReport.value = null;
+      return;
+    }
+    try {
+      final commands = await _policyRepository.fetchRecentCommands(
+        deviceId,
+        limit: 10,
+      );
+      for (final command in commands) {
+        if (command.type != DeviceCommandType.applyPolicy) continue;
+        final result = command.result;
+        if (result == null) continue;
+        final commandPolicyId = command.payload['policy_id']?.toString();
+        if (commandPolicyId != null &&
+            commandPolicyId.isNotEmpty &&
+            commandPolicyId != policy.id) {
+          continue;
+        }
+        enforcementReport.value = PolicyEnforcementReport.fromJson(result);
+        return;
+      }
+      enforcementReport.value = null;
+    } catch (_) {
+      // Counts are optional evidence; never invent them when unreadable.
+      enforcementReport.value = null;
+    }
+  }
+
   String describePolicy(DevicePolicy? policy) {
     if (policy == null) {
       return 'No policy has been saved for this device yet.';
@@ -489,17 +542,22 @@ class AppRestrictionsController extends GetxController {
             ? 'Policy v${policy.version} was acknowledged, but the device did not confirm enforcement.'
             : 'Policy v${policy.version} saved. Pending device acknowledgement — no restriction is active on the device yet.';
       case PolicyEnforcementStatus.enforced:
+        final counts = appliedCountsText;
+        if (counts == null) {
+          return 'Policy v${policy.version} is marked enforced, but the device did not '
+              'report how many apps it suspended.';
+        }
         final acknowledged = policy.acknowledgedAt == null
             ? ''
             : ' (acknowledged ${formatDateTime(policy.acknowledgedAt)})';
-        return 'Policy v${policy.version} enforced on the device$acknowledged.';
+        return 'Policy v${policy.version} enforced on the device — $counts$acknowledged.';
       case PolicyEnforcementStatus.failed:
         final error =
             policy.lastError == null ? '' : ': ${policy.lastError}';
         return 'Policy v${policy.version} failed on the device$error.';
       case PolicyEnforcementStatus.unsupported:
-        return 'Policy v${policy.version} is unsupported on this device. '
-            'App suspension requires a fully managed (Device Owner) device.';
+        return 'Policy v${policy.version} cannot be enforced on this device. '
+            'App blocking requires Device Owner.';
     }
   }
 }

@@ -1,0 +1,13 @@
+10-28 11:39:33.003 10199 13475 I audio_device_buffer.cc: (line 75): AudioDeviceBuffer::ctor
+10-28 11:39:33.003 10199 13475 I audio_device_buffer.cc: (line 222): SetPlayoutSampleRate(48000)
+10-28 11:39:33.003 10199 13475 I audio_device_buffer.cc: (line 242): SetPlayoutChannels(1)
+10-28 11:39:33.003 10199 13475 I audio_device_buffer.cc: (line 216): SetRecordingSampleRate(48000)
+10-28 11:39:33.004 10199 13475 I audio_device_buffer.cc: (line 236): SetRecordingChannels(1)
+10-28 11:39:36.354 10199 13490 I audio_device_buffer.cc: (line 281): Size of recording buffer: 480
+10-28 11:39:56.187 10199 13482 I audio_device_buffer.cc: (line 480): [REC : 10000msec, 48kHz] callbacks: 998, samples: 479040, rate: 47904, rate diff: 0%, level: 2007
+10-28 11:40:06.188 10199 13482 I audio_device_buffer.cc: (line 480): [REC : 10001msec, 48kHz] callbacks: 1000, samples: 480000, rate: 47995, rate diff: 0%, level: 378
+10-28 11:40:16.188 10199 13482 I audio_device_buffer.cc: (line 480): [REC : 10000msec, 48kHz] callbacks: 1000, samples: 480000, rate: 48000, rate diff: 0%, level: 2281
+10-28 11:40:26.189 10199 13482 I audio_device_buffer.cc: (line 480): [REC : 10001msec, 48kHz] callbacks: 1000, samples: 480000, rate: 47995, rate diff: 0%, level: 158
+10-28 11:40:36.189 10199 13482 I audio_device_buffer.cc: (line 480): [REC : 10000msec, 48kHz] callbacks: 1000, samples: 480000, rate: 48000, rate diff: 0%, level: 136
+10-28 11:40:46.189 10199 13482 I audio_device_buffer.cc: (line 480): [REC : 10000msec, 48kHz] callbacks: 1000, samples: 480000, rate: 48000, rate diff: 0%, level: 11655
+10-28 11:40:56.189 10199 13482 I audio_device_buffer.cc: (line 480): [REC : 10000msec, 48kHz] callbacks: 1000, samples: 480000, rate: 48000, rate diff: 0%, level: 486

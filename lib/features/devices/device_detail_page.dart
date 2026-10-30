@@ -193,11 +193,24 @@ class DeviceDetailPage extends GetView<DeviceDetailController> {
   Widget _buildIdentityCard(BuildContext context, Device device) {
     return SectionCard(
       title: 'Device identity',
-      trailing: StatusChip(
-        label: device.statusLabel,
-        tone: device.isRevoked
-            ? StatusTone.danger
-            : (device.isOnline ? StatusTone.success : StatusTone.warning),
+      trailing: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          StatusChip(
+            label: device.statusLabel,
+            tone: device.isRevoked
+                ? StatusTone.danger
+                : (device.isOnline ? StatusTone.success : StatusTone.warning),
+          ),
+          if (device.isSyncStalled) ...[
+            const SizedBox(height: 6),
+            const StatusChip(
+              label: 'Sync stalled',
+              tone: StatusTone.warning,
+              icon: Icons.sync_problem,
+            ),
+          ],
+        ],
       ),
       child: Column(
         children: [
@@ -214,8 +227,8 @@ class DeviceDetailPage extends GetView<DeviceDetailController> {
           KeyValueRow(
             label: 'Last seen',
             value: device.lastSeenAt == null
-                ? 'Never reported'
-                : '${relativeTime(device.lastSeenAt)} · ${formatDateTime(device.lastSeenAt)}',
+                ? 'Never synced'
+                : '${device.lastSeenAgeLabel} · ${formatDateTime(device.lastSeenAt)}',
           ),
           KeyValueRow(
             label: 'Battery',

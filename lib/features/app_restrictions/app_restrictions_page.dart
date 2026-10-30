@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:parent_control/core/theme/app_theme.dart';
 import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/data/models/device.dart';
+import 'package:parent_control/data/models/policy_enforcement.dart';
 import 'package:parent_control/features/app_restrictions/app_restrictions_controller.dart';
 import 'package:parent_control/features/devices/device_presentation.dart';
 
@@ -248,12 +249,18 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
 
   Widget _buildPolicyCard() {
     final status = controller.currentStatus;
+    final proven = controller.enforcementProven;
     return SectionCard(
       title: 'Policy state',
       subtitle: 'Server version and device acknowledgement',
       trailing: status == null
           ? null
-          : StatusChip(label: status.label, tone: policyTone(status)),
+          : (status == PolicyEnforcementStatus.enforced && !proven
+              ? const StatusChip(
+                  label: 'Unverified',
+                  tone: StatusTone.warning,
+                )
+              : StatusChip(label: status.label, tone: policyTone(status))),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -261,6 +268,13 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
             label: 'Version',
             value: controller.currentVersion?.toString() ?? 'No version yet',
           ),
+          if (controller.appliedCountsText != null) ...[
+            const SizedBox(height: 4),
+            KeyValueRow(
+              label: 'Applied apps',
+              value: controller.appliedCountsText!,
+            ),
+          ],
           const SizedBox(height: 4),
           Text(
             controller.policyStateText,
@@ -276,33 +290,45 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
                   'The device has not confirmed this policy. No app is blocked by this selection yet.',
             ),
           ],
-          if (controller.currentStatus == PolicyEnforcementStatus.enforced) ...[
+          if (controller.enforcementUnsupported) ...[
             const SizedBox(height: 10),
-            const InfoBanner(
+            InfoBanner(
+              tone: BannerTone.warning,
+              icon: Icons.block,
+              title: 'Unsupported on this device',
+              message: controller.enforcementReport.value?.isUnsupported == true
+                  ? '${PolicyEnforcementReport.unsupportedMessage} '
+                      'The device reported 0 applied apps, so no restriction is active.'
+                  : 'The device refused enforcement. Fully managed Device Owner provisioning is required to suspend apps.',
+            ),
+          ],
+          if (status == PolicyEnforcementStatus.enforced && proven) ...[
+            const SizedBox(height: 10),
+            InfoBanner(
               tone: BannerTone.success,
               icon: Icons.verified_outlined,
               message:
-                  'The device acknowledged this policy version. Unsupported or refused packages may still remain available.',
+                  '${controller.appliedCountsText}. DevicePolicyManager confirmed every selected app is suspended.',
             ),
           ],
-          if (controller.currentStatus == PolicyEnforcementStatus.failed) ...[
+          if (status == PolicyEnforcementStatus.enforced && !proven) ...[
+            const SizedBox(height: 10),
+            const InfoBanner(
+              tone: BannerTone.warning,
+              icon: Icons.help_outline,
+              title: 'Enforcement not proven by counts',
+              message:
+                  'This policy is marked enforced, but the device did not report how many apps it suspended. '
+                  'Treat the selection as unverified until a new acknowledgement includes applied counts.',
+            ),
+          ],
+          if (status == PolicyEnforcementStatus.failed) ...[
             const SizedBox(height: 10),
             InfoBanner(
               tone: BannerTone.danger,
               title: 'Enforcement failed',
               message: controller.currentPolicy?.lastError ??
                   'The device reported a failure without an explanation.',
-            ),
-          ],
-          if (controller.currentStatus ==
-              PolicyEnforcementStatus.unsupported) ...[
-            const SizedBox(height: 10),
-            const InfoBanner(
-              tone: BannerTone.warning,
-              icon: Icons.block,
-              title: 'Unsupported on this device',
-              message:
-                  'The device refused enforcement. Fully managed Device Owner provisioning is required to suspend apps.',
             ),
           ],
           Align(

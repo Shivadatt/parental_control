@@ -207,7 +207,13 @@ class _DeviceCard extends StatelessWidget {
 
   StatusTone get _tone {
     if (device.isRevoked) return StatusTone.danger;
-    return device.isOnline ? StatusTone.success : StatusTone.warning;
+    switch (device.syncHealth) {
+      case DeviceSyncHealth.healthy:
+        return StatusTone.success;
+      case DeviceSyncHealth.stalled:
+      case DeviceSyncHealth.offline:
+        return StatusTone.warning;
+    }
   }
 
   @override
@@ -252,15 +258,28 @@ class _DeviceCard extends StatelessWidget {
                   ],
                 ),
               ),
-              StatusChip(label: device.statusLabel, tone: _tone),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  StatusChip(label: device.statusLabel, tone: _tone),
+                  if (device.isSyncStalled) ...[
+                    const SizedBox(height: 6),
+                    const StatusChip(
+                      label: 'Sync stalled',
+                      tone: StatusTone.warning,
+                      icon: Icons.sync_problem,
+                    ),
+                  ],
+                ],
+              ),
             ],
           ),
           const SizedBox(height: 12),
           KeyValueRow(
             label: 'Last seen',
             value: lastSeen == null
-                ? 'Never reported'
-                : '${relativeTime(lastSeen)} · ${formatDateTime(lastSeen)}',
+                ? 'Never synced'
+                : '${device.lastSeenAgeLabel} · ${formatDateTime(lastSeen)}',
           ),
           KeyValueRow(
             label: 'Battery',

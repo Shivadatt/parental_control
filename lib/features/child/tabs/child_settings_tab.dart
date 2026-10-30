@@ -52,8 +52,10 @@ class ChildSettingsTab extends GetView<ChildShellController> {
             _accountCard(),
             const SizedBox(height: 12),
             _permissionsCard(context),
-            const SizedBox(height: 12),
-            _mediaTestCard(context),
+            if (controller.isEnrolled) ...[
+              const SizedBox(height: 12),
+              _mediaTestCard(context),
+            ],
             const SizedBox(height: 12),
             _enforcementCard(),
             const SizedBox(height: 12),
@@ -162,13 +164,25 @@ class ChildSettingsTab extends GetView<ChildShellController> {
             actionLabel: caps.cameraGranted ? null : 'Allow',
             onAction: () => controller.requestPermissions(camera: true),
           ),
-          PermissionStatusTile(
-            title: 'Microphone',
-            subtitle: 'Only during an audio or video session you accept.',
-            granted: caps.microphoneGranted,
-            actionLabel: caps.microphoneGranted ? null : 'Allow',
-            onAction: () => controller.requestPermissions(microphone: true),
-          ),
+          // Microphone access is only offered once this phone is linked to a
+          // parent, so an unlinked device never asks for capture permission.
+          if (controller.isEnrolled)
+            PermissionStatusTile(
+              title: 'Microphone',
+              subtitle: 'Only during an audio or video session you accept.',
+              granted: caps.microphoneGranted,
+              actionLabel: caps.microphoneGranted ? null : 'Allow',
+              onAction: () => controller.requestPermissions(microphone: true),
+            )
+          else
+            const InfoBanner(
+              tone: BannerTone.info,
+              icon: Icons.mic_off_outlined,
+              title: 'Microphone access',
+              message:
+                  'Microphone access is enabled after this phone is linked to a '
+                  'parent. Finish phone setup first.',
+            ),
           PermissionStatusTile(
             title: 'Notifications',
             subtitle:

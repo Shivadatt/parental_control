@@ -20,6 +20,7 @@ import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.util.concurrent.Executors
 import java.util.concurrent.ScheduledExecutorService
+import java.util.concurrent.ScheduledFuture
 import java.util.concurrent.TimeUnit
 
 /**
@@ -34,11 +35,14 @@ class GuardianService : Service() {
     companion object {
         private const val CHANNEL_ID = "guardian_status"
         private const val NOTIFICATION_ID = 4101
+        private const val TICK_MS = 10_000L
         private const val POLL_INTERVAL_MS = 20_000L
         private const val POLICY_TICK_MS = 60_000L
         private const val HEARTBEAT_MS = 5 * 60_000L
         private const val APPS_UPLOAD_MS = 30 * 60_000L
         private const val USAGE_UPLOAD_MS = 60 * 60_000L
+        private const val WATCHDOG_INTERVAL_MS = 60_000L
+        private const val STALL_FACTOR = 3
 
         @Volatile
         var isRunning: Boolean = false
@@ -76,6 +80,8 @@ class GuardianService : Service() {
     private lateinit var store: SecureStore
     private lateinit var applier: PolicyApplier
     private lateinit var executor: ScheduledExecutorService
+    private lateinit var watchdogExecutor: ScheduledExecutorService
+    private var tickFuture: ScheduledFuture<*>? = null
     private var nextPollAllowedAt = 0L
     private var pollBackoffMs = POLL_INTERVAL_MS
     private var lastHeartbeatAt = 0L
@@ -84,6 +90,33 @@ class GuardianService : Service() {
     private var lastPolicyTickAt = 0L
     private var lastLocationUploadMillis = 0L
     private var lastMockWarningMillis = 0L
+
+    /** Last moment a scheduler tick started or finished, read by the watchdog. */
+    @Volatile
+    private var lastTickAt = 0L
+
+    @Volatile
+    private var watchdogRunning = false
+
+    private var stallRecoveries = 0
+
+    /** Device id/secret actually used by the last tick. A change means relink. */
+    private var configFingerprint: String? = null
+
+    /**
+     * One tick, isolated so a failure can never kill the scheduled loop.
+     *
+     * `scheduleWithFixedDelay` cancels all future runs when the task throws;
+     * an exception from error reporting used to freeze presence while the
+     * foreground notification still claimed the service was running.
+     */
+    private val tickTask = Runnable {
+        runCatching { tick() }.onFailure { error ->
+            runCatching {
+                recordError(error.message ?: "Background sync stopped unexpectedly.")
+            }
+        }
+    }
 
     override fun onBind(intent: Intent?): IBinder? = null
 
@@ -118,12 +151,15 @@ class GuardianService : Service() {
             return
         }
         executor = Executors.newSingleThreadScheduledExecutor()
-        executor.scheduleWithFixedDelay(
-            { runCatching { tick() }.onFailure { recordError(it.message ?: "Background sync stopped unexpectedly.") } },
+        watchdogExecutor = Executors.newSingleThreadScheduledExecutor()
+        lastTickAt = System.currentTimeMillis()
+        tickFuture = executor.scheduleWithFixedDelay(
+            tickTask,
             0L,
-            10L,
-            TimeUnit.SECONDS
+            TICK_MS,
+            TimeUnit.MILLISECONDS
         )
+        startWatchdog()
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
@@ -137,8 +173,14 @@ class GuardianService : Service() {
     override fun onDestroy() {
         isRunning = false
         pendingAcks = 0
+        watchdogRunning = false
+        tickFuture?.cancel(false)
+        tickFuture = null
         if (::executor.isInitialized) {
             executor.shutdownNow()
+        }
+        if (::watchdogExecutor.isInitialized) {
+            watchdogExecutor.shutdownNow()
         }
         val error = if (::store.isInitialized) store.lastError() else lastError
         NativeEventBus.emitServiceStatus(false, error)
@@ -168,6 +210,18 @@ class GuardianService : Service() {
 
     private fun tick() {
         if (!isRunning) return
+        lastTickAt = System.currentTimeMillis()
+        try {
+            runTick()
+        } finally {
+            // Recording progress at the end keeps a slow but healthy tick from
+            // looking stalled to the watchdog.
+            lastTickAt = System.currentTimeMillis()
+        }
+    }
+
+    private fun runTick() {
+        if (!isRunning) return
         if (!store.shouldRunGuardian()) {
             stopSelf()
             return
@@ -177,6 +231,17 @@ class GuardianService : Service() {
             recordError("Background sync is not configured on this device.")
             stopSelf()
             return
+        }
+        if (configChanged(config)) {
+            // Pairing or credential recovery rewrote the sync config while this
+            // service kept running. Resume at once with the new credential
+            // instead of waiting out the old poll backoff or heartbeat timer.
+            nextPollAllowedAt = 0L
+            pollBackoffMs = POLL_INTERVAL_MS
+            lastPolicyTickAt = 0L
+            lastHeartbeatAt = 0L
+            lastAppsUploadAt = 0L
+            lastUsageUploadAt = 0L
         }
         val client = DeviceHttpClient(config)
         val now = System.currentTimeMillis()
@@ -221,6 +286,75 @@ class GuardianService : Service() {
             if (uploadUsage(client) > 0) lastUsageUploadAt = now
         }
         uploadPendingLocation(client)
+    }
+
+    private fun configChanged(config: SyncConfig): Boolean {
+        val fingerprint =
+            "${config.deviceId}|${config.familyId}|${SecureStore.sha256Hex(config.deviceSecret)}"
+        if (fingerprint == configFingerprint) return false
+        configFingerprint = fingerprint
+        return true
+    }
+
+    /**
+     * Watches the scheduler, not the network: the scheduled tick is what keeps
+     * presence fresh. When it stops running (a task that died, a blocked
+     * thread) the foreground notification still claims the service works, so
+     * the stall is recorded, the tick loop is re-armed and an event is emitted
+     * for the UI. No new permission or wakelock is involved.
+     */
+    private fun startWatchdog() {
+        if (watchdogRunning) return
+        watchdogRunning = true
+        watchdogExecutor.scheduleWithFixedDelay(
+            {
+                runCatching { watchdogCheck() }.onFailure {
+                    runCatching { recordError("Background sync watchdog failed.") }
+                }
+            },
+            WATCHDOG_INTERVAL_MS,
+            WATCHDOG_INTERVAL_MS,
+            TimeUnit.MILLISECONDS
+        )
+    }
+
+    private fun watchdogCheck() {
+        if (!isRunning) return
+        val now = System.currentTimeMillis()
+        val last = lastTickAt
+        if (last <= 0L) {
+            lastTickAt = now
+            return
+        }
+        val stalledMs = now - last
+        if (stalledMs <= STALL_FACTOR * TICK_MS) return
+        recoverFromStall(stalledMs)
+    }
+
+    private fun recoverFromStall(stalledMs: Long) {
+        if (!isRunning) return
+        if (!::executor.isInitialized || executor.isShutdown) return
+        tickFuture?.cancel(false)
+        lastTickAt = System.currentTimeMillis()
+        stallRecoveries += 1
+        tickFuture = executor.scheduleWithFixedDelay(
+            tickTask,
+            0L,
+            TICK_MS,
+            TimeUnit.MILLISECONDS
+        )
+        runCatching {
+            recordError(
+                "Background sync stalled for ${stalledMs / 1000} s; it was restarted automatically."
+            )
+        }
+        NativeEventBus.emit(
+            mapOf(
+                "type" to "guardian_stall_recovered",
+                "stalledMs" to stalledMs,
+                "recoveryCount" to stallRecoveries
+            )
+        )
     }
 
     private fun pollCommands(client: DeviceHttpClient) {

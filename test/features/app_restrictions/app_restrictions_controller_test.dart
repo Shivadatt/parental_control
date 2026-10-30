@@ -15,14 +15,29 @@ void main() {
   late ConnectivityService connectivity;
   late AppRestrictionsController controller;
 
-  Device buildDevice() => Device(
+  Device buildDevice({String enforcementMode = 'device_owner'}) => Device(
         id: 'device-1',
         familyId: 'family-1',
         childUserId: 'child-1',
         displayName: 'Pixel 8',
         status: DeviceStatus.active,
-        enforcementMode: 'device_owner',
+        enforcementMode: enforcementMode,
         policyVersion: 3,
+      );
+
+  DeviceCommand applyCommand({
+    required String policyId,
+    required Map<String, dynamic> result,
+  }) =>
+      DeviceCommand(
+        id: 'command-1',
+        deviceId: 'device-1',
+        type: DeviceCommandType.applyPolicy,
+        payload: {'policy_id': policyId},
+        status: DeviceCommandStatus.succeeded,
+        createdAt: DateTime(2025, 1, 1),
+        expiresAt: DateTime(2025, 1, 2),
+        result: result,
       );
 
   setUp(() {
@@ -84,6 +99,21 @@ void main() {
     );
     when(() => policyRepository.fetchLatestPolicy('device-1'))
         .thenAnswer((_) async => policy);
+    when(() => policyRepository.fetchRecentCommands('device-1', limit: 10))
+        .thenAnswer(
+      (_) async => [
+        applyCommand(
+          policyId: 'policy-4',
+          result: const {
+            'desired_count': 0,
+            'applied_count': 0,
+            'failed_count': 0,
+            'enforcement_supported': true,
+            'enforcement_mode': 'device_owner',
+          },
+        ),
+      ],
+    );
     when(() => deviceRepository.fetchReportedApps('device-1')).thenAnswer(
       (_) async => const [
         InstalledApp(
@@ -97,6 +127,7 @@ void main() {
 
     expect(controller.currentStatus, PolicyEnforcementStatus.enforced);
     expect(controller.policyStateText, contains('enforced on the device'));
+    expect(controller.appliedCountsText, 'Applied to 0 of 0 apps');
     expect(controller.appsSnapshotMessage, contains('1 installed apps'));
     expect(controller.instagramAvailable, isTrue);
 
@@ -126,5 +157,124 @@ void main() {
     expect(controller.validationMessage.value, isEmpty);
     expect(controller.isBlocked('com.example.game'), isTrue);
     expect(controller.blockedUnreportedPackages, contains('com.example.game'));
+  });
+
+  test('shows applied N of M only from the matching ack counters', () async {
+    final policy = DevicePolicy(
+      id: 'policy-4',
+      deviceId: 'device-1',
+      version: 4,
+      payload: const PolicyPayload(
+        blockedPackages: ['com.instagram.android'],
+      ),
+      createdAt: DateTime(2025, 1, 1),
+      status: PolicyEnforcementStatus.enforced,
+      acknowledgedAt: DateTime(2025, 1, 2),
+    );
+    when(() => policyRepository.fetchLatestPolicy('device-1'))
+        .thenAnswer((_) async => policy);
+    when(() => deviceRepository.fetchReportedApps('device-1'))
+        .thenAnswer((_) async => const <InstalledApp>[]);
+    when(() => policyRepository.fetchRecentCommands('device-1', limit: 10))
+        .thenAnswer(
+      (_) async => [
+        applyCommand(
+          policyId: 'policy-4',
+          result: const {
+            'desired_count': 2,
+            'applied_count': 2,
+            'failed_count': 0,
+            'enforcement_supported': true,
+            'enforcement_mode': 'device_owner',
+          },
+        ),
+      ],
+    );
+
+    await controller.load();
+
+    expect(controller.appliedCountsText, 'Applied to 2 of 2 apps');
+    expect(controller.enforcementProven, isTrue);
+    expect(controller.enforcementUnsupported, isFalse);
+    expect(controller.policyStateText, contains('Applied to 2 of 2 apps'));
+  });
+
+  test('reports unsupported when the ack says supported=false', () async {
+    when(() => deviceRepository.fetchDevice('device-1'))
+        .thenAnswer((_) async => buildDevice(enforcementMode: 'none'));
+    final policy = DevicePolicy(
+      id: 'policy-5',
+      deviceId: 'device-1',
+      version: 5,
+      payload: const PolicyPayload(
+        blockedPackages: ['com.instagram.android'],
+      ),
+      createdAt: DateTime(2025, 1, 1),
+      status: PolicyEnforcementStatus.unsupported,
+      acknowledgedAt: DateTime(2025, 1, 2),
+    );
+    when(() => policyRepository.fetchLatestPolicy('device-1'))
+        .thenAnswer((_) async => policy);
+    when(() => deviceRepository.fetchReportedApps('device-1'))
+        .thenAnswer((_) async => const <InstalledApp>[]);
+    when(() => policyRepository.fetchRecentCommands('device-1', limit: 10))
+        .thenAnswer(
+      (_) async => [
+        applyCommand(
+          policyId: 'policy-5',
+          result: const {
+            'desired_count': 3,
+            'applied_count': 0,
+            'failed_count': 3,
+            'enforcement_supported': false,
+            'enforcement_mode': 'none',
+          },
+        ),
+      ],
+    );
+
+    await controller.load();
+
+    expect(controller.enforcementUnsupported, isTrue);
+    expect(controller.enforcementProven, isFalse);
+    expect(controller.appliedCountsText, 'Applied to 0 of 3 apps');
+    expect(controller.policyStateText, contains('cannot be enforced'));
+  });
+
+  test('a report from another policy version is never reused', () async {
+    final policy = DevicePolicy(
+      id: 'policy-6',
+      deviceId: 'device-1',
+      version: 6,
+      payload: const PolicyPayload(
+        blockedPackages: ['com.instagram.android'],
+      ),
+      createdAt: DateTime(2025, 1, 1),
+      status: PolicyEnforcementStatus.pending,
+    );
+    when(() => policyRepository.fetchLatestPolicy('device-1'))
+        .thenAnswer((_) async => policy);
+    when(() => deviceRepository.fetchReportedApps('device-1'))
+        .thenAnswer((_) async => const <InstalledApp>[]);
+    when(() => policyRepository.fetchRecentCommands('device-1', limit: 10))
+        .thenAnswer(
+      (_) async => [
+        applyCommand(
+          policyId: 'policy-5',
+          result: const {
+            'desired_count': 2,
+            'applied_count': 2,
+            'failed_count': 0,
+            'enforcement_supported': true,
+          },
+        ),
+      ],
+    );
+
+    await controller.load();
+
+    expect(controller.appliedCountsText, isNull);
+    expect(controller.enforcementProven, isFalse);
+    expect(controller.awaitingAcknowledgement, isTrue);
   });
 }

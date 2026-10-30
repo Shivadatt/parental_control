@@ -107,6 +107,15 @@ cmd //c "C:\Users\ASUS\fvm\versions\3.44.6\bin\flutter.bat test"
 cmd //c "C:\Users\ASUS\fvm\versions\3.44.6\bin\flutter.bat build apk --debug"
 ```
 
+The bare `build apk` above produces a client with no Supabase config. Use the
+validated wrappers instead (they pass `--dart-define-from-file` and refuse
+service-role keys): see [docs/release-build.md §7](docs/release-build.md).
+
+```bash
+bash scripts/build_debug_apk.sh
+bash scripts/build_release_apk.sh
+```
+
 Install the debug APK on the test device with:
 
 ```bash

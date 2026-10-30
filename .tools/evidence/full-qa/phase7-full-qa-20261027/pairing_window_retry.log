@@ -1,0 +1,9 @@
+FAIL pairing.unknown_codes_answered_identically :: {"a":"400/invalid_code","b":"429/rate_limited","msg_a":"The linking code is not valid.","msg_b":"Too many linking attempts. Wait a few minutes and try again."}
+PASS pairing.respond_malformed_request_id_400 :: {"status":400,"code":"validation_error"}
+PASS pairing.respond_missing_approve_400 :: {"status":400,"code":"validation_error"}
+PASS pairing.cancel_missing_request_id_400 :: {"status":400,"code":"validation_error"}
+PASS pairing.malformed_family_rejected_before_lookup :: {"status":400,"code":"validation_error"}
+
+SUMMARY pairing_window_retry: 4/5 not-failed, 1 FAILED, 0 SKIP/INFO/BLOCKED (total 5)
+FAILED: pairing.unknown_codes_answered_identically {"a":"400/invalid_code","b":"429/rate_limited","msg_a":"The linking code is not valid.","msg_b":"Too many linking attempts. Wait a few minutes and try again."}
+pw_exit=1

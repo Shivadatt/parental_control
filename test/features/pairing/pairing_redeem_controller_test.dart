@@ -20,6 +20,7 @@ void main() {
     controller = PairingRedeemController(
       pairingRepository: pairing,
       connectivity: connectivity,
+      statusPollInterval: null,
     );
     controller.start('family-1');
   });
@@ -33,10 +34,7 @@ void main() {
   ]) {
     test('keeps the server failure code $code unchanged', () async {
       when(
-        () => pairing.redeemLinkingCode(
-          code: 'ABCD1234',
-          familyId: 'family-1',
-        ),
+        () => pairing.redeemLinkingCode(code: 'ABCD1234', familyId: 'family-1'),
       ).thenThrow(AppException(code, 'Rejected with $code'));
 
       final redeemed = await controller.redeem('abcd-1234');
@@ -52,10 +50,7 @@ void main() {
   test('a successful redemption shows only the server request', () async {
     final pending = testPairingRequest();
     when(
-      () => pairing.redeemLinkingCode(
-        code: 'ABCD1234',
-        familyId: 'family-1',
-      ),
+      () => pairing.redeemLinkingCode(code: 'ABCD1234', familyId: 'family-1'),
     ).thenAnswer((_) async => pending);
 
     final redeemed = await controller.redeem('abcd-1234');
@@ -64,20 +59,21 @@ void main() {
     expect(controller.error.value, isNull);
     expect(controller.request.value?.id, pending.id);
     expect(controller.request.value?.status, PairingRequestStatus.pendingChild);
-    expect(controller.request.value?.status, isNot(PairingRequestStatus.approved));
+    expect(
+      controller.request.value?.status,
+      isNot(PairingRequestStatus.approved),
+    );
   });
 
   test('checking status reloads the request from the server', () async {
     final pending = testPairingRequest();
     final approved = testPairingRequest(status: PairingRequestStatus.approved);
     when(
-      () => pairing.redeemLinkingCode(
-        code: 'ABCD1234',
-        familyId: 'family-1',
-      ),
+      () => pairing.redeemLinkingCode(code: 'ABCD1234', familyId: 'family-1'),
     ).thenAnswer((_) async => pending);
-    when(() => pairing.fetchForFamily('family-1'))
-        .thenAnswer((_) async => [approved]);
+    when(
+      () => pairing.fetchForFamily('family-1'),
+    ).thenAnswer((_) async => [approved]);
 
     await controller.redeem('abcd-1234');
     await controller.checkStatus();
@@ -89,10 +85,7 @@ void main() {
   test('a missing request is reported instead of being invented', () async {
     final pending = testPairingRequest();
     when(
-      () => pairing.redeemLinkingCode(
-        code: 'ABCD1234',
-        familyId: 'family-1',
-      ),
+      () => pairing.redeemLinkingCode(code: 'ABCD1234', familyId: 'family-1'),
     ).thenAnswer((_) async => pending);
     when(() => pairing.fetchForFamily('family-1')).thenAnswer((_) async => []);
 
@@ -101,11 +94,61 @@ void main() {
 
     expect(controller.error.value?.code, AppErrorCodes.notFound);
     expect(controller.request.value?.id, pending.id);
-    expect(
-      controller.request.value?.status,
-      PairingRequestStatus.pendingChild,
-    );
+    expect(controller.request.value?.status, PairingRequestStatus.pendingChild);
   });
+
+  test(
+    'a pending request is polled and the card follows the child approval',
+    () async {
+      final pending = testPairingRequest();
+      final approved = testPairingRequest(
+        status: PairingRequestStatus.approved,
+      );
+      when(
+        () => pairing.redeemLinkingCode(code: 'ABCD1234', familyId: 'family-1'),
+      ).thenAnswer((_) async => pending);
+      when(
+        () => pairing.fetchForFamily('family-1'),
+      ).thenAnswer((_) async => [approved]);
+      final polling = PairingRedeemController(
+        pairingRepository: pairing,
+        connectivity: connectivity,
+        statusPollInterval: const Duration(milliseconds: 20),
+      );
+      addTearDown(polling.onClose);
+      polling.start('family-1');
+      await polling.redeem('ABCD1234');
+      expect(polling.request.value?.status, PairingRequestStatus.pendingChild);
+
+      await Future<void>.delayed(const Duration(milliseconds: 60));
+
+      expect(polling.request.value?.status, PairingRequestStatus.approved);
+      verify(() => pairing.fetchForFamily('family-1')).called(greaterThan(0));
+    },
+  );
+
+  test(
+    'a check-status failure is visible and keeps the pending request',
+    () async {
+      final pending = testPairingRequest();
+      when(
+        () => pairing.redeemLinkingCode(code: 'ABCD1234', familyId: 'family-1'),
+      ).thenAnswer((_) async => pending);
+      when(
+        () => pairing.fetchForFamily('family-1'),
+      ).thenThrow(const AppException('network_error', 'offline'));
+      await controller.redeem('ABCD1234');
+
+      await controller.checkStatus();
+
+      expect(controller.error.value?.code, 'network_error');
+      expect(controller.request.value?.id, pending.id);
+      expect(
+        controller.request.value?.status,
+        PairingRequestStatus.pendingChild,
+      );
+    },
+  );
 
   test('redemption requires a family from the route', () async {
     controller.start(null);
@@ -162,71 +205,63 @@ void main() {
     );
   });
 
-  test('a canonical Child ID invites the child instead of redeeming a code',
-      () async {
-    final pending = testPairingRequest();
-    when(
-      () => pairing.inviteChild(
-        childId: 'PC7K4M2QRX',
-        familyId: 'family-1',
-      ),
-    ).thenAnswer((_) async => pending);
+  test(
+    'a canonical Child ID invites the child instead of redeeming a code',
+    () async {
+      final pending = testPairingRequest();
+      when(
+        () => pairing.inviteChild(childId: 'PC7K4M2QRX', familyId: 'family-1'),
+      ).thenAnswer((_) async => pending);
 
-    final redeemed = await controller.redeem('PC7K4M2QRX');
+      final redeemed = await controller.redeem('PC7K4M2QRX');
 
-    expect(redeemed, isTrue);
-    expect(controller.error.value, isNull);
-    expect(controller.request.value?.id, pending.id);
-    expect(controller.request.value?.status, PairingRequestStatus.pendingChild);
-    verify(
-      () => pairing.inviteChild(
-        childId: 'PC7K4M2QRX',
-        familyId: 'family-1',
-      ),
-    ).called(1);
-    verifyNever(
-      () => pairing.redeemLinkingCode(
-        code: any(named: 'code'),
-        familyId: any(named: 'familyId'),
-      ),
-    );
-  });
+      expect(redeemed, isTrue);
+      expect(controller.error.value, isNull);
+      expect(controller.request.value?.id, pending.id);
+      expect(
+        controller.request.value?.status,
+        PairingRequestStatus.pendingChild,
+      );
+      verify(
+        () => pairing.inviteChild(childId: 'PC7K4M2QRX', familyId: 'family-1'),
+      ).called(1);
+      verifyNever(
+        () => pairing.redeemLinkingCode(
+          code: any(named: 'code'),
+          familyId: any(named: 'familyId'),
+        ),
+      );
+    },
+  );
 
-  test('a dashed lower-case Child ID is normalized before the invite',
-      () async {
-    final pending = testPairingRequest();
-    when(
-      () => pairing.inviteChild(
-        childId: 'PC7K4M2QRX',
-        familyId: 'family-1',
-      ),
-    ).thenAnswer((_) async => pending);
+  test(
+    'a dashed lower-case Child ID is normalized before the invite',
+    () async {
+      final pending = testPairingRequest();
+      when(
+        () => pairing.inviteChild(childId: 'PC7K4M2QRX', familyId: 'family-1'),
+      ).thenAnswer((_) async => pending);
 
-    final redeemed = await controller.redeem('pc-7k4m2qrx');
+      final redeemed = await controller.redeem('pc-7k4m2qrx');
 
-    expect(redeemed, isTrue);
-    expect(controller.request.value?.id, pending.id);
-    verify(
-      () => pairing.inviteChild(
-        childId: 'PC7K4M2QRX',
-        familyId: 'family-1',
-      ),
-    ).called(1);
-    verifyNever(
-      () => pairing.redeemLinkingCode(
-        code: any(named: 'code'),
-        familyId: any(named: 'familyId'),
-      ),
-    );
-  });
+      expect(redeemed, isTrue);
+      expect(controller.request.value?.id, pending.id);
+      verify(
+        () => pairing.inviteChild(childId: 'PC7K4M2QRX', familyId: 'family-1'),
+      ).called(1);
+      verifyNever(
+        () => pairing.redeemLinkingCode(
+          code: any(named: 'code'),
+          familyId: any(named: 'familyId'),
+        ),
+      );
+    },
+  );
 
   test('an 8-character code still uses the legacy repository path', () async {
     final pending = testPairingRequest();
     when(
-      () => pairing.redeemLinkingCode(
-        code: '4K9M2QRT',
-        familyId: 'family-1',
-      ),
+      () => pairing.redeemLinkingCode(code: '4K9M2QRT', familyId: 'family-1'),
     ).thenAnswer((_) async => pending);
 
     final redeemed = await controller.redeem('4k9m-2qrt');
@@ -234,10 +269,7 @@ void main() {
     expect(redeemed, isTrue);
     expect(controller.request.value?.id, pending.id);
     verify(
-      () => pairing.redeemLinkingCode(
-        code: '4K9M2QRT',
-        familyId: 'family-1',
-      ),
+      () => pairing.redeemLinkingCode(code: '4K9M2QRT', familyId: 'family-1'),
     ).called(1);
     verifyNever(
       () => pairing.inviteChild(
@@ -273,10 +305,7 @@ void main() {
   ]) {
     test('keeps the invite failure code $code unchanged', () async {
       when(
-        () => pairing.inviteChild(
-          childId: 'PC7K4M2QRX',
-          familyId: 'family-1',
-        ),
+        () => pairing.inviteChild(childId: 'PC7K4M2QRX', familyId: 'family-1'),
       ).thenThrow(AppException(code, 'Invite rejected with $code'));
 
       final redeemed = await controller.redeem('PC7K4M2QRX');

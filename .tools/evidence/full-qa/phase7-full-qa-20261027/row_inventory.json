@@ -1,0 +1,87 @@
+{
+  "A": {
+    "devices": [
+      "ff9b0b44-db94-4234-8221-73bd3f28182e",
+      "ec7e4b8e-42ac-4136-9be0-cc35cf6b5701",
+      "f12b4c92-3834-4cdb-b3e8-70bb3f1649da"
+    ],
+    "device_policies": [
+      "1fede0c4-c435-403b-9344-a85ce5e156e7",
+      "95470dbe-0600-4b39-a15e-3dfd18961d53",
+      "8e06f164-a522-48df-a48e-4468403f16fd"
+    ],
+    "device_commands": [
+      "44491765-b97d-421c-9575-99f8f1a717a9",
+      "b7335589-a530-4973-908d-fde0d74bb356",
+      "f0d232a7-8b1e-4727-bd2f-636091852841"
+    ],
+    "device_apps": [
+      "e593c38b-e84d-4e22-aca7-c67da25c9bda",
+      "f0e49f38-34f0-44c5-990d-a3b807682516"
+    ],
+    "usage_daily": [
+      "bb2cea56-db53-4cea-87e7-cbaf705d1bd9",
+      "82bd84bd-309d-4012-af50-547f1ced83ba"
+    ],
+    "location_events": [
+      "f6fedf69-45d8-4ea2-94ed-d12fcc1471a4",
+      "3767d645-cb32-4018-823f-d32f31e8ca5b"
+    ],
+    "safe_zones": [],
+    "safe_zone_states": "ERR:42703",
+    "safety_alerts": [
+      "329ff3b9-c80c-4923-8dd2-1eb2f0a9f87b",
+      "ec416658-42bc-4cd8-9766-d72a6e18d054"
+    ],
+    "remote_sessions": [
+      "d55a55af-7881-475b-84c2-ece6c7bfa79c",
+      "eb97752d-2598-4175-89d5-d0f5bf7747d2"
+    ],
+    "webrtc_signals": "ERR:42703",
+    "audit_logs": [
+      "4e291909-c611-40c0-80fb-f05be22d0470",
+      "0162fd61-e41f-4fe3-b5ee-77a39d4b6fe5",
+      "e63158fc-fd21-4e00-826f-5932d04fcc11"
+    ],
+    "pairing_requests": [
+      "31d297f8-6514-435d-86a1-9aa47584ef14",
+      "f9efe62d-12f2-4c05-9144-7c1276f98892",
+      "cd9252ee-0615-4522-82ee-3cde40302fbd"
+    ]
+  },
+  "B": {
+    "devices": [
+      "a3b7b74e-77a4-4b95-85c4-b1ccf782be9a",
+      "3d738837-82cb-4dc4-a578-6a07330c7d1f",
+      "91e2b767-4c6e-4b9f-836a-4c4e55b124fa"
+    ],
+    "device_policies": [
+      "0794c05c-9942-405e-afed-a3e746efe76a",
+      "57e00484-12b1-4c40-ad70-114c68ea0654",
+      "d4a05b68-eff2-4dca-a794-86ced2565a48"
+    ],
+    "device_commands": [
+      "52b4fefc-22fd-42a4-9385-365c1fca8d53",
+      "b39708ce-d933-418a-8a3a-7d55b0c7c729",
+      "ef9b1748-a3d3-42e2-a557-613b9d28f2d5"
+    ],
+    "device_apps": [],
+    "usage_daily": [],
+    "location_events": [],
+    "safe_zones": [],
+    "safe_zone_states": "ERR:42703",
+    "safety_alerts": [],
+    "remote_sessions": [],
+    "webrtc_signals": "ERR:42703",
+    "audit_logs": [
+      "ef7ba9d9-3af2-4375-9f69-d1537136fc0a",
+      "78b8a7e8-8fac-410d-9f80-21fdbcffe004",
+      "682cc927-b347-42c9-8943-f2072917b2ee"
+    ],
+    "pairing_requests": [
+      "7562fa40-2efe-4baf-ba12-7224586da6a6",
+      "d112cff4-2575-4805-95f2-12059b21c509",
+      "7f934bf8-35e0-4922-8003-757a3cbe6791"
+    ]
+  }
+}

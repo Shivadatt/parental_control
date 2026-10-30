@@ -1,0 +1,16 @@
+=== session 12:01 baseline 12:07:01 ===
+-- parent appops --
+Uid mode: RECORD_AUDIO: foreground
+RECORD_AUDIO: allow; time=+44m50s533ms ago; duration=+38s108ms
+-- child appops --
+Uid mode: RECORD_AUDIO: foreground
+RECORD_AUDIO: allow; time=+32s8ms ago (running)
+-- child REC --
+10-28 12:06:49.569 12054 18073 I audio_device_buffer.cc: (line 480): [REC : 10000msec, 48kHz] callbacks: 1002, samples: 480960, rate: 48096, rate diff: 0%, level: 5637
+10-28 12:06:59.569 12054 18073 I audio_device_buffer.cc: (line 480): [REC : 10000msec, 48kHz] callbacks: 1000, samples: 480000, rate: 48000, rate diff: 0%, level: 2787
+-- parent PLAY/REC --
+-- child flinger --
+Input thread 0xb400007ec2825040, name AudioIn_66, tid 18667, type 3 (RECORD):
+  I/O handle: 102
+  Standby: no
+  Sample rate: 48000 Hz

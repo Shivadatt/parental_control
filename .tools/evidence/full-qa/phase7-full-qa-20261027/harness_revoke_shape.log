@@ -1,0 +1,6 @@
+PASS revoke_shape.http_ok :: {"status":200}
+PASS revoke_shape.ok_true :: {"ok":true}
+PASS revoke_shape.status_revoked :: {"status":"revoked"}
+PASS revoke_shape.no_service_only_fields :: {"leaks":[]}
+KEYS ["android_version","app_version","background_location_granted","battery_level","camera_granted","child_user_id","created_at","credential_issued_at","credential_revoked_at","display_name","enforcement_mode","family_id","id","is_charging","last_seen_at","location_granted","microphone_granted","notifications_granted","platform","policy_version","sessions_ended","status","updated_at","usage_access_granted"]
+revoke_shape_exit=0

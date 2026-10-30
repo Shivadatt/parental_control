@@ -1,0 +1,53 @@
+# Parent emulator excerpts (local time, device clock)
+## Media teardown after the child process died (10:52-10:54)
+10-29 10:53:00.087 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:00.519 D/FlutterWebRTCPlugin(17466): onSelectedCandidatePairChanged
+10-29 10:53:00.532 D/FlutterWebRTCPlugin(17466): onConnectionChangeDISCONNECTED
+10-29 10:53:08.681 D/FlutterWebRTCPlugin(17466): onSelectedCandidatePairChanged
+10-29 10:53:15.604 D/FlutterWebRTCPlugin(17466): onConnectionChangeFAILED
+10-29 10:53:23.666 D/FlutterWebRTCPlugin(17466): onConnectionChangeDISCONNECTED
+10-29 10:53:23.680 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:23.729 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:23.729 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:23.797 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:24.210 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:24.332 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:24.398 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:24.423 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 10:53:40.123 D/FlutterWebRTCPlugin(17466): onConnectionChangeFAILED
+10-29 10:53:43.319 D/FlutterWebRTCPlugin(17466): onConnectionChangeCLOSED
+10-29 10:53:44.256 W/FlutterWebRTCPlugin(17466): audioFocusChangeListener [Speakerphone(name=Speakerphone)] null
+
+## Renegotiation attempts after parent resume (11:11-11:13)
+10-29 11:11:19.534 I/basic_port_allocator.cc(17466): (line 372): Start getting ports with turn_port_prune_policy 0
+10-29 11:11:19.537 D/FlutterWebRTCPlugin(17466): onIceGatheringChangeGATHERING
+10-29 11:11:19.595 I/basic_port_allocator.cc(17466): (line 697): Count of networks: 2
+10-29 11:11:19.595 I/basic_port_allocator.cc(17466): (line 699): Net[lo:0:0:0:x:x:x:x:x/128:Loopback:id=2]
+10-29 11:11:19.595 I/basic_port_allocator.cc(17466): (line 699): Net[lo:127.0.0.x/8:Loopback:id=1]
+10-29 11:11:19.595 I/basic_port_allocator.cc(17466): (line 893): Network manager has started
+10-29 11:11:19.662 I/basic_port_allocator.cc(17466): (line 697): Count of networks: 2
+10-29 11:11:19.662 I/basic_port_allocator.cc(17466): (line 699): Net[lo:0:0:0:x:x:x:x:x/128:Loopback:id=2]
+10-29 11:11:19.662 I/basic_port_allocator.cc(17466): (line 699): Net[lo:127.0.0.x/8:Loopback:id=1]
+10-29 11:11:19.662 I/basic_port_allocator.cc(17466): (line 805): Allocate ports on lo lo 
+10-29 11:11:19.687 I/basic_port_allocator.cc(17466): (line 1404): Net[lo:127.0.0.x/8:Loopback:id=1]: Allocation Phase=Udp
+10-29 11:11:19.688 I/basic_port_allocator.cc(17466): (line 1491): AllocationSequence: UDPPort will be handling the STUN candidate generation.
+10-29 11:11:19.688 I/basic_port_allocator.cc(17466): (line 915): Adding allocated port for 0
+10-29 11:11:19.689 I/basic_port_allocator.cc(17466): (line 937): Port[c006a230:0:1:0:host:Net[lo:127.0.0.x/8:Loopback:id=1]]: Added port to allocator
+10-29 11:11:19.691 I/basic_port_allocator.cc(17466): (line 954): Port[c006a230:0:1:0:host:Net[lo:127.0.0.x/8:Loopback:id=1]]: Gathered candidate: Cand[:3928759980:1:udp:2122194687:127.0.0.x:36398:host::0:04YP:pHii4sT2xYSbvbFSfeH4KG5a:1:0:0]
+10-29 11:11:19.693 I/basic_port_allocator.cc(17466): (line 987): Port[c006a230:0:1:0:host:Net[lo:127.0.0.x/8:Loopback:id=1]]: Port ready.
+10-29 11:11:19.694 I/basic_port_allocator.cc(17466): (line 1404): Net[lo:0:0:0:x:x:x:x:x/128:Loopback:id=2]: Allocation Phase=Udp
+10-29 11:11:19.694 I/basic_port_allocator.cc(17466): (line 1491): AllocationSequence: UDPPort will be handling the STUN candidate generation.
+10-29 11:11:19.694 I/basic_port_allocator.cc(17466): (line 915): Adding allocated port for 0
+10-29 11:11:19.694 I/basic_port_allocator.cc(17466): (line 937): Port[c00d1e80:0:1:0:host:Net[lo:0:0:0:x:x:x:x:x/128:Loopback:id=2]]: Added port to allocator
+10-29 11:11:19.694 I/basic_port_allocator.cc(17466): (line 954): Port[c00d1e80:0:1:0:host:Net[lo:0:0:0:x:x:x:x:x/128:Loopback:id=2]]: Gathered candidate: Cand[:4211084324:1:udp:2122267903:[0:0:0:x:x:x:x:x]:58217:host::0:04YP:pHii4sT2xYSbvbFSfeH4KG5a:2:0:0]
+10-29 11:11:19.694 I/basic_port_allocator.cc(17466): (line 987): Port[c00d1e80:0:1:0:host:Net[lo:0:0:0:x:x:x:x:x/128:Loopback:id=2]]: Port ready.
+10-29 11:11:19.787 D/FlutterWebRTCPlugin(17466): onIceCandidate
+10-29 11:11:19.798 I/basic_port_allocator.cc(17466): (line 1404): Net[lo:127.0.0.x/8:Loopback:id=1]: Allocation Phase=Relay
+10-29 11:11:19.821 D/FlutterWebRTCPlugin(17466): onIceCandidate
+
+## Activity destroy/create on task restart (11:19:53-55)
+10-29 11:19:53.502 I/wm_destroy_activity(  704): [0,84999043,45,com.parentcontrol.parent_control/.MainActivity,finish-imm:clear-task-all]
+10-29 11:19:53.587 I/am_pss  (  704): [17466,10236,com.parentcontrol.parent_control,0,0,0,373526528,0,18,0]
+10-29 11:19:53.595 I/wm_create_activity(  704): [0,9753367,45,com.parentcontrol.parent_control/.MainActivity,NULL,NULL,NULL,272662528]
+10-29 11:19:53.782 I/wm_restart_activity(  704): [0,9753367,45,com.parentcontrol.parent_control/.MainActivity]
+10-29 11:19:53.810 I/wm_set_resumed_activity(  704): [0,com.parentcontrol.parent_control/.MainActivity,realStartActivityLocked - onActivityStateChanged]

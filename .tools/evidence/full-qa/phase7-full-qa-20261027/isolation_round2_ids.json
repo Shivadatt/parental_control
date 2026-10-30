@@ -1,0 +1,40 @@
+{
+  "victimIds": {
+    "device": "ff9b0b44-db94-4234-8221-73bd3f28182e",
+    "policy": "1fede0c4-c435-403b-9344-a85ce5e156e7",
+    "command": "44491765-b97d-421c-9575-99f8f1a717a9",
+    "commandDevice": "ff9b0b44-db94-4234-8221-73bd3f28182e",
+    "alert": "329ff3b9-c80c-4923-8dd2-1eb2f0a9f87b",
+    "session": "d55a55af-7881-475b-84c2-ece6c7bfa79c",
+    "location": "3767d645-cb32-4018-823f-d32f31e8ca5b",
+    "usage": "bb2cea56-db53-4cea-87e7-cbaf705d1bd9",
+    "pairingRequest": "31d297f8-6514-435d-86a1-9aa47584ef14"
+  },
+  "familyA": {
+    "devices": [
+      {
+        "id": "ff9b0b44-db94-4234-8221-73bd3f28182e",
+        "status": "revoked"
+      }
+    ],
+    "sessions": [
+      {
+        "id": "d55a55af-7881-475b-84c2-ece6c7bfa79c",
+        "status": "ended"
+      }
+    ],
+    "alerts": [
+      {
+        "id": "329ff3b9-c80c-4923-8dd2-1eb2f0a9f87b",
+        "type": "low_battery"
+      }
+    ],
+    "commands": [
+      {
+        "id": "44491765-b97d-421c-9575-99f8f1a717a9",
+        "status": "succeeded",
+        "device_id": "ff9b0b44-db94-4234-8221-73bd3f28182e"
+      }
+    ]
+  }
+}

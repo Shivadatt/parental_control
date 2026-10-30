@@ -1,0 +1,27 @@
+=== deno check supabase/functions/auth-bootstrap/index.ts ===
+[0m[32mCheck[0m supabase/functions/auth-bootstrap/index.ts
+EXIT_CODE=0
+=== deno check supabase/functions/pairing/index.ts ===
+EXIT_CODE=0
+=== deno check supabase/functions/device-register/index.ts ===
+[0m[32mCheck[0m supabase/functions/device-register/index.ts
+EXIT_CODE=0
+=== deno check supabase/functions/device-command/index.ts ===
+[0m[32mCheck[0m supabase/functions/device-command/index.ts
+EXIT_CODE=0
+=== deno check supabase/functions/device-policy/index.ts ===
+[0m[32mCheck[0m supabase/functions/device-policy/index.ts
+EXIT_CODE=0
+=== deno check supabase/functions/device-telemetry/index.ts ===
+[0m[32mCheck[0m supabase/functions/device-telemetry/index.ts
+EXIT_CODE=0
+=== deno check supabase/functions/family-admin/index.ts ===
+[0m[32mCheck[0m supabase/functions/family-admin/index.ts
+EXIT_CODE=0
+=== deno check supabase/functions/remote-session/index.ts ===
+[0m[32mCheck[0m supabase/functions/remote-session/index.ts
+EXIT_CODE=0
+=== deno check supabase/functions/cron/index.ts ===
+[0m[32mCheck[0m supabase/functions/cron/index.ts
+EXIT_CODE=0
+TOTAL_FAILURES=0

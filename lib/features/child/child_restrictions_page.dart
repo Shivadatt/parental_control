@@ -128,7 +128,7 @@ class ChildRestrictionsPage extends GetView<ChildShellController> {
         child: InfoBanner(
           tone: BannerTone.warning,
           icon: Icons.gpp_maybe_outlined,
-          title: 'Enforcement cannot be verified on this phone',
+          title: 'Rules are not enforced on this device',
           message:
               'This app is not a Device Owner here, so it cannot suspend other '
               'apps. Rules are shown as configured, not as blocked. A guardian '

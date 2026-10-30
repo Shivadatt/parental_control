@@ -1,0 +1,3 @@
+436:10-27 14:45:42.494  8784  8784 D [OplusScreenRecorder]: [ScreenRecorderApplication]getRotation:degrees=0
+2470:10-27 14:45:48.459  8784  8784 D [OplusScreenRecorder]: [ScreenRecorderApplication]getRotation:degrees=3
+3368:10-27 14:45:50.537  8784  8784 D [OplusScreenRecorder]: [ScreenRecorderApplication]getRotation:degrees=0

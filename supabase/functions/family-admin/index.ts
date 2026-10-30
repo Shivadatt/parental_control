@@ -17,6 +17,7 @@ import {
 } from "../_shared/auth.ts";
 import { recordAudit } from "../_shared/audit.ts";
 import { readInteger, readUuid } from "../_shared/validation.ts";
+import { canDeleteZone, canPurge } from "./authorization.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -66,6 +67,15 @@ Deno.serve(async (req: Request): Promise<Response> => {
             throw new ApiError("device_not_found", "The device was not found.", 404);
           }
           if (message.includes("forbidden")) {
+            throw new ApiError(
+              "forbidden",
+              "A parent in this family is required.",
+              403,
+            );
+          }
+          // Raised by the public wrapper's membership check (migration
+          // 20261030000200); the RPC no longer trusts the actor id it is given.
+          if (message.includes("not_family_parent")) {
             throw new ApiError(
               "forbidden",
               "A parent in this family is required.",
@@ -154,6 +164,66 @@ Deno.serve(async (req: Request): Promise<Response> => {
         return ok(finalAlert);
       }
 
+      // Replaces the client-side safe_zones DELETE, which migration
+      // 20261030000200 revokes. Any active parent of the zone's family may
+      // delete; every deletion is audited.
+      case "delete_zone": {
+        const auth = await requireUser(req, db, { requireVerifiedEmail: true });
+        requireRole(auth.profile, "parent");
+        const zoneId = readUuid(body.zone_id, "zone_id");
+
+        const existing = await db
+          .from("safe_zones")
+          .select("id, family_id, name")
+          .eq("id", zoneId)
+          .maybeSingle();
+        ensureNoError(existing);
+        const zone = existing.data as
+          | { id: string; family_id: string; name: string }
+          | null;
+        if (!zone) {
+          throw new ApiError(
+            "zone_not_found",
+            "The safe zone was not found.",
+            404,
+          );
+        }
+
+        const membership = await assertFamilyParent(
+          db,
+          auth.user.id,
+          zone.family_id,
+        );
+        if (!canDeleteZone(auth.profile.role, membership.role === "parent")) {
+          throw new ApiError(
+            "forbidden",
+            "A parent in this family is required.",
+            403,
+          );
+        }
+
+        const deleted = await db
+          .from("safe_zones")
+          .delete({ count: "exact" })
+          .eq("id", zoneId)
+          .eq("family_id", zone.family_id);
+        ensureNoError(deleted);
+
+        // A concurrent delete of the same zone is not an error: the caller's
+        // postcondition holds. Only an actual removal is audited.
+        if ((deleted.count ?? 0) > 0) {
+          await recordAudit(db, {
+            familyId: zone.family_id,
+            actorUserId: auth.user.id,
+            eventType: "zone_deleted",
+            targetType: "safe_zone",
+            targetId: zone.id,
+            metadata: { name: zone.name },
+          });
+        }
+        return ok({ deleted: true });
+      }
+
       case "purge_data": {
         const auth = await requireUser(req, db, { requireVerifiedEmail: true });
         requireRole(auth.profile, "parent");
@@ -164,7 +234,17 @@ Deno.serve(async (req: Request): Promise<Response> => {
           1,
           3650,
         );
-        await assertFamilyParent(db, auth.user.id, familyId);
+        // Owner-only. Purging history is irreversible for the family, so a
+        // non-owner parent must not be able to trigger it even though the
+        // purge stays inside the configured retention window.
+        const family = await assertFamilyOwner(db, auth.user.id, familyId);
+        if (!canPurge(auth.profile.role, family.owner_id === auth.user.id)) {
+          throw new ApiError(
+            "owner_required",
+            "Only the family owner can purge family history.",
+            403,
+          );
+        }
         const retention = await familySettings(db, familyId);
 
         // Retention is a minimum keep window: never delete inside it, even when

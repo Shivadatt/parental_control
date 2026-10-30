@@ -11,6 +11,7 @@ import {
 import {
   getServiceClient,
   requireActiveDeviceForParent,
+  requireDevice,
   requireRole,
   requireUser,
 } from "../_shared/auth.ts";
@@ -19,14 +20,21 @@ import { buildIceConfig, readTurnEnv } from "../_shared/turn.ts";
 import {
   readBoolean,
   readEnum,
-  readOptionalString,
   readUuid,
 } from "../_shared/validation.ts";
+import {
+  acceptPatch,
+  assertParentOwner,
+  declinePatch,
+  endPatch,
+  mapRequestRpcError,
+  sessionStatePayload,
+  type SessionStateRow,
+} from "./guard.ts";
+import { withAbandonedSweep } from "../_shared/remote_session_lifecycle.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 const KINDS = ["audio", "video"] as const;
-const REQUEST_TTL_MS = 10 * 60 * 1000;
-const CONSENT_TTL_MS = 30 * 60 * 1000;
 
 const SESSION_SELECT =
   "*, devices(display_name), parent_profile:profiles!remote_sessions_parent_user_id_fkey(display_name), child_profile:profiles!remote_sessions_child_user_id_fkey(display_name)";
@@ -43,7 +51,8 @@ interface SessionRow {
   accepted_at: string | null;
   started_at: string | null;
   ended_at: string | null;
-  expires_at: string;
+  /** Pending-request deadline; NULL once the child consented. */
+  expires_at: string | null;
   ended_reason: string | null;
   consent_recorded: boolean;
   session_nonce: string | null;
@@ -71,13 +80,20 @@ function assertParticipant(session: SessionRow, userId: string): void {
   }
 }
 
-async function markExpired(db: SupabaseClient, sessionId: string): Promise<void> {
+/**
+ * Only a pending request has a deadline. An accepted session is owned by the
+ * parent and is never expired by the clock, so this must not touch it.
+ */
+async function expirePending(
+  db: SupabaseClient,
+  sessionId: string,
+): Promise<void> {
   const nowIso = new Date().toISOString();
   const result = await db
     .from("remote_sessions")
     .update({ status: "expired", ended_at: nowIso, ended_reason: "expired" })
     .eq("id", sessionId)
-    .in("status", ["requested", "accepted", "active"]);
+    .eq("status", "requested");
   ensureNoError(result);
 }
 
@@ -99,24 +115,34 @@ Deno.serve(async (req: Request): Promise<Response> => {
         const kind = readEnum(body.kind, "kind", KINDS);
         const device = await requireActiveDeviceForParent(db, auth.user.id, deviceId);
 
-        const now = new Date();
-        const inserted = await db
-          .from("remote_sessions")
-          .insert({
-            family_id: device.family_id,
-            device_id: device.id,
-            parent_user_id: auth.user.id,
-            child_user_id: device.child_user_id,
-            kind,
-            status: "requested",
-            requested_at: now.toISOString(),
-            expires_at: new Date(now.getTime() + REQUEST_TTL_MS).toISOString(),
-            consent_recorded: false,
-          })
-          .select(SESSION_SELECT)
-          .single();
-        ensureNoError(inserted);
-        const session = inserted.data as SessionRow;
+        // One open session per device, enforced atomically in SQL: the RPC takes
+        // a per-device advisory lock, expires stale rows in-lock and raises
+        // session_in_progress instead of ending a valid session.
+        // Before the lock, close consented sessions nobody returned to
+        // (public.expire_abandoned_sessions). Best effort: the sweep never fails
+        // the request, and may legitimately be missing before its migration is
+        // deployed. The 10-minute pending expiry is unchanged.
+        const rpc = await withAbandonedSweep(
+          (fn, args) => db.rpc(fn, args),
+          () =>
+            db.rpc("request_remote_session", {
+              p_device_id: device.id,
+              p_parent_user_id: auth.user.id,
+              p_kind: kind,
+            }),
+        );
+        if (rpc.error) throw mapRequestRpcError(rpc.error);
+        const insertedId = (rpc.data as { id?: string } | null)?.id;
+        if (!insertedId) {
+          throw new ApiError(
+            "internal_error",
+            "The server could not complete the request.",
+            500,
+          );
+        }
+
+        // Re-read with the participant joins so the response shape is unchanged.
+        const session = await loadSession(db, insertedId);
 
         await recordAudit(db, {
           familyId: device.family_id,
@@ -128,6 +154,28 @@ Deno.serve(async (req: Request): Promise<Response> => {
           metadata: { kind },
         });
         return ok(session);
+      }
+
+      // Device-authenticated poll for the Android foreground service. No user
+      // JWT: requireDevice (x-device-id/x-device-secret) is the authentication.
+      case "session_state": {
+        const device = await requireDevice(req, db);
+        const sessionId = readUuid(body.session_id, "session_id");
+        const result = await db
+          .from("remote_sessions")
+          .select("id, device_id, child_user_id, status, expires_at")
+          .eq("id", sessionId)
+          .maybeSingle();
+        ensureNoError(result);
+        if (!result.data) {
+          throw new ApiError("session_not_found", "The session was not found.", 404);
+        }
+        return ok(
+          sessionStatePayload(result.data as SessionStateRow, {
+            id: device.id,
+            child_user_id: device.child_user_id,
+          }),
+        );
       }
 
       case "pending_child": {
@@ -173,27 +221,20 @@ Deno.serve(async (req: Request): Promise<Response> => {
             409,
           );
         }
-        if (new Date(session.expires_at).getTime() <= Date.now()) {
-          await markExpired(db, session.id);
+        if (
+          session.expires_at !== null &&
+          new Date(session.expires_at).getTime() <= Date.now()
+        ) {
+          await expirePending(db, session.id);
           throw new ApiError("session_expired", "This session request expired.", 410);
         }
 
-        const now = new Date();
-        const nowIso = now.toISOString();
+        const nowIso = new Date().toISOString();
+        // Consent releases the session from the pending deadline: from here on
+        // only the parent can end it (migration 20261028000200).
         const patch = accept
-          ? {
-            status: "accepted",
-            accepted_at: nowIso,
-            expires_at: new Date(now.getTime() + CONSENT_TTL_MS).toISOString(),
-            consent_recorded: true,
-            session_nonce: crypto.randomUUID(),
-          }
-          : {
-            status: "declined",
-            ended_at: nowIso,
-            ended_reason: "declined",
-            consent_recorded: false,
-          };
+          ? acceptPatch(nowIso, crypto.randomUUID())
+          : declinePatch(nowIso);
         const updated = await db
           .from("remote_sessions")
           .update(patch)
@@ -238,11 +279,8 @@ Deno.serve(async (req: Request): Promise<Response> => {
             409,
           );
         }
-        if (new Date(session.expires_at).getTime() <= Date.now()) {
-          await markExpired(db, session.id);
-          throw new ApiError("session_expired", "This session has expired.", 410);
-        }
 
+        // No clock check: an accepted session lasts until the parent ends it.
         const nowIso = new Date().toISOString();
         const updated = await db
           .from("remote_sessions")
@@ -270,31 +308,34 @@ Deno.serve(async (req: Request): Promise<Response> => {
       case "end": {
         const auth = await requireUser(req, db, { requireVerifiedEmail: true });
         const sessionId = readUuid(body.session_id, "session_id");
-        const reason = readOptionalString(body.reason, "reason", {
-          min: 1,
-          max: 200,
-        });
         const session = await loadSession(db, sessionId);
-        assertParticipant(session, auth.user.id);
+        // The child can stop sharing, but only the requesting parent ends the
+        // server session. A client-supplied reason is ignored: the server
+        // derives ended_reason from the state it observed.
+        assertParentOwner(session, auth.user.id);
         if (["ended", "declined", "expired", "failed"].includes(session.status)) {
           return ok(session);
         }
 
-        const nowIso = new Date().toISOString();
+        const patch = endPatch(
+          session.status,
+          auth.user.id,
+          new Date().toISOString(),
+        );
         const updated = await db
           .from("remote_sessions")
-          .update({
-            status: "ended",
-            ended_at: nowIso,
-            ended_by: auth.user.id,
-            ended_reason: reason ?? null,
-          })
+          .update(patch)
           .eq("id", session.id)
           .in("status", ["requested", "accepted", "active"])
           .select(SESSION_SELECT)
           .maybeSingle();
         ensureNoError(updated);
-        const finalSession = (updated.data as SessionRow | null) ?? session;
+        // A concurrent terminal transition (pending expiry, abandoned sweep)
+        // can win between the read and this update. Return what the row is now
+        // instead of a stale pre-update snapshot the caller would misread as a
+        // live session.
+        const finalSession = (updated.data as SessionRow | null) ??
+          (await loadSession(db, session.id));
 
         await recordAudit(db, {
           familyId: session.family_id,
@@ -303,7 +344,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
           eventType: "session_ended",
           targetType: "remote_session",
           targetId: session.id,
-          metadata: { status_before: session.status, reason: reason ?? null },
+          metadata: { status_before: session.status },
         });
         return ok(finalSession);
       }
@@ -327,11 +368,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
             403,
           );
         }
-        if (new Date(session.expires_at).getTime() <= Date.now()) {
-          await markExpired(db, session.id);
-          throw new ApiError("session_expired", "This session has expired.", 410);
-        }
 
+        // Credentials are short-lived by design and reissued per call; they are
+        // unrelated to how long the session may stay open.
         const config = await buildIceConfig(readTurnEnv(), auth.user.id);
         return ok(config);
       }

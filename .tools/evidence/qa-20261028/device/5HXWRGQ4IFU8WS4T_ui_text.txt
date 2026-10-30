@@ -1,0 +1,43 @@
+QA Family A
+---
+Refresh this phone
+---
+This phone
+Offline
+Name
+realme RMX2161
+Last seen
+39 min ago · Oct 28, 2026 7:41 AM
+Battery
+100% (charging)
+Android control
+Device admin only — app blocking is not available
+Policy version
+No rules downloaded
+---
+View rules and permissions
+---
+App blocking is not enforced on this phone
+This phone is not set up as a managed Device Owner device. A normal app install cannot suspend other apps. A guardian can provision it through Android managed-device or Device Owner setup.
+---
+Background protection
+A visible Android notification appears while this runs.
+Running
+Service
+Running with a visible notification
+Last command check
+36 min ago
+Last error
+App list upload failed: apps[13].package_name is not a valid Android package name.
+---
+Home
+Tab 1 of 4
+---
+Rules
+Tab 2 of 4
+---
+Requests
+Tab 3 of 4
+---
+Settings
+Tab 4 of 4

@@ -1,0 +1,142 @@
+Can't load Kernel binary: Invalid kernel binary format version (expected 125, found 130).
+Resolving dependencies...
+Downloading packages...
+  clock 1.1.2 (1.1.3 available)
+  code_assets 1.2.1 (2.1.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  hooks 2.0.2 (2.2.0 available)
+  matcher 0.12.19 (0.12.20 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.0 (1.19.0 available)
+  objective_c 9.5.0 (9.6.2 available)
+  petitparser 7.0.2 (7.1.0 available)
+  qr 3.0.2 (4.0.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  shared_preferences_foundation 2.5.7 (2.6.0 available)
+  stack_trace 1.12.1 (1.12.2 available)
+  test_api 0.7.11 (0.7.15 available)
+  vector_math 2.2.0 (2.4.3 available)
+  web 1.1.1 (1.1.2 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+17 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading D:/parentcontrol_app/test/features/app_restrictions/app_restrictions_controller_test.dart
+00:00 +0: D:/parentcontrol_app/test/features/app_restrictions/app_restrictions_controller_test.dart: shows pending acknowledgement and an unreported app snapshot
+00:00 +1: D:/parentcontrol_app/test/features/app_restrictions/app_restrictions_controller_test.dart: shows enforced only after the device acknowledged the version
+00:00 +2: D:/parentcontrol_app/test/features/app_restrictions/app_restrictions_controller_test.dart: validates package names before adding a blocked app
+00:00 +3: D:/parentcontrol_app/test/features/audit_logs/audit_logs_controller_test.dart: shows an honest empty state when the family has no audit entries
+00:01 +4: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: (setUpAll)
+00:01 +4: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: signed-out accounts are cleared and sent back to the entry screen
+00:01 +5: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: unverified accounts are routed to verification before any profile read
+00:01 +6: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a verified account without a server role is sent to the role lock
+00:01 +7: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a missing server profile never invents a role
+00:01 +8: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a parent with no family is sent to setup without a fake family
+00:01 +9: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a parent resumes the remembered family returned by the server
+00:01 +10: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a child goes to the child shell without reading parent families
+00:01 +11: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: (tearDownAll)
+00:02 +11: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: (setUpAll)
+00:02 +11: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: unverified accounts are routed to verification and keep no profile
+00:02 +12: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified accounts without a server role are sent to role lock
+00:02 +13: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified parents land on the parent shell with the server family
+00:02 +14: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: an unconfirmed email error opens verification without a form error
+00:02 +15: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: invalid credentials stay on the form with the server error
+00:02 +16: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: offline sign-in never calls the repository
+00:02 +17: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: invalid input is rejected before any network call
+00:02 +18: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: (tearDownAll)
+00:03 +18: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: (setUpAll)
+00:03 +18: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: loads a linked child family and its pending requests
+00:03 +19: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: does not treat a parent membership as a linked child
+00:03 +20: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: registers this phone only after the server confirms the family
+00:03 +21: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: refuses device registration before a family is linked
+00:03 +22: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: reports offline instead of pretending to load or register
+00:03 +23: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: declining a pairing request leaves the family unlinked
+00:03 +24: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: refuses to answer a request that already expired
+00:03 +25: D:/parentcontrol_app/test/features/child/child_enrollment_controller_test.dart: (tearDownAll)
+00:05 +25: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: (setUpAll)
+00:05 +25: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: shows only open pairing and assistance requests
+00:05 +26: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: declining a pairing request never links the family
+00:05 +27: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: accepting an assistance request only records consent
+00:05 +28: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: declining an assistance request returns to the inbox
+00:05 +29: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: offline actions fail loudly and send nothing to the server
+00:05 +30: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: refuses an assistance request that is no longer open
+00:05 +31: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: keeps the assistance list when only the pairing source fails
+00:05 +32: D:/parentcontrol_app/test/features/child/child_requests_controller_test.dart: (tearDownAll)
+00:06 +32: D:/parentcontrol_app/test/features/child/child_shell_controller_test.dart: (setUpAll)
+00:06 +32: D:/parentcontrol_app/test/features/child/child_shell_controller_test.dart: performs the first load instead of staying on the loading state
+00:06 +33: D:/parentcontrol_app/test/features/child/child_shell_controller_test.dart: offline first load reports the network error honestly
+00:06 +34: D:/parentcontrol_app/test/features/child/child_shell_controller_test.dart: clears linked state when this account is no longer a family child
+00:06 +35: D:/parentcontrol_app/test/features/child/child_shell_controller_test.dart: without Device Owner it never claims blocked apps are suspended
+00:06 +36: D:/parentcontrol_app/test/features/child/child_shell_controller_test.dart: reports per-package suspension only when Android confirms it
+00:06 +37: D:/parentcontrol_app/test/features/child/child_shell_controller_test.dart: policy fetch failure is surfaced instead of looking enforced
+00:06 +38: D:/parentcontrol_app/test/features/child/child_shell_controller_test.dart: (tearDownAll)
+00:07 +38: D:/parentcontrol_app/test/features/dashboard/dashboard_controller_test.dart: loads family, child and device with real policy acknowledgement
+00:07 +39: D:/parentcontrol_app/test/features/dashboard/dashboard_controller_test.dart: shows an honest empty state when no family exists
+00:07 +40: D:/parentcontrol_app/test/features/dashboard/dashboard_controller_test.dart: keeps loaded devices when offline and flags offline state
+00:08 +41: D:/parentcontrol_app/test/features/devices/device_detail_controller_test.dart: presents an offline device honestly and flags unsupported suspension
+00:08 +42: D:/parentcontrol_app/test/features/devices/device_detail_controller_test.dart: revoke succeeds only after the server confirms
+00:08 +43: D:/parentcontrol_app/test/features/devices/device_detail_controller_test.dart: revoke reports a server failure and keeps the device visible
+00:10 +44: D:/parentcontrol_app/test/features/family/family_controller_test.dart: (setUpAll)
+00:10 +44: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a family without children renders the empty children state
+00:10 +45: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a family removed on the server clears any stale rows
+00:10 +46: D:/parentcontrol_app/test/features/family/family_controller_test.dart: unlinking a child waits for the server and reloads the members
+00:10 +47: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a failed unlink keeps the child visible
+00:10 +48: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a missing family argument is explained without a server call
+00:10 +49: D:/parentcontrol_app/test/features/family/family_controller_test.dart: an offline refresh keeps loaded rows and reports the failure
+00:10 +50: D:/parentcontrol_app/test/features/family/family_controller_test.dart: (tearDownAll)
+00:11 +50: D:/parentcontrol_app/test/features/family/family_page_test.dart: (setUpAll)
+00:11 +50: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:12 +51: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:12 +52: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:12 +53: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:13 +54: D:/parentcontrol_app/test/features/family/family_page_test.dart: (tearDownAll)
+00:13 +54: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: (setUpAll)
+00:13 +54: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: keeps the server failure code invalid_code unchanged
+00:13 +55: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: keeps the server failure code code_expired unchanged
+00:13 +56: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: keeps the server failure code rate_limited unchanged
+00:13 +57: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: keeps the server failure code child_already_linked unchanged
+00:13 +58: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: keeps the server failure code not_configured unchanged
+00:13 +59: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: a successful redemption shows only the server request
+00:13 +60: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: checking status reloads the request from the server
+00:13 +61: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: a missing request is reported instead of being invented
+00:13 +62: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: redemption requires a family from the route
+00:13 +63: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: offline redemption never calls the server
+00:13 +64: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: malformed codes are rejected before the network call
+00:13 +65: D:/parentcontrol_app/test/features/pairing/pairing_redeem_controller_test.dart: (tearDownAll)
+00:14 +65: D:/parentcontrol_app/test/features/parent_shell/parent_shell_controller_test.dart: tab selection stays within the four shell tabs
+00:14 +66: D:/parentcontrol_app/test/features/parent_shell/parent_shell_controller_test.dart: binding registers the shell controller lazily
+00:15 +67: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: (setUpAll)
+00:15 +67: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: child cannot start media before accepting the request
+00:15 +68: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: accepting only records consent and opens no media or negotiation
+00:15 +69: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: declining keeps media off and stops the session
+00:15 +70: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: the parent side cannot answer a request for the child
+00:16 +71: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: an expired request cannot be accepted or start media
+00:16 +72: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: accepting an already accepted session is idempotent
+00:16 +73: D:/parentcontrol_app/test/features/remote_assistance/remote_child_session_test.dart: (tearDownAll)
+00:17 +73: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: (setUpAll)
+00:17 +73: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: does not fetch ICE or send signals before the child accepts
+00:17 +74: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: shows a declined session as declined and never opens media
+00:17 +75: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: treats an accepted session past its expiry as expired and refuses media
+00:17 +76: D:/parentcontrol_app/test/features/remote_assistance/remote_session_controller_test.dart: (tearDownAll)
+00:18 +76: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: (setUpAll)
+00:18 +76: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: locking the initial role calls the server exactly once
+00:18 +77: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a prefilled display name comes from the signed-in profile
+00:18 +78: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: choosing a role before sign-in only stores a local hint
+00:18 +79: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: role assignment is refused outside the lock flow
+00:18 +80: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a blank display name never reaches the server
+00:18 +81: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: offline locking never calls the server
+00:18 +82: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a server role error is surfaced unchanged
+00:18 +83: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: (tearDownAll)
+00:19 +83: D:/parentcontrol_app/test/features/safety_alerts/safety_alerts_controller_test.dart: keeps an alert unacknowledged when the server rejects the change
+00:19 +84: D:/parentcontrol_app/test/features/safety_alerts/safety_alerts_controller_test.dart: updates an alert only after the server confirms acknowledgement
+00:20 +85: D:/parentcontrol_app/test/features/safe_zones/safe_zones_controller_test.dart: accepts a radius only between 50 and 5000 metres
+00:21 +86: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: (setUpAll)
+00:21 +86: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: flags stale usage from the last upload timestamp
+00:21 +87: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: does not fetch or show numbers when Usage Access is denied
+00:21 +88: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: presents pending then acknowledged policy states
+00:21 +89: D:/parentcontrol_app/test/features/screen_time/screen_time_controller_test.dart: (tearDownAll)
+00:22 +89: D:/parentcontrol_app/test/features/settings/parent_settings_controller_test.dart: shows the signed-in parent, family and local-only preferences
+00:22 +90: D:/parentcontrol_app/test/features/settings/parent_settings_controller_test.dart: updates a local toggle only after the local save succeeds
+00:23 +91: D:/parentcontrol_app/test/features/settings/parent_settings_controller_test.dart: keeps the previous toggle value when the local save fails
+00:24 +92: D:/parentcontrol_app/test/widget_test.dart: configuration screen never pretends a backend is connected
+00:26 +93: All tests passed!

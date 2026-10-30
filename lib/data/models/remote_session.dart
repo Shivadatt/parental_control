@@ -82,7 +82,7 @@ class RemoteSession {
     required this.kind,
     required this.status,
     required this.requestedAt,
-    required this.expiresAt,
+    this.expiresAt,
     this.acceptedAt,
     this.endedAt,
     this.endedReason,
@@ -100,7 +100,11 @@ class RemoteSession {
   final SessionKind kind;
   final RemoteSessionStatus status;
   final DateTime requestedAt;
-  final DateTime expiresAt;
+
+  /// Deadline for the child to answer a *pending* request. The server clears it
+  /// when consent is recorded, so an accepted or active session has none.
+  final DateTime? expiresAt;
+
   final DateTime? acceptedAt;
   final DateTime? endedAt;
   final String? endedReason;
@@ -109,17 +113,27 @@ class RemoteSession {
   final String? childDisplayName;
   final String? deviceName;
 
-  bool get isExpired =>
-      status != RemoteSessionStatus.ended &&
-      DateTime.now().isAfter(expiresAt);
+  /// True only for a pending request whose consent deadline has passed.
+  ///
+  /// A consented session has no deadline, so elapsed time alone can never make
+  /// it read as expired: its lifetime is controlled by the parent.
+  bool get isExpired {
+    final deadline = expiresAt;
+    return status == RemoteSessionStatus.requested &&
+        deadline != null &&
+        DateTime.now().isAfter(deadline);
+  }
 
-  /// True when the server reports the session active and the local expiry
-  /// window has not passed.
+  /// Accepted/active sessions live until the parent ends them.
+  bool get isParentControlled =>
+      status == RemoteSessionStatus.accepted ||
+      status == RemoteSessionStatus.active;
+
+  /// True when the server reports the session active.
   ///
   /// This is session state only. It does not mean audio or video is connected;
   /// that is known only by the live session screen.
-  bool get isServerActive =>
-      status == RemoteSessionStatus.active && !isExpired;
+  bool get isServerActive => status == RemoteSessionStatus.active;
 
   @Deprecated(
     'Server state, not media state. Use isServerActive; media liveness is '
@@ -127,8 +141,11 @@ class RemoteSession {
   )
   bool get isLive => isServerActive;
 
-  Duration get remaining {
-    final difference = expiresAt.difference(DateTime.now());
+  /// Time left to answer a pending request, or null when there is no deadline.
+  Duration? get remaining {
+    final deadline = expiresAt;
+    if (deadline == null) return null;
+    final difference = deadline.difference(DateTime.now());
     return difference.isNegative ? Duration.zero : difference;
   }
 
@@ -166,10 +183,7 @@ class RemoteSession {
       kind: SessionKind.fromWire(json['kind']),
       status: RemoteSessionStatus.fromWire(json['status']),
       requestedAt: jsonDateOr(json['requested_at'], DateTime.now()),
-      expiresAt: jsonDateOr(
-        json['expires_at'],
-        DateTime.now().add(const Duration(minutes: 10)),
-      ),
+      expiresAt: jsonDate(json['expires_at']),
       acceptedAt: jsonDate(json['accepted_at']),
       endedAt: jsonDate(json['ended_at']),
       endedReason: jsonString(json['ended_reason']),
@@ -189,7 +203,7 @@ class RemoteSession {
         'kind': kind.wireName,
         'status': status.wireName,
         'requested_at': requestedAt.toUtc().toIso8601String(),
-        'expires_at': expiresAt.toUtc().toIso8601String(),
+        'expires_at': expiresAt?.toUtc().toIso8601String(),
         'accepted_at': acceptedAt?.toUtc().toIso8601String(),
         'ended_at': endedAt?.toUtc().toIso8601String(),
         'ended_reason': endedReason,

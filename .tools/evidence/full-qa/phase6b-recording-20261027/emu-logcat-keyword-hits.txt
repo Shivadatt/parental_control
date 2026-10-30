@@ -1,0 +1,12 @@
+10-27 15:08:31.813   691   691 D SystemServerTiming: StartMediaProjectionManager
+10-27 15:08:31.814   691   691 I SystemServiceManager: Starting com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:32.062   691   691 D SystemServerTiming: OnBootPhase_480_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:32.434   691   691 D SystemServerTiming: OnBootPhase_500_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:32.841   691   691 D SystemServerTiming: OnBootPhase_520_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:33.643   691   691 D SystemServerTiming: OnBootPhase_550_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:35.033   691   691 D SystemServerTiming: OnBootPhase_600_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:35.456   691   691 D SystemServerTimingAsync: ssm.onStartUser-0_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:45.081   691   723 D ActivityManagerTiming: OnBootPhase_1000_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:48.253   691   731 D SystemServerTimingAsync: ssm.onUnlockingUser-0_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:50.498   691   731 D SystemServerTimingAsync: ssm.onUnlockedUser-0_com.android.server.media.projection.MediaProjectionManagerService
+10-27 15:08:56.322   691  1884 D SystemServerTimingAsync: ssm.onCompletedEventUser-0_{|Unlocked|}_com.android.server.media.projection.MediaProjectionManagerService

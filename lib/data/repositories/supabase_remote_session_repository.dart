@@ -21,7 +21,8 @@ class SupabaseRemoteSessionRepository implements RemoteSessionRepository {
   final SupabaseService _supabase;
   final EdgeApi _edgeApi;
 
-  static const _sessionSelect = '*, devices(display_name), '
+  static const _sessionSelect =
+      '*, devices(display_name), '
       'parent_profile:profiles!parent_user_id(display_name), '
       'child_profile:profiles!child_user_id(display_name)';
 
@@ -57,7 +58,10 @@ class SupabaseRemoteSessionRepository implements RemoteSessionRepository {
     } on AppException {
       rethrow;
     } catch (error) {
-      throw _mapError(error, 'Pending assistance requests could not be loaded.');
+      throw _mapError(
+        error,
+        'Pending assistance requests could not be loaded.',
+      );
     }
   }
 
@@ -69,7 +73,9 @@ class SupabaseRemoteSessionRepository implements RemoteSessionRepository {
           .select(_sessionSelect)
           .eq('id', sessionId)
           .maybeSingle();
-      return row == null ? null : RemoteSession.fromJson(_normalizeSession(row));
+      return row == null
+          ? null
+          : RemoteSession.fromJson(_normalizeSession(row));
     } catch (error) {
       throw _mapError(error, 'The assistance session could not be loaded.');
     }
@@ -136,10 +142,7 @@ class SupabaseRemoteSessionRepository implements RemoteSessionRepository {
       await _edgeApi.invoke(
         'remote-session',
         action: 'end',
-        body: withoutNulls({
-          'session_id': sessionId,
-          'reason': reason,
-        }),
+        body: withoutNulls({'session_id': sessionId, 'reason': reason}),
       );
     } on AppException {
       rethrow;
@@ -245,6 +248,13 @@ class SupabaseRemoteSessionRepository implements RemoteSessionRepository {
         );
         active.subscribe((status, error) {
           if (disposed) return;
+          if (status == RealtimeSubscribeStatus.subscribed) {
+            // An established (or re-established) channel is the recovery
+            // signal: emit an empty batch so consumers can clear a stale
+            // "live updates interrupted" banner even when no new row follows.
+            controller.add(const <WebRtcSignal>[]);
+            return;
+          }
           if (status == RealtimeSubscribeStatus.channelError ||
               status == RealtimeSubscribeStatus.timedOut) {
             controller.addError(
@@ -303,9 +313,7 @@ class SupabaseRemoteSessionRepository implements RemoteSessionRepository {
           .order('sequence', ascending: true);
       if (isDisposed() || rows.isEmpty) return;
       controller.add(
-        rows
-            .map((row) => WebRtcSignal.fromJson(row))
-            .toList(growable: false),
+        rows.map((row) => WebRtcSignal.fromJson(row)).toList(growable: false),
       );
     } catch (_) {
       // Live inserts still work; only a late join could miss earlier signals.
@@ -396,8 +404,7 @@ class SupabaseRemoteSessionRepository implements RemoteSessionRepository {
     if (data['devices'] == null && data['device_name'] != null) {
       data['devices'] = {'display_name': data['device_name']};
     }
-    if (data['parent_profile'] == null &&
-        data['parent_display_name'] != null) {
+    if (data['parent_profile'] == null && data['parent_display_name'] != null) {
       data['parent_profile'] = {'display_name': data['parent_display_name']};
     }
     if (data['child_profile'] == null && data['child_display_name'] != null) {

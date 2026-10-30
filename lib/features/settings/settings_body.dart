@@ -5,6 +5,8 @@ import '../../app/routes/app_routes.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/widgets/widgets.dart';
+import 'delete_account_dialog.dart';
+import 'export_result_dialog.dart';
 import 'parent_settings_controller.dart';
 
 class SettingsBody extends StatelessWidget {
@@ -15,6 +17,8 @@ class SettingsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
+      final retention = controller.retentionReport.value;
+      final windows = controller.retentionWindows;
       return ListView(
         padding: const EdgeInsets.only(top: 8, bottom: 32),
         children: [
@@ -67,8 +71,9 @@ class SettingsBody extends StatelessWidget {
                       child: InfoBanner(
                         tone: BannerTone.warning,
                         message:
-                            'Verify your email to use parent actions. The server '
-                            'rejects unverified accounts for Edge Function calls.',
+                            'Verify your email to use parent actions. Most Edge '
+                            'Function calls reject unverified accounts; privacy '
+                            'export and account deletion still work.',
                       ),
                     ),
                 ],
@@ -144,29 +149,130 @@ class SettingsBody extends StatelessWidget {
           ),
           PageSection(
             child: SectionCard(
-              title: 'Privacy and retention',
+              title: 'Privacy & data',
+              subtitle:
+                  'Export or delete your own account, and see the retention '
+                  'windows the server enforces.',
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  KeyValueRow(
-                    label: 'Location retention',
-                    value: controller.retention.value == null
-                        ? 'Unknown'
-                        : '${controller.retention.value!.locationRetentionDays} days',
+                  if (windows.isEmpty)
+                    const Text('No family is linked to this account yet.')
+                  else
+                    for (final window in windows) ...[
+                      KeyValueRow(
+                        label: '${window.familyName}: location retention',
+                        value: '${window.locationDays} days',
+                      ),
+                      KeyValueRow(
+                        label: '${window.familyName}: usage retention',
+                        value: '${window.usageDays} days',
+                      ),
+                      if (retention != null)
+                        KeyValueRow(
+                          label: '${window.familyName}: older than the window',
+                          value:
+                              '${window.locationEventsOlderThanWindow} location '
+                              'events · ${window.usageDaysOlderThanWindow} usage days',
+                        ),
+                    ],
+                  const SizedBox(height: 8),
+                  if (controller.isLoadingRetention.value)
+                    const Row(
+                      children: [
+                        SizedBox(
+                          height: 16,
+                          width: 16,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        ),
+                        SizedBox(width: 8),
+                        Text('Loading retention report…'),
+                      ],
+                    )
+                  else if (controller.retentionError.value != null)
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            'Retention report unavailable: '
+                            '${controller.retentionError.value!.message}',
+                            style: const TextStyle(
+                              color: AppColors.warning,
+                              fontSize: 12,
+                            ),
+                          ),
+                        ),
+                        TextButton(
+                          onPressed: controller.isLoadingRetention.value
+                              ? null
+                              : () => controller.loadRetentionReport(),
+                          child: const Text('Retry'),
+                        ),
+                      ],
+                    )
+                  else
+                    KeyValueRow(
+                      label: 'Last retention sweep',
+                      value: retention?.lastSweepAt == null
+                          ? 'Not recorded yet'
+                          : formatDateTime(retention!.lastSweepAt),
+                    ),
+                  const SizedBox(height: 6),
+                  const Text(
+                    'The sweep deletes signaling rows after 7 days and audit '
+                    'rows after 365 days; location and usage follow each '
+                    'family’s windows above. It runs from the scheduled cron '
+                    'function, not on this phone.',
+                    style: TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
-                  KeyValueRow(
-                    label: 'Usage retention',
-                    value: controller.retention.value == null
-                        ? 'Unknown'
-                        : '${controller.retention.value!.usageRetentionDays} days',
+                  const SizedBox(height: 14),
+                  AppButton(
+                    label: 'Export my data',
+                    icon: Icons.download_outlined,
+                    outlined: true,
+                    isLoading: controller.isExporting.value,
+                    onPressed: controller.isExporting.value ||
+                            controller.isDeletingAccount.value
+                        ? null
+                        : () => _exportData(context),
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Retention is enforced by the server. Audit history is '
-                    'append-only.',
+                    'Downloads your profile, family membership, devices, and '
+                    'your own location, usage, alert and audit rows as JSON. '
+                    'This device saves a copy in app storage and can copy the '
+                    'JSON to the clipboard.',
                     style: TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 16),
+                  if (controller.accountDeletionBlockedReason.value.isNotEmpty) ...[
+                    InfoBanner(
+                      tone: BannerTone.danger,
+                      title: 'Account deletion is blocked',
+                      message: controller.accountDeletionBlockedReason.value,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                  AppButton(
+                    label: 'Delete my account',
+                    icon: Icons.delete_forever_outlined,
+                    outlined: true,
+                    destructive: true,
+                    isLoading: controller.isDeletingAccount.value,
+                    onPressed: controller.isDeletingAccount.value ||
+                            controller.isExporting.value
+                        ? null
+                        : () => _confirmDeleteAccount(context),
+                  ),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'Deleting requires two confirmations: a warning, then '
+                    'typing DELETE and your account email. Other members’ data '
+                    'is never deleted; an owner with remaining members or '
+                    'active devices is refused.',
+                    style: TextStyle(color: AppColors.muted, fontSize: 12),
+                  ),
+                  const SizedBox(height: 14),
                   AppButton(
                     label: 'Manage retention and audit log',
                     icon: Icons.policy_outlined,
@@ -251,6 +357,35 @@ class SettingsBody extends StatelessWidget {
     );
     if (!confirmed) return;
     await controller.signOut();
+  }
+
+  Future<void> _exportData(BuildContext context) async {
+    final result = await controller.exportMyData();
+    if (result == null || !context.mounted) return;
+    await showExportResultDialog(context, result);
+  }
+
+  /// Step 1 is a plain warning; step 2 requires typing DELETE and the email.
+  Future<void> _confirmDeleteAccount(BuildContext context) async {
+    final understood = await ConfirmDialog.show(
+      context,
+      title: 'Delete your account?',
+      message:
+          'This is permanent. You will be asked to type DELETE and your account '
+          'email next. Other family members’ data is never deleted.',
+      confirmLabel: 'Continue',
+      destructive: true,
+    );
+    if (!understood || !context.mounted) return;
+    final request = await showDeleteAccountDialog(
+      context,
+      accountEmail: controller.email.value,
+    );
+    if (request == null) return;
+    await controller.deleteAccount(
+      confirm: request.confirm,
+      email: request.email,
+    );
   }
 }
 

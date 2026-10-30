@@ -9,6 +9,7 @@ import 'data/services/edge_api.dart';
 import 'data/services/local_settings_service.dart';
 import 'data/services/session_service.dart';
 import 'data/services/supabase_service.dart';
+import 'features/remote_assistance/remote_session_registry.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,6 +30,9 @@ Future<void> main() async {
   );
   Get.put<DeviceAdminService>(DeviceAdminService(), permanent: true);
   RepositoryBinding().dependencies();
+  // Owns the live assistance session controller for the whole app lifetime so
+  // a route pop can never end a consented, running microphone session.
+  Get.put<RemoteSessionRegistry>(RemoteSessionRegistry(), permanent: true);
 
   runApp(const ParentControlApp());
 }

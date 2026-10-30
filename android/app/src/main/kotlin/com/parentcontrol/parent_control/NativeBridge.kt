@@ -4,46 +4,80 @@ import android.Manifest
 import android.app.Activity
 import android.app.admin.DevicePolicyManager
 import android.content.ComponentName
+import android.content.Context
 import android.content.Intent
 import android.location.Location
 import android.location.LocationManager
 import android.net.Uri
 import android.os.BatteryManager
 import android.os.Build
+import android.os.Handler
+import android.os.Looper
 import android.provider.Settings
+import androidx.core.content.ContextCompat
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import java.lang.ref.WeakReference
 import java.util.concurrent.Executors
 
 /**
  * Implements the `com.parentcontrol/native` contract and the native event
  * stream. Nothing here logs credentials, codes, SDP or tokens.
+ *
+ * The bridge is scoped to the process-wide [io.flutter.embedding.engine.FlutterEngine],
+ * not to the Activity: the engine (and therefore the authorized WebRTC session)
+ * outlives the UI, so the channels and the event sink must outlive it too. Only
+ * the Activity reference used for permission prompts and foreground-only
+ * intents is attached and detached with the UI.
  */
-class NativeBridge(
-    private val activity: Activity,
+class NativeBridge private constructor(
+    private val context: Context,
     messenger: BinaryMessenger
 ) : MethodChannel.MethodCallHandler {
     companion object {
         const val METHOD_CHANNEL = "com.parentcontrol/native"
         const val EVENT_CHANNEL = "com.parentcontrol/native_events"
         private const val PERMISSION_REQUEST_CODE = 7311
+
+        @Volatile
+        private var instance: NativeBridge? = null
+
+        /** Returns the process-scoped bridge, creating it on first attach. */
+        fun attach(context: Context, messenger: BinaryMessenger): NativeBridge {
+            val existing = instance
+            if (existing != null) return existing
+            synchronized(this) {
+                val current = instance
+                if (current != null) return current
+                val created = NativeBridge(context.applicationContext, messenger)
+                instance = created
+                return created
+            }
+        }
+
+        /** The bridge if the engine has already been configured, else null. */
+        fun peek(): NativeBridge? = instance
     }
 
     private val methodChannel = MethodChannel(messenger, METHOD_CHANNEL)
     private val eventChannel = EventChannel(messenger, EVENT_CHANNEL)
     private val executor = Executors.newSingleThreadExecutor()
+    private val mainHandler = Handler(Looper.getMainLooper())
     private val store: SecureStore? by lazy {
         try {
-            SecureStore.get(activity.applicationContext)
+            SecureStore.get(context)
         } catch (_: Exception) {
             null
         }
     }
     private val applier: PolicyApplier? by lazy {
-        store?.let { PolicyApplier(activity.applicationContext, it) }
+        store?.let { PolicyApplier(context, it) }
     }
+
+    @Volatile
+    private var activityRef: WeakReference<Activity>? = null
 
     private var pendingPermissionResult: MethodChannel.Result? = null
 
@@ -60,6 +94,25 @@ class NativeBridge(
     init {
         methodChannel.setMethodCallHandler(this)
         eventChannel.setStreamHandler(streamHandler)
+    }
+
+    /** The UI currently attached to the engine, or null while it is closed. */
+    private fun activityOrNull(): Activity? = activityRef?.get()
+
+    fun attachActivity(activity: Activity) {
+        activityRef = WeakReference(activity)
+    }
+
+    fun detachActivity(activity: Activity) {
+        if (activityOrNull() !== activity) return
+        activityRef = null
+        // A prompt can only be answered by the Activity that asked for it.
+        pendingPermissionResult?.error(
+            "activity_destroyed",
+            "The permission request was interrupted.",
+            null
+        )
+        pendingPermissionResult = null
     }
 
     override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
@@ -93,15 +146,19 @@ class NativeBridge(
                 "getDailyUsage" -> dailyUsage(call, result)
                 "startAudioAssistanceService" -> {
                     val sessionId = stringArgument(call, "sessionId")
-                    result.success(AudioAssistanceService.start(activity, sessionId))
+                    result.success(AudioAssistanceService.start(context, sessionId))
                 }
                 "stopAudioAssistanceService" -> {
-                    AudioAssistanceService.stop(activity)
+                    AudioAssistanceService.stop(context)
                     result.success(true)
                 }
                 "getAudioAssistanceStatus" -> result.success(audioAssistanceStatus())
+                "notifyAudioCaptureHeartbeat" -> {
+                    val sessionId = stringArgument(call, "sessionId")
+                    result.success(AudioAssistanceService.noteCaptureHeartbeat(sessionId))
+                }
                 "areNotificationsGranted" ->
-                    result.success(NativePermissions.hasNotifications(activity))
+                    result.success(NativePermissions.hasNotifications(context))
                 "isMicrophoneOneTimeGrant" -> result.success(microphoneOneTimeGrant())
                 else -> result.notImplemented()
             }
@@ -120,20 +177,7 @@ class NativeBridge(
         if (requestCode != PERMISSION_REQUEST_CODE) return
         val pending = pendingPermissionResult ?: return
         pendingPermissionResult = null
-        pending.success(NativePermissions.snapshot(activity))
-    }
-
-    fun dispose() {
-        pendingPermissionResult?.error(
-            "activity_destroyed",
-            "The permission request was interrupted.",
-            null
-        )
-        pendingPermissionResult = null
-        methodChannel.setMethodCallHandler(null)
-        eventChannel.setStreamHandler(null)
-        NativeEventBus.detach()
-        executor.shutdownNow()
+        pending.success(NativePermissions.snapshot(context))
     }
 
     private fun capabilities(): Map<String, Any?> {
@@ -149,12 +193,12 @@ class NativeBridge(
             "model" to Build.MODEL.orEmpty(),
             "androidVersion" to (Build.VERSION.RELEASE ?: ""),
             "appVersion" to appVersion(),
-            "usageAccessGranted" to NativePermissions.hasUsageAccess(activity),
-            "fineLocationGranted" to NativePermissions.hasFineLocation(activity),
-            "backgroundLocationGranted" to NativePermissions.hasBackgroundLocation(activity),
-            "cameraGranted" to NativePermissions.hasCamera(activity),
-            "microphoneGranted" to NativePermissions.hasMicrophone(activity),
-            "notificationsGranted" to NativePermissions.hasNotifications(activity),
+            "usageAccessGranted" to NativePermissions.hasUsageAccess(context),
+            "fineLocationGranted" to NativePermissions.hasFineLocation(context),
+            "backgroundLocationGranted" to NativePermissions.hasBackgroundLocation(context),
+            "cameraGranted" to NativePermissions.hasCamera(context),
+            "microphoneGranted" to NativePermissions.hasMicrophone(context),
+            "notificationsGranted" to NativePermissions.hasNotifications(context),
             "guardianServiceRunning" to GuardianService.isRunning
         )
     }
@@ -176,15 +220,17 @@ class NativeBridge(
     }
 
     private fun batteryStatus(): Map<String, Any?> {
-        val manager = activity.getSystemService(Activity.BATTERY_SERVICE) as? BatteryManager
+        val manager = context.getSystemService(Context.BATTERY_SERVICE) as? BatteryManager
         val property = try {
             manager?.getIntProperty(BatteryManager.BATTERY_PROPERTY_CAPACITY)
         } catch (_: Exception) {
             null
         }
-        val sticky = activity.registerReceiver(
+        val sticky = ContextCompat.registerReceiver(
+            context,
             null,
-            android.content.IntentFilter(Intent.ACTION_BATTERY_CHANGED)
+            android.content.IntentFilter(Intent.ACTION_BATTERY_CHANGED),
+            ContextCompat.RECEIVER_NOT_EXPORTED
         )
         val status = sticky?.getIntExtra(BatteryManager.EXTRA_STATUS, -1) ?: -1
         val charging = status == BatteryManager.BATTERY_STATUS_CHARGING ||
@@ -210,7 +256,7 @@ class NativeBridge(
 
     private fun installedApps(): List<Map<String, Any?>> {
         val owner = applier?.isDeviceOwner() ?: false
-        return InstalledAppsProvider.load(activity).map { app ->
+        return InstalledAppsProvider.load(context).map { app ->
             mapOf(
                 "packageName" to app.packageName,
                 "label" to app.label,
@@ -243,12 +289,15 @@ class NativeBridge(
      * `lastError` carries the last machine-readable start failure reason
      * ("permission_denied", "notification_permission_required",
      * "start_foreground_failed", "start_foreground_service_failed") and is
-     * null after a successful start.
+     * null after a successful start. `captureHealthy` is true only while the
+     * Dart isolate keeps confirming that microphone capture still runs.
      */
     private fun audioAssistanceStatus(): Map<String, Any?> = mapOf(
         "isRunning" to AudioAssistanceService.isRunning,
         "activeSessionId" to AudioAssistanceService.activeSessionId,
-        "lastError" to AudioAssistanceService.lastError
+        "lastError" to AudioAssistanceService.lastError,
+        "captureHealthy" to AudioAssistanceService.isCaptureHealthy,
+        "captureHeartbeatAgeMs" to AudioAssistanceService.captureHeartbeatAgeMs
     )
 
     /**
@@ -264,7 +313,7 @@ class NativeBridge(
      * start() gate and the service do.
      */
     private fun microphoneOneTimeGrant(): Map<String, Any?> = mapOf(
-        "granted" to NativePermissions.hasMicrophone(activity),
+        "granted" to NativePermissions.hasMicrophone(context),
         "oneTime" to false
     )
 
@@ -284,14 +333,14 @@ class NativeBridge(
             secureStore.setLastError("Background sync is not configured on this device.")
             return false
         }
-        if (!NativePermissions.hasNotifications(activity)) {
+        if (!NativePermissions.hasNotifications(context)) {
             secureStore.setLastError(
                 "Notification permission is required for visible background sync."
             )
             return false
         }
         secureStore.setShouldRunGuardian(true)
-        val started = GuardianService.start(activity)
+        val started = GuardianService.start(context)
         if (!started) {
             secureStore.setShouldRunGuardian(false)
         }
@@ -301,7 +350,7 @@ class NativeBridge(
     private fun stopGuardian(): Boolean {
         val secureStore = store
         secureStore?.setShouldRunGuardian(false)
-        GuardianService.stop(activity)
+        GuardianService.stop(context)
         return true
     }
 
@@ -332,8 +381,8 @@ class NativeBridge(
     private fun clearBackgroundSync(): Boolean {
         val secureStore = store ?: return true
         secureStore.setShouldRunGuardian(false)
-        GuardianService.stop(activity)
-        LocationTrackingService.stop(activity)
+        GuardianService.stop(context)
+        LocationTrackingService.stop(context)
         val restored = applier?.restoreAll()
         secureStore.clearHandledCommands()
         secureStore.clearConfig()
@@ -349,26 +398,24 @@ class NativeBridge(
     private fun requestDeviceAdmin(): Boolean {
         val applierInstance = applier ?: return false
         if (applierInstance.isDeviceOwner()) return true
-        val component = ComponentName(activity, ParentControlDeviceAdminReceiver::class.java)
+        val component = ComponentName(context, ParentControlDeviceAdminReceiver::class.java)
         val intent = Intent(DevicePolicyManager.ACTION_ADD_DEVICE_ADMIN).apply {
             putExtra(DevicePolicyManager.EXTRA_DEVICE_ADMIN, component)
             putExtra(
                 DevicePolicyManager.EXTRA_ADD_EXPLANATION,
-                activity.getString(R.string.device_admin_explanation)
+                context.getString(R.string.device_admin_explanation)
             )
         }
-        return try {
-            activity.startActivity(intent)
-            true
-        } catch (_: Exception) {
-            false
-        }
+        return startActivitySafely(intent)
     }
 
     private fun openUsageAccessSettings(): Boolean {
         return try {
-            activity.startActivity(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))
-            true
+            if (!startActivitySafely(Intent(Settings.ACTION_USAGE_ACCESS_SETTINGS))) {
+                openAppDetails()
+            } else {
+                true
+            }
         } catch (_: Exception) {
             openAppDetails()
         }
@@ -377,12 +424,28 @@ class NativeBridge(
     private fun openBackgroundLocationSettings(): Boolean = openAppDetails()
 
     private fun openAppDetails(): Boolean {
-        return try {
-            val intent = Intent(
+        return startActivitySafely(
+            Intent(
                 Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.fromParts("package", activity.packageName, null)
+                Uri.fromParts("package", context.packageName, null)
             )
-            activity.startActivity(intent)
+        )
+    }
+
+    /**
+     * Starts an Activity from the attached UI, or from the application context
+     * with NEW_TASK when the UI is closed (the engine, not the Activity, owns
+     * this bridge).
+     */
+    private fun startActivitySafely(intent: Intent): Boolean {
+        return try {
+            val activity = activityOrNull()
+            if (activity != null && !activity.isFinishing) {
+                activity.startActivity(intent)
+            } else {
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(intent)
+            }
             true
         } catch (_: Exception) {
             false
@@ -411,10 +474,17 @@ class NativeBridge(
             permissions.add(Manifest.permission.POST_NOTIFICATIONS)
         }
         val missing = permissions.filter {
-            !NativePermissions.isPermissionGranted(activity, it)
+            !NativePermissions.isPermissionGranted(context, it)
         }
         if (missing.isEmpty()) {
-            result.success(NativePermissions.snapshot(activity))
+            result.success(NativePermissions.snapshot(context))
+            return
+        }
+        val activity = activityOrNull()
+        if (activity == null || activity.isFinishing) {
+            // No UI to host the prompt: report the real grant state instead of
+            // pretending the request succeeded.
+            result.success(NativePermissions.snapshot(context))
             return
         }
         pendingPermissionResult = result
@@ -427,11 +497,11 @@ class NativeBridge(
     }
 
     private fun lastKnownLocation(): Map<String, Any?> {
-        val fine = NativePermissions.hasFineLocation(activity)
-        val coarse = NativePermissions.hasCoarseLocation(activity)
+        val fine = NativePermissions.hasFineLocation(context)
+        val coarse = NativePermissions.hasCoarseLocation(context)
         if (!fine && !coarse) return mapOf("available" to false)
         val manager = try {
-            activity.getSystemService(Activity.LOCATION_SERVICE) as LocationManager
+            context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         } catch (_: Exception) {
             return mapOf("available" to false)
         }
@@ -474,19 +544,19 @@ class NativeBridge(
     }
 
     private fun startLocationTracking(call: MethodCall): Boolean {
-        if (!NativePermissions.hasFineLocation(activity)) return false
-        if (!NativePermissions.hasNotifications(activity)) return false
+        if (!NativePermissions.hasFineLocation(context)) return false
+        if (!NativePermissions.hasNotifications(context)) return false
         val interval = intArgument(call, "intervalSeconds") ?: 60
-        return LocationTrackingService.start(activity, interval.coerceIn(15, 3600))
+        return LocationTrackingService.start(context, interval.coerceIn(15, 3600))
     }
 
     private fun stopLocationTracking(): Boolean {
-        LocationTrackingService.stop(activity)
+        LocationTrackingService.stop(context)
         return true
     }
 
     private fun dailyUsage(call: MethodCall, result: MethodChannel.Result) {
-        if (!NativePermissions.hasUsageAccess(activity)) {
+        if (!NativePermissions.hasUsageAccess(context)) {
             result.error(
                 "usage_access_denied",
                 "Usage Access is not granted. Enable it in system settings.",
@@ -502,7 +572,7 @@ class NativeBridge(
         }
         runAsync(result) {
             try {
-                UsageReporter.query(activity, start, end).map { row ->
+                UsageReporter.query(context, start, end).map { row ->
                     val entry = LinkedHashMap<String, Any?>()
                     entry["day"] = row.day
                     entry["packageName"] = row.packageName
@@ -524,9 +594,9 @@ class NativeBridge(
         executor.execute {
             try {
                 val value = block()
-                activity.runOnUiThread { result.success(value) }
+                mainHandler.post { result.success(value) }
             } catch (_: NativeUsageAccessDenied) {
-                activity.runOnUiThread {
+                mainHandler.post {
                     result.error(
                         "usage_access_denied",
                         "Usage Access is not granted. Enable it in system settings.",
@@ -534,7 +604,7 @@ class NativeBridge(
                     )
                 }
             } catch (error: Exception) {
-                activity.runOnUiThread {
+                mainHandler.post {
                     result.error("native_error", safeMessage(error), null)
                 }
             }
@@ -544,7 +614,7 @@ class NativeBridge(
     private fun appVersion(): String {
         return try {
             @Suppress("DEPRECATION")
-            val info = activity.packageManager.getPackageInfo(activity.packageName, 0)
+            val info = context.packageManager.getPackageInfo(context.packageName, 0)
             info.versionName.orEmpty()
         } catch (_: Exception) {
             ""

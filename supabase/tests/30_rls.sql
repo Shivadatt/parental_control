@@ -107,9 +107,17 @@ begin
   update public.safe_zones set name = 'Temporary Zone 2' where id = v_zone_id;
   get diagnostics v_rows = row_count;
   perform tests.assert_true(v_rows = 1, 'parent1 can update a safe zone');
+  -- Zone deletion moved to the service-role `family-admin delete_zone` action
+  -- (migration 20261030000200 revokes the client DELETE grant).
+  perform tests.expect_error(
+    format('delete from public.safe_zones where id = %L::uuid', v_zone_id),
+    '42501', 'permission denied',
+    'zone deletion is service-only'
+  );
+  set local role service_role;
   delete from public.safe_zones where id = v_zone_id;
-  get diagnostics v_rows = row_count;
-  perform tests.assert_true(v_rows = 1, 'parent1 can delete a safe zone');
+  reset role;
+  set local role authenticated;
 
   perform tests.expect_error(
     'select count(*) from public.device_pairing_tokens',
@@ -231,9 +239,11 @@ begin
     '42501', 'row-level security',
     'child cannot insert a safe zone'
   );
-  delete from public.safe_zones where id = v_zone1;
-  get diagnostics v_rows = row_count;
-  perform tests.assert_true(v_rows = 0, 'child cannot delete a safe zone');
+  perform tests.expect_error(
+    format('delete from public.safe_zones where id = %L::uuid', v_zone1),
+    '42501', 'permission denied',
+    'child cannot delete a safe zone'
+  );
 
   perform tests.expect_error(
     'insert into public.devices (family_id, child_user_id, installation_id, display_name) values (gen_random_uuid(), gen_random_uuid(), ''install-fake-01'', ''Fake'')',

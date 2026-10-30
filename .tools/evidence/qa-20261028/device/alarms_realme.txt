@@ -1,0 +1,11 @@
+        com.oplus.qualityprotect
+        com.mediatek.omacp
+        com.parentcontrol.parent_control
+        com.android.bluetooth.oplus.overlay
+        com.android.networkstack.inprocess.overlay
+        android.frameworkres.overlay.display.product
+        com.google.android.signature
+        com.oplus.aod
+        com.oplus.nhs
+        com.oplus.ota
+        com.oplus.pay

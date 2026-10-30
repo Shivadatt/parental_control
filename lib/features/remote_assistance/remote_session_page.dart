@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
@@ -283,10 +284,11 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
         PageSection(
           child: InfoBanner(
             tone: BannerTone.warning,
-            title: 'Session expired',
+            title: 'Request expired',
             message:
-                'This session is past its short-lived expiry. No camera or '
-                'microphone was opened. Request a new session when needed.',
+                'The child did not answer before the request deadline. No '
+                'camera or microphone was opened. Request a new session when '
+                'needed.',
           ),
         ),
       ];
@@ -330,21 +332,31 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
                   StatusChip(
-                    label: controller.isConnected.value
+                    label: controller.isMediaFlowing.value
                         ? 'Media connected'
                         : 'Connecting media…',
-                    tone: controller.isConnected.value
+                    tone: controller.isMediaFlowing.value
                         ? StatusTone.success
                         : StatusTone.warning,
                   ),
                   StatusChip(
                     label: _mediaChipLabel(session, controller),
-                    tone: controller.isMediaLive
+                    tone: controller.isMediaFlowing.value
                         ? StatusTone.success
                         : StatusTone.warning,
                   ),
                 ],
               ),
+              if (kDebugMode) ...[
+                const SizedBox(height: 6),
+                Text(
+                  _rtpDebugLabel(controller),
+                  style: const TextStyle(
+                    color: AppColors.muted,
+                    fontSize: 11,
+                  ),
+                ),
+              ],
               const SizedBox(height: 8),
               Text(
                 session.kind == SessionKind.video
@@ -367,11 +379,12 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
               Text(
                 session.kind == SessionKind.video
                     ? 'The child accepted. Tapping the button below connects to '
-                          'the child device for a short-lived live video session. '
-                          'Your microphone will not be used.'
+                          'the child device for a live video session that lasts '
+                          'until you end it. Your microphone will not be used.'
                     : 'The child accepted. Tapping the button below connects to '
-                          'the child device for a short-lived one-way audio session. '
-                          'Your microphone will not be used.',
+                          'the child device for a one-way audio session that '
+                          'lasts until you end it. Your microphone will not be '
+                          'used.',
                 style: const TextStyle(height: 1.45),
               ),
               const SizedBox(height: 14),
@@ -409,7 +422,8 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
     RemoteSessionController controller,
   ) {
     if (session.kind == SessionKind.audio) {
-      final live = controller.isMediaLive;
+      // Live wording requires RTP evidence; ICE being up is not enough.
+      final live = controller.isMediaFlowing.value;
       return SectionCard(
         child: Column(
           children: [
@@ -453,7 +467,7 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
                   alignment: Alignment.center,
                   padding: const EdgeInsets.all(12),
                   child: Text(
-                    controller.isMediaLive
+                    controller.isConnected.value
                         ? 'Waiting for the child’s video…'
                         : 'The child device is not sending video.',
                     textAlign: TextAlign.center,
@@ -473,6 +487,7 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
     if (controller.isJoining.value || !controller.isConnected.value) {
       return 'Connecting to the child device…';
     }
+    if (controller.isCheckingAudio) return 'Checking audio…';
     return 'Audio unavailable';
   }
 
@@ -486,6 +501,10 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
     if (controller.isJoining.value || !controller.isConnected.value) {
       return 'Waiting for the media connection to the child device.';
     }
+    if (controller.isCheckingAudio) {
+      return 'The connection is up. Waiting for the first audio packets from '
+          'the child device.';
+    }
     return 'The connection is up, but this phone is not receiving audio from '
         'the child device.';
   }
@@ -496,9 +515,20 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
   ) {
     final subject =
         session.kind == SessionKind.video ? 'Video' : 'Audio';
-    if (controller.isMediaLive) return '$subject live';
+    if (controller.isMediaFlowing.value) return '$subject live';
     if (controller.isJoining.value) return '$subject connecting…';
+    if (controller.isCheckingAudio) return '$subject checking…';
     return '$subject not live';
+  }
+
+  /// Debug-only numeric proof that RTP counters advance. Never shown in a
+  /// release build and never contains media content.
+  static String _rtpDebugLabel(RemoteSessionController controller) {
+    final stats = controller.mediaStats.value;
+    if (stats == null) return 'DEBUG RTP: no sample yet';
+    return 'DEBUG RTP: in ${stats.packetsReceived} pkts / '
+        '${stats.bytesReceived} B · out ${stats.packetsSent} pkts / '
+        '${stats.bytesSent} B';
   }
 
   Future<void> _join(BuildContext context, RemoteSession session) async {
@@ -553,9 +583,7 @@ class _RemoteSessionPageState extends State<RemoteSessionPage> {
     });
     bool ended = false;
     try {
-      ended = await controller.endSession(
-        reason: controller.isParentRole ? 'ended_by_parent' : 'ended_by_child',
-      );
+      ended = await controller.endSession();
     } catch (_) {
       ended = false;
     }
@@ -650,7 +678,7 @@ class _StatusCard extends StatelessWidget {
       title: session.kind.label,
       trailing: StatusChip(
         label: controller.statusLabel,
-        tone: _tone(session),
+        tone: _tone(session, controller),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -666,11 +694,19 @@ class _StatusCard extends StatelessWidget {
             value:
                 '${formatDateTime(session.requestedAt)} · ${relativeTime(session.requestedAt)}',
           ),
-          KeyValueRow(
-            label: 'Expires',
-            value: controller.expiresInLabel,
-            valueColor: session.isExpired ? AppColors.danger : null,
-          ),
+          if (session.status == RemoteSessionStatus.requested)
+            KeyValueRow(
+              label: 'Expires',
+              value: controller.sessionDurationLabel,
+              valueColor: session.isExpired ? AppColors.danger : null,
+            ),
+          if (session.isParentControlled) ...[
+            KeyValueRow(
+              label: 'Session duration',
+              value: controller.sessionDurationLabel,
+            ),
+            KeyValueRow(label: 'Elapsed', value: controller.elapsedLabel),
+          ],
           KeyValueRow(
             label: 'Child consent',
             value: session.consentRecorded ? 'Recorded' : 'Not recorded',
@@ -690,10 +726,10 @@ class _StatusCard extends StatelessWidget {
               padding: EdgeInsets.only(top: 8),
               child: InfoBanner(
                 tone: BannerTone.warning,
-                title: 'Expired',
+                title: 'Request expired',
                 message:
-                    'This session is past its short-lived expiry. Media cannot '
-                    'be opened.',
+                    'The child did not answer before the request deadline. No '
+                    'media was opened. Send a new request when needed.',
               ),
             ),
         ],
@@ -701,7 +737,10 @@ class _StatusCard extends StatelessWidget {
     );
   }
 
-  static StatusTone _tone(RemoteSession session) {
+  static StatusTone _tone(
+    RemoteSession session,
+    RemoteSessionController controller,
+  ) {
     if (session.status.isOpen && session.isExpired) return StatusTone.warning;
     switch (session.status) {
       case RemoteSessionStatus.requested:
@@ -709,7 +748,14 @@ class _StatusCard extends StatelessWidget {
       case RemoteSessionStatus.accepted:
         return StatusTone.info;
       case RemoteSessionStatus.active:
-        return StatusTone.success;
+        // `active` is the server's session state. A success tone is a claim
+        // about live media, which only the controller can make: it requires an
+        // existing peer and audio RTP actually moving.
+        if (controller.sharingStopped.value) return StatusTone.warning;
+        if (!controller.hasActivePeer.value) return StatusTone.info;
+        return controller.isMediaFlowing.value
+            ? StatusTone.success
+            : StatusTone.info;
       case RemoteSessionStatus.declined:
       case RemoteSessionStatus.expired:
         return StatusTone.warning;

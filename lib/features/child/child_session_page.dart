@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webrtc/flutter_webrtc.dart';
 import 'package:get/get.dart';
@@ -9,9 +10,12 @@ import 'package:parent_control/features/remote_assistance/remote_session_control
 
 /// The child side of a consented assistance session.
 ///
-/// Leaving this screen is a session-ending action, not just a route pop: the
-/// other participant is told the truth instead of being left looking at a
-/// "live" session with a dead peer.
+/// Leaving this screen only pops the route. Once the child has accepted and
+/// joined, the session and the visible microphone foreground service keep
+/// running until the parent ends the session, the child taps Stop sharing,
+/// permission is lost, or the phone is unlinked/signed out. Stop sharing only
+/// releases this phone's capture; it does not end the server session. Back is
+/// never an implicit stop.
 class ChildSessionPage extends StatefulWidget {
   const ChildSessionPage({super.key});
 
@@ -20,47 +24,32 @@ class ChildSessionPage extends StatefulWidget {
 }
 
 class _ChildSessionPageState extends State<ChildSessionPage> {
-  /// A server-confirmed end is in flight. Blocks double taps and route pops.
-  bool _ending = false;
-
-  /// Truthful message from the last failed end attempt (server not confirmed).
-  String? _endFailure;
+  /// Local capture shutdown is in flight (no server call is made).
+  bool _stopping = false;
 
   RemoteSessionController get _controller =>
       Get.find<RemoteSessionController>();
 
   @override
   Widget build(BuildContext context) {
-    return PopScope(
-      canPop: false,
-      onPopInvokedWithResult: (didPop, _) async {
-        if (didPop) return;
-        await _handleBack(context);
-      },
-      child: Obx(() {
-        final controller = _controller;
-        return Scaffold(
-          appBar: AppBar(
-            title: const Text('Assistance'),
-            actions: [
-              IconButton(
-                tooltip: 'Refresh status',
-                onPressed: controller.isLoading.value
-                    ? null
-                    : () => controller.load(showLoading: false),
-                icon: const Icon(Icons.refresh),
-              ),
-            ],
-          ),
-          body: Stack(
-            children: [
-              _body(context, controller),
-              if (_ending) const Positioned.fill(child: _EndingOverlay()),
-            ],
-          ),
-        );
-      }),
-    );
+    return Obx(() {
+      final controller = _controller;
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Assistance'),
+          actions: [
+            IconButton(
+              tooltip: 'Refresh status',
+              onPressed: controller.isLoading.value
+                  ? null
+                  : () => controller.load(showLoading: false),
+              icon: const Icon(Icons.refresh),
+            ),
+          ],
+        ),
+        body: _body(context, controller),
+      );
+    });
   }
 
   Widget _body(BuildContext context, RemoteSessionController controller) {
@@ -92,9 +81,18 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
       padding: const EdgeInsets.only(top: 8, bottom: 32),
       children: [
         PageSection(child: _statusCard(session, controller)),
-        if (_endFailure != null)
-          PageSection(child: _endFailureCard(context)),
         ..._banners(controller, session),
+        if (controller.sharingStopped.value && session.status.isOpen)
+          const PageSection(
+            child: InfoBanner(
+              tone: BannerTone.warning,
+              title: 'Sharing stopped on this phone',
+              message:
+                  'Camera and microphone are off. The session itself stays '
+                  'open until your guardian ends it; the app will not reopen '
+                  'the microphone by itself.',
+            ),
+          ),
         if (session.isExpired && session.status.isOpen)
           const PageSection(
             child: InfoBanner(
@@ -111,32 +109,42 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
         else if (session.status.isTerminal)
           PageSection(child: _terminalCard(session))
         else if (controller.hasActivePeer.value)
-          PageSection(child: _mediaCard(session, controller))
+          PageSection(child: _mediaCard(context, session, controller))
         else
           PageSection(child: _joinCard(context, session, controller)),
-        if (controller.canEnd)
+        if (session.status.isOpen && !session.isExpired)
+          PageSection(child: _leaveNote(session, controller)),
+        if (controller.canStopSharing)
           PageSection(
             child: AppButton(
-              label: _ending ? 'Ending session…' : 'End session',
-              icon: Icons.call_end,
+              label: _stopping ? 'Stopping…' : 'Stop sharing',
+              icon: Icons.mic_off,
               destructive: true,
-              isLoading: _ending,
-              onPressed: _ending ? null : () => _requestEnd(context),
-            ),
-          )
-        else
-          PageSection(
-            child: AppButton(
-              label: 'Close',
-              outlined: true,
-              onPressed: _ending ? null : () => _handleBack(context),
+              isLoading: _stopping,
+              onPressed: _stopping ? null : () => _requestStop(context),
             ),
           ),
+        if (session.isParentControlled)
+          const PageSection(
+            child: Text(
+              'Only your guardian can end this session. Stop sharing turns off '
+              'this phone\'s camera and microphone and leaves the session open.',
+              style: TextStyle(color: AppColors.muted, fontSize: 12, height: 1.45),
+            ),
+          ),
+        PageSection(
+          child: AppButton(
+            label: 'Close',
+            outlined: true,
+            onPressed: () => _pop(context),
+          ),
+        ),
         const PageSection(
           child: Text(
-            'Nothing is recorded. Camera and microphone are used only during '
-            'this session and stop when you end it or leave this screen. The '
-            'app never takes screenshots or reads messages.',
+            'Nothing is recorded. Camera and microphone are used only while you '
+            'are sharing and stop when you tap Stop sharing, when the session '
+            'ends, or when this phone loses camera or microphone permission. '
+            'The app never takes screenshots or reads messages.',
             style: TextStyle(color: AppColors.muted, fontSize: 12, height: 1.45),
           ),
         ),
@@ -189,7 +197,7 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
                 'again.',
           ),
         ),
-      if (controller.actionError.value != null && _endFailure == null)
+      if (controller.actionError.value != null)
         PageSection(
           child: InfoBanner(
             tone: BannerTone.danger,
@@ -206,44 +214,6 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
           ),
         ),
     ];
-  }
-
-  /// Shown when the server did not confirm the end. The child must be able to
-  /// retry or stay; the page never claims the guardian's view changed.
-  Widget _endFailureCard(BuildContext context) {
-    return SectionCard(
-      title: 'The session is still open',
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(_endFailure!, style: const TextStyle(height: 1.4)),
-          const SizedBox(height: 6),
-          const Text(
-            'The server has not confirmed that this session ended, so your '
-            'guardian may still see it as live. Nothing is recorded.',
-            style: TextStyle(color: AppColors.muted, fontSize: 12, height: 1.4),
-          ),
-          const SizedBox(height: 14),
-          AppButton(
-            label: 'Retry',
-            icon: Icons.refresh,
-            onPressed: _ending
-                ? null
-                : () => _attemptEnd(
-                      context,
-                      reason: 'left_screen',
-                      popOnSuccess: false,
-                    ),
-          ),
-          const SizedBox(height: 8),
-          AppButton(
-            label: 'Stay in session',
-            outlined: true,
-            onPressed: _ending ? null : () => setState(() => _endFailure = null),
-          ),
-        ],
-      ),
-    );
   }
 
   Widget _statusCard(RemoteSession session, RemoteSessionController controller) {
@@ -265,11 +235,19 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
             value:
                 '${formatDateTime(session.requestedAt)} · ${relativeTime(session.requestedAt)}',
           ),
-          KeyValueRow(
-            label: 'Expires',
-            value: controller.expiresInLabel,
-            valueColor: session.isExpired ? AppColors.danger : null,
-          ),
+          if (session.status == RemoteSessionStatus.requested)
+            KeyValueRow(
+              label: 'Expires',
+              value: controller.sessionDurationLabel,
+              valueColor: session.isExpired ? AppColors.danger : null,
+            ),
+          if (session.isParentControlled) ...[
+            KeyValueRow(
+              label: 'Session duration',
+              value: controller.sessionDurationLabel,
+            ),
+            KeyValueRow(label: 'Elapsed', value: controller.elapsedLabel),
+          ],
           KeyValueRow(
             label: 'Consent',
             value: session.consentRecorded ? 'Recorded' : 'Not given',
@@ -296,9 +274,9 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Text(
-            'Accepting records your consent for this short-lived request. The '
-            'camera and microphone stay off until you tap Join on the next '
-            'step. You can decline or end the session at any time.',
+            'Accepting records your consent for this request. The camera and '
+            'microphone stay off until you tap Join on the next step. You can '
+            'decline now, or stop sharing at any time after joining.',
             style: TextStyle(height: 1.45),
           ),
           const SizedBox(height: 14),
@@ -336,27 +314,45 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
     RemoteSession session,
     RemoteSessionController controller,
   ) {
+    final video = session.kind == SessionKind.video;
+    // A server-active session with no peer on this phone means the media got
+    // disconnected, not that the session is over: the child can reconnect.
+    final reconnect = session.status == RemoteSessionStatus.active;
+    final String body;
+    if (reconnect) {
+      body = video
+          ? 'This session is still live, but this phone is not connected to it. '
+              'Tapping Reconnect turns your camera and microphone back on for '
+              'the same session.'
+          : 'This session is still live, but this phone is not connected to it. '
+              'Tapping Reconnect turns your microphone back on for the same '
+              'session.';
+    } else {
+      body = video
+          ? 'You accepted this request. Tapping Join turns on your camera and '
+              'microphone and starts the live session.'
+          : 'You accepted this request. Tapping Join turns on your microphone '
+              'and starts the live audio session.';
+    }
+    final String label;
+    if (reconnect) {
+      label =
+          video ? 'Reconnect camera and microphone' : 'Reconnect microphone';
+    } else {
+      label = video ? 'Join with camera and microphone' : 'Join with microphone';
+    }
     return SectionCard(
-      title: 'Ready when you are',
+      title: reconnect ? 'Session is still live' : 'Ready when you are',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            session.kind == SessionKind.video
-                ? 'You accepted this request. Tapping Join turns on your camera '
-                    'and microphone and starts the live session.'
-                : 'You accepted this request. Tapping Join turns on your '
-                    'microphone and starts the live audio session.',
-            style: const TextStyle(height: 1.45),
-          ),
+          Text(body, style: const TextStyle(height: 1.45)),
           const SizedBox(height: 14),
           AppButton(
-            label: session.kind == SessionKind.video
-                ? 'Join with camera and microphone'
-                : 'Join with microphone',
-            icon: session.kind == SessionKind.video
-                ? Icons.videocam
-                : Icons.mic,
+            label: label,
+            icon: reconnect
+                ? Icons.refresh
+                : (video ? Icons.videocam : Icons.mic),
             isLoading: controller.isJoining.value,
             onPressed:
                 controller.canJoin ? () => _join(context, session) : null,
@@ -374,11 +370,55 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
     );
   }
 
-  /// The media card only claims the microphone is on when the controller can
-  /// confirm both live tracks and the visible microphone service.
-  Widget _mediaCard(RemoteSession session, RemoteSessionController controller) {
+  /// Explains what leaving this screen does while the session is still open.
+  ///
+  /// This note claims the microphone keeps running only when the controller
+  /// confirms local capture and the visible microphone service. It makes no
+  /// claim about the parent receiving audio; that is the media card's job.
+  Widget _leaveNote(
+    RemoteSession session,
+    RemoteSessionController controller,
+  ) {
     final video = session.kind == SessionKind.video;
-    final mediaLive = controller.isMediaLive;
+    final captureRunning = controller.isCaptureActive;
+    if (!captureRunning) {
+      return InfoBanner(
+        tone: BannerTone.info,
+        title: 'You can leave this screen',
+        message:
+            'Leaving does not end this session. It ends only when your guardian '
+            'ends it. Stop sharing turns off this phone\'s '
+            '${video ? 'camera and microphone' : 'microphone'} without ending '
+            'the session.',
+      );
+    }
+    return InfoBanner(
+      tone: BannerTone.info,
+      title: 'You can leave this screen',
+      message: video
+          ? 'Your camera and microphone keep running while you use other '
+              'screens. Tap Stop sharing to turn them off, or leave it to your '
+              'guardian to end the session.'
+          : 'Your microphone keeps running while you use other screens. Tap '
+              'Stop sharing to turn it off, or leave it to your guardian to end '
+              'the session.',
+    );
+  }
+
+  /// The media card separates two facts. "Microphone is on" comes from local
+  /// capture state; "audio is live" comes only from actual RTP, so an open
+  /// microphone with a not-yet-established connection is never reported as
+  /// off and an established connection is never reported as audio live.
+  Widget _mediaCard(
+    BuildContext context,
+    RemoteSession session,
+    RemoteSessionController controller,
+  ) {
+    final video = session.kind == SessionKind.video;
+    final mediaLive = controller.isMediaFlowing.value;
+    final captureOn = controller.isCaptureActive;
+    final checking = controller.isCheckingAudio;
+    final unavailable = controller.audioUnavailable;
     final connecting = controller.isJoining.value;
     final waiting = !controller.isConnected.value;
     return SectionCard(
@@ -409,7 +449,9 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
                   Icon(
                     video ? Icons.videocam : Icons.graphic_eq,
                     size: 52,
-                    color: mediaLive ? AppColors.primary : AppColors.muted,
+                    color: mediaLive
+                        ? AppColors.primary
+                        : (captureOn ? AppColors.warning : AppColors.muted),
                   ),
                   const SizedBox(height: 10),
                   Padding(
@@ -418,6 +460,9 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
                       _mediaHeadline(
                         video: video,
                         mediaLive: mediaLive,
+                        captureOn: captureOn,
+                        checking: checking,
+                        unavailable: unavailable,
                         connecting: connecting,
                         connected: !waiting,
                       ),
@@ -442,27 +487,54 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
                 label: _mediaChipLabel(
                   video: video,
                   mediaLive: mediaLive,
+                  captureOn: captureOn,
+                  checking: checking,
+                  unavailable: unavailable,
                   connecting: connecting,
                 ),
                 tone: mediaLive
                     ? StatusTone.success
-                    : (connecting ? StatusTone.warning : StatusTone.danger),
+                    : (captureOn || connecting
+                        ? StatusTone.warning
+                        : StatusTone.danger),
               ),
             ],
           ),
+          if (kDebugMode) ...[
+            const SizedBox(height: 6),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                _rtpDebugLabel(controller),
+                style: const TextStyle(color: AppColors.muted, fontSize: 11),
+              ),
+            ),
+          ],
           const SizedBox(height: 8),
           const Align(
             alignment: Alignment.centerLeft,
             child: Text(
-              'Ending stops camera and microphone.',
+              'Stop sharing turns off camera and microphone on this phone.',
               style: TextStyle(color: AppColors.muted, fontSize: 12),
             ),
           ),
-          if (waiting) ...[
+          if (!captureOn && controller.canJoin) ...[
+            const SizedBox(height: 12),
+            AppButton(
+              label: video
+                  ? 'Join with camera and microphone'
+                  : 'Join with microphone',
+              icon: video ? Icons.videocam : Icons.mic,
+              isLoading: controller.isJoining.value,
+              onPressed: () => _join(context, session),
+            ),
+          ],
+          if (captureOn && waiting) ...[
             const SizedBox(height: 10),
             const Text(
-              'Waiting for the media connection to the parent to complete. You '
-              'can end this session at any time.',
+              'The microphone is on. Waiting for the media connection to the '
+              'parent to complete. You can stop sharing at any time; the '
+              'session stays open until your guardian ends it.',
               style: TextStyle(color: AppColors.muted, fontSize: 12, height: 1.4),
             ),
           ],
@@ -474,16 +546,35 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
   static String _mediaHeadline({
     required bool video,
     required bool mediaLive,
+    required bool captureOn,
+    required bool checking,
+    required bool unavailable,
     required bool connecting,
     required bool connected,
   }) {
-    if (mediaLive) {
+    if (captureOn) {
+      if (mediaLive) {
+        return video ? 'Camera and microphone are live' : 'Microphone is live';
+      }
+      if (connecting) {
+        return video
+            ? 'Camera and microphone are on — starting the connection…'
+            : 'Microphone is on — starting the connection…';
+      }
+      if (connected && unavailable) {
+        return video
+            ? 'Camera and microphone are on, but audio is not reaching your '
+                'guardian'
+            : 'Microphone is on, but audio is not reaching your guardian';
+      }
       if (connected) {
-        return video ? 'Camera and microphone are on' : 'Microphone is on';
+        return video
+            ? 'Camera and microphone are on — checking audio…'
+            : 'Microphone is on — checking audio…';
       }
       return video
-          ? 'Camera and microphone on — waiting for your guardian'
-          : 'Microphone on — waiting for your guardian';
+          ? 'Camera and microphone are on — reconnecting…'
+          : 'Microphone is on — reconnecting…';
     }
     if (connecting) {
       return video
@@ -492,23 +583,39 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
     }
     if (connected) {
       return video
-          ? 'Connected, but camera and microphone are not sharing'
-          : 'Connected, but not sharing audio';
+          ? 'Connected, but the camera and microphone are off on this phone'
+          : 'Connected, but the microphone is off on this phone';
     }
     return video
-        ? 'Camera and microphone are not sharing'
-        : 'Microphone is stopped — not sharing audio';
+        ? 'Camera and microphone are off on this phone'
+        : 'Microphone is off on this phone';
   }
 
   static String _mediaChipLabel({
     required bool video,
     required bool mediaLive,
+    required bool captureOn,
+    required bool checking,
+    required bool unavailable,
     required bool connecting,
   }) {
     final subject = video ? 'Camera and microphone' : 'Microphone';
     if (mediaLive) return '$subject live';
     if (connecting) return '$subject starting…';
-    return '$subject off';
+    if (!captureOn) return '$subject off';
+    if (checking) return '$subject on · checking…';
+    if (unavailable) return '$subject on · not flowing';
+    return '$subject on · connecting…';
+  }
+
+  /// Debug-only numeric proof that RTP counters advance. Never shown in a
+  /// release build and never contains media content.
+  static String _rtpDebugLabel(RemoteSessionController controller) {
+    final stats = controller.mediaStats.value;
+    if (stats == null) return 'DEBUG RTP: no sample yet';
+    return 'DEBUG RTP: out ${stats.packetsSent} pkts / '
+        '${stats.bytesSent} B · in ${stats.packetsReceived} pkts / '
+        '${stats.bytesReceived} B';
   }
 
   Widget _terminalCard(RemoteSession session) {
@@ -554,73 +661,26 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
     await controller.join();
   }
 
-  /// Back, AppBar up and the Close button all land here. A session that is
-  /// still open on the server is ended first; the route is only popped after
-  /// the server confirms it, so the parent is never left looking at a live
-  /// session that no longer has a peer.
-  Future<void> _handleBack(BuildContext context) async {
-    if (_ending) return;
-    final session = _controller.session.value;
-    if (session == null || !session.status.isOpen) {
-      _pop(context);
-      return;
-    }
+  /// Child consent withdrawal. This only releases this phone's camera and
+  /// microphone; the server session stays open and only the parent ends it.
+  /// Back and the AppBar up button only pop the route.
+  Future<void> _requestStop(BuildContext context) async {
     final confirmed = await ConfirmDialog.show(
       context,
-      title: 'Leave and end the session?',
+      title: 'Stop sharing?',
       message:
-          'Leaving this screen stops your microphone and camera immediately '
-          'and ends the session for your guardian. Nothing is recorded.',
-      confirmLabel: 'End and leave',
-      cancelLabel: 'Stay',
+          'This turns off your camera and microphone on this phone immediately. '
+          'The session stays open until your guardian ends it.',
+      confirmLabel: 'Stop sharing',
       destructive: true,
     );
     if (!confirmed || !context.mounted) return;
-    await _attemptEnd(context, reason: 'left_screen', popOnSuccess: true);
-  }
-
-  Future<void> _requestEnd(BuildContext context) async {
-    final confirmed = await ConfirmDialog.show(
-      context,
-      title: 'End this session?',
-      message:
-          'This stops your camera and microphone immediately and ends the '
-          'session for both participants.',
-      confirmLabel: 'End session',
-      destructive: true,
-    );
-    if (!confirmed || !context.mounted) return;
-    await _attemptEnd(context, reason: 'ended_by_child', popOnSuccess: false);
-  }
-
-  Future<void> _attemptEnd(
-    BuildContext context, {
-    required String reason,
-    required bool popOnSuccess,
-  }) async {
-    if (_ending) return;
-    final controller = _controller;
-    setState(() {
-      _ending = true;
-      _endFailure = null;
-    });
-    bool ended = false;
+    setState(() => _stopping = true);
     try {
-      ended = await controller.endSession(reason: reason);
-    } catch (_) {
-      ended = false;
+      await _controller.withdrawConsent();
+    } finally {
+      if (mounted) setState(() => _stopping = false);
     }
-    if (!mounted) return;
-    if (ended) {
-      setState(() => _ending = false);
-      if (popOnSuccess && context.mounted) _pop(context);
-      return;
-    }
-    setState(() {
-      _ending = false;
-      _endFailure = controller.endError ??
-          'The server did not confirm that this session ended.';
-    });
   }
 
   void _pop(BuildContext context) {
@@ -686,47 +746,5 @@ class _ChildSessionPageState extends State<ChildSessionPage> {
       case RemoteSessionStatus.active:
         return session.status.label;
     }
-  }
-}
-
-/// Blocking state while the server end call is in flight. It keeps the user on
-/// the page and prevents a second tap or a route pop from racing the request.
-class _EndingOverlay extends StatelessWidget {
-  const _EndingOverlay();
-
-  @override
-  Widget build(BuildContext context) {
-    return AbsorbPointer(
-      child: ColoredBox(
-        color: AppColors.background.withValues(alpha: 0.97),
-        child: const Center(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              CircularProgressIndicator(),
-              SizedBox(height: 16),
-              Text(
-                'Ending session…',
-                style: TextStyle(fontWeight: FontWeight.w700, fontSize: 16),
-              ),
-              SizedBox(height: 6),
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 32),
-                child: Text(
-                  'Stopping the microphone and camera, and ending the session '
-                  'for both of you.',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppColors.muted,
-                    fontSize: 12,
-                    height: 1.4,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
   }
 }

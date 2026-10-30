@@ -1,0 +1,56 @@
+10-28 11:54:29.068 D/FlutterWebRTCPlugin(12054): onConnectionChangeCLOSED
+10-28 11:54:29.069 I/sdp_offer_answer.cc(12054): (line 3423): Session: 2893042909959019794 Old state: stable New state: closed
+10-28 11:54:29.069 I/openssl_adapter.cc(12054): (line 825): SSL negotiation finished successfully
+10-28 11:54:29.073 I/webrtc_voice_engine.cc(12054): (line 1713): WebRtcVoiceSendChannel::MuteStream: APM:0
+10-28 11:54:29.073 I/channel.cc(12054): (line 619): Channel disabled: {mid: 0, media_type: audio}
+10-28 11:54:29.073 I/audio_send_stream.cc(12054): (line 389): AudioSendStream::Stop: 3290031792
+10-28 11:54:29.073 I/bitrate_allocator.cc(12054): (line 687): UpdateAllocationLimits : total_requested_min_bitrate: 0 bps, total_requested_padding_bitrate: 0 bps, total_requested_max_bitrate: 0 bps
+10-28 11:54:29.073 I/audio_device_buffer.cc(12054): (line 199): HISTOGRAM(WebRTC.Audio.RecordedOnlyZeros): 0
+10-28 11:54:29.074 I/audio_device_buffer.cc(12054): (line 202): total recording time: 59016
+10-28 11:54:29.074 I/audio_record_jni.cc(12054): (line 170): StopRecording
+10-28 11:54:29.074 I/audio_record_jni.cc(12054): (line 183): HISTOGRAM(WebRTC.Audio.SourceMatchesRecordingSession): 1
+10-28 11:54:29.074 I/AudioEffect(12054): Destructor 0xb400007b1c501b40
+10-28 11:54:29.075 I/AudioEffect(12054): Destructor 0xb400007b2e3bae00
+10-28 11:54:29.075 D/AudioRecord(12054): stop(106): 0xb400007b2e32b400, mActive:1
+10-28 11:54:29.075 D/AudioRecord(12054): stop(106): mActive:1
+10-28 11:54:29.075 D/AudioTrackShared(12054): this(0xb400007be19e1d60), mCblk(0x7c8b25d000), front(2824320), mIsOut 0, interrupt() FUTEX_WAKE
+10-28 11:54:29.075 D/AudioRecord(12054): mAudioRecord->stop()
+10-28 11:54:29.136 D/AudioRecord(12054): AudioRecordThread pause()
+10-28 11:54:29.136 D/AudioRecord(12054): stop(106) done
+10-28 11:54:29.136 D/AudioRecord(12054): stop() end
+10-28 11:54:29.136 D/AudioRecord(12054): stop(106): 0xb400007b2e32b400, mActive:0
+10-28 11:54:29.136 D/AudioRecord(12054): stop(106): mActive:0
+10-28 11:54:29.137 D/AudioRecord(12054): stop(106): 0xb400007b2e32b400, mActive:0
+10-28 11:54:29.137 D/AudioRecord(12054): stop(106): mActive:0
+10-28 11:54:29.138 D/AudioRecord(12054): stop(106): 0xb400007b2e32b400, mActive:0
+10-28 11:54:29.138 D/AudioRecord(12054): stop(106): mActive:0
+10-28 11:54:29.138 D/AudioRecord(12054): ~AudioRecord(106): mStatus 0
+10-28 11:54:29.138 D/AudioRecord(12054): stop(106): 0xb400007b2e32b400, mActive:0
+10-28 11:54:29.138 D/AudioRecord(12054): stop(106): mActive:0
+10-28 11:54:29.138 D/AudioTrackShared(12054): this(0xb400007be19e1d60), mCblk(0x7c8b25d000), front(2824320), mIsOut 0, interrupt() FUTEX_WAKE
+10-28 11:54:29.139 I/channel.cc(12054): (line 633): Changing state, recv=0 send=0 for {mid: 0, media_type: audio}
+10-28 11:54:29.139 I/webrtc_voice_engine.cc(12054): (line 1568): RemoveSendStream: 3290031792
+10-28 11:54:29.139 I/call.cc (12054): (line 1258): UpdateAggregateNetworkState: aggregate_state change to down
+10-28 11:54:29.139 I/pacing_controller.cc(12054): (line 113): PacedSender paused.
+10-28 11:54:29.139 I/control_handler.cc(12054): (line 65): Bitrate estimate state changed, BWE: 141428 bps.
+10-28 11:54:29.139 I/audio_send_stream.cc(12054): (line 186): ~AudioSendStream: 3290031792
+10-28 11:54:29.151 I/webrtc_voice_engine.cc(12054): (line 557): WebRtcVoiceEngine::Terminate
+10-28 11:54:29.152 I/audio_record_jni.cc(12054): (line 170): StopRecording
+10-28 11:54:29.152 I/audio_record_jni.cc(12054): (line 107): Terminate
+10-28 11:54:29.152 I/audio_record_jni.cc(12054): (line 170): StopRecording
+10-28 11:54:29.152 I/audio_track_jni.cc(12054): (line 81): Terminate
+10-28 11:54:29.152 I/audio_track_jni.cc(12054): (line 159): StopPlayout
+10-28 11:54:29.152 I/audio_device_buffer.cc(12054): (line 89): AudioDeviceBuffer::~dtor
+10-28 11:54:29.153 D/FlutterWebRTCPlugin(12054): Stopping the audio manager...
+10-28 11:54:29.279 D/OplusScrollToTopManager(12054): unregisterGuidePopupDismissReceiverInSystemUI
+10-28 11:54:29.279 D/OplusScrollToTopManager(12054): Receiver not registered: android.view.OplusScrollToTopManager$1@2389cd1
+10-28 11:54:29.279 D/OplusScrollToTopManager(12054): unregisterSystemUIBroadcastReceiver 
+10-28 11:54:29.280 D/OplusScrollToTopManager(12054): java.lang.IllegalArgumentException: Receiver not registered: android.view.OplusScrollToTopManager$2@c88a336
+10-28 11:54:29.285 V/ZoomWindowDecorView(12054): removeZoomView
+10-28 11:54:29.287 D/View    (12054): [Warning] assignParent to null: this = DecorView@77c9db7[MainActivity]
+10-28 11:54:29.298 D/AudioManager(12054): setMode mode=0 from com.parentcontrol.parent_control
+10-28 11:54:29.300 D/AudioManager(12054): setMicrophoneMute on=false from com.parentcontrol.parent_control
+10-28 11:54:29.306 I/AudioManager(12054): In setSpeakerphoneOn(), on: false, calling application: com.parentcontrol.parent_control
+10-28 11:54:29.379 W/FlutterJNI(12054): Tried to send a platform message to Flutter, but FlutterJNI was detached from native C++. Could not send. Channel: FlutterWebRTC/peerConnectionEvente43230f3-1fb4-46cd-ba2d-8ef55b23a6c1. Response ID: 75
+10-28 11:54:29.380 W/FlutterJNI(12054): Tried to send a platform message to Flutter, but FlutterJNI was detached from native C++. Could not send. Channel: FlutterWebRTC/peerConnectionEvente43230f3-1fb4-46cd-ba2d-8ef55b23a6c1. Response ID: 76
+10-28 11:54:29.381 W/FlutterJNI(12054): Tried to send a platform message to Flutter, but FlutterJNI was detached from native C++. Could not send. Channel: FlutterWebRTC/peerConnectionEvente43230f3-1fb4-46cd-ba2d-8ef55b23a6c1. Response ID: 77

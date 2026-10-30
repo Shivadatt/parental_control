@@ -309,6 +309,10 @@ enum DeviceStatus {
   String get wireName => name;
 }
 
+/// Presence health derived from [Device.lastSeenAt]. Healthy devices beat every
+/// five minutes; a stalled guardian still has a recent-but-not-current row.
+enum DeviceSyncHealth { healthy, stalled, offline }
+
 class Device {
   const Device({
     required this.id,
@@ -359,10 +363,53 @@ class Device {
   bool get isActive => status == DeviceStatus.active;
   bool get isRevoked => status == DeviceStatus.revoked;
 
-  bool get isOnline {
+  /// GuardianService sends a heartbeat every five minutes
+  /// (`HEARTBEAT_MS` in `GuardianService.kt`). A window shorter than that
+  /// marked a healthy device "Offline" for part of every cycle (BUG-038), so
+  /// this covers two full heartbeat intervals plus two minutes of scheduling
+  /// grace: one missed beat and a delayed scheduler tick still read healthy.
+  static const Duration onlineWindow = Duration(minutes: 12);
+
+  /// Beyond this age the device has missed several beats. Reports may still
+  /// arrive, but the guardian is not reliably syncing, so the UI says
+  /// "sync stalled" instead of claiming the device is simply online.
+  static const Duration stalledWindow = Duration(minutes: 30);
+
+  /// Age of [lastSeenAt], or null when the device never reported.
+  ///
+  /// A future timestamp (clock skew) is treated as age zero, never as a
+  /// negative age.
+  Duration? get lastSeenAge {
     final seen = lastSeenAt;
-    if (seen == null) return false;
-    return DateTime.now().difference(seen) < const Duration(minutes: 3);
+    if (seen == null) return null;
+    final age = DateTime.now().difference(seen);
+    return age.isNegative ? Duration.zero : age;
+  }
+
+  /// Derived presence health. The server stores no health column, so this is
+  /// computed from the heartbeat age only.
+  DeviceSyncHealth get syncHealth {
+    final age = lastSeenAge;
+    if (age == null) return DeviceSyncHealth.offline;
+    if (age < onlineWindow) return DeviceSyncHealth.healthy;
+    if (age < stalledWindow) return DeviceSyncHealth.stalled;
+    return DeviceSyncHealth.offline;
+  }
+
+  bool get isOnline => syncHealth == DeviceSyncHealth.healthy;
+
+  bool get isSyncStalled => syncHealth == DeviceSyncHealth.stalled;
+
+  /// Human-readable age of the last heartbeat. It names freshness explicitly
+  /// so a stale device is never described as if it were current.
+  String get lastSeenAgeLabel {
+    final age = lastSeenAge;
+    if (age == null) return 'never synced';
+    if (age.inSeconds < 60) return 'synced just now';
+    final minutes = age.inMinutes;
+    if (syncHealth == DeviceSyncHealth.healthy) return 'synced $minutes min ago';
+    if (minutes < 120) return 'last seen $minutes min ago';
+    return 'last seen ${age.inHours} h ago';
   }
 
   bool get isFullyManaged => enforcementMode == 'device_owner';
@@ -370,7 +417,15 @@ class Device {
   String get statusLabel {
     if (isRevoked) return 'Revoked';
     if (!isActive) return 'Pending enrollment';
-    return isOnline ? 'Online' : 'Offline';
+    switch (syncHealth) {
+      case DeviceSyncHealth.healthy:
+        return 'Online';
+      case DeviceSyncHealth.stalled:
+        // A device that stopped beating is not plain "Online".
+        return 'Online (sync stalled)';
+      case DeviceSyncHealth.offline:
+        return 'Offline';
+    }
   }
 
   factory Device.fromJson(Map<String, dynamic> json) => Device(

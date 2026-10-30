@@ -1,0 +1,96 @@
+=== emulator-5554 dpm list-owners (raw) ===
+=== emulator-5554 device_policy head ===
+Current Device Policy Manager state:
+  Immutable state:
+    mHasFeature=true
+    mIsWatch=false
+    mIsAutomotive=false
+    mHasTelephonyFeature=true
+    mSafetyChecker=null
+  
+  
+  
+  Enabled Device Admins (User 0, provisioningState: 0):
+  
+    mPasswordOwner=-1
+    mPasswordTokenHandle=0
+    mAppsSuspended=false
+    mUserSetupComplete=true
+    mAffiliationIds={}
+    mNewUserDisclaimer=null
+  
+  
+  Constants:
+    DAS_DIED_SERVICE_RECONNECT_BACKOFF_SEC: 3600
+    DAS_DIED_SERVICE_RECONNECT_BACKOFF_INCREASE: 2.0
+    DAS_DIED_SERVICE_RECONNECT_MAX_BACKOFF_SEC: 86400
+    DAS_DIED_SERVICE_STABLE_CONNECTION_THRESHOLD_SEC: 120
+  
+  Stats:
+    LockGuard.guard(): count=69536, total=13786.4ms, avg=0.198ms, max calls/s=579 max dur/s=314.1ms max time=105.0ms
+  
+  Local Policies: 
+    User 0:
+      UserRestrictionPolicyKey userRestriction_no_factory_reset
+        Per-admin Policy:
+          null
+        Resolved Policy (MostRestrictive):
+          null
+      
+  
+  Global Policies: 
+    UserRestrictionPolicyKey userRestriction_no_factory_reset
+      Per-admin Policy:
+        null
+      Resolved Policy (MostRestrictive):
+        null
+    
+=== 5HXWRGQ4IFU8WS4T dpm list-owners (raw) ===
+no owners^M$
+=== 5HXWRGQ4IFU8WS4T device_policy head ===
+Current Device Policy Manager state:
+  Immutable state:
+    mHasFeature=true
+    mIsWatch=false
+    mIsAutomotive=false
+    mHasTelephonyFeature=true
+    mSafetyChecker=null
+  
+  
+  
+  Enabled Device Admins (User 0, provisioningState: 0):
+    com.parentcontrol.parent_control/.ParentControlDeviceAdminReceiver:
+      uid=11312
+      testOnlyAdmin=false
+      policies:
+      passwordQuality=0x0
+      minimumPasswordLength=0
+      passwordHistoryLength=0
+      minimumPasswordUpperCase=0
+      minimumPasswordLowerCase=0
+      minimumPasswordLetters=1
+      minimumPasswordNumeric=1
+      minimumPasswordSymbols=1
+      minimumPasswordNonLetter=0
+      maximumTimeToUnlock=0
+      strongAuthUnlockTimeout=0
+      maximumFailedPasswordsForWipe=0
+      specifiesGlobalProxy=false
+      passwordExpirationTimeout=0
+      passwordExpirationDate=0
+      encryptionRequested=false
+      disableCamera=false
+      disableCallerId=false
+      disableContactsSearch=false
+      disableBluetoothContactSharing=true
+      disableScreenCapture=false
+      requireAutoTime=false
+      forceEphemeralUsers=false
+      isNetworkLoggingEnabled=false
+      disabledKeyguardFeatures=0
+      crossProfileWidgetProviders=null
+      organizationColor=-16746133
+      userRestrictions:
+        null
+      defaultEnabledRestrictionsAlreadySet={}
+Failed to write while dumping service device_policy: Broken pipe

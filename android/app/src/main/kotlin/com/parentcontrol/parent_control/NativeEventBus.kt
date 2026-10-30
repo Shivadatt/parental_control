@@ -90,4 +90,19 @@ object NativeEventBus {
             )
         )
     }
+
+    /**
+     * The Flutter UI is gone (task swiped from Recents) but the consented
+     * session deliberately keeps running. Non-terminal: Dart must not treat
+     * this as the end of the session.
+     */
+    fun emitAudioAssistanceDetached(reason: String, sessionId: String?) {
+        emit(
+            mapOf(
+                "type" to "audio_assistance_detached",
+                "reason" to reason,
+                "sessionId" to sessionId
+            )
+        )
+    }
 }

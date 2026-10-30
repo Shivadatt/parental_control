@@ -1,0 +1,23 @@
+Child device: realme RMX2161 (5HXWRGQ4IFU8WS4T)
+Parent device: Pixel 9a AVD (emulator-5554)
+Session: 1bd26a84-137d-4e87-84ed-80190bfbea3e (audio, parent ankit@gmail.com, child ankit1@gmail.com)
+Captured: 2026-10-29 17:25:59 IST (11:55:59Z)
+
+Child side (after tapping "Reconnect microphone" at 17:24:00 IST):
+- AudioAssistanceService FGS running, foregroundId=4303, channel audio_assistance_channel
+- appops RECORD_AUDIO: allow; time=+18s (running)
+- webrtc_signals: offer 11:54:05Z, answer 11:54:06Z, ice last 11:54:07Z, 31 ICE rows in 10 min
+- ICE candidate types (last 20 min): host 37, srflx 10, relay 0 (no TURN configured)
+
+Parent side (Pixel):
+- Banners: "Relay not configured" (warning)
+- Status card: "Media connected | Audio live"
+- "One-way audio live - Listening to the child device (loudspeaker enabled)."
+- Debug RTP readout: "in 5463 pkts / 399641 B - out 0 pkts / 0 B"
+- AudioTrack (dumpsys audio): piid 271, state:started, usage=VOICE_COMMUNICATION,
+  sampleRate=8000, deviceIds:[2], session 289, event:started at 17:24:06.789
+- audio_flinger server frame position advanced 600575 -> 650805 frames (6.28 s of audio)
+  across a 6 s sample window, i.e. continuous rendering, 1 underrun.
+
+Conclusion: real RTP audio reaches the parent and is rendered by a started VOICE_COMMUNICATION
+track. Audibility by a human listener is not provable from dumpsys; that remains a manual check.

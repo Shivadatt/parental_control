@@ -1,0 +1,53 @@
+{
+  "when": "2026-10-26T18:56:25.967Z",
+  "results": [
+    {
+      "name": "unlinked.setup_device_active",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "unlinked.setup_heartbeat_works",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "unlinked.parent_unlinks_child",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "unlinked.registration_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 403,
+        "code": "forbidden"
+      }
+    },
+    {
+      "name": "unlinked.telemetry_denied",
+      "status": "PASS",
+      "detail": {
+        "status": 401,
+        "code": "invalid_device_credentials"
+      }
+    },
+    {
+      "name": "unlinked.unlink_revoked_device_row",
+      "status": "PASS",
+      "detail": {
+        "status": "revoked",
+        "error": null
+      }
+    }
+  ]
+}

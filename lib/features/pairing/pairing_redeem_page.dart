@@ -163,9 +163,9 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
               Text(
                 'Android may ask for camera permission the first time. The '
                 'camera stream is only used to read the pairing code.',
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: AppColors.muted,
-                    ),
+                style: Theme.of(
+                  context,
+                ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
               ),
             ],
           ),
@@ -173,7 +173,8 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
         const SizedBox(height: 14),
         SectionCard(
           title: 'Or enter the Child ID or linking code',
-          subtitle: 'Dashes and spaces are ignored. Older child builds may '
+          subtitle:
+              'Dashes and spaces are ignored. Older child builds may '
               'still show a short-lived 8-character code.',
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -217,16 +218,17 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
           'Failures are shown exactly as reported; no request is invented '
           'locally.',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.muted,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
         ),
       ],
     );
   }
 
   Widget _buildResult(BuildContext context, PairingRequest request) {
-    final isPending = request.status == PairingRequestStatus.pendingChild &&
+    final isPending =
+        request.status == PairingRequestStatus.pendingChild &&
         !request.isExpired;
     final tone = switch (request.status) {
       PairingRequestStatus.pendingChild => BannerTone.info,
@@ -240,17 +242,30 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
         : request.status.label;
     final message = isPending
         ? 'The request is pending on the server. The child must approve it on '
-            'their own device. Nothing is linked yet, and this app never '
-            'approves it for them.'
+              'their own device. Nothing is linked yet, and this app never '
+              'approves it for them.'
         : request.status == PairingRequestStatus.approved
-            ? 'The server reports this request approved. The child membership '
-                'is now active for this family.'
-            : 'The server reports this request as '
-                '${request.status.label.toLowerCase()}. No family membership '
-                'was created by this request.';
+        ? 'The server reports this request approved. The child membership '
+              'is now active for this family.'
+        : 'The server reports this request as '
+              '${request.status.label.toLowerCase()}. No family membership '
+              'was created by this request.';
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        if (_controller.error.value != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 14),
+            child: InfoBanner(
+              tone: BannerTone.danger,
+              title: _errorTitle(_controller.error.value!.code),
+              message:
+                  '${_controller.error.value!.message}'
+                  '${_errorGuidance(_controller.error.value!.code)}',
+              actionLabel: 'Try again',
+              onAction: () => unawaited(_controller.checkStatus()),
+            ),
+          ),
         SectionCard(
           title: 'Server response',
           subtitle: 'These values come from the pairing Edge Function.',
@@ -265,14 +280,8 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
                     ? _controller.lastIdentifier
                     : request.childDisplayName,
               ),
-              KeyValueRow(
-                label: 'Family',
-                value: request.familyName,
-              ),
-              KeyValueRow(
-                label: 'Status',
-                value: request.status.label,
-              ),
+              KeyValueRow(label: 'Family', value: request.familyName),
+              KeyValueRow(label: 'Status', value: request.status.label),
               KeyValueRow(
                 label: 'Requested',
                 value: formatDateTime(request.createdAt),
@@ -285,11 +294,7 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
           ),
         ),
         const SizedBox(height: 14),
-        InfoBanner(
-          tone: tone,
-          title: title,
-          message: message,
-        ),
+        InfoBanner(tone: tone, title: title, message: message),
         const SizedBox(height: 16),
         if (isPending)
           AppButton(
@@ -315,12 +320,12 @@ class _PairingRedeemPageState extends State<PairingRedeemPage> {
         ),
         const SizedBox(height: 12),
         Text(
-          'The request status is refreshed only when you ask the server. '
-          'Closing this screen does not change it.',
+          'This screen checks the server every few seconds while the request is '
+          'pending. Closing it does not change the request.',
           textAlign: TextAlign.center,
-          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                color: AppColors.muted,
-              ),
+          style: Theme.of(
+            context,
+          ).textTheme.bodySmall?.copyWith(color: AppColors.muted),
         ),
       ],
     );
@@ -430,8 +435,9 @@ class _LinkingScannerState extends State<_LinkingScanner> {
   Future<void> _retryCamera() async {
     setState(() => _permissionNote = null);
     try {
-      final result = await Get.find<DeviceAdminService>()
-          .requestPermissions(camera: true);
+      final result = await Get.find<DeviceAdminService>().requestPermissions(
+        camera: true,
+      );
       final granted = result['camera'] ?? false;
       if (!granted) {
         if (!mounted) return;
@@ -465,8 +471,8 @@ class _LinkingScannerState extends State<_LinkingScanner> {
               controller: _scanner,
               onDetect: _handleCapture,
               errorBuilder: (context, error) {
-                final permissionDenied = error.errorCode ==
-                    MobileScannerErrorCode.permissionDenied;
+                final permissionDenied =
+                    error.errorCode == MobileScannerErrorCode.permissionDenied;
                 return ColoredBox(
                   color: const Color(0xFF0F172A),
                   child: Padding(
@@ -496,10 +502,10 @@ class _LinkingScannerState extends State<_LinkingScanner> {
                         Text(
                           permissionDenied
                               ? 'Scanning needs camera access. The app cannot '
-                                  'open system settings for you; use the Android '
-                                  'Settings app if the button below is refused.'
+                                    'open system settings for you; use the Android '
+                                    'Settings app if the button below is refused.'
                               : 'The scanner could not start. You can still '
-                                  'enter the Child ID or code below.',
+                                    'enter the Child ID or code below.',
                           textAlign: TextAlign.center,
                           style: const TextStyle(
                             color: Colors.white70,
@@ -543,8 +549,10 @@ class _LinkingScannerState extends State<_LinkingScanner> {
                 right: 12,
                 bottom: 12,
                 child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.black.withValues(alpha: 0.55),
                     borderRadius: BorderRadius.circular(10),

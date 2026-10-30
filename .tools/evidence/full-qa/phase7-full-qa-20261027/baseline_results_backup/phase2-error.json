@@ -1,0 +1,22 @@
+{
+  "error": "device registration failed",
+  "results": [
+    {
+      "name": "device.parent_cannot_register_as_child",
+      "status": "PASS",
+      "detail": {
+        "status": 403,
+        "code": "role_required"
+      }
+    },
+    {
+      "name": "device.register",
+      "status": "FAIL",
+      "detail": {
+        "status": 403,
+        "leaked_secret_hash": false,
+        "leaked_installation": false
+      }
+    }
+  ]
+}

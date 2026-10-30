@@ -19,11 +19,21 @@ class DeviceAdminService extends GetxService {
   static const EventChannel _events =
       EventChannel('com.parentcontrol/native_events');
 
+  /// One native subscription shared by every listener.
+  ///
+  /// `receiveBroadcastStream()` opens a platform `listen` each time it is
+  /// called, while the native side keeps a single event sink. A second caller
+  /// (the child shell after the session screen) replaced the sink, and the
+  /// first caller's cancellation then detached the sink for both, silently
+  /// dropping service state events for the live assistance session.
+  Stream<Map<String, dynamic>>? _eventStream;
+
   bool get isAvailable => Platform.isAndroid;
 
   Stream<Map<String, dynamic>> get events {
     if (!isAvailable) return const Stream<Map<String, dynamic>>.empty();
-    return _events.receiveBroadcastStream().map((event) => jsonMap(event));
+    return _eventStream ??=
+        _events.receiveBroadcastStream().map((event) => jsonMap(event));
   }
 
   Future<DeviceCapabilities> getCapabilities() async {
@@ -105,9 +115,36 @@ class DeviceAdminService extends GetxService {
   Future<bool> stopAudioAssistanceService() async =>
       await _invoke<bool>('stopAudioAssistanceService') ?? false;
 
-  Future<bool> isAudioAssistanceServiceRunning() async {
+  Future<bool> isAudioAssistanceServiceRunning() async =>
+      await probeAudioAssistanceServiceRunning() ?? false;
+
+  /// Tri-state probe of the native microphone foreground service.
+  ///
+  /// Returns `true`/`false` only when the native bridge answered, and `null`
+  /// when the platform channel is unavailable or the answer is malformed.
+  /// Callers must not treat `null` as "stopped": a failed probe is not proof
+  /// that capture ended.
+  Future<bool?> probeAudioAssistanceServiceRunning() async {
     final map = await _invokeMap('getAudioAssistanceStatus');
-    return map?['isRunning'] == true;
+    if (map == null) return null;
+    final value = map['isRunning'];
+    return value is bool ? value : null;
+  }
+
+  /// Confirms to the native foreground service that the Dart isolate still
+  /// owns a live microphone track. Returns false when the confirmation was
+  /// not accepted; failures are never thrown into the media path.
+  Future<bool> notifyAudioCaptureHeartbeat({required String sessionId}) async {
+    if (!isAvailable) return false;
+    try {
+      return await _channel.invokeMethod<bool>(
+            'notifyAudioCaptureHeartbeat',
+            {'sessionId': sessionId},
+          ) ??
+          false;
+    } catch (_) {
+      return false;
+    }
   }
 
   /// Session id the native service reports as active, or null when the service

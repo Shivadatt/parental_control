@@ -2,15 +2,17 @@
 
 These tests exercise the schema, RLS policies, grants and internal RPCs against a
 **plain PostgreSQL 15+** database. They do **not** use a Supabase project. The
-suite was re-run on 2026-10-27 against a fresh disposable PostgreSQL 16.9
-database with **all seven migrations** (including
-`20260101000600_atomic_pairing_invite.sql`) and every test file, including
-`55_pairing_invite_atomic.sql` and `45_device_recovery.sql` (the latter last),
-and passed (psql `EXIT=0` with `ON_ERROR_STOP=1`, no `ERROR` and no
-`ASSERTION FAILED` in the log; 19 public tables, realtime policy present). A
-separate two-session run, `run_pairing_invite_race.sh`, passed against a
-disposable database as well (see below). Earlier runs on 2026-10-27/26 used the
-five and four migrations present at those times. No run verifies any
+suite was re-run on 2026-10-29 against a fresh disposable PostgreSQL 16 database
+with **all ten migrations** (through
+`20261028000300_signaling_open_session.sql`) and every test file, including
+`62_signaling_consented_session.sql`,
+`61_parent_controlled_lifetime.sql`, `60_remote_session_concurrency.sql`
+and `45_device_recovery.sql` (the latter last), and passed (psql `EXIT=0` with
+`ON_ERROR_STOP=1`, no `ERROR` and no `ASSERTION FAILED` in the log; 19 public
+tables, realtime policy present). The 2026-10-28 run covered the nine migrations
+present at that time. An earlier 2026-10-27 run covered the seven migrations
+present then, and a separate two-session run, `run_pairing_invite_race.sh`,
+passed against a disposable database (see below). No run verifies any
 Supabase-hosted behavior.
 
 `00_auth_stub.sql` is local-test scaffolding only. It creates the `anon`,
@@ -37,12 +39,24 @@ psql -v ON_ERROR_STOP=1 \
   -f supabase/migrations/20260101000400_device_recovery.sql \
   -f supabase/migrations/20260101000500_child_contact_ids.sql \
   -f supabase/migrations/20260101000600_atomic_pairing_invite.sql \
+  -f supabase/migrations/20261028000100_remote_session_concurrency.sql \
+  -f supabase/migrations/20261028000200_parent_controlled_session_lifetime.sql \
+  -f supabase/migrations/20261028000300_signaling_open_session.sql \
+  -f supabase/migrations/20261030000100_abandoned_session_sweep.sql \
+  -f supabase/migrations/20261030000200_phase1_authorization.sql \
+  -f supabase/migrations/20261030000300_retention_sweep.sql \
   -f supabase/tests/10_schema.sql \
   -f supabase/tests/20_fixtures.sql \
   -f supabase/tests/50_realtime_policy.sql \
   -f supabase/tests/30_rls.sql \
   -f supabase/tests/40_functions.sql \
   -f supabase/tests/55_pairing_invite_atomic.sql \
+  -f supabase/tests/60_remote_session_concurrency.sql \
+  -f supabase/tests/61_parent_controlled_lifetime.sql \
+  -f supabase/tests/62_signaling_consented_session.sql \
+  -f supabase/tests/63_abandoned_session_sweep.sql \
+  -f supabase/tests/70_phase1_authorization.sql \
+  -f supabase/tests/72_retention_sweep.sql \
   -f supabase/tests/45_device_recovery.sql \
   -d "$DATABASE_URL"
 ```
@@ -53,11 +67,19 @@ self-contained (it inserts its own `auth.users`/profiles/families with fresh
 UUIDs), so it runs before `45_device_recovery.sql`. `45_device_recovery.sql`
 mutates the family1/child1 fixtures, so it runs **last**.
 
+`20261028000100_remote_session_concurrency.sql`,
+`20261028000200_parent_controlled_session_lifetime.sql`,
+`20261028000300_signaling_open_session.sql`,
+`60_remote_session_concurrency.sql`,
+`61_parent_controlled_lifetime.sql` and
+`62_signaling_consented_session.sql` were appended after the 2026-10-27 run
+recorded earlier; the command above now applies all ten migrations and every
+test file. The new tests are self-contained and run before
+`45_device_recovery.sql`.
+
 `20260101000500_child_contact_ids.sql` and
 `20260101000600_atomic_pairing_invite.sql` were appended after the earliest run
-recorded above. The current command applies all seven migrations and every test
-file and exits 0 with 19 public tables and no `ERROR` or `ASSERTION FAILED`
-line. `10_schema.sql` also asserts that `child_contact_ids` exists with RLS
+recorded above. `10_schema.sql` also asserts that `child_contact_ids` exists with RLS
 enabled, that only `service_role` holds privileges on it, that its check
 constraint rejects ambiguous characters, that `device_pairing_tokens.purpose`
 is `NOT NULL`, defaults to `'code'` and accepts only `'code'`/`'invite'`, and
@@ -107,6 +129,24 @@ non-zero on any failed assertion; the disposable
 `parentcontrol_race_<timestamp>` database is dropped on success and failure
 unless `KEEP_DB=1`.
 
+## Two-session race test (R07: remote-session guard)
+
+`60_remote_session_concurrency.sql` shows the read-then-insert logic but not the
+lock. `run_remote_session_race.sh` builds a disposable database, opens session A
+in one transaction (`request_remote_session` for one active fixture device + 4 s
+sleep, holding `pg_advisory_xact_lock`), starts session B ~0.7 s later for the
+same device, and fails unless B blocked for at least 2.5 s, was rejected with
+`session_in_progress`, and the device ended with exactly one session row and no
+device anywhere holds two open sessions. Run it from the repository root:
+
+```bash
+bash supabase/tests/run_remote_session_race.sh
+KEEP_DB=1 bash supabase/tests/run_remote_session_race.sh   # keep the DB
+```
+
+Same connection defaults and `PATH` setup as the pairing race; the disposable
+`parentcontrol_session_race_<timestamp>` database is dropped unless `KEEP_DB=1`.
+
 ## Coverage
 
 - `00_auth_stub.sql` — local roles, `auth.users`, `auth.uid/role`, assertion
@@ -135,7 +175,8 @@ unless `KEEP_DB=1`.
   and private-Realtime topic authorization (family membership, session
   participation, unlinked users and malformed topics).
 - `40_functions.sql` — family creation, policy versioning/idempotency, command
-  poll/ack/expiry, stale-session expiry, offline detection suppression, pairing
+  poll/ack/expiry, pending-request expiry (a consented session with a past
+  deadline must survive), offline detection suppression, pairing
   approve/reject/expiry/replay, unlink/revoke side effects, app snapshot
   replacement, and denial of public RPC wrappers to authenticated users.
 - `50_realtime_policy.sql` — the created policy exists and authorizes on the
@@ -159,6 +200,44 @@ unless `KEEP_DB=1`.
   service-only; recovery unlinks the child and writes an audit row with no secret
   field; the child/parent authorization checks are enforced at the Edge Function
   layer (verified live). Runs last because it mutates the family1/child1 fixtures.
+- `60_remote_session_concurrency.sql` — per-device remote-session guard:
+  `public.request_remote_session` inserts a `requested` row, rejects a second
+  call for the same device with `session_in_progress` (leaving the live row
+  untouched), allows a different device, expires a stale `requested` row in-lock
+  so it cannot block a new request while keeping it as history, and is executable
+  only by `service_role` (`anon`/`authenticated` direct calls raise 42501).
+- `61_parent_controlled_lifetime.sql` — parent-controlled session lifetime:
+  `expires_at` is nullable but a `requested` row still requires a deadline
+  (check constraint); the cleanup job expires stale pending requests only; an
+  accepted session with no deadline, a consenting active session carrying a
+  legacy past deadline, and a three-day-old active session all survive cleanup;
+  the legacy active row blocks a new request with `session_in_progress` instead
+  of being ended; accepting a request may clear the deadline; and terminal rows
+  cannot be revived (`session_terminal`).
+- `62_signaling_consented_session.sql` — signaling for a consented session with
+  no deadline (migration `20261028000300`), self-contained (own profiles and
+  families): a participating parent inserts an offer and the child reads it and
+  inserts an answer on a session whose `expires_at` is NULL; an `active` session
+  carrying a legacy past deadline still carries signals; a `requested` session
+  and an `ended` session (even before its signals are cleared) reject inserts
+  and expose no rows; ending the session closes signaling; and a non-participant
+  can neither read nor write.
+- `run_remote_session_race.sh` — R07 two-session proof that the same function
+  serialises concurrent callers per device; builds and drops its own database,
+  so it is not part of the `psql -f` chain.
+- `63_abandoned_session_sweep.sql` — migration `20261030000100`:
+  `expire_abandoned_sessions()` closes consented rows older than the bound with
+  `ended_reason='abandoned'` and `ended_by IS NULL`, writes one `session_expired`
+  audit row per session, leaves pending requests to the existing expiry job, and
+  is executable only by `service_role`.
+- `70_phase1_authorization.sql` — migration `20261030000200`: the
+  `is_parent_of_family` truth table, rejection (`42501 not_family_parent`) of a
+  non-parent actor by `request_remote_session`/`revoke_device`/`unlink_child`/
+  `apply_policy_version`, absence of the `safe_zones` DELETE policy and grant,
+  and `anon`/`authenticated` inability to execute the two private helpers.
+- `72_retention_sweep.sql` — migration `20261030000300`:
+  `run_retention_sweep()` deletes only rows outside the configured windows,
+  returns counts, and is service-role only.
 
 These tests cover database authorization and RPC behavior only. Edge Function
 HTTP behavior is covered by the Deno tests noted in `docs/backend.md`; neither

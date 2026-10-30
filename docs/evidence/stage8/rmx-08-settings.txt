@@ -1,0 +1,22 @@
+Child device: realme RMX2161 (5HXWRGQ4IFU8WS4T)
+Captured: 2026-10-29 16:53 IST (11:23Z)
+Screen: This phone settings -> Background protection
+
+Account            ankit1 / ankit1@gmail.com / family demo / device realme RMX2161
+Background protection   Running
+Service                 Running with a visible notification
+Last command check      42 min ago
+Error line              Usage upload failed: entries[38].package_name is not a valid Android package name.
+
+Cross-checks taken at 16:50-16:53 IST:
+- dumpsys activity services: GuardianService isForeground=true foregroundId=4101, startRequested=true
+- AudioAssistanceService is NOT running (no capture in progress)
+- pid 19690 unchanged since the 16:33:39 IST OplusHansManager freeze event
+- am get-standby-bucket = 5 (ACTIVE, app in foreground)
+- Home card simultaneously shows "Session active" and "This phone Offline / Last seen 40 min ago (4:10 PM)"
+
+Interpretation: the guardian poll loop stopped at ~16:10 IST (matches last command check
+and last_seen), while the FGS record stayed alive. Presence, command polling and
+heartbeat all derive from the same 10 s scheduler tick, so all three went stale together.
+Session "active" state is independent of the poll loop (it is a server row), which is why
+the two labels disagree.

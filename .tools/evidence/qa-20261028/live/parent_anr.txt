@@ -1,0 +1,1 @@
+10-28 08:47:25.014   691  5290 I am_anr  : [0,10540,com.parentcontrol.parent_control,547896900,Input dispatching timed out (8bf6b8c com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity is not responding. Waited 5003ms for MotionEvent).]

@@ -1,0 +1,31 @@
+{
+  "when": "2026-10-27T10:41:54.197Z",
+  "results": [
+    {
+      "name": "pairing.unknown_and_short_codes_uniform",
+      "status": "PASS",
+      "detail": {
+        "calls": [
+          {
+            "label": "unknown_valid_shape",
+            "status": 400,
+            "code": "invalid_code",
+            "message": "The linking code is not valid."
+          },
+          {
+            "label": "unknown_short_form",
+            "status": 400,
+            "code": "invalid_code",
+            "message": "The linking code is not valid."
+          }
+        ]
+      }
+    }
+  ],
+  "totals": {
+    "total": 1,
+    "pass": 1,
+    "fail": 0,
+    "other": 0
+  }
+}

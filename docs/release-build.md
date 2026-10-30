@@ -390,3 +390,82 @@ estimates):
 
 Record the mapping directory and build date next to each obfuscated row; a hash
 without its symbol archive cannot be debugged later.
+
+## 7. Validated build scripts (2026-10-28)
+
+**Why.** Every command in §3 relies on `--dart-define-from-file` (or hand-written
+`--dart-define` flags). A plain `flutter build apk --debug|--release` compiles a
+client with no Supabase URL and no anon key: it boots straight into the
+"backend not configured" setup screen, account features are disabled, and the
+APK looks fine until someone tries to log in. Such a build is not a valid
+artefact, so the build entry points are now wrapped.
+
+**Commands** (run from any directory; both scripts `cd` to the repo root):
+
+```bash
+bash scripts/build_debug_apk.sh
+bash scripts/build_release_apk.sh
+```
+
+Optional extra arguments are forwarded to `flutter build apk`, e.g.:
+
+```bash
+bash scripts/build_release_apk.sh --split-per-abi
+bash scripts/build_release_apk.sh --target-platform android-arm64
+```
+
+Both scripts:
+
+1. validate the client config (below) and abort before any Gradle work if it fails;
+2. select the SDK as `fvm flutter` when `fvm` is on `PATH`, otherwise the pinned
+   `.fvm/flutter_sdk/bin/flutter` (`.fvmrc` = 3.44.6), otherwise stop with an
+   explicit error;
+3. run `flutter pub get` only when `.dart_tool/package_config.json` is absent;
+4. echo the exact `flutter build apk ...` command (paths only, no values) and run it;
+5. `build_release_apk.sh` additionally prints `ls -l` and `sha256sum` of
+   `build/app/outputs/flutter-apk/app-release.apk` (or of the `app-*-release.apk`
+   files when `--split-per-abi` is used), and states whether
+   `android/key.properties` exists. If release signing is not configured, Gradle
+   may succeed with the Android debug certificate — the script reports that
+   rather than claiming the APK is release-signed. Verify with
+   `apksigner verify --print-certs <apk>`; a certificate subject of
+   `CN=Android Debug` means it is **not** release-signed.
+
+**Validation rules** (`scripts/check_live_config.sh`, sourced by both wrappers).
+It parses the file as text — it never sources or evaluates it — and prints only
+key names and PASS/FAIL. Values are never echoed, masked or logged.
+
+| Code | Condition |
+|---:|---|
+| 0 | `SUPABASE_URL` and `SUPABASE_ANON_KEY` present, non-empty, URL starts with `https://` |
+| 1 | a required key is missing or empty |
+| 2 | config file not found |
+| 3 | a privileged key is present: `SUPABASE_SERVICE_ROLE_KEY`, `SUPABASE_DB_PASSWORD`, `DB_PASSWORD` or `SERVICE_ROLE_KEY` (only the key name is printed) |
+| 4 | `SUPABASE_URL` is present but does not start with `https://` |
+| 5 | SDK missing / config unreadable |
+
+Parser details: a trailing CR is stripped (Windows line endings), an optional
+UTF-8 BOM and a leading `export ` are tolerated, surrounding single or double
+quotes are accepted, blank lines and `#` comments are ignored. Extra keys are
+allowed unless they are one of the four privileged names above. The privileged-key
+check runs first: it is a hard failure, not a warning, because those keys grant
+admin bypass of RLS and must never ship inside a client.
+
+**Config location.** Default `<repo-root>/.tools/live_config.env`, overridable with
+`LIVE_CONFIG_FILE=/path/to/file.env`. The file contains exactly the two
+publishable values:
+
+```
+SUPABASE_URL=https://<project-ref>.supabase.co
+SUPABASE_ANON_KEY=<publishable/anon key>
+```
+
+`.tools/` is listed in `.gitignore` and `.tools/live_config.env` must never be
+committed, pasted into a doc, or attached to a report. The scripts take the
+absolute path of that file, so no secret appears on the command line or in
+`ps`/build logs either.
+
+Known limits: the wrapper checks the file, not the compiled APK. After building,
+the dart-define values are visible in the binary — that is expected for a
+publishable URL/anon key, and is exactly why the service-role key and DB
+password are rejected.

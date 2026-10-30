@@ -1,0 +1,93 @@
+=== requested permissions (realme) ===
+    requested permissions:
+      android.permission.INTERNET
+      android.permission.ACCESS_NETWORK_STATE
+      android.permission.ACCESS_COARSE_LOCATION
+      android.permission.ACCESS_FINE_LOCATION
+      android.permission.ACCESS_BACKGROUND_LOCATION
+      android.permission.CAMERA
+      android.permission.RECORD_AUDIO
+      android.permission.POST_NOTIFICATIONS
+      android.permission.FOREGROUND_SERVICE
+      android.permission.FOREGROUND_SERVICE_DATA_SYNC
+      android.permission.FOREGROUND_SERVICE_LOCATION
+      android.permission.RECEIVE_BOOT_COMPLETED
+      android.permission.PACKAGE_USAGE_STATS
+      android.permission.QUERY_ALL_PACKAGES
+      com.parentcontrol.parent_control.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+      android.permission.MODIFY_AUDIO_SETTINGS
+    install permissions:
+=== runtime/install granted ===
+    install permissions:
+      com.parentcontrol.parent_control.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: granted=true
+      android.permission.MODIFY_AUDIO_SETTINGS: granted=true
+      android.permission.FOREGROUND_SERVICE: granted=true
+      android.permission.RECEIVE_BOOT_COMPLETED: granted=true
+      android.permission.INTERNET: granted=true
+      android.permission.ACCESS_NETWORK_STATE: granted=true
+      android.permission.QUERY_ALL_PACKAGES: granted=true
+    User 0: ceDataInode=2770475 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 ofs=0 pdm=false instant=false virtual=false
+      overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+        /data/resource-cache/com.android.systemui-neutral-Q6mq.frro
+        /data/resource-cache/com.android.systemui-accent-l5Wn.frro
+      legacy overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+      gids=[3003]
+      runtime permissions:
+        android.permission.ACCESS_FINE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.ACCESS_COARSE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.CAMERA: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.RECORD_AUDIO: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.ACCESS_BACKGROUND_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED|RESTRICTION_INSTALLER_EXEMPT]
+
+Queries:
+  system apps queryable: false
+  queries via package name:
+  queries via intent:
+    com.oppo.quicksearchbox:
+      com.parentcontrol.parent_control
+    com.google.android.apps.messaging:
+      com.parentcontrol.parent_control
+    com.heytap.music:
+      com.parentcontrol.parent_control
+    com.oplus.pay:
+      com.parentcontrol.parent_control
+    com.android.systemui:
+      com.parentcontrol.parent_control
+    com.heytap.market:
+      com.parentcontrol.parent_control
+    com.glance.internet:
+      com.parentcontrol.parent_control
+=== runtime permissions section ===
+      runtime permissions:
+        android.permission.ACCESS_FINE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.ACCESS_COARSE_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.CAMERA: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.RECORD_AUDIO: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED]
+        android.permission.ACCESS_BACKGROUND_LOCATION: granted=false, flags=[ USER_SENSITIVE_WHEN_GRANTED|USER_SENSITIVE_WHEN_DENIED|RESTRICTION_INSTALLER_EXEMPT]
+
+Queries:
+  system apps queryable: false
+  queries via package name:
+  queries via intent:
+    com.oppo.quicksearchbox:
+      com.parentcontrol.parent_control
+    com.google.android.apps.messaging:
+      com.parentcontrol.parent_control
+    com.heytap.music:
+      com.parentcontrol.parent_control
+    com.oplus.pay:
+      com.parentcontrol.parent_control
+    com.android.systemui:
+      com.parentcontrol.parent_control
+    com.heytap.market:
+      com.parentcontrol.parent_control
+    com.glance.internet:
+      com.parentcontrol.parent_control
+    com.nebula.rotaterings:
+      com.parentcontrol.parent_control
+    com.cricbuzz.android:
+      com.parentcontrol.parent_control
+    in.startv.hotstar:
+      com.parentcontrol.parent_control

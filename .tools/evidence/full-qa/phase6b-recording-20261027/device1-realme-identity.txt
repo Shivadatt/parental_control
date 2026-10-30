@@ -1,0 +1,10 @@
+=== model ===
+RMX2161
+=== android version ===
+12
+=== sdk ===
+31
+=== abi ===
+arm64-v8a
+=== fingerprint ===
+realme/RMX2161/RMX2161L1:12/SP1A.210812.016/Q.d5ef75_5f7:user/release-keys

@@ -76,6 +76,11 @@ verify_jwt = true
 [functions.remote-session]
 verify_jwt = true
 
+# Account data export / deletion. User JWT required; the function also
+# re-checks the caller's identity and family ownership in code.
+[functions.account]
+verify_jwt = true
+
 # Mixed/device callers: self-authenticate inside the function.
 # A publishable key is not a JWT, so the gateway must not try to verify it.
 [functions.device-command]

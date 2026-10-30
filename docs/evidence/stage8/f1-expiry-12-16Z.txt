@@ -1,0 +1,37 @@
+F1 runtime confirmation: hosted 30-minute deadline expires an active session
+Captured 2026-10-29 12:25Z (17:55 IST) via Supabase Dashboard SQL Editor (read-only).
+
+Source row public.remote_sessions (id 1bd26a84-137d-4e87-84ed-80190bfbea3e):
+{"id":"1bd26a84-137d-4e87-84ed-80190bfbea3e","status":"expired","kind":"audio",
+ "accepted_at":"2026-10-29T11:27:25.197+00:00",
+ "expires_at":"2026-10-29T11:57:25.197+00:00",
+ "ended_at":"2026-10-29T12:16:38.393+00:00",
+ "ended_by":null,
+ "ended_reason":"expired"}
+
+audit_logs for that session: session_requested 11:27:08Z, session_accepted 11:27:25Z,
+session_started 11:27:33Z. There is NO audit row for the expiry, and ended_by is NULL.
+
+Device-side correlation (parent emulator-5554 logcat):
+- 17:46:38.537 IST  FlutterWebRTCPlugin onConnectionChangeCLOSED
+- 17:46:38.537      sdp_offer_answer: Old state: stable New state: closed
+- 17:46:38.537      ended_at in DB is 17:46:38.393 IST (within 150 ms)
+- 17:46:38.605      abandonAudioFocus, AudioTrack removed, voice engine terminated
+
+Interpretation:
+- The session had already passed its stored 30-minute deadline (11:57:25Z) while media
+  continued over the peer-to-peer path, because expiry is applied lazily.
+- The next client call into the pre-fix hosted remote-session function executed
+  markExpired() and flipped the accepted/active row to expired.
+- The parent client acted on that terminal state and closed the peer 150 ms later, so
+  a 15-minute endurance leg that started at 12:08:24Z ended after 8m14s of media.
+- The UI at 17:42 claimed "Session duration: Until you end the session" and "Elapsed 45m",
+  contradicting the server deadline. See failure analysis F1. Fix exists at HEAD but is
+  not deployed (deployment not authorised).
+
+Timeline of the endurance leg:
+- 12:08:24Z baseline parent RTP in 43145 pkts / 3155434 B
+- 12:12Z    parent UI live, RTP in 55548 pkts / 4043785 B
+- 12:16:38Z session expired server-side, parent peer CLOSED, audio torn down
+- 12:21:47Z child last RECORD_AUDIO activity (appops), AudioAssistanceService stopped
+- 12:24Z    child app backgrounded under another app, GuardianService 4101 still running

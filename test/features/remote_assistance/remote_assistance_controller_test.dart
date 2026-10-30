@@ -1,6 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:parent_control/core/utils/formatters.dart';
 import 'package:parent_control/data/models/remote_session.dart';
 import 'package:parent_control/data/repositories/repository_contracts.dart';
 import 'package:parent_control/data/services/session_service.dart';
@@ -110,7 +109,7 @@ void main() {
           expiresAt: DateTime.now().subtract(const Duration(minutes: 2)),
         ),
       ),
-      'Expired',
+      'Session active',
     );
     expect(
       controller.statusLabel(
@@ -119,7 +118,7 @@ void main() {
           expiresAt: DateTime.now().subtract(const Duration(seconds: 5)),
         ),
       ),
-      'Expired',
+      'Request expired',
     );
   });
 
@@ -130,7 +129,8 @@ void main() {
     }
   });
 
-  test('expiryLabel uses the shared future formatter for open sessions', () {
+  test('expiryLabel counts down pending requests and names parent control for '
+      'consented sessions', () {
     final controller = _controller(_MockRemoteSessionRepository());
     final soon = DateTime.now().add(const Duration(minutes: 5, seconds: 30));
 
@@ -147,15 +147,20 @@ void main() {
           expiresAt: DateTime.now().subtract(const Duration(minutes: 2)),
         ),
       ),
-      'Expired',
+      'Until you end it',
     );
-
-    final closedExpiry = DateTime.now().add(const Duration(hours: 2));
     expect(
       controller.expiryLabel(
-        _session(status: RemoteSessionStatus.ended, expiresAt: closedExpiry),
+        _session(status: RemoteSessionStatus.active),
       ),
-      formatDateTime(closedExpiry),
+      'Until you end it',
+    );
+
+    expect(
+      controller.expiryLabel(
+        _session(status: RemoteSessionStatus.ended),
+      ),
+      '—',
     );
   });
 
@@ -178,14 +183,16 @@ void main() {
     );
   });
 
-  test('isServerActive is false once the local expiry has passed', () {
+  test('isServerActive follows server status only, never elapsed time', () {
     final active = _session(status: RemoteSessionStatus.active);
-    final stale = _session(
+    final staleDeadline = _session(
       status: RemoteSessionStatus.active,
       expiresAt: DateTime.now().subtract(const Duration(minutes: 1)),
     );
+    final ended = _session(status: RemoteSessionStatus.ended);
 
     expect(active.isServerActive, isTrue);
-    expect(stale.isServerActive, isFalse);
+    expect(staleDeadline.isServerActive, isTrue);
+    expect(ended.isServerActive, isFalse);
   });
 }

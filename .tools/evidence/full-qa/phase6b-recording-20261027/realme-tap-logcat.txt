@@ -1,0 +1,21 @@
+--------- beginning of main
+10-27 14:34:25.789  3588  3588 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:input motionevent DOWN 730 545'
+10-27 14:34:25.845 10239 10239 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+10-27 14:34:25.850  1892  2187 D OGG_Detector: D:done mCurrStatus: 0
+10-27 14:34:25.851  2398  2398 D NoBackGesture: Start gesture: MotionEvent { action=ACTION_DOWN, actionButton=0, id[0]=0, x[0]=730.0, y[0]=545.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=9420950, downTime=9420950, deviceId=-1, source=0x1002, displayId=0, eventId=-846775722 }
+10-27 14:34:25.851  2398  2398 D NoBackGesture: Not in side gesture area
+10-27 14:34:26.162  3588  3588 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:input motionevent UP 730 545'
+10-27 14:34:26.176  8589  8635 I id.gms.unstabl: Explicit concurrent copying GC freed 355KB AllocSpace bytes, 2(40KB) LOS objects, 24% free, 5021KB/6694KB, paused 137us,61us total 87.876ms
+10-27 14:34:26.211 10244 10244 D ProcessState: Binder ioctl to enable oneway spam detection failed: Invalid argument
+10-27 14:34:26.215  1002  1070 I libPowerHal: [perfLockRel] hdl:683, idx:1
+10-27 14:34:26.216  1002  1070 I libPowerHal: [PD] MTKPOWER_HINT_APP_TOUCH update cmd:3408600 param:0
+10-27 14:34:26.216  2398  2398 D NoBackGesture: End gesture: MotionEvent { action=ACTION_UP, actionButton=0, id[0]=0, x[0]=730.0, y[0]=545.0, toolType[0]=TOOL_TYPE_FINGER, buttonState=0, classification=NONE, metaState=0, flags=0x0, edgeFlags=0x0, pointerCount=1, historySize=0, eventTime=9421316, downTime=9421316, deviceId=-1, source=0x1002, displayId=0, eventId=-51741817 }
+10-27 14:34:26.586   972  1264 I hwcomposer: [HWC] (0)fire a callback of refresh to SF[4]  
+10-27 14:34:27.422  1080  1080 I OplusPerfParmCount: The num of client composition of Internal display in last 60263 ms is: 44
+10-27 14:34:27.422  1080  1080 I OplusPerfParmCount: The num of blur fliter in last 60263 ms is: 85
+--------- beginning of system
+10-27 14:34:27.423  1080  1080 I Quality : SFJankCountInfo: 44;18;0-0-0-0-0-0-0-0-0-0;1-0-0-0-0-0-0-0-0-0;2-0-4-0-0-14-0-0-0-0;3-0-0-0-0-0-0-0-0-0;4-0-0-0-0-0-0-0-0-0;5-0-0-0-0-0-0-0-0-0;6-0-0-0-0-0-0-0-0-0;7-0-0-0-0-0-0-0-0-0;8-0-0-0-0-0-0-0-0-0;9-0-0-0-0-0-0-0-0-0;
+10-27 14:34:27.423  1080  1080 I OplusPerfParmCount: The layer number in last 60263ms is: 7 layer, 67 time, 
+10-27 14:34:27.539   972  1264 I hwcomposer: [HWC] (0)fire a callback of refresh to SF[4]  
+10-27 14:34:28.187  1320  2090 D AALLightSensor: oldLux=72 [SA:75 LA:73] newLux=72 (oriLux: 75)
+10-27 14:34:28.361  3588  3588 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color:export ANDROID_LOG_TAGS="''"; exec logcat '-d''

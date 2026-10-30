@@ -1,0 +1,5 @@
+QA flutter run 2026-10-28 (host only)
+FVM launcher: 4.3.2  pinned=.fvmrc 3.44.6
+analyze: exit 0, No issues found (164.8s), wall 180s
+test: exit 0, 150 passed, wall 31s (runner 00:17)
+docs claim 150 -> matches

@@ -15,6 +15,7 @@ import 'package:parent_control/data/services/local_settings_service.dart';
 import 'package:parent_control/data/services/session_service.dart';
 import 'package:parent_control/features/child/models/child_enforcement.dart';
 import 'package:parent_control/features/child/services/child_preferences.dart';
+import 'package:parent_control/features/remote_assistance/remote_session_registry.dart';
 
 /// Drives the child shell: linked family, this device's registration, the
 /// latest downloaded policy and the visible background services.
@@ -34,6 +35,7 @@ class ChildShellController extends GetxController {
     required this._connectivity,
     required this._deviceAdmin,
     required this._preferences,
+    this.linkedPollInterval = const Duration(seconds: 20),
   });
 
   final FamilyRepository _familyRepository;
@@ -47,6 +49,9 @@ class ChildShellController extends GetxController {
   final ConnectivityService _connectivity;
   final DeviceAdminService _deviceAdmin;
   final ChildPreferences _preferences;
+
+  /// `null` disables the linked-state poll (used by controller tests).
+  final Duration? linkedPollInterval;
 
   final RxBool isLoading = true.obs;
   final RxBool isRefreshing = false.obs;
@@ -63,6 +68,13 @@ class ChildShellController extends GetxController {
   final Rxn<GuardianServiceStatus> guardian = Rxn<GuardianServiceStatus>();
   final RxList<PairingRequest> pendingPairings = <PairingRequest>[].obs;
   final RxList<RemoteSession> pendingSessions = <RemoteSession>[].obs;
+
+  /// The newest accepted/active assistance session for this phone, or null.
+  ///
+  /// The session list carries server state only: it never claims that media is
+  /// connected. The live session screen remains the owner of capture.
+  final Rxn<RemoteSession> activeSession = Rxn<RemoteSession>();
+  final RxBool isStoppingActiveSession = false.obs;
   static const int tabCount = 4;
   final RxInt tabIndex = 0.obs;
   final Rxn<AppException> pendingError = Rxn<AppException>();
@@ -77,11 +89,16 @@ class ChildShellController extends GetxController {
   final Rxn<DateTime> lastLoadedAt = Rxn<DateTime>();
 
   StreamSubscription<Map<String, dynamic>>? _eventSubscription;
+  Timer? _linkedPollTimer;
   bool _syncConfigured = false;
   bool _verificationRan = false;
   bool _loadInFlight = false;
+  bool _activeSessionInFlight = false;
+  bool _pendingRequestsInFlight = false;
+  bool _deviceRowInFlight = false;
 
   bool get isEnrolled => family.value != null && device.value != null;
+  bool get hasActiveSession => activeSession.value != null;
   bool get hasFamily => family.value != null;
   bool get hasDevice => device.value != null;
   bool get needsEnrollment => family.value == null;
@@ -161,6 +178,8 @@ class ChildShellController extends GetxController {
       }
       await _loadMembershipAndDevice();
       await _loadPendingRequests();
+      await _loadActiveSession();
+      _syncLinkedPollTimer();
       await _loadLocationPreference();
       lastLoadedAt.value = DateTime.now();
     } catch (caught) {
@@ -238,6 +257,8 @@ class ChildShellController extends GetxController {
     policy.value = null;
     pendingPairings.clear();
     pendingSessions.clear();
+    activeSession.value = null;
+    _stopLinkedPollTimer();
     _session.setActiveFamily(null);
     _session.setActiveDevice(null);
     _session.setDeviceIdentity(null);
@@ -290,36 +311,145 @@ class ChildShellController extends GetxController {
     }
   }
 
-  /// Ends any assistance session that is still open for this phone. Called
-  /// before the enrolment is removed so a dead peer never stays "live" on the
-  /// guardian's screen. Best effort, like the other teardown steps.
-  Future<void> _endOpenAssistanceSessions({required String reason}) async {
+  /// Background read of the newest session this phone still has open.
+  ///
+  /// This is a convenience for the home card, so a network or server failure
+  /// keeps the previous value and never raises the visible error banner.
+  Future<void> _loadActiveSession() async {
     final currentFamily = family.value;
     final currentDevice = device.value;
-    if (currentFamily == null || currentDevice == null) return;
-    if (!_connectivity.isOnline.value) return;
-    List<RemoteSession> sessions;
+    if (currentFamily == null || currentDevice == null) {
+      activeSession.value = null;
+      return;
+    }
+    if (_activeSessionInFlight) return;
+    _activeSessionInFlight = true;
     try {
-      sessions = await _remoteSessionRepository.fetchForFamily(
+      final sessions = await _remoteSessionRepository.fetchForFamily(
         currentFamily.id,
         limit: 10,
       );
+      final userId = _session.userId.value;
+      RemoteSession? newest;
+      for (final entry in sessions) {
+        if (entry.status != RemoteSessionStatus.active &&
+            entry.status != RemoteSessionStatus.accepted) {
+          continue;
+        }
+        if (entry.isExpired) continue;
+        if (entry.deviceId != currentDevice.id) continue;
+        if (userId.isNotEmpty && entry.childUserId != userId) continue;
+        if (newest == null ||
+            _sessionStamp(entry).isAfter(_sessionStamp(newest))) {
+          newest = entry;
+        }
+      }
+      activeSession.value = newest;
     } catch (_) {
+      // Keep the previous value; a transient read cannot prove the session is
+      // over, and it is not something the child must act on here.
+    } finally {
+      _activeSessionInFlight = false;
+    }
+  }
+
+  static DateTime _sessionStamp(RemoteSession session) =>
+      session.acceptedAt ?? session.requestedAt;
+
+  /// Refreshes this device's presence row.
+  ///
+  /// The shell derives "Online" from `last_seen_at`, which the guardian service
+  /// only updates on its five-minute heartbeat. Without a fresh read the label
+  /// ages out to "Offline" while this app is open and heartbeats are still
+  /// arriving.
+  Future<void> _refreshDeviceRow() async {
+    if (_deviceRowInFlight) return;
+    _deviceRowInFlight = true;
+    try {
+      final loaded = await _deviceRepository.fetchMyDevice();
+      if (loaded != null &&
+          loaded.id == device.value?.id &&
+          loaded.isActive) {
+        device.value = loaded;
+        _session.setActiveDevice(loaded);
+      }
+    } catch (_) {
+      // Presence is cosmetic; the next tick retries and the request/session
+      // polls above still run.
+    } finally {
+      _deviceRowInFlight = false;
+    }
+  }
+
+  /// Starts (or keeps) the 20-second linked-state poll only while this phone is
+  /// linked, and never creates a second timer. The same tick refreshes pending
+  /// pairing requests as well as the active session, so a guardian's invite
+  /// reaches an already-open child app without a manual refresh.
+  void _syncLinkedPollTimer() {
+    if (!isEnrolled) {
+      _stopLinkedPollTimer();
       return;
     }
-    final userId = _session.userId.value;
-    for (final entry in sessions) {
-      if (!entry.status.isOpen) continue;
-      if (entry.deviceId != currentDevice.id) continue;
-      if (userId.isNotEmpty && entry.childUserId != userId) continue;
-      try {
-        await _remoteSessionRepository.end(
-          sessionId: entry.id,
-          reason: reason,
-        );
-      } catch (_) {
-        // Local capture and the microphone service are already stopped.
-      }
+    final interval = linkedPollInterval;
+    if (interval == null) return;
+    _linkedPollTimer ??= Timer.periodic(interval, (_) {
+      if (!_connectivity.isOnline.value) return;
+      unawaited(_loadPendingRequests());
+      unawaited(_loadActiveSession());
+      unawaited(_refreshDeviceRow());
+    });
+  }
+
+  void _stopLinkedPollTimer() {
+    _linkedPollTimer?.cancel();
+    _linkedPollTimer = null;
+  }
+
+  /// Opens the live session screen for the session shown on the home card.
+  /// Leaving that screen does not end the session.
+  Future<void> openActiveSession() async {
+    final current = activeSession.value;
+    if (current == null) return;
+    await Get.toNamed(
+      AppRoutes.childSession,
+      arguments: {'sessionId': current.id, 'role': 'child'},
+    );
+    await _loadActiveSession();
+  }
+
+  /// Child-initiated consent withdrawal (Stop sharing).
+  ///
+  /// Only this phone's capture is stopped: the server session belongs to the
+  /// parent and stays open until they end it. The card remains, worded
+  /// truthfully, so the device never pretends the session is over.
+  Future<void> stopActiveSession() async {
+    final current = activeSession.value;
+    if (current == null || isStoppingActiveSession.value) return;
+    isStoppingActiveSession.value = true;
+    actionError.value = null;
+    actionMessage.value = null;
+    try {
+      await _stopMicrophoneService();
+      await _releaseSessionRegistry(sessionId: current.id);
+      actionMessage.value =
+          'Sharing stopped. Camera and microphone were released on this phone. '
+          'The session stays open until your guardian ends it.';
+    } finally {
+      isStoppingActiveSession.value = false;
+    }
+    await _loadActiveSession();
+  }
+
+  /// Best effort: drops the app-scoped session controller so no capture engine
+  /// outlives the link or the account.
+  Future<void> _releaseSessionRegistry({String? sessionId}) async {
+    if (!Get.isRegistered<RemoteSessionRegistry>()) return;
+    try {
+      final registry = Get.find<RemoteSessionRegistry>();
+      if (sessionId != null && registry.sessionId != sessionId) return;
+      await registry.releaseAll();
+    } catch (_) {
+      // Teardown is best effort; local services were already stopped.
     }
   }
 
@@ -376,7 +506,9 @@ class ChildShellController extends GetxController {
     verificationError.value = null;
     try {
       final rules = <String, AppRule>{};
-      for (final rule in current.payload.appRules.where((item) => item.blocked)) {
+      for (final rule in current.payload.appRules.where(
+        (item) => item.blocked,
+      )) {
         rules[rule.packageName] = rule;
       }
       for (final packageName in current.payload.blockedPackages) {
@@ -398,9 +530,7 @@ class ChildShellController extends GetxController {
       if (managed) {
         try {
           final installed = await _deviceAdmin.getInstalledApps();
-          labels = {
-            for (final app in installed) app.packageName: app.label,
-          };
+          labels = {for (final app in installed) app.packageName: app.label};
         } catch (_) {
           // Labels are cosmetic; the suspension check below is what matters.
         }
@@ -410,8 +540,7 @@ class ChildShellController extends GetxController {
         bool? suspended;
         if (managed) {
           try {
-            suspended =
-                await _deviceAdmin.isPackageSuspended(entry.key);
+            suspended = await _deviceAdmin.isPackageSuspended(entry.key);
           } catch (_) {
             suspended = null;
           }
@@ -537,40 +666,47 @@ class ChildShellController extends GetxController {
   }
 
   Future<void> _loadPendingRequests() async {
-    AppException? pairingFailure;
-    AppException? sessionFailure;
+    if (_pendingRequestsInFlight) return;
+    _pendingRequestsInFlight = true;
     try {
-      final requests = await _pairingRepository.fetchPendingForChild();
-      pendingPairings.assignAll(requests.where((request) => request.isPending));
-    } catch (caught) {
-      pairingFailure = AppException.from(caught);
-    }
-    try {
-      final sessions =
-          await _remoteSessionRepository.fetchPendingForChild();
-      pendingSessions.assignAll(
-        sessions.where(
-          (session) =>
-              session.status == RemoteSessionStatus.requested &&
-              !session.isExpired,
-        ),
-      );
-    } catch (caught) {
-      sessionFailure = AppException.from(caught);
-    }
-    if (pairingFailure != null && sessionFailure != null) {
-      pendingError.value = pairingFailure;
-    } else if (pairingFailure != null || sessionFailure != null) {
-      pendingError.value = pairingFailure ?? sessionFailure;
-    } else {
-      pendingError.value = null;
+      AppException? pairingFailure;
+      AppException? sessionFailure;
+      try {
+        final requests = await _pairingRepository.fetchPendingForChild();
+        pendingPairings.assignAll(
+          requests.where((request) => request.isPending),
+        );
+      } catch (caught) {
+        pairingFailure = AppException.from(caught);
+      }
+      try {
+        final sessions = await _remoteSessionRepository.fetchPendingForChild();
+        pendingSessions.assignAll(
+          sessions.where(
+            (session) =>
+                session.status == RemoteSessionStatus.requested &&
+                !session.isExpired,
+          ),
+        );
+      } catch (caught) {
+        sessionFailure = AppException.from(caught);
+      }
+      if (pairingFailure != null && sessionFailure != null) {
+        pendingError.value = pairingFailure;
+      } else if (pairingFailure != null || sessionFailure != null) {
+        pendingError.value = pairingFailure ?? sessionFailure;
+      } else {
+        pendingError.value = null;
+      }
+    } finally {
+      _pendingRequestsInFlight = false;
     }
   }
 
   Future<void> _loadLocationPreference() async {
     try {
-      locationSharingEnabled.value =
-          await _preferences.locationSharingEnabled();
+      locationSharingEnabled.value = await _preferences
+          .locationSharingEnabled();
     } catch (_) {
       locationSharingEnabled.value = false;
       locationWarning.value =
@@ -627,6 +763,15 @@ class ChildShellController extends GetxController {
   }) async {
     actionError.value = null;
     actionMessage.value = null;
+    // Microphone access is a product feature of a linked phone: it is never
+    // offered to, or granted from, an unlinked device.
+    if (microphone && !isEnrolled) {
+      actionError.value = const AppException(
+        AppErrorCodes.validation,
+        'Link this phone to a parent before enabling microphone access.',
+      );
+      return;
+    }
     if (!_deviceAdmin.isAvailable) {
       actionError.value = const AppException(
         AppErrorCodes.unsupported,
@@ -727,7 +872,7 @@ class ChildShellController extends GetxController {
         actionError.value = const AppException(
           'permission_denied',
           'Android needs notification permission for the visible background '
-          'service. Allow notifications, then try again.',
+              'service. Allow notifications, then try again.',
         );
         return;
       }
@@ -797,7 +942,7 @@ class ChildShellController extends GetxController {
         actionError.value = const AppException(
           'permission_denied',
           'Precise location permission is required. Nothing is being shared. '
-          'Grant location access, then try again.',
+              'Grant location access, then try again.',
         );
         return;
       }
@@ -805,7 +950,7 @@ class ChildShellController extends GetxController {
         actionError.value = const AppException(
           'permission_denied',
           'Android requires a visible notification for the location service. '
-          'Allow notifications, then try again.',
+              'Allow notifications, then try again.',
         );
         return;
       }
@@ -827,8 +972,8 @@ class ChildShellController extends GetxController {
       locationWarning.value = caps.backgroundLocationGranted
           ? null
           : 'Allow background location in Android settings if you want updates '
-              'while this app is not on screen. The visible location '
-              'notification stays on whenever sharing is active.';
+                'while this app is not on screen. The visible location '
+                'notification stays on whenever sharing is active.';
       actionMessage.value =
           'Location sharing is on. A visible notification appears while the '
           'location service runs. You can turn it off here at any time.';
@@ -883,19 +1028,16 @@ class ChildShellController extends GetxController {
     actionError.value = null;
     actionMessage.value = null;
     try {
-      // Stop capture and end any live assistance session before the server
-      // link is removed, so the microphone cannot outlive the enrolment and
-      // the guardian does not keep seeing a live session with no peer.
+      // Stop capture before the link is removed. Ending the server session is
+      // the server's job: unlink_child ends it with member_unlinked, and a
+      // child is not authorized to end a parent's session.
       await _stopMicrophoneService();
-      await _endOpenAssistanceSessions(reason: 'unlinked');
+      await _releaseSessionRegistry();
       await _pairingRepository.unlink(
         familyId: currentFamily.id,
         childUserId: userId,
       );
-      await _stopNativeServices(
-        clearPreference: true,
-        stopMicrophone: false,
-      );
+      await _stopNativeServices(clearPreference: true, stopMicrophone: false);
       try {
         await _deviceAdmin.clearBackgroundSync();
       } catch (_) {
@@ -930,11 +1072,10 @@ class ChildShellController extends GetxController {
     if (isSigningOut.value) return;
     isSigningOut.value = true;
     actionError.value = null;
-    // Stop the microphone service and end any open assistance session while
-    // the credentials are still valid: after sign-out the session end call
-    // would be rejected and the guardian would keep seeing a live session.
+    // Stop local capture before the credentials are cleared. The server session
+    // stays open (only the parent ends it); the guardian sees the media stop.
     await _stopMicrophoneService();
-    await _endOpenAssistanceSessions(reason: 'signed_out');
+    await _releaseSessionRegistry();
     try {
       await _authRepository.signOut();
     } catch (caught) {
@@ -944,16 +1085,12 @@ class ChildShellController extends GetxController {
     }
     String? warning;
     try {
-      await _stopNativeServices(
-        clearPreference: true,
-        stopMicrophone: false,
-      );
+      await _stopNativeServices(clearPreference: true, stopMicrophone: false);
       if (_deviceAdmin.isAvailable) {
         await _deviceAdmin.clearBackgroundSync();
       }
     } catch (_) {
-      warning =
-          'Some background services could not be stopped on this phone.';
+      warning = 'Some background services could not be stopped on this phone.';
     }
     _syncConfigured = false;
     try {
@@ -976,6 +1113,7 @@ class ChildShellController extends GetxController {
 
   @override
   void onClose() {
+    _stopLinkedPollTimer();
     unawaited(_eventSubscription?.cancel());
     _eventSubscription = null;
     super.onClose();

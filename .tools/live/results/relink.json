@@ -1,0 +1,53 @@
+{
+  "when": "2026-10-26T17:41:34.937Z",
+  "results": [
+    {
+      "name": "relink.unlink_child",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "relink.code_created",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "relink.redeem",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "relink.visible_to_child",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200"
+      }
+    },
+    {
+      "name": "relink.child_approved",
+      "status": "PASS",
+      "detail": {
+        "status": 200,
+        "code": "http_200",
+        "value": "approved"
+      }
+    },
+    {
+      "name": "relink.membership_active",
+      "status": "PASS",
+      "detail": {
+        "error": null
+      }
+    }
+  ]
+}

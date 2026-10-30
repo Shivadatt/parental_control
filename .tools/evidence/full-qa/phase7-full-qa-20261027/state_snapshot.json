@@ -1,0 +1,377 @@
+{
+  "when": "2026-10-27T10:14:02.560Z",
+  "families": {
+    "A": {
+      "familyId": "c4e15505-05f4-4faf-a268-789f454fbcd4",
+      "members": [
+        {
+          "user_id": "339f3ff2-d1e5-4eb5-82a6-8f4ed8028c32",
+          "role": "parent",
+          "status": "active"
+        },
+        {
+          "user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "role": "child",
+          "status": "removed"
+        }
+      ],
+      "activeDevices": [],
+      "deviceCount": 4,
+      "newestDevices": [
+        {
+          "id": "2d683da8-e250-42bd-a44c-88c398fbb23a",
+          "display_name": "QA Phone A",
+          "child_user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "status": "revoked",
+          "created_at": "2026-10-26T17:45:14.751114+00:00",
+          "last_seen_at": null,
+          "credential_revoked_at": "2026-10-26T17:46:17.015976+00:00"
+        },
+        {
+          "id": "f12b4c92-3834-4cdb-b3e8-70bb3f1649da",
+          "display_name": "QA Phone A",
+          "child_user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "status": "revoked",
+          "created_at": "2026-10-26T17:25:35.385878+00:00",
+          "last_seen_at": null,
+          "credential_revoked_at": "2026-10-26T17:41:23.834991+00:00"
+        },
+        {
+          "id": "ec7e4b8e-42ac-4136-9be0-cc35cf6b5701",
+          "display_name": "QA Test Phone A",
+          "child_user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "status": "revoked",
+          "created_at": "2026-10-26T16:53:36.649699+00:00",
+          "last_seen_at": "2026-10-26T16:53:38.967+00:00",
+          "credential_revoked_at": "2026-10-26T16:55:30.000763+00:00"
+        },
+        {
+          "id": "ff9b0b44-db94-4234-8221-73bd3f28182e",
+          "display_name": "QA Test Phone A",
+          "child_user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "status": "revoked",
+          "created_at": "2026-10-26T16:38:41.185057+00:00",
+          "last_seen_at": "2026-10-26T16:38:46.413+00:00",
+          "credential_revoked_at": "2026-10-26T16:40:57.653909+00:00"
+        }
+      ],
+      "tokensViewable": 0,
+      "tokensError": "permission denied for table device_pairing_tokens",
+      "pairingRequests": [
+        {
+          "id": "22ef6cf4-4d93-47b6-9ae9-c3fea05636ad",
+          "child_user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "status": "approved",
+          "expires_at": "2026-10-26T17:51:25.029+00:00",
+          "created_at": "2026-10-26T17:41:29.470167+00:00"
+        },
+        {
+          "id": "cd9252ee-0615-4522-82ee-3cde40302fbd",
+          "child_user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "status": "approved",
+          "expires_at": "2026-10-26T17:06:29.763+00:00",
+          "created_at": "2026-10-26T16:56:33.658846+00:00"
+        },
+        {
+          "id": "f9efe62d-12f2-4c05-9144-7c1276f98892",
+          "child_user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "status": "approved",
+          "expires_at": "2026-10-26T17:03:14.484+00:00",
+          "created_at": "2026-10-26T16:53:19.564702+00:00"
+        },
+        {
+          "id": "31d297f8-6514-435d-86a1-9aa47584ef14",
+          "child_user_id": "807da242-fda8-4a4f-aff3-c86aacb3cf9b",
+          "status": "approved",
+          "expires_at": "2026-10-26T16:47:11.943+00:00",
+          "created_at": "2026-10-26T16:37:16.480297+00:00"
+        }
+      ],
+      "recentAudit": [
+        {
+          "event_type": "member_removed",
+          "target_type": "family_member",
+          "target_id": "18b18b5e-3a8a-48f0-b5eb-2a36321024b7",
+          "created_at": "2026-10-26T17:46:17.015976+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "1af2654b-ec84-4826-ae83-523d886a1afa",
+          "created_at": "2026-10-26T17:45:20.439859+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "5c9550e7-2272-4a4c-8d9b-951c85ead2dd",
+          "created_at": "2026-10-26T17:45:18.221627+00:00"
+        },
+        {
+          "event_type": "device_registered",
+          "target_type": "device",
+          "target_id": "2d683da8-e250-42bd-a44c-88c398fbb23a",
+          "created_at": "2026-10-26T17:45:14.976911+00:00"
+        },
+        {
+          "event_type": "pairing_approved",
+          "target_type": "pairing_request",
+          "target_id": "22ef6cf4-4d93-47b6-9ae9-c3fea05636ad",
+          "created_at": "2026-10-26T17:41:33.916441+00:00"
+        },
+        {
+          "event_type": "pairing_redeemed",
+          "target_type": "pairing_request",
+          "target_id": "22ef6cf4-4d93-47b6-9ae9-c3fea05636ad",
+          "created_at": "2026-10-26T17:41:29.84748+00:00"
+        },
+        {
+          "event_type": "member_removed",
+          "target_type": "family_member",
+          "target_id": "18b18b5e-3a8a-48f0-b5eb-2a36321024b7",
+          "created_at": "2026-10-26T17:41:23.834991+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "b90166ca-34a0-4e0d-bae4-693d6fc35c4f",
+          "created_at": "2026-10-26T17:35:31.971597+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "8e06f164-a522-48df-a48e-4468403f16fd",
+          "created_at": "2026-10-26T17:35:29.056251+00:00"
+        },
+        {
+          "event_type": "device_registered",
+          "target_type": "device",
+          "target_id": "f12b4c92-3834-4cdb-b3e8-70bb3f1649da",
+          "created_at": "2026-10-26T17:25:35.587833+00:00"
+        },
+        {
+          "event_type": "pairing_approved",
+          "target_type": "pairing_request",
+          "target_id": "cd9252ee-0615-4522-82ee-3cde40302fbd",
+          "created_at": "2026-10-26T16:56:36.53888+00:00"
+        },
+        {
+          "event_type": "pairing_redeemed",
+          "target_type": "pairing_request",
+          "target_id": "cd9252ee-0615-4522-82ee-3cde40302fbd",
+          "created_at": "2026-10-26T16:56:34.033228+00:00"
+        }
+      ],
+      "remoteSessions": [
+        {
+          "id": "d55a55af-7881-475b-84c2-ece6c7bfa79c",
+          "device_id": "ec7e4b8e-42ac-4136-9be0-cc35cf6b5701",
+          "status": "ended",
+          "created_at": "2026-10-26T16:53:59.845571+00:00"
+        },
+        {
+          "id": "eb97752d-2598-4175-89d5-d0f5bf7747d2",
+          "device_id": "ff9b0b44-db94-4234-8221-73bd3f28182e",
+          "status": "ended",
+          "created_at": "2026-10-26T16:39:14.453738+00:00"
+        }
+      ],
+      "errors": []
+    },
+    "B": {
+      "familyId": "4c4dd6fe-e727-4f66-bfba-7edd801114a8",
+      "members": [
+        {
+          "user_id": "f0cb5324-4447-4149-bed3-506e7fce6d0c",
+          "role": "parent",
+          "status": "active"
+        },
+        {
+          "user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55",
+          "role": "child",
+          "status": "removed"
+        },
+        {
+          "user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "role": "child",
+          "status": "active"
+        }
+      ],
+      "activeDevices": [],
+      "deviceCount": 8,
+      "newestDevices": [
+        {
+          "id": "e6db9dda-afa0-4dcd-817e-28fe7f98a6c9",
+          "display_name": "QA parent journey phone",
+          "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "status": "revoked",
+          "created_at": "2026-10-27T06:54:35.628193+00:00",
+          "last_seen_at": "2026-10-27T06:54:41.411+00:00",
+          "credential_revoked_at": "2026-10-27T07:08:09.427722+00:00"
+        },
+        {
+          "id": "91e2b767-4c6e-4b9f-836a-4c4e55b124fa",
+          "display_name": "QA Recovery fresh",
+          "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "status": "revoked",
+          "created_at": "2026-10-27T04:09:18.662234+00:00",
+          "last_seen_at": "2026-10-27T04:09:19.374+00:00",
+          "credential_revoked_at": "2026-10-27T04:09:48.382659+00:00"
+        },
+        {
+          "id": "a3b7b74e-77a4-4b95-85c4-b1ccf782be9a",
+          "display_name": "QA Recovery old",
+          "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "status": "revoked",
+          "created_at": "2026-10-27T04:08:56.31639+00:00",
+          "last_seen_at": "2026-10-27T04:09:03.74+00:00",
+          "credential_revoked_at": "2026-10-27T04:09:05.653942+00:00"
+        },
+        {
+          "id": "5cd879fe-9303-49ee-9ef6-2d8b478193c7",
+          "display_name": "QA Recovery fresh",
+          "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55",
+          "status": "revoked",
+          "created_at": "2026-10-27T04:04:08.049686+00:00",
+          "last_seen_at": "2026-10-27T04:04:08.815+00:00",
+          "credential_revoked_at": "2026-10-27T04:04:44.117482+00:00"
+        }
+      ],
+      "tokensViewable": 0,
+      "tokensError": "permission denied for table device_pairing_tokens",
+      "pairingRequests": [
+        {
+          "id": "f8cd1338-799a-4842-b684-74c67b25a06f",
+          "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "status": "approved",
+          "expires_at": "2026-10-27T07:03:32.267+00:00",
+          "created_at": "2026-10-27T06:53:54.293115+00:00"
+        },
+        {
+          "id": "c1f4567b-a21e-4904-867a-e1c9c46eeb9a",
+          "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "status": "expired",
+          "expires_at": "2026-10-27T05:14:31.852+00:00",
+          "created_at": "2026-10-27T05:04:53.167942+00:00"
+        },
+        {
+          "id": "dc4c9456-511e-476f-ad54-02536bec867b",
+          "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "status": "expired",
+          "expires_at": "2026-10-27T04:51:16.996+00:00",
+          "created_at": "2026-10-27T04:41:38.345659+00:00"
+        },
+        {
+          "id": "184fc07a-0ad6-4fb8-a2d6-00c319a2492d",
+          "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "status": "approved",
+          "expires_at": "2026-10-27T04:19:09.744+00:00",
+          "created_at": "2026-10-27T04:09:14.940932+00:00"
+        },
+        {
+          "id": "c870eef9-8807-49e2-92f8-d0ab22011ca6",
+          "child_user_id": "2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764",
+          "status": "approved",
+          "expires_at": "2026-10-27T04:18:47.711+00:00",
+          "created_at": "2026-10-27T04:08:52.284224+00:00"
+        },
+        {
+          "id": "265c5239-7551-4372-bc41-42278db7d6c5",
+          "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55",
+          "status": "approved",
+          "expires_at": "2026-10-27T04:13:59.238+00:00",
+          "created_at": "2026-10-27T04:04:04.180773+00:00"
+        },
+        {
+          "id": "b4b87b88-47ae-4d00-961e-282ba41e3a9b",
+          "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55",
+          "status": "approved",
+          "expires_at": "2026-10-27T04:13:26.521+00:00",
+          "created_at": "2026-10-27T04:03:32.389033+00:00"
+        },
+        {
+          "id": "7f934bf8-35e0-4922-8003-757a3cbe6791",
+          "child_user_id": "f4c59b92-af5f-430c-b78b-0b8597684e55",
+          "status": "approved",
+          "expires_at": "2026-10-26T19:06:05.377+00:00",
+          "created_at": "2026-10-26T18:56:10.304985+00:00"
+        }
+      ],
+      "recentAudit": [
+        {
+          "event_type": "device_revoked",
+          "target_type": "device",
+          "target_id": "e6db9dda-afa0-4dcd-817e-28fe7f98a6c9",
+          "created_at": "2026-10-27T07:08:09.427722+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "8b76084c-eca3-4a08-9793-6377707575ba",
+          "created_at": "2026-10-27T07:07:56.757713+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "685b7291-749d-4d1d-a3ac-a3d7277d4ea6",
+          "created_at": "2026-10-27T07:05:20.943682+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "61c985ba-b921-42c5-84a6-ed62be7be03d",
+          "created_at": "2026-10-27T07:02:25.602811+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "e8be500f-8832-4cfe-9094-0ec5a72dfeee",
+          "created_at": "2026-10-27T06:58:34.971761+00:00"
+        },
+        {
+          "event_type": "policy_updated",
+          "target_type": "device_policy",
+          "target_id": "bebe7843-1b0b-4107-8670-dae72d3ea17d",
+          "created_at": "2026-10-27T06:55:09.90858+00:00"
+        },
+        {
+          "event_type": "device_registered",
+          "target_type": "device",
+          "target_id": "e6db9dda-afa0-4dcd-817e-28fe7f98a6c9",
+          "created_at": "2026-10-27T06:54:35.81518+00:00"
+        },
+        {
+          "event_type": "pairing_approved",
+          "target_type": "pairing_request",
+          "target_id": "f8cd1338-799a-4842-b684-74c67b25a06f",
+          "created_at": "2026-10-27T06:54:28.653655+00:00"
+        },
+        {
+          "event_type": "pairing_redeemed",
+          "target_type": "pairing_request",
+          "target_id": "f8cd1338-799a-4842-b684-74c67b25a06f",
+          "created_at": "2026-10-27T06:53:54.691554+00:00"
+        },
+        {
+          "event_type": "pairing_redeemed",
+          "target_type": "pairing_request",
+          "target_id": "c1f4567b-a21e-4904-867a-e1c9c46eeb9a",
+          "created_at": "2026-10-27T05:04:53.579757+00:00"
+        },
+        {
+          "event_type": "pairing_redeemed",
+          "target_type": "pairing_request",
+          "target_id": "dc4c9456-511e-476f-ad54-02536bec867b",
+          "created_at": "2026-10-27T04:41:38.727166+00:00"
+        },
+        {
+          "event_type": "member_removed",
+          "target_type": "family_member",
+          "target_id": "cfcc4e3e-acac-40bd-b181-d3a1c8d9bb1e",
+          "created_at": "2026-10-27T04:09:48.382659+00:00"
+        }
+      ],
+      "remoteSessions": [],
+      "errors": []
+    }
+  }
+}

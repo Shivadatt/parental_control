@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Cleartext HTTP is disabled for every domain. The app only talks to the
+     Supabase HTTPS endpoint; no plaintext host is in use.
+
+     TODO: certificate pinning. No stable pins exist for the Supabase project
+     yet, so no <pin-set> is declared. Pinning must be added here (with a
+     backup pin and a rotation plan) before it can be relied on. -->
+<network-security-config>
+    <base-config cleartextTrafficPermitted="false" />
+</network-security-config>

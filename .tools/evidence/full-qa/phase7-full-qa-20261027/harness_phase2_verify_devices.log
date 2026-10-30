@@ -1,0 +1,4 @@
+PASS device.parent_cannot_register_as_child :: {"status":403,"code":"role_required"}
+FAIL device.register :: {"status":403,"leaked_secret_hash":false,"leaked_installation":false}
+FATAL device registration failed
+phase2_exit=1

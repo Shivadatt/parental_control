@@ -1,0 +1,10 @@
+=== model ===
+sdk_gphone64_x86_64
+=== android version ===
+17
+=== sdk ===
+37
+=== abi ===
+x86_64
+=== fingerprint ===
+google/sdk_gphone64_x86_64/emu64xa:17/CE2A.260420.051.A2/16418371:user/release-keys

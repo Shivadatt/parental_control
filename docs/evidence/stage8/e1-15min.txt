@@ -1,0 +1,30 @@
+E1 15-minute endurance (child backgrounded) — 2026-10-29
+started 12:08:24Z, sampling window 900 s, target end 12:23:24Z
+E1_end=12:23:31
+--- child appops ---
+Uid mode: RECORD_AUDIO: foreground
+RECORD_AUDIO: allow; time=+1m44s50ms ago; duration=+11s231ms
+--- child services ---
+  * ServiceRecord{d85ba7b u0 com.parentcontrol.parent_control/.GuardianService}
+    isForeground=true foregroundId=4101 foregroundNoti=Notification(channel=guardian_status ...)
+--- child pid ---
+11906
+--- parent rtp ---
+(no DEBUG RTP readout: parent was no longer on the session screen)
+
+VERDICT: FAIL — interrupted at 8m14s by server-side expiry, not by the child
+backgrounding.
+
+Actual media continuity measured (parent RTP counters, 50 pkt/s codec):
+- 12:08:24Z baseline in 43145 pkts / 3155434 B
+- 12:12Z    in 55548 pkts / 4043785 B (mid-run screenshot e1-parent-mid.png)
+- 12:16:38Z parent onConnectionChangeCLOSED, AudioTrack removed, voice engine terminated
+            DB ended_at 12:16:38.393Z, status=expired, ended_by=null
+- 12:21:47Z child last RECORD_AUDIO activity; AudioAssistanceService stopped
+- 12:24Z    child app backgrounded under another app; GuardianService 4101 alive
+
+The child foreground service held the process for the first 8m14s of backgrounding
+(ColorOS logged "cannot transition from R to M, importance=traffic" throughout), so
+the child-side background survival part of the leg passed up to the server expiry.
+The leg as specified (15 continuous minutes) did not complete. See
+f1-expiry-12-16Z.txt and docs/runtime-failure-analysis.md F1.

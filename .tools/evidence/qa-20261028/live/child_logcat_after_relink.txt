@@ -1,0 +1,5 @@
+10-28 08:40:00.202  1002  1070 I UxUtility: notifyForegroundApp pack:com.parentcontrol.parent_control, uid:11312
+10-28 08:40:00.890  1892  1927 I OplusNotificationManagerServiceExtImpl: reportForegroundServiceUpdate notification=Notification(channel=guardian_status shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 vis=PRIVATE) id=4101 pkg=com.parentcontrol.parent_control userId=0
+10-28 08:40:02.323  1892  4367 I OplusNotificationManagerServiceExtImpl: reportForegroundServiceUpdate notification=Notification(channel=guardian_status shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 vis=PRIVATE) id=4101 pkg=com.parentcontrol.parent_control userId=0
+10-28 08:40:06.090  1892  4367 I OplusNotificationManagerServiceExtImpl: reportForegroundServiceUpdate notification=Notification(channel=guardian_status shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x4a color=0x00000000 vis=PRIVATE) id=4101 pkg=com.parentcontrol.parent_control userId=0
+10-28 08:40:07.204  1002  1070 I UxUtility: notifyForegroundApp pack:com.parentcontrol.parent_control, uid:11312

@@ -1,0 +1,152 @@
+Resolving dependencies...
+Downloading packages...
+  clock 1.1.2 (1.1.3 available)
+  code_assets 1.2.1 (2.1.0 available)
+  cupertino_icons 1.0.9 (2.0.0 available)
+  hooks 2.0.2 (2.2.0 available)
+  matcher 0.12.19 (0.12.20 available)
+  material_color_utilities 0.13.0 (0.13.1 available)
+  meta 1.18.0 (1.19.0 available)
+  objective_c 9.5.0 (9.6.2 available)
+  petitparser 7.0.2 (7.1.0 available)
+  qr 3.0.2 (4.0.0 available)
+  record_use 0.6.0 (1.1.1 available)
+  shared_preferences_foundation 2.5.7 (2.6.0 available)
+  stack_trace 1.12.1 (1.12.2 available)
+  test_api 0.7.11 (0.7.15 available)
+  vector_math 2.2.0 (2.4.3 available)
+  web 1.1.1 (1.1.2 available)
+  xml 7.0.1 (7.1.0 available)
+Got dependencies!
+17 packages have newer versions incompatible with dependency constraints.
+Try `flutter pub outdated` for more information.
+00:00 +0: loading D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart
+00:00 +0: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: (setUpAll)
+00:00 +0: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: signed-out accounts are cleared and sent back to the entry screen
+00:00 +1: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: unverified accounts are routed to verification before any profile read
+00:00 +2: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a verified account without a server role is sent to the role lock
+00:00 +3: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a missing server profile never invents a role
+00:00 +4: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a parent with no family is sent to setup without a fake family
+00:00 +5: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a parent resumes the remembered family returned by the server
+00:00 +6: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: a child goes to the child shell without reading parent families
+00:00 +7: D:/parentcontrol_app/test/features/auth/auth_session_flow_test.dart: (tearDownAll)
+00:00 +7: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: (setUpAll)
+00:00 +7: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: unverified accounts are routed to verification and keep no profile
+00:00 +7 -1: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: unverified accounts are routed to verification and keep no profile [E]
+  Expected: SignedInDestination:<SignedInDestination.verifyEmail>
+    Actual: <null>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\features\auth\login_controller_test.dart 61:5  main.<fn>
+  
+00:00 +7 -1: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified accounts without a server role are sent to role lock
+00:00 +7 -2: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified accounts without a server role are sent to role lock [E]
+  Expected: SignedInDestination:<SignedInDestination.chooseRole>
+    Actual: <null>
+  
+  package:matcher                                     expect
+  package:flutter_test/src/widget_tester.dart 473:18  expect
+  test\features\auth\login_controller_test.dart 82:5  main.<fn>
+  
+00:00 +7 -2: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified parents land on the parent shell with the server family
+00:00 +7 -3: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified parents land on the parent shell with the server family [E]
+  Expected: SignedInDestination:<SignedInDestination.parentShell>
+    Actual: <null>
+  
+  package:matcher                                      expect
+  package:flutter_test/src/widget_tester.dart 473:18   expect
+  test\features\auth\login_controller_test.dart 108:5  main.<fn>
+  
+00:00 +7 -3: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: an unconfirmed email error opens verification without a form error
+00:00 +7 -4: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: an unconfirmed email error opens verification without a form error [E]
+  Binding has not yet been initialized.
+  The "instance" getter on the WidgetsBinding binding mixin is only available once that binding has been initialized.
+  Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+  In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+  If WidgetsBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+  package:flutter/src/foundation/binding.dart 315:9                            BindingBase.checkInstance.<fn>
+  package:flutter/src/foundation/binding.dart 402:6                            BindingBase.checkInstance
+  package:flutter/src/widgets/binding.dart 495:53                              WidgetsBinding.instance
+  package:flutter/src/widgets/framework.dart 173:50                            GlobalKey._currentElement
+  package:flutter/src/widgets/framework.dart 179:39                            GlobalKey.currentContext
+  package:get/get_navigation/src/extension_navigation.dart 1097:16             GetNavigation.global
+  package:get/get_navigation/src/extension_navigation.dart 790:12              GetNavigation.offAllNamed
+  package:parent_control/features/auth/auth_session_flow.dart 108:11           openDestination
+  package:parent_control/features/auth/controllers/login_controller.dart 87:9  LoginController.signIn
+  test\features\auth\login_controller_test.dart 130:42                         main.<fn>
+  
+00:00 +7 -4: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: invalid credentials stay on the form with the server error
+00:00 +8 -4: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: offline sign-in never calls the repository
+00:00 +9 -4: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: invalid input is rejected before any network call
+00:00 +10 -4: D:/parentcontrol_app/test/features/auth/login_controller_test.dart: (tearDownAll)
+00:00 +10 -4: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: (setUpAll)
+00:00 +10 -4: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: locking the initial role calls the server exactly once
+00:01 +10 -5: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: locking the initial role calls the server exactly once [E]
+  Expected: true
+    Actual: <false>
+  
+  package:matcher                                                        expect
+  package:flutter_test/src/widget_tester.dart 473:18                     expect
+  test\features\role_selection\role_selection_controller_test.dart 70:5  main.<fn>
+  
+00:01 +10 -5: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a prefilled display name comes from the signed-in profile
+00:01 +11 -5: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: choosing a role before sign-in only stores a local hint
+00:01 +11 -6: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: choosing a role before sign-in only stores a local hint [E]
+  Binding has not yet been initialized.
+  The "instance" getter on the WidgetsBinding binding mixin is only available once that binding has been initialized.
+  Typically, this is done by calling "WidgetsFlutterBinding.ensureInitialized()" or "runApp()" (the latter calls the former). Typically this call is done in the "void main()" method. The "ensureInitialized" method is idempotent; calling it multiple times is not harmful. After calling that method, the "instance" getter will return the binding.
+  In a test, one can call "TestWidgetsFlutterBinding.ensureInitialized()" as the first line in the test's "main()" method to initialize the binding.
+  If WidgetsBinding is a custom binding mixin, there must also be a custom binding class, like WidgetsFlutterBinding, but that mixes in the selected binding, and that is the class that must be constructed before using the "instance" getter.
+  package:flutter/src/foundation/binding.dart 315:9                                               BindingBase.checkInstance.<fn>
+  package:flutter/src/foundation/binding.dart 402:6                                               BindingBase.checkInstance
+  package:flutter/src/widgets/binding.dart 495:53                                                 WidgetsBinding.instance
+  package:flutter/src/widgets/framework.dart 173:50                                               GlobalKey._currentElement
+  package:flutter/src/widgets/framework.dart 179:39                                               GlobalKey.currentContext
+  package:get/get_navigation/src/extension_navigation.dart 1097:16                                GetNavigation.global
+  package:get/get_navigation/src/extension_navigation.dart 596:12                                 GetNavigation.toNamed
+  package:parent_control/features/role_selection/controllers/role_selection_controller.dart 99:9  RoleSelectionController._rememberAndOpen
+  
+00:01 +11 -6: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: role assignment is refused outside the lock flow
+00:01 +12 -6: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a blank display name never reaches the server
+00:01 +13 -6: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: offline locking never calls the server
+00:01 +14 -6: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: a server role error is surfaced unchanged
+00:01 +15 -6: D:/parentcontrol_app/test/features/role_selection/role_selection_controller_test.dart: (tearDownAll)
+00:01 +15 -6: D:/parentcontrol_app/test/features/family/family_controller_test.dart: (setUpAll)
+00:01 +15 -6: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a family without children renders the empty children state
+00:01 +15 -7: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a family without children renders the empty children state [E]
+  Expected: true
+    Actual: <false>
+  
+  package:matcher                                        expect
+  package:flutter_test/src/widget_tester.dart 473:18     expect
+  test\features\family\family_controller_test.dart 50:5  main.<fn>
+  
+00:01 +15 -7: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a family removed on the server clears any stale rows
+00:01 +16 -7: D:/parentcontrol_app/test/features/family/family_controller_test.dart: unlinking a child waits for the server and reloads the members
+00:01 +17 -7: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a failed unlink keeps the child visible
+00:01 +18 -7: D:/parentcontrol_app/test/features/family/family_controller_test.dart: a missing family argument is explained without a server call
+00:01 +19 -7: D:/parentcontrol_app/test/features/family/family_controller_test.dart: an offline refresh keeps loaded rows and reports the failure
+00:01 +20 -7: D:/parentcontrol_app/test/features/family/family_controller_test.dart: (tearDownAll)
+00:01 +20 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: (setUpAll)
+00:01 +20 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +21 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +22 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +23 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +24 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +25 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +26 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +27 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +28 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +29 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +30 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:02 +31 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: family page shows the empty children state from server data
+00:03 +32 -7: D:/parentcontrol_app/test/features/family/family_page_test.dart: (tearDownAll)
+00:03 +32 -7: Some tests failed.
+
+Failing tests:
+  D:/parentcontrol_app/test/features/auth/login_controller_test.dart: an unconfirmed email error opens verification without a form error
+  D:/parentcontrol_app/test/features/auth/login_controller_test.dart: unverified accounts are routed to verification and keep no profile
+  D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified accounts without a server role are sent to role lock
+  D:/parentcontrol_app/test/features/auth/login_controller_test.dart: verified parents land on the parent shell with the server family
+  ... and 3 more

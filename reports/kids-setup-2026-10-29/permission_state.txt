@@ -1,0 +1,70 @@
+### ACCESSIBILITY
+com.sand.airdroidkids/com.sand.airdroidkids.services.AccessibilityLimitService
+### NOTIFICATION LISTENERS
+com.google.android.projection.gearhead/com.google.android.gearhead.notifications.SharedNotificationListenerManager$ListenerService:com.oplus.notificationmanager/com.oplus.notificationmanager.NotificationChannelListenerService:com.sand.airdroidkids/com.sand.airdroidkids.services.NotificationService
+### DEVICE ADMINS
+    com.sand.airdroidkids/.components.dm.KidDeviceAdminReceiver:
+        0: com.sand.airdroidkids
+        44: com.sand.airdroidkidsw
+### USAGE/OVERLAY/BG/LOC
+GET_USAGE_STATS: allow; time=+19s981ms ago; rejectTime=+54m6s964ms ago
+SYSTEM_ALERT_WINDOW: allow; time=+40m44s379ms ago; rejectTime=+54m18s451ms ago
+No operations.
+Default mode: allow
+MANAGE_EXTERNAL_STORAGE: default; rejectTime=+56m3s653ms ago
+### BATTERY WHITELIST
+user,com.sand.airdroidkids,11316
+### RUNTIME GRANTS
+android.permission.ACCESS_ADSERVICES_AD_ID
+android.permission.ACCESS_ADSERVICES_ATTRIBUTION
+android.permission.ACCESS_BACKGROUND_LOCATION
+android.permission.ACCESS_COARSE_LOCATION
+android.permission.ACCESS_FINE_LOCATION
+android.permission.ACCESS_NETWORK_STATE
+android.permission.ACCESS_WIFI_STATE
+android.permission.ANSWER_PHONE_CALLS
+android.permission.CAMERA
+android.permission.CHANGE_NETWORK_STATE
+android.permission.CHANGE_WIFI_STATE
+android.permission.FLASHLIGHT
+android.permission.FOREGROUND_SERVICE
+android.permission.INTERNET
+android.permission.KILL_BACKGROUND_PROCESSES
+android.permission.MODIFY_AUDIO_SETTINGS
+android.permission.QUERY_ALL_PACKAGES
+android.permission.READ_CALL_LOG
+android.permission.READ_CONTACTS
+android.permission.READ_EXTERNAL_STORAGE
+android.permission.READ_PHONE_STATE
+android.permission.READ_SMS
+android.permission.RECEIVE_BOOT_COMPLETED
+android.permission.RECEIVE_SMS
+android.permission.RECORD_AUDIO
+android.permission.REQUEST_DELETE_PACKAGES
+android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS
+android.permission.SCHEDULE_EXACT_ALARM
+android.permission.VIBRATE
+android.permission.WAKE_LOCK
+
+### FRESH REDO POST-CHECK (2026-10-29 12:28)
+-- accessibility --
+com.sand.airdroidkids/com.sand.airdroidkids.services.AccessibilityLimitService
+-- notification listeners --
+com.google.android.projection.gearhead/com.google.android.gearhead.notifications.SharedNotificationListenerManager$ListenerService:com.oplus.notificationmanager/com.oplus.notificationmanager.NotificationChannelListenerService:com.sand.airdroidkids/com.sand.airdroidkids.services.NotificationService
+-- POST_NOTIFICATION appop --
+No operations.
+Default mode: allow
+-- device admin --
+      testOnlyAdmin=false
+    com.sand.airdroidkids/.components.dm.KidDeviceAdminReceiver:
+      testOnlyAdmin=false
+-- battery whitelist --
+user,com.sand.airdroidkids,11316
+-- disabled components --
+      disabledComponents:
+        com.sand.airdroidkids.KidSplashActivity_alias
+      enabledComponents:
+-- launcher resolve --
+No activity found
+-- resumed activity --
+    mResumedActivity: ActivityRecord{122b80d u0 com.sand.airdroidkids/.ui.main.KidMainActivity t198}

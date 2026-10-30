@@ -23,6 +23,11 @@ class PolicyApplier(
     private val context: Context,
     private val store: SecureStore
 ) {
+    private companion object {
+        /** The ack stays small; more than 20 per-app failures add no signal. */
+        const val MAX_REPORTED_FAILURES = 20
+    }
+
     private val devicePolicyManager =
         context.getSystemService(Context.DEVICE_POLICY_SERVICE) as DevicePolicyManager
     private val admin = ComponentName(context, ParentControlDeviceAdminReceiver::class.java)
@@ -31,9 +36,15 @@ class PolicyApplier(
     fun apply(policyJson: JSONObject?, policyVersion: Int? = null): JSONObject {
         val errors = LinkedHashSet<String>()
         val unsupported = LinkedHashSet<String>()
+        // package name -> why it is not (or not confirmed) suspended
+        val failures = LinkedHashMap<String, String>()
         var success = false
         var policy = ChildPolicy()
         var suspended: Set<String> = emptySet()
+        var countsKnown = false
+        var desiredCount = 0
+        var appliedCount = 0
+        var enforcementSupported = false
         try {
             if (policyJson != null) store.setPolicyJson(policyJson.toString())
             val raw = policyJson ?: store.policyJson()?.let { JSONObject(it) }
@@ -52,6 +63,7 @@ class PolicyApplier(
                 if (!policy.isPackageBlockedNow(packageName, isoDay, minute)) continue
                 if (packageName == context.packageName) {
                     unsupported.add(packageName)
+                    failures[packageName] = "Parent Control cannot restrict itself."
                     errors.add("Parent Control cannot restrict itself.")
                     continue
                 }
@@ -63,7 +75,10 @@ class PolicyApplier(
                     )
                 ) {
                     unsupported.add(packageName)
-                    errors.add("$packageName is a protected system component and was not suspended.")
+                    val reason =
+                        "$packageName is a protected system component and was not suspended."
+                    failures[packageName] = reason
+                    errors.add(reason)
                     continue
                 }
                 if (!installed.containsKey(packageName)) {
@@ -91,29 +106,39 @@ class PolicyApplier(
                 }
             }
 
-            if (desired.isNotEmpty() && !isOwner) {
+            // Desired means "the policy asks this app to be suspended now".
+            // A protected app that was explicitly selected still counts: it is
+            // wanted but cannot be applied, so it must show up as a failure
+            // instead of disappearing from the denominator.
+            desiredCount = desired.size + failures.size
+            var suspendCallSucceeded = false
+
+            if (desiredCount > 0 && !isOwner) {
+                // Never clear the target set: the ack has to say desired=N,
+                // applied=0, supported=false so the server can record
+                // "unsupported" instead of a false "enforced".
                 errors.add(
                     "Device Owner provisioning is required to suspend apps on this device. " +
                         "No apps were suspended."
                 )
                 unsupported.addAll(desired)
-                desired.clear()
-            }
-
-            val toSuspend = desired - previous
-            val toRestore = PolicyEvaluator.restoreList(previous, desired)
-            if (isOwner) {
+            } else if (isOwner) {
+                val toSuspend = desired - previous
+                val toRestore = PolicyEvaluator.restoreList(previous, desired)
                 if (toSuspend.isNotEmpty()) {
-                    suspendPackages(toSuspend, errors)
+                    suspendCallSucceeded = suspendPackages(toSuspend, errors)
                 }
                 if (toRestore.isNotEmpty()) {
                     restorePackages(toRestore, errors)
                 }
-            } else if (toRestore.isNotEmpty()) {
-                errors.add(
-                    "Previously suspended apps could not be restored because this app is no " +
-                        "longer Device Owner."
-                )
+            } else {
+                val toRestore = PolicyEvaluator.restoreList(previous, desired)
+                if (toRestore.isNotEmpty()) {
+                    errors.add(
+                        "Previously suspended apps could not be restored because this app is no " +
+                            "longer Device Owner."
+                    )
+                }
             }
 
             // Confirm with DevicePolicyManager instead of trusting the request.
@@ -123,7 +148,9 @@ class PolicyApplier(
             }
             for (packageName in desired) {
                 if (packageName !in tracked) {
-                    errors.add("Could not confirm that $packageName is suspended.")
+                    val reason = "Could not confirm that $packageName is suspended."
+                    failures.putIfAbsent(packageName, reason)
+                    errors.add(reason)
                 }
             }
             for (packageName in previous - desired) {
@@ -134,7 +161,21 @@ class PolicyApplier(
             store.setSuspendedPackages(tracked)
             suspended = tracked
             if (policyVersion != null) store.setAppliedVersion(policyVersion)
-            success = errors.isEmpty()
+
+            val applied = desired.filter { it in tracked }.toSet()
+            appliedCount = applied.size
+            // Supported needs Device Owner plus evidence that every eligible
+            // package really is suspended: either this run's
+            // setPackagesSuspended call or a previously confirmed set. With no
+            // eligible package at all, Device Owner alone is the capability.
+            enforcementSupported = isOwner && (
+                suspendCallSucceeded || applied.size == desired.size
+                )
+            countsKnown = true
+            success = errors.isEmpty() && (
+                desiredCount == 0 ||
+                    (enforcementSupported && appliedCount == desiredCount)
+                )
         } catch (error: Exception) {
             errors.add(error.message?.take(300) ?: "The policy could not be applied.")
             suspended = try {
@@ -142,13 +183,21 @@ class PolicyApplier(
             } catch (_: Exception) {
                 emptySet()
             }
+            // Counts are unknown after an exception: report none of them so
+            // the server keeps the policy "pending" rather than guessing.
+            countsKnown = false
         }
         return buildResult(
             success = success,
             suspended = suspended,
             unsupported = unsupported,
             errors = errors,
-            policy = policy
+            policy = policy,
+            countsKnown = countsKnown,
+            desiredCount = desiredCount,
+            appliedCount = appliedCount,
+            enforcementSupported = enforcementSupported,
+            failures = failures
         )
     }
 
@@ -174,6 +223,13 @@ class PolicyApplier(
                 policy = ChildPolicy()
             )
         }
+    }
+
+    /** `device_owner` only when the system really granted that capability. */
+    fun enforcementMode(): String = when {
+        isDeviceOwner() -> "device_owner"
+        isAdminActive() -> "device_admin"
+        else -> "none"
     }
 
     /** Called by the 60-second guardian tick. Returns null when no policy exists. */
@@ -202,7 +258,12 @@ class PolicyApplier(
             suspended = remaining,
             unsupported = emptySet(),
             errors = errors,
-            policy = ChildPolicy()
+            policy = ChildPolicy(),
+            countsKnown = true,
+            desiredCount = 0,
+            appliedCount = 0,
+            enforcementSupported = isDeviceOwner(),
+            failures = emptyMap()
         )
     }
 
@@ -233,13 +294,18 @@ class PolicyApplier(
             false
         }
 
-    private fun suspendPackages(packages: Set<String>, errors: MutableSet<String>) {
-        try {
+    /** Returns true only when the system accepted a non-empty suspension call. */
+    private fun suspendPackages(packages: Set<String>, errors: MutableSet<String>): Boolean {
+        if (packages.isEmpty()) return false
+        return try {
             devicePolicyManager.setPackagesSuspended(admin, packages.toTypedArray(), true)
+            true
         } catch (error: SecurityException) {
             errors.add("The system refused to suspend apps: Device Owner access is missing.")
+            false
         } catch (error: Exception) {
             errors.add("The system refused to suspend apps: ${error.message?.take(200)}")
+            false
         }
     }
 
@@ -284,7 +350,12 @@ class PolicyApplier(
         suspended: Set<String>,
         unsupported: Set<String>,
         errors: Set<String>,
-        policy: ChildPolicy
+        policy: ChildPolicy,
+        countsKnown: Boolean = false,
+        desiredCount: Int = 0,
+        appliedCount: Int = 0,
+        enforcementSupported: Boolean = false,
+        failures: Map<String, String> = emptyMap()
     ): JSONObject {
         val calendar = Calendar.getInstance()
         val result = JSONObject()
@@ -296,7 +367,31 @@ class PolicyApplier(
         result.put("service_running", GuardianService.isRunning)
         // Informational only: bedtime is stored but app suspension follows app rules.
         result.put("bedtime_active", policy.hasBedtime && policy.isWithinBedtime(TimeUtils.minuteOfDay(calendar)))
+        if (countsKnown) {
+            val failedCount = (desiredCount - appliedCount).coerceAtLeast(0)
+            result.put("desired_count", desiredCount)
+            result.put("applied_count", appliedCount)
+            result.put("failed_count", failedCount)
+            result.put("enforcement_supported", enforcementSupported)
+            result.put("enforcement_mode", enforcementMode())
+            result.put("failures", failureArray(failures))
+        }
         return result
+    }
+
+    private fun failureArray(failures: Map<String, String>): JSONArray {
+        val array = JSONArray()
+        var emitted = 0
+        for ((packageName, reason) in failures) {
+            if (emitted >= MAX_REPORTED_FAILURES) break
+            array.put(
+                JSONObject()
+                    .put("package", packageName)
+                    .put("reason", reason.take(200))
+            )
+            emitted += 1
+        }
+        return array
     }
 
     private fun toJsonArray(values: List<String>): JSONArray {

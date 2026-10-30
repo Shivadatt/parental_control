@@ -1,0 +1,9 @@
+[0m[32mCheck[0m supabase/functions/auth-bootstrap/index.ts
+[0m[32mCheck[0m supabase/functions/cron/index.ts
+[0m[32mCheck[0m supabase/functions/device-command/index.ts
+[0m[32mCheck[0m supabase/functions/device-policy/index.ts
+[0m[32mCheck[0m supabase/functions/device-register/index.ts
+[0m[32mCheck[0m supabase/functions/device-telemetry/index.ts
+[0m[32mCheck[0m supabase/functions/family-admin/index.ts
+[0m[32mCheck[0m supabase/functions/pairing/index.ts
+[0m[32mCheck[0m supabase/functions/remote-session/index.ts
