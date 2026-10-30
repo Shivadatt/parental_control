@@ -1,4 +1,0 @@
-signed in as PARENT_B (identity not printed)
-PASS pairing.unknown_and_short_codes_uniform :: {"calls":[{"label":"unknown_valid_shape","status":400,"code":"invalid_code","message":"The linking code is not valid."},{"label":"unknown_short_form","status":400,"code":"invalid_code","message":"The linking code is not valid."}]}
-
-SUMMARY pairing_uniform_probe: 1/1 not-failed, 0 FAILED, 0 SKIP/INFO/BLOCKED (total 1)

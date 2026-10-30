@@ -1,5 +1,0 @@
-app-arm64-v8a-release.apk: versionCode='2001'
-app-armeabi-v7a-release.apk: versionCode='1001'
-app-debug.apk: versionCode='1'
-app-release.apk: versionCode='1'
-app-x86_64-release.apk: versionCode='4001'

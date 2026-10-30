@@ -1,5 +1,0 @@
-10-28 08:22:40.091   691   691 D BatterySaverPolicy: accessibility changed to false, updating policy.
-10-28 08:23:08.341   533   533 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:dumpsys device_policy | grep -iE 'device owner|admin|activeAdmins' | head -40'
-10-28 08:23:09.619   533   533 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:dumpsys activity services com.parentcontrol.parent_control | head -60'
-10-28 08:23:17.083   533   533 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:dumpsys device_policy | head -45'
-10-28 08:23:18.576   533   533 I adbd    : adbd service requested 'shell,v2,TERM=xterm-256color,raw:dumpsys notification --noredact | grep -A8 -i parentcontrol | head -60'

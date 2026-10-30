@@ -1,6 +1,0 @@
-10-27 18:57:44.965  1892  2717 I OplusHansManager : unfreeze uid: 11312 com.parentcontrol.parent_control pids: [21312] reason: AsyncBinder scene: LcdOn
-10-27 18:57:44.967  1892  2716 I OplusHansManager : uid=11312, pkg=com.parentcontrol.parent_control, transition from Frozen to Middle, reason=AsyncBinder
-10-27 18:57:44.967  1892  2716 I OplusHansManager : uid=11312, pkg=com.parentcontrol.parent_control F exit(), reason=AsyncBinder
-10-27 18:57:54.972  1892  2716 I OplusHansManager : uid=11312, pkg=com.parentcontrol.parent_control can transition from M to F
-10-27 18:57:54.973  1892  2716 I OplusHansManager : uid=11312, pkg=com.parentcontrol.parent_control F enter()
-10-27 18:57:54.974  1892  2716 I OplusHansManager : freeze uid: 11312 com.parentcontrol.parent_control pids: [21312] scene: LcdOn

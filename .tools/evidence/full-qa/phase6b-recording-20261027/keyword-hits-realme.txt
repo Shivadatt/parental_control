@@ -1,6 +1,0 @@
-Android permissions&#10;These states are read from Android. Denying a permission only disables the related feature; it never hides an existing rule.&#10;Usage access&#10;Required to report app usage on this phone.&#10;Precise location&#10;Used while you have location sharing turned on.&#10;Background location&#10;Lets the visible location service continue while this screen is closed.&#10;Camera&#10;Only during a video assistance session you accept.&#10;Microphone&#10;Only during an audio or video session you accept.&#10;Notifications&#10;Required for the visible background and location services.&#10;Granted&#10;Device admin&#10;Device admin alone cannot suspend apps. A guardian must provision Device Owner for app blocking.
-Camera and microphone test&#10;Open the main or front camera and the microphone for a few seconds on this phone. The preview stays on this screen and is not recorded, saved, or sent.
-Recording
-This app never records audio or video, takes screenshots, reads messages, or captures passwords. Camera and microphone are used only during an assistance session you accept and start, and a visible notification stays on while background services run.
-This opens this phone's camera and microphone for a live preview on this screen. It is not recorded, saved, or sent anywhere, and it stops when you close this sheet.
-Video frames

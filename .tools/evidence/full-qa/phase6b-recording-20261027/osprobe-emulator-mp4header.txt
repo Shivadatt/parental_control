@@ -1,4 +1,0 @@
-size bytes: 63064
-has avc1: True | has hvc1: False | has mp4a: False
-timescale: 10000 duration units: 19274 duration s: 1.93
-video track dims: 0.000488281x28004.4

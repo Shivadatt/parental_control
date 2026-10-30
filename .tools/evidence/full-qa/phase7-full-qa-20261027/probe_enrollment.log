@@ -1,3 +1,0 @@
-BLOCKED probe.register.childC/familyB :: {"status":403,"code":"device_revoked","msg":"This child's device was revoked. A parent must remove and re-link this child before another device can be enrolled."}
-BLOCKED probe.register.childA/familyA :: {"status":403,"code":"forbidden","msg":"An active child membership in this family is required."}
-INFO probe.familyB_membership :: {"rows":[{"user_id":"f0cb5324-4447-4149-bed3-506e7fce6d0c","role":"parent","status":"active"},{"user_id":"f4c59b92-af5f-430c-b78b-0b8597684e55","role":"child","status":"removed"},{"user_id":"2ef6c7b9-c4f9-46d4-be88-d78ac5cb0764","role":"child","status":"active"}]}
