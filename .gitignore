@@ -74,3 +74,6 @@ app.*.symbols
 
 # Obfuscation related
 app.*.map.json
+# Large QA evidence videos (keep locally)
+reports/kids-setup-2026-10-29/*.mp4
+
