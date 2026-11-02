@@ -1,5 +1,6 @@
 import 'package:mocktail/mocktail.dart';
 import 'package:parent_control/data/models/account.dart';
+import 'package:parent_control/data/models/device.dart';
 import 'package:parent_control/data/models/pairing.dart';
 import 'package:parent_control/data/repositories/repository_contracts.dart';
 import 'package:parent_control/data/services/local_settings_service.dart';
@@ -10,6 +11,8 @@ class MockAuthRepository extends Mock implements AuthRepository {}
 class MockFamilyRepository extends Mock implements FamilyRepository {}
 
 class MockPairingRepository extends Mock implements PairingRepository {}
+
+class MockDeviceRepository extends Mock implements DeviceRepository {}
 
 /// Local preferences are mocked so tests never touch SharedPreferences.
 class MockLocalSettingsService extends Mock implements LocalSettingsService {}
@@ -98,5 +101,31 @@ PairingRequest testPairingRequest({
     status: status,
     createdAt: DateTime.utc(2026, 1, 2),
     expiresAt: expiresAt ?? DateTime.now().add(const Duration(minutes: 10)),
+  );
+}
+
+/// A family device whose presence age is controlled by the caller, so presence
+/// tests can pin healthy / stalled / offline without sleeping.
+Device testDevice({
+  String id = 'device-1',
+  String familyId = 'family-1',
+  String childUserId = 'child-1',
+  String displayName = 'Pixel 8',
+  DeviceStatus status = DeviceStatus.active,
+  DateTime? lastSeenAt,
+  String enforcementMode = 'device_owner',
+}) {
+  return Device(
+    id: id,
+    familyId: familyId,
+    childUserId: childUserId,
+    displayName: displayName,
+    status: status,
+    lastSeenAt:
+        lastSeenAt ?? DateTime.now().subtract(const Duration(minutes: 1)),
+    batteryLevel: 67,
+    enforcementMode: enforcementMode,
+    policyVersion: 3,
+    usageAccessGranted: true,
   );
 }

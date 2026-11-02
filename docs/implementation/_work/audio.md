@@ -43,6 +43,11 @@ payload, consent or session-lifetime change; no new dependency; public controlle
 
 - `dart analyze` on the four edited Dart files -> `No issues found!`.
 - `flutter test` NOT run (contract rule 10). Kotlin tests NOT run (Gradle on C: vs project on D:).
+  **Phase 2 correction (2026-11-02):** rule 10 withheld per-workstream runs; the Phase 2
+  verification workstream ran the authoritative full suite afterwards
+  (`.fvm/flutter_sdk/bin/flutter test`, **`+355`, all passed**, 2026-11-02), which includes the remote-assistance
+  reliability and page tests covering this workstream. Kotlin tests remain
+  `BLOCKED — environment`; see `docs/implementation/phase-2-governance.md` §5.
 
 ## Known risks
 

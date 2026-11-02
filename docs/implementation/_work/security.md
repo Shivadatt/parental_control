@@ -22,6 +22,11 @@ Decisions worth knowing (not restated in the contract):
 4. **Stale SQL assertions outside security ownership** (must be updated before the suite can pass):
    `30_rls.sql:110-112` (parent may delete a zone), `40_functions.sql:286-293` and `:417-420`
    (expect `forbidden`, now `not_family_parent`).
+   **Phase 2 correction (2026-11-02):** this is no longer outstanding. Both files now carry the
+   post-migration expectations — `30_rls.sql` asserts the client DELETE raises `42501` and that a
+   `service_role` delete removes exactly one row, and `40_functions.sql:291` and `:419` expect
+   `not_family_parent`. The full chain passes on a fresh database; see
+   `docs/implementation/phase-2-regression-matrix.md`.
 5. **Audit triggers left unchanged.** `audit_logs_append_only`, `profiles_before_update` and
    `families_before_update` gate on `current_user` (function owner under SECURITY DEFINER) plus
    `request.jwt.claim.role`. Replacing `current_user` with `session_user` would break service writes

@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:get/get.dart';
 
 import '../../core/errors/app_exception.dart';
@@ -135,6 +137,42 @@ class AuditLogsController extends GetxController {
     if (parsed < 1) return 'Must be at least 1 day';
     if (parsed > 3650) return 'Use 3650 days or fewer';
     return null;
+  }
+
+  /// `family-admin purge_data` treats each retention setting as a minimum keep
+  /// window: it deletes nothing newer than that setting, whatever the caller
+  /// asks for. The UI must show the server's cutoffs, not the requested days.
+  int effectiveLocationCutoffDays(int olderThanDays) =>
+      math.max(olderThanDays, knownLocationRetentionDays);
+
+  int effectiveUsageCutoffDays(int olderThanDays) =>
+      math.max(olderThanDays, knownUsageRetentionDays);
+
+  /// The editable retention fields are only primed from the active family, so
+  /// the family row itself is the fallback when a screen was opened before the
+  /// family arrived. A missing or non-positive setting is not zero: the server
+  /// substitutes its own defaults, so the UI must show those, or the confirm
+  /// text would promise a shorter keep window than the purge actually applies.
+  int get knownLocationRetentionDays => _retentionFloor(
+        locationDays.value ?? _familySettings?.locationRetentionDays,
+        _serverDefaultLocationDays,
+      );
+
+  int get knownUsageRetentionDays => _retentionFloor(
+        usageDays.value ?? _familySettings?.usageRetentionDays,
+        _serverDefaultUsageDays,
+      );
+
+  /// Mirrors `familySettings()` in `supabase/functions/family-admin/index.ts`.
+  static int _retentionFloor(int? configured, int serverDefault) =>
+      configured != null && configured > 0 ? configured : serverDefault;
+
+  static const int _serverDefaultLocationDays = 30;
+  static const int _serverDefaultUsageDays = 90;
+
+  FamilySettings? get _familySettings {
+    final family = _session.activeFamily.value;
+    return family != null && family.id == familyId ? family.settings : null;
   }
 
   Future<bool> saveRetention({

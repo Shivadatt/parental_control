@@ -4,9 +4,9 @@ import 'package:parent_control/app/routes/app_routes.dart';
 import 'package:parent_control/core/theme/app_theme.dart';
 import 'package:parent_control/core/utils/formatters.dart';
 import 'package:parent_control/core/widgets/widgets.dart';
-import 'package:parent_control/data/models/device.dart';
 import 'package:parent_control/data/models/remote_session.dart';
 import 'package:parent_control/features/child/controllers/child_shell_controller.dart';
+import 'package:parent_control/features/devices/device_presentation.dart';
 
 class ChildHomeTab extends GetView<ChildShellController> {
   const ChildHomeTab({super.key});
@@ -296,10 +296,7 @@ class ChildHomeTab extends GetView<ChildShellController> {
     }
     return SectionCard(
       title: 'This phone',
-      trailing: StatusChip(
-        label: current.statusLabel,
-        tone: _deviceTone(current),
-      ),
+      trailing: presenceChip(current),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -307,8 +304,9 @@ class ChildHomeTab extends GetView<ChildShellController> {
           KeyValueRow(
             label: 'Last seen',
             value: current.lastSeenAt == null
-                ? 'Never reported'
-                : '${relativeTime(current.lastSeenAt)} · ${formatDateTime(current.lastSeenAt)}',
+                ? 'Never synced'
+                : '${current.lastSeenAgeLabel} · '
+                    '${formatDateTime(current.lastSeenAt)}',
           ),
           KeyValueRow(
             label: 'Battery',
@@ -512,11 +510,5 @@ class ChildHomeTab extends GetView<ChildShellController> {
         ],
       ),
     );
-  }
-
-  static StatusTone _deviceTone(Device current) {
-    if (current.isRevoked) return StatusTone.danger;
-    if (!current.isActive) return StatusTone.warning;
-    return current.isOnline ? StatusTone.success : StatusTone.warning;
   }
 }

@@ -205,17 +205,6 @@ class _DeviceCard extends StatelessWidget {
   final DashboardController controller;
   final Device device;
 
-  StatusTone get _tone {
-    if (device.isRevoked) return StatusTone.danger;
-    switch (device.syncHealth) {
-      case DeviceSyncHealth.healthy:
-        return StatusTone.success;
-      case DeviceSyncHealth.stalled:
-      case DeviceSyncHealth.offline:
-        return StatusTone.warning;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final lastSeen = device.lastSeenAt;
@@ -226,13 +215,12 @@ class _DeviceCard extends StatelessWidget {
           Row(
             children: [
               CircleAvatar(
-                backgroundColor: (device.isOnline
-                        ? AppColors.success
-                        : AppColors.muted)
-                    .withValues(alpha: 0.12),
+                backgroundColor:
+                    statusToneColor(presenceTone(device))
+                        .withValues(alpha: 0.12),
                 child: Icon(
                   Icons.smartphone,
-                  color: device.isOnline ? AppColors.success : AppColors.muted,
+                  color: statusToneColor(presenceTone(device)),
                 ),
               ),
               const SizedBox(width: 12),
@@ -258,20 +246,9 @@ class _DeviceCard extends StatelessWidget {
                   ],
                 ),
               ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  StatusChip(label: device.statusLabel, tone: _tone),
-                  if (device.isSyncStalled) ...[
-                    const SizedBox(height: 6),
-                    const StatusChip(
-                      label: 'Sync stalled',
-                      tone: StatusTone.warning,
-                      icon: Icons.sync_problem,
-                    ),
-                  ],
-                ],
-              ),
+              // One presence chip only: the shared chip names the stall itself,
+              // and the "Last seen" row below carries the age.
+              presenceChip(device),
             ],
           ),
           const SizedBox(height: 12),

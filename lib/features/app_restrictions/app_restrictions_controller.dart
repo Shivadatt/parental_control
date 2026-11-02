@@ -33,8 +33,8 @@ class AppRestrictionsController extends GetxController {
   final RxBool policyReady = false.obs;
   final Rxn<Device> device = Rxn<Device>();
   final Rxn<DevicePolicy> latestPolicy = Rxn<DevicePolicy>();
-  final Rxn<PolicyEnforcementReport> enforcementReport =
-      Rxn<PolicyEnforcementReport>();
+  final Rxn<PolicyEnforcementEvidence> enforcementEvidence =
+      Rxn<PolicyEnforcementEvidence>();
   final RxList<InstalledApp> reportedApps = <InstalledApp>[].obs;
   final RxBool hasLoadedSnapshot = false.obs;
   final Rxn<AppException> appsError = Rxn<AppException>();
@@ -59,6 +59,7 @@ class AppRestrictionsController extends GetxController {
   Timer? _ackTimer;
   bool _polling = false;
   int _pollAttempts = 0;
+  int _reportRequest = 0;
 
   bool get appsReported => reportedApps.isNotEmpty;
   bool get deviceCanSuspendApps =>
@@ -69,18 +70,36 @@ class AppRestrictionsController extends GetxController {
   bool get awaitingAcknowledgement =>
       currentStatus == PolicyEnforcementStatus.pending;
 
+  /// The device report on screen, if any, with its correlation to this policy.
+  PolicyEnforcementEvidence? get evidence => enforcementEvidence.value;
+
+  /// The device's own counts, kept visible even when they belong to no policy.
+  PolicyEnforcementReport? get enforcementReport =>
+      enforcementEvidence.value?.report;
+
+  PolicyReportCorrelation? get enforcementCorrelation =>
+      enforcementEvidence.value?.correlation;
+
+  /// True when a report is displayed but names no policy: reference only.
+  bool get enforcementUncorrelated =>
+      enforcementEvidence.value?.isUncorrelated ?? false;
+
   /// The device said it cannot suspend packages, or the server recorded it.
   bool get enforcementUnsupported =>
       currentStatus == PolicyEnforcementStatus.unsupported ||
-      (enforcementReport.value?.isUnsupported ?? false);
+      (enforcementReport?.isUnsupported ?? false);
 
-  /// A green "enforced" claim requires counts that prove it.
+  /// A green "enforced" claim requires counts that prove it **for this policy**.
   bool get enforcementProven =>
       currentStatus == PolicyEnforcementStatus.enforced &&
-      (enforcementReport.value?.provesFullEnforcement ?? false);
+      (enforcementEvidence.value?.provesEnforcement ?? false);
 
   /// "Applied to N of M apps", or null when the device reported no counts.
-  String? get appliedCountsText => enforcementReport.value?.appliedSummary;
+  String? get appliedCountsText => enforcementReport?.appliedSummary;
+
+  /// Why the report on screen does or does not prove this policy.
+  String? get enforcementCorrelationNotice =>
+      enforcementEvidence.value?.correlationNotice;
 
   String get appsSnapshotMessage {
     if (appsError.value != null) {
@@ -430,7 +449,11 @@ class AppRestrictionsController extends GetxController {
   Future<void> refreshPolicy() async {
     try {
       final policy = await _policyRepository.fetchLatestPolicy(deviceId);
-      if (policy == null) return;
+      if (policy == null) {
+        // No policy on file: a report left over from an earlier one must go.
+        await _loadEnforcementReport(null);
+        return;
+      }
       latestPolicy.value = policy;
       savedPolicy.value = policy;
       await _loadEnforcementReport(policy);
@@ -497,14 +520,19 @@ class AppRestrictionsController extends GetxController {
     });
   }
 
-  /// Loads the ack counters from the matching apply_policy command.
+  /// Loads the ack counters from the command that names this policy.
   ///
   /// `device_policies` stores the status but no counts, and Phase 1 adds no
-  /// columns, so the command result is the only provable evidence. Failures
-  /// leave the report empty instead of reusing another version's counts.
+  /// columns, so the command result is the only provable evidence — and only
+  /// when `payload.policy_id` matches. A command that names no policy stays
+  /// visible as uncorrelated reference instead of being silently credited to
+  /// whatever version is current; a command naming another policy is never
+  /// reused here at all. Reading is generation-guarded so a slow response for a
+  /// superseded policy cannot overwrite the newer one.
   Future<void> _loadEnforcementReport(DevicePolicy? policy) async {
+    final request = ++_reportRequest;
     if (policy == null) {
-      enforcementReport.value = null;
+      enforcementEvidence.value = null;
       return;
     }
     try {
@@ -512,23 +540,35 @@ class AppRestrictionsController extends GetxController {
         deviceId,
         limit: 10,
       );
+      if (request != _reportRequest) return;
+      PolicyEnforcementEvidence? uncorrelated;
       for (final command in commands) {
         if (command.type != DeviceCommandType.applyPolicy) continue;
-        final result = command.result;
-        if (result == null) continue;
-        final commandPolicyId = command.payload['policy_id']?.toString();
-        if (commandPolicyId != null &&
-            commandPolicyId.isNotEmpty &&
-            commandPolicyId != policy.id) {
+        if (command.deviceId.isNotEmpty && command.deviceId != deviceId) {
           continue;
         }
-        enforcementReport.value = PolicyEnforcementReport.fromJson(result);
-        return;
+        final result = command.result;
+        if (result == null) continue;
+        final evidence = PolicyEnforcementEvidence.fromCommandResult(
+          result: result,
+          commandPayload: command.payload,
+          expectedPolicyId: policy.id,
+          commandId: command.id,
+          ackedAt: command.ackedAt,
+        );
+        if (evidence.isMatched) {
+          enforcementEvidence.value = evidence;
+          return;
+        }
+        if (evidence.isUncorrelated && uncorrelated == null) {
+          uncorrelated = evidence;
+        }
       }
-      enforcementReport.value = null;
+      enforcementEvidence.value = uncorrelated;
     } catch (_) {
+      if (request != _reportRequest) return;
       // Counts are optional evidence; never invent them when unreadable.
-      enforcementReport.value = null;
+      enforcementEvidence.value = null;
     }
   }
 
@@ -542,6 +582,12 @@ class AppRestrictionsController extends GetxController {
             ? 'Policy v${policy.version} was acknowledged, but the device did not confirm enforcement.'
             : 'Policy v${policy.version} saved. Pending device acknowledgement — no restriction is active on the device yet.';
       case PolicyEnforcementStatus.enforced:
+        final evidence = enforcementEvidence.value;
+        if (evidence != null && !evidence.isMatched) {
+          return 'Policy v${policy.version} is marked enforced, but the device '
+              'report on file does not name this policy, so it is not counted '
+              'as proof. Request a sync to get a fresh acknowledgement.';
+        }
         final counts = appliedCountsText;
         if (counts == null) {
           return 'Policy v${policy.version} is marked enforced, but the device did not '

@@ -93,10 +93,11 @@ void main() {
       deviceSeenAgo(const Duration(minutes: 14)),
     );
 
-    expect(find.text('Online (sync stalled)'), findsOneWidget);
+    // One chip, one state. The label must not lead with "Online" and no
+    // second widget may describe the same state in other words.
     expect(find.text('Sync stalled'), findsOneWidget);
+    expect(find.textContaining('Online'), findsNothing);
     expect(find.textContaining('last seen 14 min ago'), findsOneWidget);
-    expect(find.text('Online'), findsNothing);
   });
 
   testWidgets('a healthy device shows its heartbeat age', (tester) async {
@@ -108,5 +109,21 @@ void main() {
     expect(find.text('Online'), findsOneWidget);
     expect(find.textContaining('synced 2 min ago'), findsOneWidget);
     expect(find.text('Sync stalled'), findsNothing);
+  });
+
+  testWidgets('a device that never reported reads "Never synced"',
+      (tester) async {
+    final neverSeen = Device(
+      id: 'device-1',
+      familyId: family.id,
+      childUserId: 'child-1',
+      displayName: 'Pixel 8',
+      status: DeviceStatus.active,
+      lastSeenAt: null,
+    );
+    await pumpDashboard(tester, neverSeen);
+
+    expect(find.text('Never synced'), findsWidgets);
+    expect(find.textContaining('Online'), findsNothing);
   });
 }

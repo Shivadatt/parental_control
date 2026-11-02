@@ -62,7 +62,8 @@ class AuditLogsPage extends GetView<AuditLogsController> {
                     title: 'Read-only',
                     message: controller.hasContext
                         ? 'Only the family owner can change retention or purge '
-                            'historical data. The server enforces this.'
+                            'historical data. Other parents keep read access. '
+                            'The server enforces this.'
                         : 'No family was supplied, so retention controls are '
                             'unavailable.',
                   ),
@@ -315,13 +316,18 @@ class _PurgeSectionState extends State<_PurgeSection> {
   Future<void> _purge() async {
     if (!(_formKey.currentState?.validate() ?? false)) return;
     final days = int.parse(_days.text.trim());
+    final locationCutoff = widget.controller.effectiveLocationCutoffDays(days);
+    final usageCutoff = widget.controller.effectiveUsageCutoffDays(days);
     final confirmed = await ConfirmDialog.show(
       context,
-      title: 'Purge data older than $days days?',
+      title: 'Purge family history?',
       message:
-          'The server will delete matching location, usage, and related '
-          'historical records for this family. This cannot be undone. The audit '
-          'log itself is append-only and is not purged by this action.',
+          'The server deletes this family\'s location events older than '
+          '$locationCutoff days and usage records older than $usageCutoff '
+          'days. Those are the keep windows known to this device; the server '
+          'applies its own stored window and may keep more, never less. This '
+          'cannot be undone. The audit log is append-only, so it is not '
+          'purged. Only the count the server reports is shown afterwards.',
       confirmLabel: 'Purge',
       destructive: true,
     );
@@ -331,11 +337,16 @@ class _PurgeSectionState extends State<_PurgeSection> {
 
   @override
   Widget build(BuildContext context) {
+    final locationDays = widget.controller.knownLocationRetentionDays;
+    final usageDays = widget.controller.knownUsageRetentionDays;
+    final retentionNote = ' A purge never deletes inside the retention window'
+        ' this device has for the family ($locationDays days of location '
+        'events, $usageDays days of usage records); the server may keep more.';
     return SectionCard(
       title: 'Purge old data',
       subtitle:
-          'Request server-side deletion of history older than a chosen number of '
-          'days. Only the server-reported count is shown.',
+          'Request server-side deletion of history older than a chosen number '
+          'of days. Only the count the server reports is shown.$retentionNote',
       child: Form(
         key: _formKey,
         child: Column(

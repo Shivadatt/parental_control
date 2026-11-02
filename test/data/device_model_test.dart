@@ -14,7 +14,11 @@ void main() {
   group('Device.isOnline', () {
     test('a device that never reported a heartbeat is offline', () {
       expect(_device().isOnline, isFalse);
-      expect(_device().statusLabel, 'Offline');
+      expect(_device().syncHealth, DeviceSyncHealth.offline);
+      // A record alone is never presence: the label says nothing was ever
+      // reported rather than calling the device plain "Offline".
+      expect(_device().statusLabel, 'Never synced');
+      expect(_device().statusLabel, isNot('Online'));
     });
 
     test('a heartbeat inside the guardian interval keeps the device online', () {
@@ -45,8 +49,10 @@ void main() {
           _device(lastSeenAt: DateTime.now().subtract(const Duration(minutes: 13)));
       expect(device.isOnline, isFalse);
       expect(device.syncHealth, DeviceSyncHealth.stalled);
-      expect(device.statusLabel, 'Online (sync stalled)');
-      expect(device.statusLabel, isNot('Online'));
+      // The label must not lead with "Online": one state, one label, so a
+      // second widget never has to contradict the first.
+      expect(device.statusLabel, 'Sync stalled');
+      expect(device.statusLabel, isNot(contains('Online')));
     });
 
     test('a device unheard of for 31 minutes is offline', () {

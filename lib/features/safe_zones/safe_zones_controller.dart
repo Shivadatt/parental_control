@@ -23,6 +23,7 @@ class SafeZonesController extends GetxController {
 
   final RxList<SafeZone> zones = <SafeZone>[].obs;
   final Rxn<Family> family = Rxn<Family>();
+  final Rxn<FamilyMember> myMembership = Rxn<FamilyMember>();
   final RxBool isLoading = true.obs;
   final RxBool isRefreshing = false.obs;
   final RxBool isSaving = false.obs;
@@ -32,10 +33,20 @@ class SafeZonesController extends GetxController {
   final Rxn<AppException> actionError = Rxn<AppException>();
 
   bool get hasContext => familyId.isNotEmpty;
-  bool get canManage =>
-      family.value != null &&
-      _session.userId.value.isNotEmpty &&
-      family.value!.ownerId == _session.userId.value;
+
+  /// Zone edits and `family-admin delete_zone` are authorized for **any active
+  /// parent** of this family, so the client gate follows that server rule
+  /// instead of the owner-only check it used to apply.
+  bool get canManage {
+    if (_session.userId.value.isEmpty) return false;
+    final membership = myMembership.value;
+    if (membership != null) {
+      return membership.isActive && !membership.isChild;
+    }
+    final currentFamily = family.value;
+    if (currentFamily == null) return false;
+    return currentFamily.ownerId == _session.userId.value;
+  }
 
   @override
   void onInit() {
@@ -85,6 +96,18 @@ class SafeZonesController extends GetxController {
       family.value = null;
       familyError.value = AppException.from(caught);
     }
+    // A membership read is only used to decide which actions the server will
+    // accept for this caller; a failure leaves the owner-only fallback in place
+    // and must not blank the zones that did load.
+    try {
+      final rows = await _familyRepository.fetchMembers(familyId);
+      final mine =
+          rows.where((member) => member.userId == _session.userId.value);
+      myMembership.value = mine.isEmpty ? null : mine.first;
+    } catch (caught) {
+      myMembership.value = null;
+      familyError.value ??= AppException.from(caught);
+    }
   }
 
   String? validateName(String? value) {
@@ -132,7 +155,7 @@ class SafeZonesController extends GetxController {
     if (!canManage) {
       actionError.value = const AppException(
         AppErrorCodes.forbidden,
-        'Only the family owner can manage safe zones.',
+        'An active parent of this family is required to change safe zones.',
       );
       return false;
     }

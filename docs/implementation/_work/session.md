@@ -40,8 +40,11 @@ which Phase 1 forbids. A system close writes `ended_by = NULL`,
 ## Not done (by design)
 
 - No deployment, no hosted SQL, no CLI, no secret change.
-- `supabase/tests/README.md` (unowned shared docs) was **not** updated to add
+- ~~`supabase/tests/README.md` (unowned shared docs) was **not** updated to add
   `63_abandoned_session_sweep.sql` to the documented `psql -f` chain; whoever
-  owns that runbook should append it after `62_signaling_consented_session.sql`.
+  owns that runbook should append it after `62_signaling_consented_session.sql`.~~
+  **Phase 2 correction (2026-11-02):** the README now lists `63_abandoned_session_sweep.sql`,
+  `70_phase1_authorization.sql` and `72_retention_sweep.sql` in the chain and in Coverage; the claim
+  above is no longer true. See `docs/implementation/phase-2-governance.md` §6.
 - `cron` action `sweep_sessions` is lifecycle's file; the shared helper is ready
   for it to reuse.

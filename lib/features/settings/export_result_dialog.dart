@@ -69,10 +69,26 @@ class _ExportResultDialogState extends State<_ExportResultDialog> {
               style: const TextStyle(color: AppColors.muted, fontSize: 12),
             ),
             const SizedBox(height: 8),
+            Text(
+              export.isChildExport
+                  ? 'A child export is limited to this account: profile, '
+                      'memberships, the families it belongs to, its own '
+                      'devices, and the location, usage, alert and audit rows '
+                      'recorded by or about those devices — which includes '
+                      'actions a parent took on them.'
+                  : 'A parent export is family-scoped, not personal-only: it '
+                      'contains the location, usage, alert and audit rows of '
+                      'every family this account belongs to, including rows '
+                      'recorded about other members.',
+              style: const TextStyle(fontSize: 12, height: 1.4),
+            ),
+            const SizedBox(height: 8),
             const Text(
-              'The document contains your profile, family membership, devices, '
-              'location, usage, alerts and audit rows. Device secrets, tokens '
-              'and other members’ private data are never included.',
+              'Every export also lists the families themselves, with their '
+              'settings and owner id. Device credential material is never '
+              'selected — no secret hash, pairing token or revocation data — '
+              'but each device row does carry its installation id, the '
+              'identifier the device uses when it calls the server.',
               style: TextStyle(fontSize: 12, height: 1.4),
             ),
           ],

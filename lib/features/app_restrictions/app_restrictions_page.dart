@@ -207,9 +207,11 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
           ],
           if (controller.syncMessage.value.isNotEmpty) ...[
             const SizedBox(height: 12),
+            // A queued command is not an applied policy, so this is never a
+            // success tone.
             InfoBanner(
-              tone: BannerTone.success,
-              icon: Icons.sync,
+              tone: BannerTone.info,
+              icon: Icons.schedule,
               message: controller.syncMessage.value,
             ),
           ],
@@ -250,6 +252,14 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
   Widget _buildPolicyCard() {
     final status = controller.currentStatus;
     final proven = controller.enforcementProven;
+    // Only what the device itself reported: counts and per-package reasons.
+    final report = controller.enforcementReport;
+    final failures = report?.failures ?? const [];
+    final failed = report?.failedCount;
+    final applied = report?.appliedCount;
+    // The server only calls a policy enforced when the counts prove it; an
+    // empty target set proves nothing about blocking, so it is not a success.
+    final provenOnApps = proven && (report?.desiredCount ?? 0) > 0;
     return SectionCard(
       title: 'Policy state',
       subtitle: 'Server version and device acknowledgement',
@@ -296,13 +306,14 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
               tone: BannerTone.warning,
               icon: Icons.block,
               title: 'Unsupported on this device',
-              message: controller.enforcementReport.value?.isUnsupported == true
+              message: controller.enforcementReport?.isUnsupported == true
                   ? '${PolicyEnforcementReport.unsupportedMessage} '
-                      'The device reported 0 applied apps, so no restriction is active.'
+                      '${applied == null ? 'No applied count was reported' : 'The device reported $applied applied apps'}'
+                      ', so no restriction is proven active.'
                   : 'The device refused enforcement. Fully managed Device Owner provisioning is required to suspend apps.',
             ),
           ],
-          if (status == PolicyEnforcementStatus.enforced && proven) ...[
+          if (status == PolicyEnforcementStatus.enforced && provenOnApps) ...[
             const SizedBox(height: 10),
             InfoBanner(
               tone: BannerTone.success,
@@ -311,7 +322,32 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
                   '${controller.appliedCountsText}. DevicePolicyManager confirmed every selected app is suspended.',
             ),
           ],
-          if (status == PolicyEnforcementStatus.enforced && !proven) ...[
+          if (status == PolicyEnforcementStatus.enforced &&
+              proven &&
+              !provenOnApps) ...[
+            const SizedBox(height: 10),
+            const InfoBanner(
+              tone: BannerTone.info,
+              icon: Icons.help_outline,
+              message:
+                  'The device reported an empty app set, so there was nothing '
+                  'to suspend. No app is blocked by this selection.',
+            ),
+          ],
+          if (controller.enforcementUncorrelated) ...[
+            const SizedBox(height: 10),
+            InfoBanner(
+              tone: BannerTone.warning,
+              icon: Icons.link_off,
+              title: 'Device report not linked to this policy',
+              message: controller.enforcementCorrelationNotice ??
+                  'This device report does not say which policy version it '
+                      'applied to, so it is shown for reference only.',
+            ),
+          ],
+          if (status == PolicyEnforcementStatus.enforced &&
+              !proven &&
+              !controller.enforcementUncorrelated) ...[
             const SizedBox(height: 10),
             const InfoBanner(
               tone: BannerTone.warning,
@@ -330,6 +366,20 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
               message: controller.currentPolicy?.lastError ??
                   'The device reported a failure without an explanation.',
             ),
+          ],
+          if (failures.isNotEmpty) ...[
+            const SizedBox(height: 10),
+            Text(
+              'Apps the device could not confirm as suspended'
+              '${failed == null ? '' : ' ($failed)'}',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 4),
+            for (final failure in failures)
+              KeyValueRow(label: failure.packageName, value: failure.reason),
           ],
           Align(
             alignment: Alignment.centerRight,

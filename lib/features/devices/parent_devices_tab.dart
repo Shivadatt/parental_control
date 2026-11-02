@@ -5,6 +5,7 @@ import 'package:parent_control/core/theme/app_theme.dart';
 import 'package:parent_control/core/utils/formatters.dart';
 import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/data/models/device.dart';
+import 'package:parent_control/features/devices/device_presentation.dart';
 import 'package:parent_control/features/devices/devices_controller.dart';
 
 class ParentDevicesTab extends GetView<DevicesController> {
@@ -133,11 +134,6 @@ class _DeviceListCard extends StatelessWidget {
   final DevicesController controller;
   final Device device;
 
-  StatusTone get _tone {
-    if (device.isRevoked) return StatusTone.danger;
-    return device.isOnline ? StatusTone.success : StatusTone.warning;
-  }
-
   @override
   Widget build(BuildContext context) {
     final gaps = controller.permissionGapsForDevice(device);
@@ -169,15 +165,15 @@ class _DeviceListCard extends StatelessWidget {
                   ],
                 ),
               ),
-              StatusChip(label: device.statusLabel, tone: _tone),
+              presenceChip(device),
             ],
           ),
           const SizedBox(height: 12),
           KeyValueRow(
             label: 'Last seen',
             value: device.lastSeenAt == null
-                ? 'Never reported'
-                : relativeTime(device.lastSeenAt),
+                ? 'Never synced'
+                : '${device.lastSeenAgeLabel} · ${formatDateTime(device.lastSeenAt)}',
           ),
           KeyValueRow(
             label: 'Enforcement',

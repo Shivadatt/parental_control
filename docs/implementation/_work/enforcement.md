@@ -41,3 +41,9 @@ Enforcement claims are now counter-based end to end.
 
 - Kotlin build: `BLOCKED — cross-drive Gradle` (not attempted).
 - `flutter test` intentionally not run (coordinator rule); Dart files pass `dart analyze`.
+  **Phase 2 correction (2026-11-02):** the rule withheld per-workstream runs, not the evidence — the
+  Phase 2 verification workstream ran the authoritative full suite over these files
+  (`.fvm/flutter_sdk/bin/flutter test`, **`+355`, all passed**, 2026-11-02) and `dart analyze` reports no issues
+  repo-wide. Enforcement-screen honesty is now covered by
+  `test/features/app_restrictions/app_restrictions_page_test.dart`. Kotlin remains `BLOCKED`.
+  See `docs/implementation/phase-2-regression-matrix.md`.

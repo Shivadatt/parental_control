@@ -16,8 +16,10 @@ import {
 import { recordAudit } from "../_shared/audit.ts";
 import { validatePolicyPayload } from "../_shared/policy.ts";
 import { readString, readUuid } from "../_shared/validation.ts";
+import { denyAuthorization, type PostgresErrorLike } from "../_shared/error_mapping.ts";
 
-function mapPolicyRpcError(message: string): never {
+function mapPolicyRpcError(error: PostgresErrorLike): never {
+  const message = error.message ?? "";
   if (message.includes("device_not_found")) {
     throw new ApiError("device_not_found", "The device was not found.", 404);
   }
@@ -31,6 +33,12 @@ function mapPolicyRpcError(message: string): never {
   ) {
     throw new ApiError("validation_error", "The policy request is not valid.", 400);
   }
+  // SQL-03: `apply_policy_version` raises `not_family_parent` (42501) once the
+  // actor is not an active parent of the device's family. It is a permission
+  // answer, not a server fault, and must never be a retryable 500. Mapped by
+  // the shared module so every handler agrees.
+  const denied = denyAuthorization(error, "apply_policy");
+  if (denied) throw denied;
   console.error("apply_policy_rpc_failed");
   throw new ApiError("internal_error", "The policy could not be saved.", 500);
 }
@@ -65,7 +73,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
       p_idempotency_key: idempotencyKey,
     });
     if (rpc.error) {
-      mapPolicyRpcError(rpc.error.message ?? "");
+      mapPolicyRpcError(rpc.error);
     }
     const data = rpc.data as {
       policy: Record<string, unknown>;

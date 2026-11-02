@@ -32,6 +32,7 @@ import {
   readUuid,
 } from "../_shared/validation.ts";
 import { decideEnforcement, policyTargetsApps } from "./enforcement.ts";
+import { denyAuthorization, type PostgresErrorLike } from "../_shared/error_mapping.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 interface CommandRow {
@@ -53,13 +54,19 @@ interface CommandRow {
 
 const ACK_STATUSES = ["succeeded", "failed", "expired"] as const;
 
-function mapApplyPolicyRpcError(message: string): never {
+function mapApplyPolicyRpcError(error: PostgresErrorLike): never {
+  const message = error.message ?? "";
   if (message.includes("device_not_found")) {
     throw new ApiError("device_not_found", "The device was not found.", 404);
   }
   if (message.includes("device_not_active")) {
     throw new ApiError("device_not_active", "The device is not active.", 403);
   }
+  // SQL-03: the same `apply_policy_version` raise as device-policy. A parent who
+  // lost membership (or a forged device id) must get the same stable 403 here,
+  // not a retryable 500 the guardian service would loop on.
+  const denied = denyAuthorization(error, "apply_policy");
+  if (denied) throw denied;
   console.error("apply_policy_rpc_failed");
   throw new ApiError("internal_error", "The policy could not be saved.", 500);
 }
@@ -133,7 +140,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
             p_idempotency_key: idempotencyKey,
           });
           if (applied.error) {
-            mapApplyPolicyRpcError(applied.error.message ?? "");
+            mapApplyPolicyRpcError(applied.error);
           }
           const data = applied.data as {
             policy?: Record<string, unknown>;

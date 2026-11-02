@@ -51,12 +51,14 @@ class SafeZonesPage extends GetView<SafeZonesController> {
                         : BannerTone.warning,
                     title: controller.familyError.value == null
                         ? 'View only'
-                        : 'Owner status unavailable',
+                        : 'Role not confirmed',
                     message: controller.familyError.value == null
-                        ? 'Only the family owner can create, edit, or delete '
-                            'safe zones. The server enforces this.'
-                        : 'The family could not be loaded, so owner controls '
-                            'are hidden. ${controller.familyError.value!.message}',
+                        ? 'Only an active parent of this family can create, '
+                            'edit, or delete safe zones. The server enforces '
+                            'this.'
+                        : "This account's role could not be confirmed, so zone "
+                            'controls are hidden. '
+                            '${controller.familyError.value!.message}',
                     actionLabel: controller.familyError.value == null
                         ? null
                         : 'Retry',
@@ -226,7 +228,7 @@ class _ZoneCard extends StatelessWidget {
             ),
           if (!canManage)
             const Text(
-              'Only the family owner can change this zone.',
+              'Only an active parent of this family can change this zone.',
               style: TextStyle(color: AppColors.muted, fontSize: 12),
             ),
         ],

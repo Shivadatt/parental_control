@@ -1,0 +1,149 @@
+-- ============================================================================
+-- PROPOSAL — NOT APPLIED. NOT A MIGRATION.
+-- ============================================================================
+-- Phase 3 / SQL-05: atomic safe-zone delete + audit for `family-admin`
+-- `delete_zone`.
+--
+-- STATUS: awaiting OWNER APPROVAL. This file lives in
+--   docs/implementation/proposals/  (documentation, not supabase/migrations/).
+-- It is NOT part of the applied migration chain, is NOT referenced by
+-- supabase/tests/README.md's run order, and MUST NOT be copied into
+-- supabase/migrations/ without the owner's explicit sign-off, because it adds
+-- a new SQL function to the frozen Phase 1 surface (see "Contract question"
+-- below).
+--
+-- WHAT IT REPLACES
+-- supabase/functions/family-admin/index.ts currently deletes `safe_zones`
+-- (one PostgREST transaction) and writes the `zone_deleted` `audit_logs` row
+-- in a second, independent transaction. If the insert fails, the deletion
+-- stands unaudited and a retry 404s, so the ledger cannot be repaired through
+-- the API. The Phase 3 stopgap (already shipped in the handler) is bounded
+-- audit retries plus a compensating restore
+-- (supabase/functions/family-admin/delete_zone_atomicity.ts). This proposal
+-- makes the pair genuinely atomic instead.
+--
+-- CONTRACT QUESTION (answered with citations; this is why it is a proposal)
+-- * coordinator-contract.md rule 8: "No new RPC that clients call directly."
+--   A service-role-only RPC invoked only by an Edge Function is not
+--   client-callable, so the letter of the rule permits it.
+-- * api-contract.md §7: "No client calls a service-only RPC directly. Adding
+--   a new client-callable RPC, or granting execute on a new function to
+--   `authenticated`, is a breaking contract change." This grants to
+--   `service_role` only — the §7 shape stays intact.
+-- * BUT api-contract.md §6 is the closed list of approved new SQL surfaces
+--   (expire_abandoned_sessions, run_retention_sweep, is_parent_of_family) and
+--   phase-2-open-gaps.md §1 freezes the pending migration set to exactly
+--   three files. A new function adds a fourth migration and changes the
+--   deployment gate — an owner/coordinator decision, not a workstream one.
+-- * PRECEDENT for the mechanism itself: public.expire_abandoned_sessions
+--   (20261030000100_abandoned_session_sweep.sql:47-121) already mutates rows
+--   AND writes `audit_logs` rows inside one SECURITY DEFINER function granted
+--   to service_role only, called by an Edge Function. This proposal extends
+--   an approved pattern; it does not invent one.
+--
+-- TRIGGER ALTERNATIVE — CONSIDERED AND REJECTED
+-- An AFTER DELETE trigger on public.safe_zones writing the audit row is
+-- rejected: (a) the Edge Function talks to PostgREST with the service-role
+-- key and forwards no per-request JWT, so the trigger cannot attribute
+-- `actor_user_id` without trusting a client-settable GUC (`select
+-- set_config('request.jwt.claim.sub', ...)`) — exactly the forged-actor hole
+-- migration 20261030000200 closed for revoke_device; (b) it would fire on any
+-- future service-role delete path (retention sweeps, admin repair) writing
+-- audit rows nobody asked for. Privilege surface is also wider than needed.
+-- ----------------------------------------------------------------------------
+-- begin;
+--
+-- 1. The atomic core: resolve, authorize, delete, audit — one function body,
+--    therefore one transaction when called via PostgREST.
+-- create or replace function public.delete_safe_zone_audited(
+--   p_zone_id uuid,
+--   p_actor_user_id uuid
+-- ) returns jsonb
+-- language plpgsql
+-- security definer
+-- set search_path = public, private, pg_temp
+-- as $$
+-- declare
+--   v_family uuid;
+--   v_name   text;
+-- begin
+--   -- Read the facts before mutating, so the audit row can carry the zone's
+--   -- name (the row is gone after the delete). Locking is provided by the
+--   -- delete's own row lock; the RETURNING clause is the single source of
+--   -- truth for "a deletion actually happened".
+--   select family_id into v_family
+--   from public.safe_zones
+--   where id = p_zone_id;
+--   if v_family is null then
+--     return jsonb_build_object('status', 'not_found');
+--   end if;
+--
+--   -- Defense in depth: mirror the Edge Function's parent check server-side,
+--   -- using the same helper the four Phase 1 service RPCs use, and the same
+--   -- error vocabulary (42501 not_family_parent).
+--   if not private.is_parent_of_family(p_actor_user_id, v_family) then
+--     raise exception 'not_family_parent' using errcode = '42501';
+--   end if;
+--
+--   delete from public.safe_zones
+--   where id = p_zone_id
+--   returning name into v_name;
+--   if not found then
+--     -- Concurrent delete won the race: postcondition holds, NOTHING to
+--     -- audit (invariant: a zero-row delete is never audited as success).
+--     return jsonb_build_object('status', 'already_gone');
+--   end if;
+--
+--   -- Same transaction as the delete: if this insert fails, the delete
+--   -- rolls back with it. Field-for-field identical to the audit row the
+--   -- Edge Function writes today (_shared/audit.ts recordAudit), so no
+--   -- consumer of the ledger can tell the difference.
+--   insert into public.audit_logs (
+--     family_id, actor_user_id, device_id, event_type, target_type, target_id, metadata
+--   ) values (
+--     v_family, p_actor_user_id, null, 'zone_deleted', 'safe_zone',
+--     p_zone_id::text, jsonb_build_object('name', v_name)
+--   );
+--
+--   return jsonb_build_object('status', 'deleted', 'zone_id', p_zone_id, 'audited', true);
+-- end;
+-- $$;
+--
+-- 2. Privileges: service_role ONLY. Revoked from public/anon/authenticated —
+--    mirroring expire_abandoned_sessions (20261030000100:113-121). The
+--    SECURITY DEFINER owner (postgres) may write both tables; no table grant
+--    changes anywhere.
+-- revoke all on function public.delete_safe_zone_audited(uuid, uuid)
+--   from public, anon, authenticated;
+-- grant execute on function public.delete_safe_zone_audited(uuid, uuid)
+--   to service_role;
+--
+-- commit;
+-- ----------------------------------------------------------------------------
+-- BEHAVIOUR DELTAS IF APPROVED
+-- * delete + audit become atomic: an audit failure aborts the whole RPC, the
+--   zone SURVIVES, and the client gets a clean retryable error. The current
+--   retry + compensating-restore ladder in delete_zone_atomicity.ts (and its
+--   residual windows: duplicate audit rows on commit-then-lost-response,
+--   cascade-lost safe_zone_states latches) becomes unnecessary and should be
+--   reduced to error mapping.
+-- * `safe_zone_states` cascade semantics are unchanged (the delete still
+--   wipes the latches; only its auditability becomes atomic).
+-- * Audit immutability is untouched: insert-only, same trigger, same shape.
+-- * No client-visible API change: `delete_zone` keeps {deleted:true},
+--   zone_not_found/404, forbidden/403, audit_failed/500.
+-- CROSS-FILE CHANGES REQUIRED ON APPROVAL (owned by others — flag, do not
+-- self-apply): supabase/functions/family-admin/index.ts (P3-C may do the
+-- handler swap itself once the migration is approved), a new
+-- supabase/tests/7x SQL test (P3-A chain owner), supabase/tests/README.md run
+-- order (coordinator), api-contract.md §6 table + phase-2-open-gaps.md SQL-05
+-- status (contracts/review owners), and the pinned strings in
+-- supabase/functions/handler_wiring_test.ts:174-200 (coordinator).
+-- ----------------------------------------------------------------------------
+-- ROLLBACK (true revert; privileges are not restored by `drop`):
+--   revoke all on function public.delete_safe_zone_audited(uuid, uuid) from service_role;
+--   drop function if exists public.delete_safe_zone_audited(uuid, uuid);
+--   -- then the Edge Function must return to the retry/restore path shipped
+--   -- in Phase 3 (delete_zone_atomicity.ts), never to a bare two-call
+--   -- delete-then-audit.
+-- ============================================================================

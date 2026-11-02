@@ -193,25 +193,7 @@ class DeviceDetailPage extends GetView<DeviceDetailController> {
   Widget _buildIdentityCard(BuildContext context, Device device) {
     return SectionCard(
       title: 'Device identity',
-      trailing: Column(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          StatusChip(
-            label: device.statusLabel,
-            tone: device.isRevoked
-                ? StatusTone.danger
-                : (device.isOnline ? StatusTone.success : StatusTone.warning),
-          ),
-          if (device.isSyncStalled) ...[
-            const SizedBox(height: 6),
-            const StatusChip(
-              label: 'Sync stalled',
-              tone: StatusTone.warning,
-              icon: Icons.sync_problem,
-            ),
-          ],
-        ],
-      ),
+      trailing: presenceChip(device),
       child: Column(
         children: [
           KeyValueRow(label: 'Name', value: device.displayName),

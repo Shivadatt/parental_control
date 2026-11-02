@@ -158,24 +158,33 @@ class SettingsBody extends StatelessWidget {
                 children: [
                   if (windows.isEmpty)
                     const Text('No family is linked to this account yet.')
-                  else
-                    for (final window in windows) ...[
+                  else ...[
+                    // retention_report counts whole families, so a child sees
+                    // the family's totals rather than only their own rows.
+                    const Text(
+                      'Counts cover the whole family, not just this account.',
+                      style: TextStyle(color: AppColors.muted, fontSize: 12),
+                    ),
+                    const SizedBox(height: 6),
+                  ],
+                  for (final window in windows) ...[
+                    KeyValueRow(
+                      label: '${window.familyName}: location retention',
+                      value: '${window.locationDays} days',
+                    ),
+                    KeyValueRow(
+                      label: '${window.familyName}: usage retention',
+                      value: '${window.usageDays} days',
+                    ),
+                    if (retention != null)
                       KeyValueRow(
-                        label: '${window.familyName}: location retention',
-                        value: '${window.locationDays} days',
+                        label:
+                            '${window.familyName}: older than the window (all members)',
+                        value:
+                            '${window.locationEventsOlderThanWindow} location '
+                            'events · ${window.usageDaysOlderThanWindow} usage days',
                       ),
-                      KeyValueRow(
-                        label: '${window.familyName}: usage retention',
-                        value: '${window.usageDays} days',
-                      ),
-                      if (retention != null)
-                        KeyValueRow(
-                          label: '${window.familyName}: older than the window',
-                          value:
-                              '${window.locationEventsOlderThanWindow} location '
-                              'events · ${window.usageDaysOlderThanWindow} usage days',
-                        ),
-                    ],
+                  ],
                   const SizedBox(height: 8),
                   if (controller.isLoadingRetention.value)
                     const Row(
@@ -219,10 +228,12 @@ class SettingsBody extends StatelessWidget {
                     ),
                   const SizedBox(height: 6),
                   const Text(
-                    'The sweep deletes signaling rows after 7 days and audit '
-                    'rows after 365 days; location and usage follow each '
-                    'family’s windows above. It runs from the scheduled cron '
-                    'function, not on this phone.',
+                    'The sweep timestamp is when the server-wide retention '
+                    'sweep last ran — one global marker row, not this family’s '
+                    'own run time. The sweep deletes signaling rows after '
+                    '7 days and audit rows after 365 days; location and usage '
+                    'follow each family’s windows above. It runs from the '
+                    'scheduled cron function, not on this phone.',
                     style: TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
                   const SizedBox(height: 14),
@@ -238,10 +249,12 @@ class SettingsBody extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   const Text(
-                    'Downloads your profile, family membership, devices, and '
-                    'your own location, usage, alert and audit rows as JSON. '
-                    'This device saves a copy in app storage and can copy the '
-                    'JSON to the clipboard.',
+                    'The server decides the scope. A parent export contains the '
+                    'location, usage, alert and audit rows of every family they '
+                    'belong to — including rows recorded about other members — '
+                    'while a child export is limited to their own devices. A '
+                    'copy is saved in this device\'s app storage and the JSON '
+                    'can be copied to the clipboard.',
                     style: TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
                   const SizedBox(height: 16),
@@ -414,9 +427,9 @@ class _DevicePermissionsCard extends StatelessWidget {
                 KeyValueRow(
                   label: 'Last reported',
                   value: device.lastSeenAt == null
-                      ? 'Never'
-                      : '${formatDateTime(device.lastSeenAt)} · '
-                          '${relativeTime(device.lastSeenAt)}',
+                      ? 'Never synced'
+                      : '${device.lastSeenAgeLabel} · '
+                          '${formatDateTime(device.lastSeenAt)}',
                 ),
                 const SizedBox(height: 4),
                 PermissionStatusTile(

@@ -46,7 +46,11 @@ class DeviceDetailController extends GetxController {
   bool get awaitingAcknowledgement =>
       latestPolicy.value?.status == PolicyEnforcementStatus.pending;
 
-  bool get isDeviceOffline => device.value != null && !device.value!.isOnline;
+  /// A stalled guardian is not "offline" — it has its own visible state, so
+  /// this must not collapse to `!isOnline`.
+  bool get isDeviceOffline =>
+      device.value != null &&
+      device.value!.syncHealth == DeviceSyncHealth.offline;
 
   String get enforcementLabel =>
       enforcementModeLabel(device.value?.enforcementMode);

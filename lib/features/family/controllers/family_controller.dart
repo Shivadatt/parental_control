@@ -1,6 +1,8 @@
 import 'package:get/get.dart';
 import 'package:parent_control/core/errors/app_exception.dart';
 import 'package:parent_control/data/models/account.dart';
+import 'package:parent_control/data/models/device.dart';
+import 'package:parent_control/data/models/pairing.dart';
 import 'package:parent_control/data/repositories/repository_contracts.dart';
 import 'package:parent_control/data/services/connectivity_service.dart';
 import 'package:parent_control/data/services/session_service.dart';
@@ -11,12 +13,14 @@ class FamilyController extends GetxController {
   FamilyController({
     required this._familyRepository,
     required this._pairingRepository,
+    required this._deviceRepository,
     required this._session,
     required this._connectivity,
   });
 
   final FamilyRepository _familyRepository;
   final PairingRepository _pairingRepository;
+  final DeviceRepository _deviceRepository;
   final SessionService _session;
   final ConnectivityService _connectivity;
 
@@ -27,6 +31,13 @@ class FamilyController extends GetxController {
   final Rxn<Family> family = Rxn<Family>();
   final RxList<FamilyMember> members = <FamilyMember>[].obs;
   final RxBool isUnlinking = false.obs;
+
+  /// Devices and pairing requests are auxiliary loads: a failure here must not
+  /// blank the family rows that did load, so they carry their own state.
+  final RxList<Device> devices = <Device>[].obs;
+  final RxList<PairingRequest> pairingRequests = <PairingRequest>[].obs;
+  final RxBool isAuxLoading = false.obs;
+  final Rxn<AppException> auxError = Rxn<AppException>();
 
   String _familyId = '';
 
@@ -39,6 +50,16 @@ class FamilyController extends GetxController {
       members.where((member) => !member.isChild).toList(growable: false);
   List<FamilyMember> get children =>
       members.where((member) => member.isChild).toList(growable: false);
+
+  List<Device> get activeDevices =>
+      devices.where((device) => !device.isRevoked).toList(growable: false);
+
+  List<Device> devicesForChild(String childUserId) => devices
+      .where((device) =>
+          device.childUserId == childUserId && !device.isRevoked)
+      .toList(growable: false);
+
+  int get pendingPairingCount => pairingRequests.length;
 
   bool isOwner(Family value) => value.ownerId == _session.userId.value;
   bool isCurrentUser(FamilyMember member) =>
@@ -58,6 +79,9 @@ class FamilyController extends GetxController {
     if (nextId != _familyId) {
       family.value = null;
       members.clear();
+      devices.clear();
+      pairingRequests.clear();
+      auxError.value = null;
       error.value = null;
     }
     _familyId = nextId;
@@ -101,6 +125,8 @@ class FamilyController extends GetxController {
       if (loadedFamily == null) {
         family.value = null;
         members.clear();
+        devices.clear();
+        pairingRequests.clear();
         error.value = const AppException(
           AppErrorCodes.notFound,
           'This family was not found or is no longer visible to this account.',
@@ -111,6 +137,7 @@ class FamilyController extends GetxController {
       family.value = loadedFamily;
       members.assignAll(loadedMembers);
       _session.setActiveFamily(loadedFamily);
+      await _loadAuxiliary(_familyId);
     } on AppException catch (exception) {
       if (family.value == null) {
         error.value = exception;
@@ -132,6 +159,50 @@ class FamilyController extends GetxController {
 
   @override
   Future<void> refresh() => load(refresh: true);
+
+  AppException? _auxFailure;
+
+  /// Runs one auxiliary fetch. A failure is recorded but does not discard the
+  /// rows that did load, so the family page never blanks itself.
+  Future<T?> _guarded<T>(Future<T> Function() run) async {
+    try {
+      return await run();
+    } catch (exception) {
+      _auxFailure ??=
+          exception is AppException ? exception : AppException.from(exception);
+      return null;
+    }
+  }
+
+  Future<void> _loadAuxiliary(String familyId) async {
+    if (!_connectivity.isOnline.value) return;
+    isAuxLoading.value = true;
+    _auxFailure = null;
+    auxError.value = null;
+    try {
+      final loadedDevices =
+          await _guarded(() => _deviceRepository.fetchDevices(familyId));
+      if (loadedDevices != null && _familyId == familyId) {
+        devices.assignAll(loadedDevices);
+      }
+
+      final loadedRequests =
+          await _guarded(() => _pairingRepository.fetchForFamily(familyId));
+      if (loadedRequests != null && _familyId == familyId) {
+        pairingRequests
+            .assignAll(loadedRequests.where((request) => request.isPending));
+      }
+    } finally {
+      auxError.value = _familyId == familyId ? _auxFailure : null;
+      isAuxLoading.value = false;
+    }
+  }
+
+  Future<void> retryAuxiliary() async {
+    final currentFamilyId = _familyId;
+    if (currentFamilyId.isEmpty) return;
+    await _loadAuxiliary(currentFamilyId);
+  }
 
   Future<bool> unlink(FamilyMember member) async {
     final currentFamily = family.value;

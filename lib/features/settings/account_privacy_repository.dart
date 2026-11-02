@@ -35,6 +35,12 @@ class AccountDataExport {
     };
   }
 
+  /// The server stamps the caller's profile role into the document, so the
+  /// scope note can state what was actually exported rather than what the
+  /// client believes the account is.
+  bool get isChildExport =>
+      jsonString(jsonMap(payload['profile'])['role']) == 'child';
+
   List<String> get truncatedTables {
     final tables = jsonMap(payload['tables']);
     return [

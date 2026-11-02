@@ -11,6 +11,7 @@ class FamilyBinding extends Bindings {
       () => FamilyController(
         familyRepository: Get.find<FamilyRepository>(),
         pairingRepository: Get.find<PairingRepository>(),
+        deviceRepository: Get.find<DeviceRepository>(),
         session: Get.find<SessionService>(),
         connectivity: Get.find<ConnectivityService>(),
       ),

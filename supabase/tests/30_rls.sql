@@ -107,6 +107,13 @@ begin
   update public.safe_zones set name = 'Temporary Zone 2' where id = v_zone_id;
   get diagnostics v_rows = row_count;
   perform tests.assert_true(v_rows = 1, 'parent1 can update a safe zone');
+  -- Positive control for the assertions below: the row exists and is visible to
+  -- parent1, so a later count of 0 proves the deletion rather than an empty set.
+  select count(*) into v_count from public.safe_zones where id = v_zone_id;
+  perform tests.assert_true(
+    v_count = 1,
+    'the inserted zone is readable before deletion'
+  );
   -- Zone deletion moved to the service-role `family-admin delete_zone` action
   -- (migration 20261030000200 revokes the client DELETE grant).
   perform tests.expect_error(
@@ -116,8 +123,15 @@ begin
   );
   set local role service_role;
   delete from public.safe_zones where id = v_zone_id;
+  get diagnostics v_rows = row_count;
+  perform tests.assert_true(
+    v_rows = 1,
+    'service_role deletes exactly one zone row (family-admin delete_zone path)'
+  );
   reset role;
   set local role authenticated;
+  select count(*) into v_count from public.safe_zones where id = v_zone_id;
+  perform tests.assert_true(v_count = 0, 'the service-role delete removed the row');
 
   perform tests.expect_error(
     'select count(*) from public.device_pairing_tokens',

@@ -18,6 +18,12 @@ import {
 import { recordAudit } from "../_shared/audit.ts";
 import { readInteger, readUuid } from "../_shared/validation.ts";
 import { canDeleteZone, canPurge } from "./authorization.ts";
+import {
+  auditZoneDeletion,
+  buildZoneAuditInsert,
+  type ZoneDeleteStore,
+  type ZoneSnapshot,
+} from "./delete_zone_atomicity.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -166,21 +172,26 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
       // Replaces the client-side safe_zones DELETE, which migration
       // 20261030000200 revokes. Any active parent of the zone's family may
-      // delete; every deletion is audited.
+      // delete; every deletion is audited. Post-delete audit handling
+      // (bounded retries, compensating restore, explicit failure surface)
+      // is decided in delete_zone_atomicity.ts — SQL-05: a failed audit
+      // insert must not silently leave an unaudited deletion.
       case "delete_zone": {
         const auth = await requireUser(req, db, { requireVerifiedEmail: true });
         requireRole(auth.profile, "parent");
         const zoneId = readUuid(body.zone_id, "zone_id");
 
+        // The full row, not just id/family/name: a failed audit insert is
+        // compensated by restoring this exact snapshot (delete_zone_atomicity.ts).
         const existing = await db
           .from("safe_zones")
-          .select("id, family_id, name")
+          .select(
+            "id, family_id, name, lat, lng, radius_m, active, created_by, created_at",
+          )
           .eq("id", zoneId)
           .maybeSingle();
         ensureNoError(existing);
-        const zone = existing.data as
-          | { id: string; family_id: string; name: string }
-          | null;
+        const zone = existing.data as ZoneSnapshot | null;
         if (!zone) {
           throw new ApiError(
             "zone_not_found",
@@ -212,14 +223,52 @@ Deno.serve(async (req: Request): Promise<Response> => {
         // A concurrent delete of the same zone is not an error: the caller's
         // postcondition holds. Only an actual removal is audited.
         if ((deleted.count ?? 0) > 0) {
-          await recordAudit(db, {
-            familyId: zone.family_id,
-            actorUserId: auth.user.id,
-            eventType: "zone_deleted",
-            targetType: "safe_zone",
-            targetId: zone.id,
-            metadata: { name: zone.name },
-          });
+          const store: ZoneDeleteStore = {
+            insertAudit: async (row) =>
+              (await db.from("audit_logs").insert(row)).error ?? null,
+            restoreZone: async (snapshot) =>
+              (
+                await db.from("safe_zones").insert({
+                  id: snapshot.id,
+                  family_id: snapshot.family_id,
+                  name: snapshot.name,
+                  lat: snapshot.lat,
+                  lng: snapshot.lng,
+                  radius_m: snapshot.radius_m,
+                  active: snapshot.active,
+                  created_by: snapshot.created_by,
+                  created_at: snapshot.created_at,
+                })
+              ).error ?? null,
+          };
+          const outcome = await auditZoneDeletion(
+            store,
+            buildZoneAuditInsert(zone, auth.user.id),
+            zone,
+          );
+          if (outcome.kind === "restored") {
+            // Net effect: the zone still exists. Say so; do not claim a delete.
+            console.error(`zone_delete_reverted:${zone.id}`);
+            throw new ApiError(
+              "audit_failed",
+              "The deletion could not be recorded in the audit log, so the safe zone was kept. Try again.",
+              500,
+              { zone_restored: true },
+            );
+          }
+          if (outcome.kind === "unaudited_delete") {
+            // The zone is gone and no audit row could be written or reverted.
+            // Surface it explicitly — never respond {deleted: true} here.
+            console.error(
+              `zone_delete_unaudited:${outcome.auditErrorCode ?? "unknown"}:${zone.id}`,
+            );
+            throw new ApiError(
+              "audit_failed",
+              "The safe zone was deleted, but the deletion could not be recorded in the audit log. Contact support if this persists.",
+              500,
+              { zone_restored: false, delete_unaudited: true },
+            );
+          }
         }
         return ok({ deleted: true });
       }

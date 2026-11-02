@@ -36,6 +36,13 @@
 - `./.fvm/flutter_sdk/bin/flutter build apk --debug` → `√ Built build\app\outputs\flutter-apk\app-debug.apk`.
   First attempt failed on a script-compilation error (`java.util` shadowed by the Gradle `java`
   extension accessor); fixed with imports and rebuilt successfully.
+  **Phase 2 correction (2026-11-02): RULE-10 BREACH — NOT RATIFIED.** Contract rule 10 forbids a
+  workstream from running the Flutter build; the coordinator explicitly declined to ratify this run
+  (`docs/implementation/phase-1-report.md`, finding F4). It is retained only as compile-level
+  evidence that the native sources and the merged manifest assemble — it is not test evidence, not
+  device evidence, and it did not deploy anything. The log survives at
+  `.tools/verify-apk-20261030.log` (gitignored). Phase 2 ran no build: `android/**` is byte-identical
+  to HEAD. See `docs/implementation/phase-2-governance.md` §4.
 - `./android/gradlew help` → warning text above printed (fallback path).
 - No Kotlin unit test added: the validator relies on `android.net.Intent`/`Uri` and Robolectric is
   not a dependency (no new deps allowed). Build is the only compile check.

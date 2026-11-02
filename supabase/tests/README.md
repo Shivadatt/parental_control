@@ -56,7 +56,9 @@ psql -v ON_ERROR_STOP=1 \
   -f supabase/tests/62_signaling_consented_session.sql \
   -f supabase/tests/63_abandoned_session_sweep.sql \
   -f supabase/tests/70_phase1_authorization.sql \
+  -f supabase/tests/71_phase1_rollback_privileges.sql \
   -f supabase/tests/72_retention_sweep.sql \
+  -f supabase/tests/74_sweep_indexes_and_repeatability.sql \
   -f supabase/tests/45_device_recovery.sql \
   -d "$DATABASE_URL"
 ```
@@ -66,6 +68,14 @@ a fixture child used by the policy test. `55_pairing_invite_atomic.sql` is
 self-contained (it inserts its own `auth.users`/profiles/families with fresh
 UUIDs), so it runs before `45_device_recovery.sql`. `45_device_recovery.sql`
 mutates the family1/child1 fixtures, so it runs **last**.
+
+`71_phase1_rollback_privileges.sql` runs immediately after
+`70_phase1_authorization.sql`: it rolls the Phase 1 authorization migration back
+and re-applies it inside the chain, so it needs the forward state 70 just proved
+and must leave it forward again before `72_retention_sweep.sql` starts.
+`74_sweep_indexes_and_repeatability.sql` runs after `72_retention_sweep.sql`
+because both invoke the global retention sweep; 72 has already purged the aged
+fixture rows the earlier files leave behind, so 74 only adds and purges its own.
 
 `20261028000100_remote_session_concurrency.sql`,
 `20261028000200_parent_controlled_session_lifetime.sql`,

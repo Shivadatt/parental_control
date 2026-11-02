@@ -36,6 +36,7 @@ import {
   readUuid,
   sha256Hex,
 } from "../_shared/validation.ts";
+import { denyAuthorization, type PostgresErrorLike } from "../_shared/error_mapping.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 const CODE_TTL_MINUTES = 10;
@@ -181,7 +182,8 @@ function redeemPayload(
   };
 }
 
-function mapResponseRpcError(message: string): never {
+function mapResponseRpcError(error: PostgresErrorLike): never {
+  const message = error.message ?? "";
   if (message.includes("request_not_found")) {
     throw new ApiError("request_not_found", "The request was not found.", 404);
   }
@@ -212,6 +214,11 @@ function mapResponseRpcError(message: string): never {
   if (message.includes("request_unavailable")) {
     throw new ApiError("request_unavailable", "This request is no longer valid.", 409);
   }
+  // SQL-03: an authorization raise (42501 / `not_family_parent`) is a permission
+  // answer, never a retryable 500. Shared module keeps the code and shape
+  // identical to the other three handlers.
+  const denied = denyAuthorization(error, "respond_pairing_request");
+  if (denied) throw denied;
   console.error("pairing_rpc_failed");
   throw new ApiError("internal_error", "The request could not be completed.", 500);
 }
@@ -384,6 +391,9 @@ async function handleInvite(
   });
   if (rpc.error) {
     console.error(`invite_rpc_failed:${rpc.error.code ?? "unknown"}`);
+    // SQL-03: same shared mapping as every other pairing RPC branch.
+    const denied = denyAuthorization(rpc.error, "create_pairing_invite");
+    if (denied) throw denied;
     throw new ApiError("internal_error", "The linking request could not be created.", 500);
   }
 
@@ -679,6 +689,12 @@ Deno.serve(async (req: Request): Promise<Response> => {
             await recordPairingAttempt(db, auth.user.id, attemptHash, false);
             throw new ApiError("code_unavailable", "This linking code was used.", 409);
           }
+          // SQL-03: an authorization raise from the pairing SQL is a 403 with the
+          // shared code/shape, never a retryable 500. The attempt is not
+          // recorded here: this is not an identifier-guessing path, and the
+          // existing rate-limit accounting stays unchanged.
+          const denied = denyAuthorization(rpc.error, "create_pairing_request");
+          if (denied) throw denied;
           throw new ApiError(
             "internal_error",
             "The linking request could not be created.",
@@ -821,7 +837,7 @@ Deno.serve(async (req: Request): Promise<Response> => {
           p_approve: approve,
         });
         if (rpc.error) {
-          mapResponseRpcError(rpc.error.message ?? "");
+          mapResponseRpcError(rpc.error);
         }
         return ok(rpc.data);
       }
@@ -956,6 +972,11 @@ Deno.serve(async (req: Request): Promise<Response> => {
           if (message.includes("forbidden")) {
             throw new ApiError("forbidden", "You cannot unlink this account.", 403);
           }
+          // SQL-03: `unlink_child` raises `not_family_parent` (42501) when the
+          // actor is neither the child nor an active parent of the family. That
+          // is the answer the caller needs, not a retryable 500.
+          const denied = denyAuthorization(rpc.error, "unlink_child");
+          if (denied) throw denied;
           console.error(`unlink_rpc_failed:${rpc.error.code ?? "unknown"}`);
           throw new ApiError("internal_error", "The account could not be unlinked.", 500);
         }

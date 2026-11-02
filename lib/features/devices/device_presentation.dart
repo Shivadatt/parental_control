@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/data/models/device.dart';
 
@@ -27,6 +28,31 @@ String policySummary({
   if (version == null || version <= 0) return 'No policy applied yet';
   if (policy == null) return 'Policy v$version · status not available';
   return 'Policy v$version · ${policy.status.label}';
+}
+
+/// The presence chip every device screen shows, so a device cannot be
+/// described one way on the dashboard and another way in the device list.
+Widget presenceChip(Device device) => StatusChip(
+      label: device.statusLabel,
+      tone: presenceTone(device),
+      icon: device.isSyncStalled ? Icons.sync_problem : null,
+    );
+
+/// Presence colour for every device screen, parent and child alike.
+///
+/// A device that is not enrolled or has stopped heartbeating is never tinted
+/// as healthy, so a second screen cannot invent a friendlier tone for the same
+/// row.
+StatusTone presenceTone(Device device) {
+  if (device.isRevoked) return StatusTone.danger;
+  if (!device.isActive) return StatusTone.warning;
+  switch (device.syncHealth) {
+    case DeviceSyncHealth.healthy:
+      return StatusTone.success;
+    case DeviceSyncHealth.stalled:
+    case DeviceSyncHealth.offline:
+      return StatusTone.warning;
+  }
 }
 
 StatusTone policyTone(PolicyEnforcementStatus status) {

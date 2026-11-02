@@ -23,16 +23,147 @@
 -- Every statement is written to be re-runnable. The migration is LOCAL ONLY in
 -- Phase 1: it is not applied and does not change the hosted project.
 --
--- Rollback (in reverse order; privileges are not restored by `create or replace`):
---   drop index if exists public.webrtc_signals_session_sequence_uniq;
---   grant execute on function private.remote_session_transition_guard() to public;
---   grant execute on function private.request_device_recovery(uuid, uuid) to public;
---   -- re-create the four public wrappers from 20261028000200 / 20260101000100;
---   revoke all on function private.is_parent_of_family(uuid, uuid) from service_role;
---   drop function if exists private.is_parent_of_family(uuid, uuid);
---   grant delete on public.safe_zones to authenticated;
---   create policy safe_zones_delete_parent on public.safe_zones
---     for delete to authenticated using (private.is_family_parent(family_id));
+-- Rollback
+--
+-- This migration only *hardens*, so "roll it back" has two different meanings
+-- and they are not equivalent. The matrix below is measured, not asserted: every
+-- cell was read from pg_proc.proacl / pg_class.relacl / pg_policies on a
+-- disposable local PostgreSQL 16.9 database (before = migrations up to
+-- 20261030000100; forward = with this file applied; rollback = after the steps
+-- below). Raw captures and the reproduction commands are in
+-- docs/implementation/_work/p3-sql-rollback.md.
+--
+--   object                                    grantee         before      forward     rollback
+--   private.remote_session_transition_guard() anon/auth       EXECUTE     REVOKED     REVOKED
+--   private.remote_session_transition_guard() service_role    EXECUTE     REVOKED     REVOKED
+--   private.request_device_recovery(uuid,uuid) anon/auth      EXECUTE     REVOKED     REVOKED
+--   private.request_device_recovery(uuid,uuid) service_role   EXECUTE     REVOKED     REVOKED
+--   public.safe_zones DELETE                  anon           (none)      (none)      (none)
+--   public.safe_zones DELETE                  authenticated  GRANTED     REVOKED     REVOKED
+--   policy safe_zones_delete_parent (DELETE)  authenticated  PRESENT     ABSENT      ABSENT
+--   index webrtc_signals_session_sequence_uniq -             ABSENT      PRESENT     PRESENT
+--   public.{request_remote_session,revoke_device,unlink_child,apply_policy_version}
+--                                             anon/auth      REVOKED     REVOKED     REVOKED
+--                                             service_role   EXECUTE     EXECUTE     EXECUTE
+--
+-- Two measured facts decide the shape of the rollback:
+--
+--   A. The four public wrappers were ALREADY service-role-only before this
+--      migration (20260101000100_functions.sql:876-904 and
+--      20261028000200_...sql:183-187). Sections 3-6 below change their bodies,
+--      not their grants. Rolling their bodies back is therefore
+--      privilege-neutral - see the last two matrix rows.
+--   B. The two private functions held EXECUTE only through PostgreSQL's default
+--      PUBLIC grant (proacl IS NULL). Re-granting PUBLIC hands EXECUTE back to
+--      anon and authenticated over PostgREST: it re-opens defect 3. Re-granting
+--      DELETE on safe_zones and re-creating safe_zones_delete_parent re-opens
+--      defect 1 (an unaudited client-side delete). Both are client-reachable.
+--
+-- ROLLBACK - supported, safe. Runs in one transaction, in this order. It
+-- restores the pre-Phase-1 function bodies and keeps every privilege / RLS /
+-- index hardening:
+--
+--   R1. Restore the four pre-Phase-1 wrapper bodies verbatim from their source
+--       migrations (`create or replace` leaves proacl and reloptions alone, so
+--       this cannot change privileges; SECURITY DEFINER and the pinned
+--       search_path are part of these statements):
+--
+--         sed -n '106,181p' \
+--           supabase/migrations/20261028000200_parent_controlled_session_lifetime.sql \
+--           > /tmp/rollback_r1.sql
+--         sed -n '721,733p;748,759p;761,771p' \
+--           supabase/migrations/20260101000100_functions.sql >> /tmp/rollback_r1.sql
+--         psql -v ON_ERROR_STOP=1 -d <target> -f /tmp/rollback_r1.sql
+--
+--       Verified on .tools/pgdata_p3a: this yields byte-identical ACLs and
+--       policies to restoring the bodies inline, and
+--       prosecdef/search_path survive unchanged.
+--
+--   R2. Drop the helper ONLY if nothing references it any more:
+--
+--         do $$
+--         declare v_refs text;
+--         begin
+--           select string_agg(p.oid::regprocedure::text, ', ' order by p.oid::regprocedure::text)
+--             into v_refs
+--           from pg_proc p
+--           join pg_namespace n on n.oid = p.pronamespace
+--           where n.nspname in ('public', 'private')
+--             and p.prosrc like '%is_parent_of_family%'
+--             and p.oid::regprocedure
+--                 <> 'private.is_parent_of_family(uuid, uuid)'::regprocedure;
+--           if v_refs is not null then
+--             raise exception
+--               'rollback halted: % still reference private.is_parent_of_family(uuid, uuid); '
+--               'run step R1 first, otherwise these RPCs fail at runtime with 42883',
+--               v_refs using errcode = 'P0001';
+--           end if;
+--           execute 'drop function if exists private.is_parent_of_family(uuid, uuid)';
+--         end;
+--         $$;
+--
+--       The guard is not cosmetic. The previous rollback text listed the drop
+--       unconditionally and left the wrapper re-creation as a *comment*, so an
+--       operator copy-pasting the block dropped the helper while all four
+--       wrappers still called it. Measured: psql exits 0, and every later call
+--       of public.unlink_child / revoke_device / apply_policy_version /
+--       request_remote_session fails with 42883 "function
+--       private.is_parent_of_family(uuid, uuid) does not exist" - a P0 outage
+--       of the four service RPCs hiding behind a "successful" undo. Skipping
+--       R1 and running R2 alone now halts loudly instead (verified).
+--
+--   R3. NOT RUN, deliberately. Each of these statements re-opens an exposure
+--       and none of them belongs in a supported rollback:
+--
+--         grant execute on function private.remote_session_transition_guard() to public;
+--         grant execute on function private.request_device_recovery(uuid, uuid) to public;
+--         grant delete on public.safe_zones to authenticated;
+--         create policy safe_zones_delete_parent on public.safe_zones
+--           for delete to authenticated using (private.is_family_parent(family_id));
+--         drop index if exists public.webrtc_signals_session_sequence_uniq;
+--
+--       Running all five returns the database to the exact pre-Phase-1 state -
+--       that is a true revert, and it is the state this migration exists to
+--       close. It is available only as an explicit, owner-approved de-hardening
+--       (Phase 2 gap SQL-01), not as a routine undo. Note that the pre-Phase-1
+--       baseline itself never granted DELETE to `anon` or to PUBLIC: the
+--       `grant ... to public` lines were wider than the baseline even for a
+--       true revert, because PUBLIC subsumes anon/authenticated/service_role.
+--
+--   R4. Verify after any rollback direction. proacl must contain no PUBLIC
+--       entry (`=X/` with an empty grantee) and calls_helper must be false:
+--
+--         select oid::regprocedure as function, proacl,
+--                prosrc like '%is_parent_of_family%' as calls_helper
+--         from pg_proc
+--         where oid in ('private.remote_session_transition_guard()'::regprocedure,
+--                       'private.request_device_recovery(uuid, uuid)'::regprocedure,
+--                       'public.unlink_child(uuid, uuid, uuid)'::regprocedure,
+--                       'public.request_remote_session(uuid, uuid, text)'::regprocedure);
+--
+--       supabase/tests/71_phase1_rollback_privileges.sql asserts the same cells
+--       plus the policy list, and is part of the documented suite chain.
+--
+-- IS AN IN-PLACE ROLLBACK OF AN APPLIED MIGRATION EVEN SUPPORTED?
+--   * Privileges/policies/index: yes, reversible in the hardening direction, and
+--     reversible to the pre-Phase-1 state if (and only if) the owner accepts the
+--     exposures in R3. Nothing here is unrecoverable.
+--   * Function bodies: the pre-Phase-1 text is NOT recoverable from the
+--     database, because section 3-6 overwrite it. Recovery depends on the two
+--     source migrations above being present in the deployed revision. Treat
+--     these bodies as git-only rollback material and re-check the line ranges
+--     at deploy time.
+--   * Data: rollback is schema-only. Zones already deleted through the audited
+--     `family-admin delete_zone` path stay deleted, and sessions/policies that
+--     were *rejected* by not_family_parent were never written, so a rollback
+--     cannot "bring them back" either. No data migration runs here in either
+--     direction.
+--   * service_role loses EXECUTE on the two private functions in all three
+--     columns of the matrix (it held it only via PUBLIC). Verified harmless: no
+--     Edge Function or client calls them (only the SECURITY DEFINER public
+--     wrappers do, and those run as the owner), and 70_phase1_authorization.sql
+--     already pins service_role's entry point to the public wrapper. This is a
+--     documented divergence from the literal baseline, in the safe direction.
 
 -- ---------------------------------------------------------------------------
 -- 1. safe_zones: no client DELETE (idempotent)
@@ -306,6 +437,13 @@ grant execute on function public.apply_policy_version(uuid, jsonb, uuid, text)
 -- Their privileges were never revoked when they were created, so PostgreSQL's
 -- default (EXECUTE to PUBLIC) still applies. Guarded on to_regprocedure() so a
 -- renamed or changed signature raises a notice instead of aborting the run.
+--
+-- Measured consequence (see the rollback matrix above): revoking PUBLIC also
+-- removes service_role's EXECUTE on these two, because it held it through
+-- PUBLIC and never had an explicit grant. That is intended and harmless - the
+-- only callers are the SECURITY DEFINER public wrappers, which run as the
+-- owner, and `family-admin` reaches them through public.request_device_recovery.
+-- 71_phase1_rollback_privileges.sql pins both halves of that fact.
 -- ---------------------------------------------------------------------------
 do $$
 begin

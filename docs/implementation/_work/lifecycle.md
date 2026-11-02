@@ -11,6 +11,15 @@
 - `supabase/migrations/20261030000300_retention_sweep.sql`:
   `public.run_retention_sweep()` (SECURITY DEFINER, pinned `search_path`,
   service-role only, 10 000-row batches).
+  **Phase 2 correction (2026-11-02):** the "10 000-row batches" phrase overstates what the
+  batching buys. The loops are real (`:51-80` global tables, `:116-145` per-family tables, each
+  `limit v_batch` … `exit when v_deleted < v_batch`), but the whole sweep runs inside the single
+  transaction of one RPC call, and neither global delete has an index it can use:
+  `webrtc_signals` has only `webrtc_signals_session_sequence_idx (session_id, sequence)`
+  (`20260101000000_core.sql:369`) and `audit_logs` only `(family_id, created_at desc)` and
+  `(actor_user_id, created_at desc)` (`:388`, `:390`), while the predicates filter on bare
+  `created_at`. Each batch therefore re-scans the table (roughly O(N²/batch)) and the transaction
+  holds one long lock. Open defect — see `docs/implementation/phase-2-open-gaps.md`.
 - `supabase/functions/cron/index.ts`: `sweep_sessions` (24 h abandoned sessions)
   and `retention_sweep`. Both answer `200 {skipped:true}` when the SQL function is
   not deployed yet.

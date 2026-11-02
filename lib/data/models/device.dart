@@ -414,15 +414,20 @@ class Device {
 
   bool get isFullyManaged => enforcementMode == 'device_owner';
 
+  /// The one presence label every parent screen shows. It never pairs the word
+  /// "Online" with a stall, and it distinguishes a device that has never
+  /// reported from one that stopped reporting.
   String get statusLabel {
     if (isRevoked) return 'Revoked';
     if (!isActive) return 'Pending enrollment';
+    if (lastSeenAt == null) return 'Never synced';
     switch (syncHealth) {
       case DeviceSyncHealth.healthy:
         return 'Online';
       case DeviceSyncHealth.stalled:
-        // A device that stopped beating is not plain "Online".
-        return 'Online (sync stalled)';
+        // A device that stopped beating is not online, and a second chip must
+        // not repeat this in other words.
+        return 'Sync stalled';
       case DeviceSyncHealth.offline:
         return 'Offline';
     }

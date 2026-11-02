@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mocktail/mocktail.dart';
 import 'package:parent_control/data/models/account.dart';
@@ -130,5 +132,56 @@ void main() {
     await controller.refresh();
     expect(controller.devices, hasLength(1));
     expect(controller.isOffline.value, isTrue);
+  });
+
+  test('drops a response that belongs to a family the user left', () async {
+    const otherFamily = Family(
+      id: 'family-2',
+      name: 'Second Family',
+      ownerId: 'parent-1',
+      settings: FamilySettings(),
+    );
+    final gate = Completer<List<Device>>();
+    when(() => familyRepository.fetchMembers(family.id))
+        .thenAnswer((_) async => [child]);
+    when(() => deviceRepository.fetchDevices(family.id))
+        .thenAnswer((_) => gate.future);
+
+    final inFlight = controller.load();
+    await Future<void>(() {});
+    session.setActiveFamily(otherFamily);
+    gate.complete([buildDevice()]);
+    await inFlight;
+
+    // The old family's rows must not land in the new family's view.
+    expect(controller.devices, isEmpty);
+    expect(controller.isLoading.value, isFalse);
+  });
+
+  test('a refresh requested during a fetch runs afterwards instead of being lost',
+      () async {
+    final device = buildDevice();
+    final gate = Completer<List<Device>>();
+    var deviceCalls = 0;
+    when(() => familyRepository.fetchMembers(family.id))
+        .thenAnswer((_) async => [child]);
+    when(() => deviceRepository.fetchDevices(family.id)).thenAnswer((_) {
+      deviceCalls++;
+      return deviceCalls == 1 ? gate.future : Future.value([device]);
+    });
+    when(() => policyRepository.fetchLatestPolicy(device.id))
+        .thenAnswer((_) async => null);
+
+    final inFlight = controller.load();
+    await Future<void>(() {});
+    await controller.refresh();
+    expect(deviceCalls, 1);
+
+    gate.complete([device]);
+    await inFlight;
+    await Future<void>(() {});
+
+    expect(deviceCalls, 2);
+    expect(controller.devices, hasLength(1));
   });
 }

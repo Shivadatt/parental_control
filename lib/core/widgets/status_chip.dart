@@ -4,6 +4,23 @@ import '../theme/app_theme.dart';
 
 enum StatusTone { neutral, info, success, warning, danger }
 
+/// The one tone-to-colour mapping, so a screen that colours something other
+/// than a chip cannot invent a fourth meaning for the same tone.
+Color statusToneColor(StatusTone tone) {
+  switch (tone) {
+    case StatusTone.neutral:
+      return AppColors.muted;
+    case StatusTone.info:
+      return AppColors.primary;
+    case StatusTone.success:
+      return AppColors.success;
+    case StatusTone.warning:
+      return AppColors.warning;
+    case StatusTone.danger:
+      return AppColors.danger;
+  }
+}
+
 class StatusChip extends StatelessWidget {
   const StatusChip({
     super.key,
@@ -16,20 +33,7 @@ class StatusChip extends StatelessWidget {
   final StatusTone tone;
   final IconData? icon;
 
-  Color get _foreground {
-    switch (tone) {
-      case StatusTone.neutral:
-        return AppColors.muted;
-      case StatusTone.info:
-        return AppColors.primary;
-      case StatusTone.success:
-        return AppColors.success;
-      case StatusTone.warning:
-        return AppColors.warning;
-      case StatusTone.danger:
-        return AppColors.danger;
-    }
-  }
+  Color get _foreground => statusToneColor(tone);
 
   Color get _background => _foreground.withValues(alpha: 0.12);
 

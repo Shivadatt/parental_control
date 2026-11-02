@@ -8,6 +8,13 @@ Decisions worth knowing (not restated in the contract):
 1. **`ended_by='system'` is unrepresentable** — the column is `uuid references profiles`
    (`core.sql:340`). Implemented as `ended_by = null` + `ended_reason='abandoned'`. Contract wording
    should be amended (report D1).
+   **Phase 2 correction (2026-11-02):** the amendment is made and ratified, so this is closed. The
+   contract now states the resolved deviation directly
+   (`docs/implementation/api-contract.md:231`, "resolved deviation … the pair is the system marker"),
+   `_work/coordinator-contract.md:41-43` carries the amended frozen wording
+   (`ended_reason='abandoned'`, `ended_by=NULL`), and the coordinator ratified it as forced by
+   the column type (`docs/implementation/phase-1-report.md`, finding F4). No owner-level signature
+   was recorded — see `docs/implementation/phase-2-governance.md` §2.
 2. **`device_commands` is in the realtime publication but no Dart code subscribes.** Delivery is the
    20 s `poll` action; treat any "realtime command" claim as false.
 3. **`/child/restrictions` reuses `ChildShellBinding`** (`app_pages.dart:171-175`), so its controller

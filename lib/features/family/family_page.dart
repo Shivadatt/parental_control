@@ -7,8 +7,10 @@ import 'package:parent_control/core/theme/app_theme.dart';
 import 'package:parent_control/core/utils/formatters.dart';
 import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/data/models/account.dart';
+import 'package:parent_control/data/models/device.dart';
 import 'package:parent_control/features/auth/route_arguments.dart';
 import 'package:parent_control/features/auth/widgets/offline_notice.dart';
+import 'package:parent_control/features/devices/device_presentation.dart';
 import 'package:parent_control/features/family/controllers/family_controller.dart';
 
 class FamilyPage extends StatefulWidget {
@@ -151,6 +153,116 @@ class _FamilyPageState extends State<FamilyPage> {
     );
   }
 
+  Widget _buildDevicesSection(BuildContext context) {
+    final devices = _controller.activeDevices;
+    final auxError = _controller.auxError.value;
+    final muted = Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: AppColors.muted,
+        );
+
+    if (devices.isEmpty) {
+      if (_controller.isAuxLoading.value) {
+        return const LoadingState(label: 'Loading devices…');
+      }
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (auxError != null) ...[
+            InfoBanner(
+              tone: BannerTone.danger,
+              title: 'Could not load devices',
+              message: auxError.message,
+              actionLabel: 'Retry',
+              onAction: () => unawaited(_controller.retryAuxiliary()),
+            ),
+            const SizedBox(height: 12),
+          ],
+          Text(
+            auxError == null
+                ? 'No device has completed pairing in this family yet.'
+                : 'Device status could not be loaded for this family.',
+            style: muted,
+          ),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (auxError != null) ...[
+          InfoBanner(
+            tone: BannerTone.warning,
+            title: 'Device status incomplete',
+            message: auxError.message,
+            actionLabel: 'Retry',
+            onAction: () => unawaited(_controller.retryAuxiliary()),
+          ),
+          const SizedBox(height: 12),
+        ],
+        for (final device in devices)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: _FamilyDeviceRow(device: device),
+          ),
+      ],
+    );
+  }
+
+  Widget _buildPairingSection(BuildContext context) {
+    final pending = _controller.pairingRequests;
+    final muted = Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: AppColors.muted,
+        );
+
+    if (pending.isEmpty) {
+      if (_controller.isAuxLoading.value && !_controller.hasFamily) {
+        return const LoadingState(label: 'Loading pairing requests…');
+      }
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          if (_controller.auxError.value != null) ...[
+            InfoBanner(
+              tone: BannerTone.warning,
+              title: 'Pairing requests not loaded',
+              message: _controller.auxError.value!.message,
+              actionLabel: 'Retry',
+              onAction: () => unawaited(_controller.retryAuxiliary()),
+            ),
+            const SizedBox(height: 12),
+          ],
+          Text('No pairing request is waiting for a child to approve.',
+              style: muted),
+        ],
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final request in pending)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 10),
+            child: KeyValueRow(
+              label: request.childDisplayName.isEmpty
+                  ? 'Child account'
+                  : request.childDisplayName,
+              value: '${request.status.label} · requested '
+                  '${relativeTime(request.createdAt)}',
+            ),
+          ),
+        const SizedBox(height: 4),
+        AppButton(
+          label: 'Open pairing requests',
+          icon: Icons.pending_actions,
+          outlined: true,
+          onPressed: _openRequests,
+        ),
+      ],
+    );
+  }
+
   Widget _buildContent(BuildContext context, Family family) {
     final guardians = _controller.guardians;
     final children = _controller.children;
@@ -267,6 +379,23 @@ class _FamilyPageState extends State<FamilyPage> {
                   ],
                 ),
         ),
+        const SizedBox(height: 14),
+        SectionCard(
+          title: 'Linked devices',
+          subtitle:
+              'Health is the guardian heartbeat on the device itself. A device '
+              'with no recent heartbeat is shown as stalled or offline, never '
+              'as online.',
+          child: _buildDevicesSection(context),
+        ),
+        const SizedBox(height: 14),
+        SectionCard(
+          title: 'Pending pairing',
+          subtitle:
+              'Requests the child account has not approved yet. A request here '
+              'is not a linked device.',
+          child: _buildPairingSection(context),
+        ),
         const SizedBox(height: 16),
         Text(
           'Unlinking is confirmed by the server before the list changes. '
@@ -380,6 +509,51 @@ class _ChildCard extends StatelessWidget {
             ),
         ],
       ),
+    );
+  }
+}
+
+class _FamilyDeviceRow extends StatelessWidget {
+  const _FamilyDeviceRow({required this.device});
+
+  final Device device;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Text(
+                device.displayName,
+                style: const TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 15,
+                ),
+              ),
+            ),
+            presenceChip(device),
+          ],
+        ),
+        const SizedBox(height: 6),
+        KeyValueRow(
+          label: 'Last seen',
+          value: device.lastSeenAt == null
+              ? 'Never synced'
+              : '${device.lastSeenAgeLabel} · '
+                  '${formatDateTime(device.lastSeenAt)}',
+        ),
+        KeyValueRow(
+          label: 'Enforcement',
+          value: enforcementModeLabel(device.enforcementMode),
+        ),
+        KeyValueRow(
+          label: 'Battery',
+          value: formatBattery(device.batteryLevel, device.isCharging),
+        ),
+      ],
     );
   }
 }
