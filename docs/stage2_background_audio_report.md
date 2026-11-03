@@ -138,6 +138,10 @@ Verification was conducted between:
 ### 6.3 Deno Edge Function Test Suite
 - Command: `deno test supabase/functions/`
 - Results: **36 / 36 tests passed** (including 8 TURN credential calculation tests in `turn_test.ts`).
+- *(2026-11-03, DOC-01: as-executed then; the same flagless command today fails — the suite gained
+  file-reading tests (`handler_wiring_test.ts` since Phase 2, `_shared/error_mapping_test.ts` and
+  `family-admin/delete_zone_atomicity_test.ts` since Phase 3) that need `--allow-read`. Correct
+  invocation today: `deno test --allow-read supabase/functions/`. 36/36 record unchanged.)*
 
 ### 6.4 Static Analysis
 - Command: `fvm flutter analyze`

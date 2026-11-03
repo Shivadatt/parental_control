@@ -59,7 +59,60 @@ class AppRestrictionsController extends GetxController {
   Timer? _ackTimer;
   bool _polling = false;
   int _pollAttempts = 0;
+
+  // Phase 3 §7 residual, closed here with the same generation strategy UI-02
+  // introduced for the dashboard/devices controllers. Two tokens, because a
+  // policy read and the evidence read it triggers own different state:
+  //   `_policyRequest` — the newest policy read owns `latestPolicy` /
+  //                      `savedPolicy` / the draft / `policyReady`.
+  //   `_reportRequest` — the newest evidence read owns `enforcementEvidence`.
+  // Both bump when a read *starts*, so a response that lands after a newer one
+  // has been published is superseded and writes nothing. The
+  // `payload.policy_id` correlation rule is unchanged.
   int _reportRequest = 0;
+  int _policyRequest = 0;
+  bool _isClosed = false;
+
+  bool _ownsPolicy(int request) => !_isClosed && _policyRequest == request;
+
+  bool _ownsReport(int request) => !_isClosed && _reportRequest == request;
+
+  /// Writes the displayed policy and invalidates evidence that belongs to a
+  /// different one. `enforcementProven` reads the status from `currentPolicy`
+  /// and the counts from `enforcementEvidence`, so a policy switch must clear
+  /// the counts first — otherwise the previous policy's report would keep
+  /// proving enforcement while the screen already names a newer version.
+  void _showPolicy(DevicePolicy? policy) {
+    if (currentPolicy?.id != policy?.id) {
+      enforcementEvidence.value = null;
+    }
+    latestPolicy.value = policy;
+    savedPolicy.value = policy;
+  }
+
+  /// Publishes the result of a policy read and returns whether it was shown.
+  ///
+  /// The newest read always wins. A superseded read wins **only** when it
+  /// carries a strictly newer version than the policy on screen, so a slow
+  /// response can never roll the screen back to an older version, while a
+  /// genuinely newer policy is not dropped on the floor.
+  bool _publishPolicy(int request, DevicePolicy? policy) {
+    if (_isClosed) return false;
+    if (!_ownsPolicy(request)) {
+      final displayed = currentPolicy;
+      final isNewer = policy != null &&
+          (displayed == null || policy.version > displayed.version);
+      if (!isNewer) return false;
+    }
+    _showPolicy(policy);
+    return true;
+  }
+
+  /// Evidence may be shown only while the policy it was correlated against is
+  /// still the policy on screen: `enforcementProven` reads the status from
+  /// `currentPolicy`, so publishing a matched report for another version would
+  /// let one policy's counts prove a different policy.
+  bool _stillShows(DevicePolicy policy) => currentPolicy?.id == policy.id;
 
   bool get appsReported => reportedApps.isNotEmpty;
   bool get deviceCanSuspendApps =>
@@ -159,6 +212,7 @@ class AppRestrictionsController extends GetxController {
 
   @override
   void onClose() {
+    _isClosed = true;
     _ackTimer?.cancel();
     super.onClose();
   }
@@ -187,10 +241,15 @@ class AppRestrictionsController extends GetxController {
     error.value = null;
     appsError.value = null;
     policyReady.value = false;
+    final policyRequest = ++_policyRequest;
     try {
       device.value = await _deviceRepository.fetchDevice(deviceId);
-      latestPolicy.value = await _policyRepository.fetchLatestPolicy(deviceId);
-      policyReady.value = true;
+      final policy = await _policyRepository.fetchLatestPolicy(deviceId);
+      if (_isClosed) return;
+      // Published through the version rule, so a slow response carrying an
+      // older policy cannot roll the screen back.
+      _publishPolicy(policyRequest, policy);
+      policyReady.value = latestPolicy.value != null;
       await _loadEnforcementReport(latestPolicy.value);
       try {
         final apps = await _deviceRepository.fetchReportedApps(deviceId);
@@ -203,14 +262,15 @@ class AppRestrictionsController extends GetxController {
         appsError.value = AppException.from(exception);
         hasLoadedSnapshot.value = false;
       }
-      _applyPolicyToDraft(
-        latestPolicy.value?.payload ?? const PolicyPayload(),
-      );
+      if (_isClosed) return;
+      _applyPolicyToDraft(currentPolicy?.payload ?? const PolicyPayload());
     } on AppException catch (exception) {
-      error.value = exception;
+      if (_ownsPolicy(policyRequest)) error.value = exception;
     } catch (exception) {
-      error.value = AppException.from(exception);
+      if (_ownsPolicy(policyRequest)) error.value = AppException.from(exception);
     } finally {
+      // `isLoading` is owned by `_load` alone (it re-enters only through this
+      // flag), so a superseded load must still clear it or the spinner sticks.
       isLoading.value = false;
       isOffline.value = !_connectivity.isOnline.value;
     }
@@ -423,23 +483,30 @@ class AppRestrictionsController extends GetxController {
     saving.value = true;
     saveError.value = null;
     syncMessage.value = '';
+    // The save owns the displayed policy from here: any policy read that started
+    // before it is superseded and can no longer publish over the saved result.
+    ++_policyRequest;
     try {
       final result = await _policyRepository.updatePolicy(
         deviceId: deviceId,
         payload: draftPayload,
         idempotencyKey: _uuid.v4(),
       );
-      latestPolicy.value = result.policy;
-      savedPolicy.value = result.policy;
+      // The write itself is not undone by a supersede: the policy is saved, so
+      // the caller must still be told `true`, and the outcome of the user's own
+      // action is always reported. Only the *display* follows ownership.
+      if (_isClosed) return true;
+      _showPolicy(result.policy);
       await _loadEnforcementReport(result.policy);
+      if (_isClosed) return true;
       statusMessage.value = describePolicy(result.policy);
       _startAckPolling();
       return true;
     } on AppException catch (exception) {
-      saveError.value = exception;
+      if (!_isClosed) saveError.value = exception;
       return false;
     } catch (exception) {
-      saveError.value = AppException.from(exception);
+      if (!_isClosed) saveError.value = AppException.from(exception);
       return false;
     } finally {
       saving.value = false;
@@ -447,23 +514,25 @@ class AppRestrictionsController extends GetxController {
   }
 
   Future<void> refreshPolicy() async {
+    final policyRequest = ++_policyRequest;
     try {
       final policy = await _policyRepository.fetchLatestPolicy(deviceId);
       if (policy == null) {
+        if (!_ownsPolicy(policyRequest)) return;
         // No policy on file: a report left over from an earlier one must go.
         await _loadEnforcementReport(null);
         return;
       }
-      latestPolicy.value = policy;
-      savedPolicy.value = policy;
+      if (!_publishPolicy(policyRequest, policy)) return;
       await _loadEnforcementReport(policy);
-      if (policy.status != PolicyEnforcementStatus.pending) {
+      if (!_isClosed &&
+          policy.status != PolicyEnforcementStatus.pending) {
         _ackTimer?.cancel();
       }
     } on AppException catch (exception) {
-      saveError.value = exception;
+      if (_ownsPolicy(policyRequest)) saveError.value = exception;
     } catch (exception) {
-      saveError.value = AppException.from(exception);
+      if (_ownsPolicy(policyRequest)) saveError.value = AppException.from(exception);
     }
   }
 
@@ -501,13 +570,13 @@ class AppRestrictionsController extends GetxController {
         return;
       }
       _polling = true;
+      final policyRequest = ++_policyRequest;
       try {
         final policy = await _policyRepository.fetchLatestPolicy(deviceId);
-        if (policy != null) {
-          latestPolicy.value = policy;
-          savedPolicy.value = policy;
+        if (policy != null && _publishPolicy(policyRequest, policy)) {
           await _loadEnforcementReport(policy);
-          if (policy.status != PolicyEnforcementStatus.pending) {
+          if (!_isClosed &&
+              policy.status != PolicyEnforcementStatus.pending) {
             statusMessage.value = describePolicy(policy);
             timer.cancel();
           }
@@ -540,7 +609,7 @@ class AppRestrictionsController extends GetxController {
         deviceId,
         limit: 10,
       );
-      if (request != _reportRequest) return;
+      PolicyEnforcementEvidence? matched;
       PolicyEnforcementEvidence? uncorrelated;
       for (final command in commands) {
         if (command.type != DeviceCommandType.applyPolicy) continue;
@@ -557,16 +626,19 @@ class AppRestrictionsController extends GetxController {
           ackedAt: command.ackedAt,
         );
         if (evidence.isMatched) {
-          enforcementEvidence.value = evidence;
-          return;
+          matched = evidence;
+          break;
         }
         if (evidence.isUncorrelated && uncorrelated == null) {
           uncorrelated = evidence;
         }
       }
-      enforcementEvidence.value = uncorrelated;
+      // Single publish point: a newer evidence read wins, and the evidence is
+      // dropped when the policy it names is no longer the one on screen.
+      if (!_ownsReport(request) || !_stillShows(policy)) return;
+      enforcementEvidence.value = matched ?? uncorrelated;
     } catch (_) {
-      if (request != _reportRequest) return;
+      if (!_ownsReport(request) || !_stillShows(policy)) return;
       // Counts are optional evidence; never invent them when unreadable.
       enforcementEvidence.value = null;
     }

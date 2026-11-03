@@ -1,0 +1,114 @@
+-- ============================================================================
+-- PHASE 4 PROPOSAL — retention-sweep batch statement shape (PERF-01)
+-- Status: PROPOSED / AWAITING OWNER. Nothing here is applied, deployed or
+-- merged into a migration. Prepared 2026-11-03 by the Phase 4 coordinator.
+--
+-- WHAT THIS IS
+--   `supabase/migrations/20261030000300_retention_sweep.sql:119-130` and
+--   `:134-143` delete each retention batch with
+--
+--     delete from public.webrtc_signals w
+--     using ( select id from public.webrtc_signals
+--             where created_at < v_now - interval '7 days' limit v_batch ) doomed
+--     where w.id = doomed.id;
+--
+--   Phase 3 measured an alternative that ran faster and declined to adopt it
+--   because "changing it alters delete ordering" was unproven
+--   (_work/p3-sql-performance.md:145-147, :215).
+--
+--   Phase 4 proved the equivalence on a disposable PostgreSQL 16.9 cluster
+--   with synthetic data (_work/p4-perf01.md, .tools/p4d-equiv.log,
+--   .tools/p4d-equiv-order.log):
+--     * identical deleted row SET        - 1 distinct md5 per table across all
+--                                        4 arms, 0/0 in both directions for all
+--                                        12 arm pairs;
+--     * identical batch ORDER            - 10 000/10 000 same-position pairs,
+--                                        0 mismatches; identical first/last id
+--                                        and identical first/last ctid per arm;
+--     * identical batch SIZE             - 10 000 rows in every arm;
+--     * repeatable                       - 2 reps per arm, digests unchanged;
+--     * real tables untouched            - population identical before/after.
+--
+-- THE PROPOSED EDIT (2 statements only, inside the same function body)
+--   webrtc_signals (:119-126) becomes:
+--
+--     delete from public.webrtc_signals w
+--     where w.id = any (array(
+--       select id
+--       from public.webrtc_signals
+--       where created_at < v_now - interval '7 days'
+--       limit v_batch
+--     ));
+--
+--   audit_logs (:135-142) becomes:
+--
+--     delete from public.audit_logs a
+--     where a.id = any (array(
+--       select id
+--       from public.audit_logs
+--       where created_at < v_now - interval '365 days'
+--       limit v_batch
+--     ));
+--
+--   `get diagnostics v_deleted = row_count` and `exit when v_deleted < v_batch`
+--   stay exactly as they are: row_count is the number of rows the statement
+--   deleted, which measurement shows is the same 10 000 (or the same short final
+--   batch) in both shapes, so loop termination is unchanged.
+--
+-- MEASURED EFFECT (disposable cluster, fresh byte-identical copies per arm)
+--   webrtc_signals 140 006 rows / 42.86 % backlog : 75.534 ms -> 48.429 ms
+--   audit_logs     200 026 rows / 12.50 % backlog : 83.229 ms -> 38.112 ms
+--   Independently, 3 interleaved reps on the real seeded tables (agent probe,
+--   .tools/p4d-ab-backlog.log): webrtc 89.4/89.4/87.7 -> 65.4/59.2/67.6 ms;
+--   audit 143.5/140.4/136.8 -> 92.8/87.6/85.9 ms.
+--   Trade-off, not free: the alternative touches MORE buffers (webrtc 13 670 ->
+--   41 050; audit 13 945 -> 39 566) because it does one btree descent per doomed
+--   id, while dirtying FEWER pages (audit 1 726 -> 4) because it never full-scans
+--   the heap.
+--
+-- WHY IT WAS NOT ADOPTED IN PHASE 4
+--   1. It is an edit to an authored migration file. Editing it changes what would
+--      be applied to hosted Postgres; Phase 4 is explicitly not a deployment phase
+--      (brief section 2) and section 6 reserves procedure/COMMIT/cron/RPC changes
+--      to the owner. No migration was modified.
+--   2. The proof is against static copies of synthetic data on PostgreSQL 16.9
+--      locally. Nothing was measured on the hosted instance (version, storage and
+--      autovacuum differ), so only plan-shape findings transfer.
+--   3. Crossover is unmeasured: at a batch size approaching table size, or on a
+--      much larger cold heap, the shipped single seq scan may win.
+--   4. `location_events` and `usage_daily` are swept by the same function with
+--      per-family sub-queries and were not probed at all.
+--
+-- WHAT MUST MOVE WITH IT IF APPROVED
+--   * `supabase/tests/74_sweep_indexes_and_repeatability.sql` keeps its
+--     `prosrc like '%10000%'` tripwire - the literal `v_batch` constant at :102
+--     is what that guard matches, and the proposal does not touch it. A new
+--     assertion should pin BOTH shapes' invariant instead of the text: run the
+--     sweep twice on a seeded fixture and assert the deleted-id set equals the
+--     set the `using (...)` shape deletes, so a future edit cannot silently
+--     reintroduce the ordering assumption.
+--   * `supabase/tests/72_retention_sweep.sql` counts are unchanged (same rows).
+--   * The header comment at `:62` claims "at most 10 000 rows are LOOKED UP and
+--     deleted per DELETE". That is false for the shipped shape today - measured
+--     target side is `Seq Scan on webrtc_signals (rows=140006)` and
+--     `Seq Scan on audit_logs (rows=200026)` (.tools/p4d-equiv.log:184, :252) -
+--     and becomes true for the target side (not the selection side) under the
+--     alternative, which touches 161/169 heap blocks. Filed as an open gap rather
+--     than edited here, because a comment change still changes the file.
+--   * Re-measure on a staging copy of the hosted instance before scheduling; the
+--     owner's retention/cron decision (#4) is independent of this one.
+--
+-- APPROVAL REQUIRED
+--   Owner written approval to edit
+--   `supabase/migrations/20261030000300_retention_sweep.sql:119-130` and
+--   `:134-143`, plus the test addition above. Recommended: APPROVE as a
+--   follow-up migration or as a pre-first-apply edit (the hosted project is still
+--   entirely pre-Phase-1, so a pre-apply edit avoids a second migration and its
+--   provenance trail). Evidence: docs/implementation/_work/p4-perf01.md.
+-- ============================================================================
+
+-- Reproduce the proof (disposable cluster only; never against hosted):
+--   .tools/pgsql16/pgsql/bin/psql -h 127.0.0.1 -p <port> -U postgres -d <db> \
+--     -f .tools/p4d_equiv.sql        > .tools/p4d-equiv.log 2>&1
+--   .tools/pgsql16/pgsql/bin/psql -h 127.0.0.1 -p <port> -U postgres -d <db> \
+--     -f .tools/p4d_equiv_order.sql  > .tools/p4d-equiv-order.log 2>&1

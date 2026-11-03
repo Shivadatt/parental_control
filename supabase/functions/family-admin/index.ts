@@ -18,12 +18,7 @@ import {
 import { recordAudit } from "../_shared/audit.ts";
 import { readInteger, readUuid } from "../_shared/validation.ts";
 import { canDeleteZone, canPurge } from "./authorization.ts";
-import {
-  auditZoneDeletion,
-  buildZoneAuditInsert,
-  type ZoneDeleteStore,
-  type ZoneSnapshot,
-} from "./delete_zone_atomicity.ts";
+import type { ZoneSnapshot } from "./delete_zone_atomicity.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 
 const DAY_MS = 24 * 60 * 60 * 1000;
@@ -172,17 +167,23 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
       // Replaces the client-side safe_zones DELETE, which migration
       // 20261030000200 revokes. Any active parent of the zone's family may
-      // delete; every deletion is audited. Post-delete audit handling
-      // (bounded retries, compensating restore, explicit failure surface)
-      // is decided in delete_zone_atomicity.ts — SQL-05: a failed audit
-      // insert must not silently leave an unaudited deletion.
+      // delete; every deletion is audited. SQL-05 (Phase 5): the DELETE and its
+      // `zone_deleted` audit row now execute inside ONE service-role RPC
+      // (migration 20261103000100), so a failed audit insert rolls the delete
+      // back with it. The Phase 3 stopgap in delete_zone_atomicity.ts (bounded
+      // retries + compensating restore) is no longer wired here — it existed to
+      // paper over the two-transaction window this closes. The module and its
+      // unit tests stay in the tree; see tests/76 for the atomicity proof.
       case "delete_zone": {
         const auth = await requireUser(req, db, { requireVerifiedEmail: true });
         requireRole(auth.profile, "parent");
         const zoneId = readUuid(body.zone_id, "zone_id");
 
-        // The full row, not just id/family/name: a failed audit insert is
-        // compensated by restoring this exact snapshot (delete_zone_atomicity.ts).
+        // Advisory pre-check, kept for the response envelope: it produces
+        // today's exact 404/403 shapes without depending on how the RPC words
+        // its exceptions. The authoritative gate is inside the RPC, evaluated
+        // on the row it locks (`is_parent_of_family`), so a concurrent change
+        // between this read and the delete cannot widen anyone's access.
         const existing = await db
           .from("safe_zones")
           .select(
@@ -213,63 +214,51 @@ Deno.serve(async (req: Request): Promise<Response> => {
           );
         }
 
-        const deleted = await db
-          .from("safe_zones")
-          .delete({ count: "exact" })
-          .eq("id", zoneId)
-          .eq("family_id", zone.family_id);
-        ensureNoError(deleted);
-
-        // A concurrent delete of the same zone is not an error: the caller's
-        // postcondition holds. Only an actual removal is audited.
-        if ((deleted.count ?? 0) > 0) {
-          const store: ZoneDeleteStore = {
-            insertAudit: async (row) =>
-              (await db.from("audit_logs").insert(row)).error ?? null,
-            restoreZone: async (snapshot) =>
-              (
-                await db.from("safe_zones").insert({
-                  id: snapshot.id,
-                  family_id: snapshot.family_id,
-                  name: snapshot.name,
-                  lat: snapshot.lat,
-                  lng: snapshot.lng,
-                  radius_m: snapshot.radius_m,
-                  active: snapshot.active,
-                  created_by: snapshot.created_by,
-                  created_at: snapshot.created_at,
-                })
-              ).error ?? null,
-          };
-          const outcome = await auditZoneDeletion(
-            store,
-            buildZoneAuditInsert(zone, auth.user.id),
-            zone,
+        // One call, one transaction: resolve + authorize + delete + audit.
+        // The actor id is the verified JWT subject, never a body field, so the
+        // audit row cannot be attributed by the caller (same rule as
+        // revoke_device above, closed for revoke_device by 20261030000200).
+        const rpc = await db.rpc("delete_safe_zone_audited", {
+          p_zone_id: zoneId,
+          p_actor_user_id: auth.user.id,
+        });
+        if (rpc.error) {
+          const message = rpc.error.message ?? "";
+          if (message.includes("zone_not_found")) {
+            throw new ApiError(
+              "zone_not_found",
+              "The safe zone was not found.",
+              404,
+            );
+          }
+          if (
+            message.includes("not_family_parent") ||
+            message.includes("family_unavailable")
+          ) {
+            throw new ApiError(
+              "forbidden",
+              "A parent in this family is required.",
+              403,
+            );
+          }
+          console.error(`delete_zone_rpc_failed:${rpc.error.code ?? "unknown"}`);
+          throw new ApiError(
+            "internal_error",
+            "The safe zone could not be deleted.",
+            500,
           );
-          if (outcome.kind === "restored") {
-            // Net effect: the zone still exists. Say so; do not claim a delete.
-            console.error(`zone_delete_reverted:${zone.id}`);
-            throw new ApiError(
-              "audit_failed",
-              "The deletion could not be recorded in the audit log, so the safe zone was kept. Try again.",
-              500,
-              { zone_restored: true },
-            );
-          }
-          if (outcome.kind === "unaudited_delete") {
-            // The zone is gone and no audit row could be written or reverted.
-            // Surface it explicitly — never respond {deleted: true} here.
-            console.error(
-              `zone_delete_unaudited:${outcome.auditErrorCode ?? "unknown"}:${zone.id}`,
-            );
-            throw new ApiError(
-              "audit_failed",
-              "The safe zone was deleted, but the deletion could not be recorded in the audit log. Contact support if this persists.",
-              500,
-              { zone_restored: false, delete_unaudited: true },
-            );
-          }
         }
+        const status = (rpc.data as { status?: string } | null)?.status;
+        if (status !== "deleted" && status !== "already_gone") {
+          console.error(`delete_zone_rpc_unexpected_status:${status ?? "null"}`);
+          throw new ApiError(
+            "internal_error",
+            "The safe zone could not be deleted.",
+            500,
+          );
+        }
+        // `deleted` audited the removal; `already_gone` means a concurrent
+        // delete already won, so nothing was deleted and nothing was audited.
         return ok({ deleted: true });
       }
 

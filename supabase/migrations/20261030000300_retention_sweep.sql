@@ -59,11 +59,29 @@ create index if not exists audit_logs_created_idx
 -- ---------------------------------------------------------------------------
 -- What "batched" does and does not mean here (read before enabling a schedule).
 --
--- `v_batch` bounds one *statement*: at most 10 000 rows are looked up and
--- deleted per DELETE. It does not bound the call: a PL/pgSQL function cannot
--- COMMIT, so every batch of every table inside one call is a single
--- transaction. A call is all-or-nothing - it either walks the whole backlog and
--- commits, or it rolls back completely.
+-- `v_batch` bounds one *statement*: each DELETE's sub-query looks up at most
+-- 10 000 doomed ids (`limit v_batch`) and at most 10 000 rows are deleted per
+-- DELETE. The shipped `id = any (array(select ... limit v_batch))` shape is
+-- what makes "looked up" honest on the target side too: it visits only the
+-- doomed ids through the primary-key index (measured: a full 10 000-row batch
+-- touches 161/169 heap blocks). The old `using (...) doomed` shape deleted the
+-- same rows, but its target side hash-joined over a full Seq Scan of the table
+-- (measured rows=140 006 on webrtc_signals, rows=200 026 on audit_logs), so
+-- the previous wording here - "at most 10 000 rows are looked up and deleted
+-- per DELETE" - over-described the lookup for the target side (open gap
+-- SWP-01); corrected with the Phase 5 adoption of the batch shape (PERF-01a).
+-- Provenance of those numbers: the Phase 4 A/B probe,
+-- docs/implementation/_work/p4-perf01.md §2-§3 with the executed plans in
+-- .tools/p4d-ab-backlog.log and .tools/p4d-equiv.log (disposable PostgreSQL 16,
+-- NOT the hosted planner). What Phase 5 re-measured on THIS tree is the
+-- behaviour, not the timing: supabase/tests/74 section 5 proves the shipped
+-- shape deletes the same row SET in the same batch ORDER as the previous shape
+-- and is repeatable.
+--
+-- It does not bound the call: a PL/pgSQL function cannot COMMIT, so every
+-- batch of every table inside one call is a single transaction. A call is
+-- all-or-nothing - it either walks the whole backlog and commits, or it rolls
+-- back completely.
 --
 -- True today:
 --   * idempotent - the boundaries are absolute ages, so a second call deletes
@@ -117,13 +135,12 @@ begin
   -- 1. Signaling payloads: 7 days, global (no per-family window exists).
   loop
     delete from public.webrtc_signals w
-    using (
+    where w.id = any (array(
       select id
       from public.webrtc_signals
       where created_at < v_now - interval '7 days'
       limit v_batch
-    ) doomed
-    where w.id = doomed.id;
+    ));
     get diagnostics v_deleted = row_count;
     v_signals := v_signals + v_deleted;
     exit when v_deleted < v_batch;
@@ -133,13 +150,12 @@ begin
   --    private.audit_logs_append_only() permits this SECURITY DEFINER context.
   loop
     delete from public.audit_logs a
-    using (
+    where a.id = any (array(
       select id
       from public.audit_logs
       where created_at < v_now - interval '365 days'
       limit v_batch
-    ) doomed
-    where a.id = doomed.id;
+    ));
     get diagnostics v_deleted = row_count;
     v_audit := v_audit + v_deleted;
     exit when v_deleted < v_batch;

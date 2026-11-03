@@ -167,6 +167,10 @@ Consequence: `deno test supabase/functions` (the command documented at
 `docs/implementation/regression-matrix.md:24`) now **fails** without `--allow-read` — measured
 2026-11-02: `FAILED | 83 passed | 5 failed`, exit 1. The correct invocation is
 `deno test --allow-read supabase/functions/`. Tracked as DOC-01.
+[2026-11-03, Phase 4-A: DOC-01 closed — the *Exact command* cell at
+`regression-matrix.md:24` now reads `deno test --allow-read supabase/functions/`; this measured
+negative control is kept verbatim. Sweep of the other doc occurrences:
+`docs/implementation/_work/p4-docs-sql06.md`.]
 
 ## 7. Workstream E — governance (§7) and boundaries (§8)
 

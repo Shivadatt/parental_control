@@ -71,7 +71,7 @@ Also fixed:
 | Static analysis | `fvm flutter analyze` | **0 issues** |
 | Flutter tests | `fvm flutter test` | **207 passed, 0 failed, 0 skipped** |
 | Android unit tests | `.\gradlew.bat :app:testDebugUnitTest` | **17 passed, 0 failed** |
-| Deno function tests | `deno test supabase/functions/_shared/` | **36 passed, 0 failed** |
+| Deno function tests | `deno test supabase/functions/_shared/` | **36 passed, 0 failed** *(2026-11-03 DOC-01: as-executed; needs `deno test --allow-read supabase/functions/_shared/` today — file-reading tests were added to `_shared/` in Phase 3; numbers unchanged)* |
 | Build | `fvm flutter build apk --debug --build-name=1.0.0 --build-number=4010` | **BUILD SUCCESSFUL** |
 | APK manifest | `aapt2 dump badging` / `xmltree` | versionCode 4010, debuggable, FGS microphone `0x80`, WAKE_LOCK |
 

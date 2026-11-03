@@ -196,6 +196,10 @@ Test inventory added (existence only, not results):
 
 Workstream-claimed executions, **unverified by this reviewer**:
 - `docs/implementation/_work/security.md:38` — `deno test …/family-admin` → 4 passed.
+  *(2026-11-03 DOC-01: the flagless `deno test supabase/functions/family-admin` invocation is stale —
+  the directory now includes `delete_zone_atomicity_test.ts`, which reads `index.ts` from disk, so a
+  re-run needs `deno test --allow-read supabase/functions/family-admin` (Phase 3 measured 12 passed
+  with the flag). Historical number unchanged.)*
 - `docs/implementation/_work/audio.md:40-41` and `enforcement.md:43` — `dart analyze` clean on edited
   files.
 - `docs/implementation/_work/android.md:36` — `flutter build apk --debug` was run. This breaches

@@ -240,7 +240,7 @@ LAN. No TURN relay is configured, so recovery across carrier NAT is unproven
 |---|---|---|
 | Flutter tests | `.fvm/flutter_sdk/bin/flutter test` | **275 passed, 0 failed** (1m28s), exit 0 |
 | Flutter analyze | `.fvm/flutter_sdk/bin/flutter analyze` | **No issues found** (126.8 s), exit 0 |
-| Deno tests | `deno test supabase/functions/_shared supabase/functions/remote-session/guard_test.ts` | **47 passed, 0 failed** (747 ms), exit 0 |
+| Deno tests | `deno test supabase/functions/_shared supabase/functions/remote-session/guard_test.ts` | **47 passed, 0 failed** (747 ms), exit 0 *(2026-11-03 DOC-01: as-executed; a re-run today needs `deno test --allow-read ...` because `_shared/` gained file-reading tests in Phase 3; numbers unchanged)* |
 | Kotlin unit tests | `android/gradlew testDebugUnitTest` | **BLOCKED (environment)**: Gradle fails at configuration time with `this and base files have different roots: D:\parentcontrol_app\build\flutter_secure_storage and C:\Users\ASUS\AppData\Local\Pub\Cache\hosted\pub.dev\flutter_secure_storage-11.2.0\android`. This is a Windows cross-drive limitation between the project (`D:`) and the pub cache (`C:`), not a test failure. No Kotlin test executed, so the Kotlin suite is NOT counted as passing. |
 
 The Kotlin suite (`AudioAssistanceRecreationTest` and others) therefore remains

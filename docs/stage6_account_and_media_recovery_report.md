@@ -183,7 +183,7 @@ No Android, Edge Function or hosted configuration was changed in this stage.
 | `.fvm/flutter_sdk/bin/flutter analyze` | **No issues found** (2026-10-29) |
 | `.fvm/flutter_sdk/bin/flutter test` | **252 passed, 0 failed** (2026-10-29) |
 | `gradlew :app:testDebugUnitTest --rerun-tasks` | **32 passed, 0 failed** (8 recreation, 7 watchdog, 4 start gate, 13 policy; re-executed 2026-10-29) |
-| `deno test supabase/functions/_shared/` | **36 passed** (2026-10-29, no server change since) |
+| `deno test supabase/functions/_shared/` | **36 passed** (2026-10-29, no server change since) *(2026-11-03 DOC-01: re-run today needs `--allow-read`; file-reading tests added to `_shared/` in Phase 3; number unchanged)* |
 | Local SQL suite (ten migrations, tests through `62`) | **EXIT=0**, `ALL CONSENTED-SESSION SIGNALING TESTS PASSED` (2026-10-29) |
 
 APK: `build/app/outputs/flutter-apk/app-debug.apk`

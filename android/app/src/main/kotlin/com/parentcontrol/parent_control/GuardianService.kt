@@ -665,13 +665,9 @@ class GuardianService : Service() {
         }
     }
 
-    private fun enforcementMode(): String {
-        return when {
-            applier.isDeviceOwner() -> "device_owner"
-            applier.isAdminActive() -> "device_admin"
-            else -> "none"
-        }
-    }
+    /** Delegates to [EnforcementMode], the single source of truth shared with the policy ack. */
+    private fun enforcementMode(): String =
+        EnforcementMode.of(applier.isDeviceOwner(), applier.isAdminActive())
 
     private fun errorSummary(errors: JSONArray?): String {
         if (errors == null || errors.length() == 0) return "The policy could not be applied."

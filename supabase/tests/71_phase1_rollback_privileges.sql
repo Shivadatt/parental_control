@@ -202,12 +202,17 @@ begin
       = 'postgres=X/postgres,service_role=X/postgres',
     'FORWARD: the helper must be service-role-only, no PUBLIC');
 
+  -- [2026-11-03, SQL-05] The fifth entry is public.delete_safe_zone_audited,
+  -- added by the later migration 20261103000100, which authorizes through this
+  -- same Phase 1 helper. The pin stays an EXACT list: a sixth wrapper, or any
+  -- client-reachable function picking up the helper, still fails this test.
+  -- Nothing was relaxed - the expected value grew by one known, reviewed name.
   perform tests.assert_true(
     (select v from p3a_snap where phase = '1_forward'
       and k = 'refs|functions_calling_helper')
-      = 'public.apply_policy_version,public.request_remote_session,'
-        || 'public.revoke_device,public.unlink_child',
-    'FORWARD: exactly the four wrappers must reference the helper');
+      = 'public.apply_policy_version,public.delete_safe_zone_audited,'
+        || 'public.request_remote_session,public.revoke_device,public.unlink_child',
+    'FORWARD: exactly the five wrappers must reference the helper');
 end;
 $$;
 
@@ -442,6 +447,15 @@ begin
 end;
 $$;
 
+-- Step R1' (SQL-05, added 2026-11-03): public.delete_safe_zone_audited comes
+-- from the LATER migration 20261103000100 and authorizes through this same
+-- Phase 1 helper, so a Phase-1 rollback must take that migration back first.
+-- This file failed at R2 ("rollback halted: ... delete_safe_zone_audited ...")
+-- until this line existed, which is the proof the ordering is enforced rather
+-- than merely documented. Section 5 re-applies 20261103000100, so the chain
+-- continues from the same forward state it entered this file with.
+drop function if exists public.delete_safe_zone_audited(uuid, uuid);
+
 -- Step R2, the same implementation section 3 proved halts.
 select tests.p3a_rollback_r2();
 
@@ -496,6 +510,11 @@ begin
     'ROLLBACK: the unaudited safe_zones_delete_parent policy must NOT come back');
 
   -- The helper is gone (R1 ran first), and nothing is left pointing at it.
+  -- [2026-11-03, SQL-05] still true, but only because step R1' below drops
+  -- public.delete_safe_zone_audited (the fifth dependant, created by the LATER
+  -- migration 20261103000100) before R2 runs - R2's own guard halts otherwise,
+  -- which section 3 proves. The rollback order between the two migrations is
+  -- therefore enforced, not merely documented.
   perform tests.assert_true(
     to_regprocedure('private.is_parent_of_family(uuid, uuid)') is null,
     'ROLLBACK: the helper this migration introduced is dropped');
@@ -503,6 +522,10 @@ begin
     (select v from p3a_snap where phase = '3_rollback'
        and k = 'refs|functions_calling_helper') = 'NONE',
     'ROLLBACK: no function may still reference the dropped helper');
+  perform tests.assert_true(
+    to_regprocedure('public.delete_safe_zone_audited(uuid, uuid)') is null,
+    'ROLLBACK: the SQL-05 wrapper must be gone at this point - it is what made '
+    || 'R2 halt before step R1 existed');
 
   -- Rolling back the bodies must not quietly drop SECURITY DEFINER or the
   -- pinned search_path, and must keep the wrappers service-role only.
@@ -539,8 +562,13 @@ $$;
 
 -- ===========================================================================
 -- 5. RE-FORWARD so the rest of the documented chain sees the state it expects.
+--    Both migrations are re-applied, in filename order: step R1' above dropped
+--    public.delete_safe_zone_audited, and the 'refs|functions_calling_helper'
+--    cell is part of the forward/re-forward diff, so leaving it dropped would
+--    make this file end in a state the chain never started from.
 -- ===========================================================================
 \i supabase/migrations/20261030000200_phase1_authorization.sql
+\i supabase/migrations/20261103000100_zone_delete_atomic_rpc.sql
 
 update p3a_phase set phase = '4_reforward';
 insert into p3a_snap select * from p3a_capture;
@@ -561,9 +589,13 @@ begin
     'RE-FORWARD: re-applying the migration must reproduce the forward state '
     || 'exactly, got ' || v_diff || ' differing cells');
 
+  -- [2026-11-03, SQL-05] five, not four: the four Phase 1 actor checks plus
+  -- public.delete_safe_zone_audited, re-created by the `\i` above. The pin is
+  -- still an exact count, so a sixth body quietly raising this code still fails.
   select count(*) into v_rows from pg_proc where prosrc like '%not_family_parent%';
-  perform tests.assert_true(v_rows = 4,
-    'RE-FORWARD: the four actor checks must be back, got ' || v_rows);
+  perform tests.assert_true(v_rows = 5,
+    'RE-FORWARD: the four actor checks (plus the SQL-05 wrapper) must be back, '
+    || 'got ' || v_rows);
 
   raise notice 'ALL PHASE 1 ROLLBACK PRIVILEGE TESTS PASSED';
   drop view if exists p3a_capture;

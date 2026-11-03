@@ -989,6 +989,10 @@ active still match a plain SHA-256 of the identifier they were derived from
 36 passed (including four new keyed-hash cases with a pinned HMAC vector);
 `deno check` clean for all nine entrypoints; `flutter analyze` clean and
 `flutter test` 150 passed.
+*(2026-11-03, DOC-01: this records the run as executed on 2026-10-27, when the flagless
+command was correct; re-running it today needs `deno test --allow-read
+supabase/functions/_shared/` because `_shared/` gained file-reading tests in Phase 3.
+Recorded numbers unchanged.)*
 
 **Evidence — production (2026-10-27):** the migration
 `20260101000500_child_contact_ids.sql` (SHA-256

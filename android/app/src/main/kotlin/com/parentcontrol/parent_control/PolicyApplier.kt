@@ -225,12 +225,13 @@ class PolicyApplier(
         }
     }
 
-    /** `device_owner` only when the system really granted that capability. */
-    fun enforcementMode(): String = when {
-        isDeviceOwner() -> "device_owner"
-        isAdminActive() -> "device_admin"
-        else -> "none"
-    }
+    /**
+     * `device_owner` only when the system really granted that capability.
+     *
+     * The rule itself lives in [EnforcementMode] so the policy ack reported
+     * here and the heartbeat reported by [GuardianService] can never drift.
+     */
+    fun enforcementMode(): String = EnforcementMode.of(isDeviceOwner(), isAdminActive())
 
     /** Called by the 60-second guardian tick. Returns null when no policy exists. */
     fun tick(): JSONObject? {

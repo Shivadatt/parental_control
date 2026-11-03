@@ -268,59 +268,105 @@ function countOccurrences(haystack: string, needle: string): number {
   return count;
 }
 
-Deno.test("[source-level] delete_zone routes the post-delete audit through the injected module", async () => {
+Deno.test("[source-level] delete_zone delegates the delete+audit pair to the atomic RPC", async () => {
   const source = await handlerSource();
-  assert(
-    source.includes(
-      'import { auditZoneDeletion, buildZoneAuditInsert, type ZoneDeleteStore, type ZoneSnapshot, } from "./delete_zone_atomicity.ts";',
-    ),
-    "the handler must import the audit-decision module",
-  );
   const zone = caseBody(source, "delete_zone");
-  assertEqualCount(zone, "auditZoneDeletion(", 1, "single audit decision site");
+
+  // SQL-05: exactly one service-role RPC call, and the actor comes from the
+  // verified JWT — never a body field the caller controls.
+  assertEqualCount(
+    zone,
+    'db.rpc("delete_safe_zone_audited"',
+    1,
+    "single atomic RPC call site",
+  );
+  assert(
+    zone.includes("p_actor_user_id: auth.user.id"),
+    "the RPC must receive the server-side JWT subject as the audit actor",
+  );
+  assert(
+    !zone.includes("p_actor_user_id: body."),
+    "the audit actor must not be read from the request body",
+  );
+
+  // The two-transaction shape this whole module existed to survive must be gone
+  // from the handler: no client-side DELETE, no direct audit INSERT, no
+  // stopgap wiring. Their absence is the regression guard.
+  assert(
+    !zone.includes('.from("safe_zones") .delete('),
+    "delete_zone must not issue a client-side safe_zones DELETE any more",
+  );
+  assert(
+    !zone.includes('.from("audit_logs").insert('),
+    "delete_zone must not insert the audit row from the handler any more",
+  );
+  assert(
+    !zone.includes("auditZoneDeletion("),
+    "the compensation stopgap must not stay wired beside the RPC",
+  );
   assert(
     !zone.includes("recordAudit("),
     "delete_zone must not keep the old best-effort recordAudit path",
   );
 });
 
-Deno.test("[source-level] audit only on actual removal; both failure kinds throw before any success", async () => {
+Deno.test("[source-level] the pre-check precedes the RPC and success is returned only after its errors", async () => {
   const source = await handlerSource();
   const zone = caseBody(source, "delete_zone");
 
-  // Zero-row delete: the audit decision sits strictly inside the guard.
+  // Advisory UX gate stays: membership is resolved and gated before the write.
   assert(
-    zone.includes("if ((deleted.count ?? 0) > 0)"),
-    "the actual-removal guard must still gate the audit",
+    zone.includes(
+      'if (!canDeleteZone(auth.profile.role, membership.role === "parent"))',
+    ),
+    "delete_zone must still gate on canDeleteZone (not merely somewhere in the file)",
   );
-  assertOrder(zone, "if ((deleted.count ?? 0) > 0)", "auditZoneDeletion(", "delete_zone audit gating");
-  // Delete failure: the delete error check precedes the guard and the audit.
-  assertOrder(zone, "ensureNoError(deleted)", "auditZoneDeletion(", "delete failure short-circuit");
-  // Success is returned only after the audit decision — and after both
-  // failure branches throw, so an unaudited result can never respond
-  // {deleted: true} silently.
-  assertOrder(zone, "auditZoneDeletion(", 'outcome.kind === "restored"', "restored branch");
-  assertOrder(zone, 'outcome.kind === "restored"', 'outcome.kind === "unaudited_delete"', "branch order");
-  assertOrder(zone, 'outcome.kind === "unaudited_delete"', "return ok({ deleted: true })", "failure throws before success");
-  assertEqualCount(zone, '"audit_failed"', 2, "both failure kinds reuse the existing audit_failed code (no new error code)");
-  assert(
-    zone.includes("zone_delete_unaudited:"),
-    "the unaudited deletion must be logged with its error code and zone id",
+  assertOrder(
+    zone,
+    "assertFamilyParent(",
+    'db.rpc("delete_safe_zone_audited"',
+    "authorization before write",
+  );
+  assertOrder(
+    zone,
+    "zone_not_found",
+    'db.rpc("delete_safe_zone_audited"',
+    "missing zone 404s before any delete",
   );
 
-  // Authorization ordering is preserved (also pinned by handler_wiring_test).
-  assertOrder(zone, "assertFamilyParent(", '.from("safe_zones") .delete(', "authorization before write");
-  assertOrder(zone, "zone_not_found", '.from("safe_zones") .delete(', "missing zone 404s before any delete");
-
-  // A faithful compensation needs the whole row: the pre-read selects every
-  // restore column, and the store really inserts them back.
-  assert(
-    zone.includes('"id, family_id, name, lat, lng, radius_m, active, created_by, created_at",'),
-    "pre-read must select the full snapshot for the compensating restore",
+  // Response envelope is unchanged: every RPC failure throws before success,
+  // and only the two documented statuses may return {deleted: true}.
+  assertOrder(zone, "db.rpc(", "if (rpc.error)", "rpc error checked before success");
+  assertOrder(
+    zone,
+    'status !== "already_gone"',
+    "return ok({ deleted: true })",
+    "status whitelist gates the success return",
   );
-  assert(zone.includes('.from("audit_logs").insert('), "the store must insert the audit row through the service client");
-  assert(zone.includes('.from("safe_zones").insert('), "the store must re-insert the zone row for compensation");
-  assertEqualCount(zone, '.from("safe_zones") .delete(', 1, "still exactly one delete site");
+  assert(
+    zone.includes('status !== "deleted" && status !== "already_gone"'),
+    "both and only the RPC's documented statuses count as success",
+  );
+  assertEqualCount(
+    zone,
+    '"internal_error"',
+    2,
+    "RPC failure and unexpected status both surface as internal_error",
+  );
+  assert(
+    zone.includes("delete_zone_rpc_failed:"),
+    "an RPC failure must be logged with its SQLSTATE",
+  );
+  // The 404/403 messages the endpoint has always returned are still the ones
+  // clients see when the RPC raises.
+  assert(
+    zone.includes("The safe zone was not found."),
+    "zone_not_found keeps its existing message",
+  );
+  assert(
+    zone.includes("A parent in this family is required."),
+    "not_family_parent / family_unavailable keep the existing 403 message",
+  );
 });
 
 function assertEqualCount(

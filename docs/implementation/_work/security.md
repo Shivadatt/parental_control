@@ -42,3 +42,10 @@ Decisions worth knowing (not restated in the contract):
 Not executed: the migration and `70_phase1_authorization.sql` (local only, no host, no CLI).
 Executed: `deno test supabase/functions/family-admin` → 4 passed; `deno check family-admin/index.ts`
 clean.
+> **Phase 4 correction (2026-11-03, DOC-01):** the flagless command above is kept as the 2026-10-30
+> observation. It no longer runs clean: `family-admin/` now contains `delete_zone_atomicity_test.ts`,
+> which reads `index.ts` from disk (`:241`), so the current invocation is
+> `deno test --allow-read supabase/functions/family-admin` (Phase 3 measured 12 passed / 0 failed).
+> `--allow-read` is needed because these wiring tests read Edge Function **`.ts` handler sources**
+> (not migration/SQL files) and Deny-by-default filesystem access makes them fail loudly instead of
+> silently skipping.

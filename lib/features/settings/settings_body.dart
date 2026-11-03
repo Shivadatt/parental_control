@@ -5,6 +5,7 @@ import '../../app/routes/app_routes.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/formatters.dart';
 import '../../core/widgets/widgets.dart';
+import 'account_privacy_repository.dart';
 import 'delete_account_dialog.dart';
 import 'export_result_dialog.dart';
 import 'parent_settings_controller.dart';
@@ -19,6 +20,8 @@ class SettingsBody extends StatelessWidget {
     return Obx(() {
       final retention = controller.retentionReport.value;
       final windows = controller.retentionWindows;
+      // PRIV-01: no report loaded yet is its own state, not "family scope".
+      final scope = retention?.scope ?? DataScope.notReported;
       return ListView(
         padding: const EdgeInsets.only(top: 8, bottom: 32),
         children: [
@@ -159,11 +162,22 @@ class SettingsBody extends StatelessWidget {
                   if (windows.isEmpty)
                     const Text('No family is linked to this account yet.')
                   else ...[
-                    // retention_report counts whole families, so a child sees
-                    // the family's totals rather than only their own rows.
-                    const Text(
-                      'Counts cover the whole family, not just this account.',
-                      style: TextStyle(color: AppColors.muted, fontSize: 12),
+                    // WORD-02 / PRIV-01: whose rows the counts cover comes from
+                    // the server's `scope`, not from whether data happened to
+                    // arrive. An absent report says so instead of claiming a
+                    // family scope the caller may not have.
+                    Text(
+                      switch (scope) {
+                        DataScope.family =>
+                          'Counts cover the whole family, not just this account.',
+                        DataScope.device =>
+                          'Counts cover only this account’s own devices and '
+                              'rows, not the rest of the family.',
+                        DataScope.notReported =>
+                          'The server did not report retention counts for this '
+                              'account.',
+                      },
+                      style: const TextStyle(color: AppColors.muted, fontSize: 12),
                     ),
                     const SizedBox(height: 6),
                   ],
@@ -179,7 +193,12 @@ class SettingsBody extends StatelessWidget {
                     if (retention != null)
                       KeyValueRow(
                         label:
-                            '${window.familyName}: older than the window (all members)',
+                            '${window.familyName}: older than the window '
+                            '(${switch (scope) {
+                              DataScope.family => 'all members',
+                              DataScope.device => 'this account only',
+                              DataScope.notReported => 'no scope reported',
+                            }})',
                         value:
                             '${window.locationEventsOlderThanWindow} location '
                             'events · ${window.usageDaysOlderThanWindow} usage days',
@@ -222,19 +241,33 @@ class SettingsBody extends StatelessWidget {
                   else
                     KeyValueRow(
                       label: 'Last retention sweep',
-                      value: retention?.lastSweepAt == null
-                          ? 'Not recorded yet'
-                          : formatDateTime(retention!.lastSweepAt),
+                      // PRIV-01: the sweep marker is one project-wide row, so
+                      // the server only sends it to the family owner. Any other
+                      // scope reads "not reported", never "never ran".
+                      value: scope != DataScope.family
+                          ? 'Not reported for this account'
+                          : retention?.lastSweepAt == null
+                              ? 'Not recorded yet'
+                              : formatDateTime(retention!.lastSweepAt),
                     ),
                   const SizedBox(height: 6),
-                  const Text(
-                    'The sweep timestamp is when the server-wide retention '
-                    'sweep last ran — one global marker row, not this family’s '
-                    'own run time. The sweep deletes signaling rows after '
-                    '7 days and audit rows after 365 days; location and usage '
-                    'follow each family’s windows above. It runs from the '
-                    'scheduled cron function, not on this phone.',
-                    style: TextStyle(color: AppColors.muted, fontSize: 12),
+                  Text(
+                    switch (scope) {
+                      DataScope.family =>
+                        'The sweep timestamp is when the server-wide retention '
+                            'sweep last ran — one global marker row, not this family’s '
+                            'own run time. The sweep deletes signaling rows after '
+                            '7 days and audit rows after 365 days; location and usage '
+                            'follow each family’s windows above. It runs from the '
+                            'scheduled cron function, not on this phone.',
+                      _ =>
+                        'Sweep totals cover every family in the deployment, so the '
+                            'server reports the global marker to the family owner only '
+                            '— it is not shown to this account. Signaling rows are '
+                            'swept after 7 days and audit rows after 365 days; '
+                            'location and usage follow each family’s windows above.',
+                    },
+                    style: const TextStyle(color: AppColors.muted, fontSize: 12),
                   ),
                   const SizedBox(height: 14),
                   AppButton(

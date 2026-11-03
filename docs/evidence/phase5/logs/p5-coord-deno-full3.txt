@@ -1,0 +1,200 @@
+[0m[32mCheck[0m supabase/functions/_shared/enrollment_test.ts
+[0m[32mCheck[0m supabase/functions/_shared/error_mapping_test.ts
+[0m[32mCheck[0m supabase/functions/_shared/policy_test.ts
+[0m[32mCheck[0m supabase/functions/_shared/turn_test.ts
+[0m[32mCheck[0m supabase/functions/_shared/validation_test.ts
+[0m[32mCheck[0m supabase/functions/account/retention_test.ts
+[0m[32mCheck[0m supabase/functions/account/scope_test.ts
+[0m[32mCheck[0m supabase/functions/account/validation_test.ts
+[0m[32mCheck[0m supabase/functions/device-command/enforcement_test.ts
+[0m[32mCheck[0m supabase/functions/device-command/handler_test.ts
+[0m[32mCheck[0m supabase/functions/family-admin/authorization_test.ts
+[0m[32mCheck[0m supabase/functions/family-admin/delete_zone_atomicity_test.ts
+[0m[32mCheck[0m supabase/functions/handler_wiring_test.ts
+[0m[32mCheck[0m supabase/functions/remote-session/guard_test.ts
+[0m[32mCheck[0m supabase/functions/remote-session/lifecycle_test.ts
+[0m[38;5;245mrunning 3 tests from ./supabase/functions/_shared/enrollment_test.ts[0m
+revoked device stays blocked without a later approval ... [0m[32mok[0m [0m[38;5;245m(742µs)[0m
+a later approved re-link clears the block ... [0m[32mok[0m [0m[38;5;245m(167µs)[0m
+missing revocation time and invalid dates fail closed ... [0m[32mok[0m [0m[38;5;245m(159µs)[0m
+[0m[38;5;245mrunning 13 tests from ./supabase/functions/_shared/error_mapping_test.ts[0m
+SQL-03: not_family_parent maps to a 403 forbidden and never a 5xx ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+SQL-03: a raised 42501 with an unrecognised message is still authorization ... [0m[32mok[0m [0m[38;5;245m(315µs)[0m
+SQL-03: the raise text maps even when the SQLSTATE is lost in transport ... [0m[32mok[0m [0m[38;5;245m(425µs)[0m
+SQL-03: non-authorization SQL errors keep their handler's own mapping ... [0m[32mok[0m [0m[38;5;245m(346µs)[0m
+SQL-03: integrity 42501 raises stay server faults, not caller permissions ... [0m[32mok[0m [0m[38;5;245m(248µs)[0m
+SQL-03: nothing internal reaches the caller and only a token reaches the log ... [0m[32mok[0m [0m[38;5;245m(37ms)[0m
+SQL-03: denyAuthorization is silent and yields for non-authorization errors ... [0m[32mok[0m [0m[38;5;245m(236µs)[0m
+SQL-03: an authorization failure is never a success and never retryable ... [0m[32mok[0m [0m[38;5;245m(954µs)[0m
+SQL-03: caller scenarios produce the documented statuses through the real envelope ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+SQL-03: device-policy and device-command delegate the RPC denial and keep their mappings ... [0m[32mok[0m [0m[38;5;245m(4ms)[0m
+SQL-03: pairing maps every RPC error branch it owns before its generic 500 ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+SQL-03: all four affected handlers answer a denial with the same code and shape ... [0m[32mok[0m [0m[38;5;245m(4ms)[0m
+SQL-03: the caller-facing message is fixed text, never database text ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+[0m[38;5;245mrunning 8 tests from ./supabase/functions/_shared/policy_test.ts[0m
+valid Dart-style policy is normalised ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+empty policy gets safe defaults ... [0m[32mok[0m [0m[38;5;245m(181µs)[0m
+unknown keys are rejected at every level ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+duplicate rules and weekdays are rejected ... [0m[32mok[0m [0m[38;5;245m(367µs)[0m
+weekday and minute bounds are enforced ... [0m[32mok[0m [0m[38;5;245m(977µs)[0m
+bedtime and daily limit pairing rules ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+labels and lists are bounded ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+command payloads are sanitised per type ... [0m[32mok[0m [0m[38;5;245m(20ms)[0m
+[0m[38;5;245mrunning 8 tests from ./supabase/functions/_shared/turn_test.ts[0m
+STUN-only fallback when TURN is not configured ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+custom STUN URLs are split and scheme-filtered ... [0m[32mok[0m [0m[38;5;245m(309µs)[0m
+coturn REST credentials are deterministic and scoped to the user ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+TTL is clamped to 60..86400 seconds ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+missing secret or non-TURN URL falls back safely ... [0m[32mok[0m [0m[38;5;245m(342µs)[0m
+secret whitespace is trimmed without leaking it ... [0m[32mok[0m [0m[38;5;245m(445µs)[0m
+readTurnEnv reads the documented variable names ... [0m[32mok[0m [0m[38;5;245m(222µs)[0m
+invalid STUN URLs leave no ICE servers ... [0m[32mok[0m [0m[38;5;245m(208µs)[0m
+[0m[38;5;245mrunning 17 tests from ./supabase/functions/_shared/validation_test.ts[0m
+readString trims, bounds and type-checks ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+hex, uuid and package validation ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+pairing codes normalise and generate within the contract alphabet ... [0m[32mok[0m [0m[38;5;245m(30ms)[0m
+generated Child IDs match the permanent identifier format ... [0m[32mok[0m [0m[38;5;245m(957µs)[0m
+isChildContactId accepts canonical only ... [0m[32mok[0m [0m[38;5;245m(257µs)[0m
+formatChildContactId inserts the display dash ... [0m[32mok[0m [0m[38;5;245m(169µs)[0m
+isLinkingIdentifier accepts codes and canonical Child IDs ... [0m[32mok[0m [0m[38;5;245m(139µs)[0m
+generatePairingCode keeps its legacy 8-character format ... [0m[32mok[0m [0m[38;5;245m(798µs)[0m
+two sample Child ID generations differ ... [0m[32mok[0m [0m[38;5;245m(160µs)[0m
+SHA-256 and constant-time comparisons ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+identifierHash is a keyed HMAC that differs from plain SHA-256 ... [0m[32mok[0m [0m[38;5;245m(658µs)[0m
+identifierHash is deterministic and key/input sensitive ... [0m[32mok[0m [0m[38;5;245m(741µs)[0m
+identifierHash always emits 64 lowercase hex characters ... [0m[32mok[0m [0m[38;5;245m(850µs)[0m
+identifierHash falls back to sha256Hex without a pepper ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+date-only validation rejects impossible dates ... [0m[32mok[0m [0m[38;5;245m(692µs)[0m
+haversine distance is sane ... [0m[32mok[0m [0m[38;5;245m(260µs)[0m
+dedupeStrings preserves first-seen order ... [0m[32mok[0m [0m[38;5;245m(124µs)[0m
+[0m[38;5;245mrunning 6 tests from ./supabase/functions/account/retention_test.ts[0m
+parseRetentionDays falls back for unusable values ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+parseRetentionDays accepts integers and numeric strings ... [0m[32mok[0m [0m[38;5;245m(154µs)[0m
+parseRetentionDays clamps absurd windows ... [0m[32mok[0m [0m[38;5;245m(166µs)[0m
+retentionFromSettings reads both windows with schema defaults ... [0m[32mok[0m [0m[38;5;245m(257µs)[0m
+retentionCutoffs uses a timestamp for location and a date for usage ... [0m[32mok[0m [0m[38;5;245m(284µs)[0m
+buildFamilyRetentionReport never invents negative counts ... [0m[32mok[0m [0m[38;5;245m(321µs)[0m
+[0m[38;5;245mrunning 17 tests from ./supabase/functions/account/scope_test.ts[0m
+scope: a parent who owns the family gets family scope with sweep totals ... [0m[32mok[0m [0m[38;5;245m(952µs)[0m
+scope: a non-owner parent member gets family counts but the sweep totals redacted ... [0m[32mok[0m [0m[38;5;245m(249µs)[0m
+scope: a child member gets device scope and never the sweep marker ... [0m[32mok[0m [0m[38;5;245m(148µs)[0m
+scope: a wrong-family caller is not_reported and reaches no family branch ... [0m[32mok[0m [0m[38;5;245m(279µs)[0m
+scope: an unauthenticated / profile-less caller is not_reported ... [0m[32mok[0m [0m[38;5;245m(183µs)[0m
+scope: a missing or unexpected profile role is not_reported with no counts ... [0m[32mok[0m [0m[38;5;245m(427µs)[0m
+scope: a profile role that disagrees with the membership is not_reported ... [0m[32mok[0m [0m[38;5;245m(172µs)[0m
+scope: membership in an unreported family cannot widen the scope ... [0m[32mok[0m [0m[38;5;245m(137µs)[0m
+counts: family scope counts the family, device scope only the caller's devices ... [0m[32mok[0m [0m[38;5;245m(200µs)[0m
+counts: a child with no devices of their own runs no query ... [0m[32mok[0m [0m[38;5;245m(133µs)[0m
+counts: bogus device ids are dropped and duplicates collapsed ... [0m[32mok[0m [0m[38;5;245m(153µs)[0m
+payload: the family owner alone receives the project-wide sweep totals ... [0m[32mok[0m [0m[38;5;245m(537µs)[0m
+payload: a non-owner parent keeps the timestamp but loses the totals ... [0m[32mok[0m [0m[38;5;245m(256µs)[0m
+payload: a child report has device counts and no sweep at all ... [0m[32mok[0m [0m[38;5;245m(218µs)[0m
+payload: not_reported carries no counts, no families and no sweep ... [0m[32mok[0m [0m[38;5;245m(219µs)[0m
+payload: the documented defaults are reported whatever the scope ... [0m[32mok[0m [0m[38;5;245m(16ms)[0m
+payload: a missing sweep row is reported as null, not as a guess ... [0m[32mok[0m [0m[38;5;245m(266µs)[0m
+[0m[38;5;245mrunning 7 tests from ./supabase/functions/account/validation_test.ts[0m
+normalizeEmail trims, lowercases and rejects non-strings ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+delete requires the literal DELETE word ... [0m[32mok[0m [0m[38;5;245m(359µs)[0m
+delete requires the caller's own email, case-insensitively ... [0m[32mok[0m [0m[38;5;245m(284µs)[0m
+delete refuses when the token carries no email ... [0m[32mok[0m [0m[38;5;245m(206µs)[0m
+owner blocker: an otherwise empty family never blocks ... [0m[32mok[0m [0m[38;5;245m(462µs)[0m
+owner blocker: other active members block with their family ids ... [0m[32mok[0m [0m[38;5;245m(210µs)[0m
+owner blocker: active devices block when no other member remains ... [0m[32mok[0m [0m[38;5;245m(207µs)[0m
+[0m[38;5;245mrunning 11 tests from ./supabase/functions/device-command/enforcement_test.ts[0m
+supported device with every app suspended is enforced ... [0m[32mok[0m [0m[38;5;245m(897µs)[0m
+non-Device-Owner reports unsupported even when the ack says succeeded ... [0m[32mok[0m [0m[38;5;245m(197µs)[0m
+unsupported wins even if stale packages remain suspended ... [0m[32mok[0m [0m[38;5;245m(132µs)[0m
+a partial failure is failed and reports suspended N of M ... [0m[32mok[0m [0m[38;5;245m(142µs)[0m
+applied<desired is failed even if failed_count lies ... [0m[32mok[0m [0m[38;5;245m(159µs)[0m
+zero desired targets for an app policy stays pending, not enforced ... [0m[32mok[0m [0m[38;5;245m(129µs)[0m
+a policy without app targets may be enforced with zero desired ... [0m[32mok[0m [0m[38;5;245m(115µs)[0m
+missing result fields stay pending instead of guessing ... [0m[32mok[0m [0m[38;5;245m(199µs)[0m
+malformed counts are treated as missing ... [0m[32mok[0m [0m[38;5;245m(225µs)[0m
+an expired command leaves the policy pending ... [0m[32mok[0m [0m[38;5;245m(123µs)[0m
+policyTargetsApps detects every blocking shape ... [0m[32mok[0m [0m[38;5;245m(209µs)[0m
+[0m[38;5;245mrunning 24 tests from ./supabase/functions/device-command/handler_test.ts[0m
+device-command: a GET is 405 method_not_allowed and touches no table ... [0m[32mok[0m [0m[38;5;245m(52ms)[0m
+device-command: an unknown action is 400 unknown_action ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: a missing bearer token is 401 unauthorized, before any profile read ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: an invalidated session is 401 with the session message ... [0m[32mok[0m [0m[38;5;245m(896µs)[0m
+device-command: a missing profile row is 403 profile_missing ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: a child profile cannot create a command (403 role_required) ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: an unverified email is 403 email_not_verified on create ... [0m[32mok[0m [0m[38;5;245m(814µs)[0m
+device-command: a parent of another family cannot command this device, and nothing is written ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: a soft-deleted family is forbidden before the membership read ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: an unknown device is 404 device_not_found ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: a non-active device is 403 device_not_active ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: create writes the command from the injected clock and audits it ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+device-command: an explicit ttl is clamped to the documented 60..900 range ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+device-command: a repeated idempotency key replays the stored command and writes nothing ... [0m[32mok[0m [0m[38;5;245m(856µs)[0m
+device-command: an invalid payload is 400 validation_error before any write ... [0m[32mok[0m [0m[38;5;245m(977µs)[0m
+device-command: a non-UUID device id is refused before any database read ... [0m[32mok[0m [0m[38;5;245m(562µs)[0m
+device-command: an apply_policy RPC denial maps to forbidden/403 and inserts no command ...
+[0m[38;5;245m------- post-test output -------[0m
+apply_policy_denied:42501:not_family_parent
+[0m[38;5;245m----- post-test output end -----[0m
+device-command: an apply_policy RPC denial maps to forbidden/403 and inserts no command ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+device-command: apply_policy audits policy_updated + command_created, and an idempotent replay audits nothing ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: an unknown apply_policy RPC answer is a 500, never a fabricated success ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: a failed audit insert is a 500 audit_failed, not a silent success ...
+[0m[38;5;245m------- post-test output -------[0m
+audit_insert_failed:23505
+[0m[38;5;245m----- post-test output end -----[0m
+device-command: a failed audit insert is a 500 audit_failed, not a silent success ... [0m[32mok[0m [0m[38;5;245m(3ms)[0m
+device-command: a database insert failure is 500 internal_error with a fixed message ...
+[0m[38;5;245m------- post-test output -------[0m
+command_insert_failed:XX000
+[0m[38;5;245m----- post-test output end -----[0m
+device-command: a database insert failure is 500 internal_error with a fixed message ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+device-command: poll without device credentials is refused and runs no RPC ... [0m[32mok[0m [0m[38;5;245m(864µs)[0m
+device-command: poll with the wrong secret is refused and runs no RPC ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+device-command: poll answers from the RPC and stamps the injected clock ... [0m[32mok[0m [0m[38;5;245m(970µs)[0m
+[0m[38;5;245mrunning 4 tests from ./supabase/functions/family-admin/authorization_test.ts[0m
+canPurge: only the family owner may purge ... [0m[32mok[0m [0m[38;5;245m(736µs)[0m
+canPurge: children and unset roles are rejected even if owner_id matched ... [0m[32mok[0m [0m[38;5;245m(147µs)[0m
+canDeleteZone: any active parent of the zone's family may delete ... [0m[32mok[0m [0m[38;5;245m(150µs)[0m
+canDeleteZone is not owner-only (matches safe_zones insert/update policies) ... [0m[32mok[0m [0m[38;5;245m(91µs)[0m
+[0m[38;5;245mrunning 8 tests from ./supabase/functions/family-admin/delete_zone_atomicity_test.ts[0m
+[injected] both succeed: one audit row, exactly the frozen shape, no restore ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[injected] transient audit failures are retried within the bounded budget ... [0m[32mok[0m [0m[38;5;245m(433µs)[0m
+[injected] audit insert fails after a successful delete: zone is restored, outcome is not audited ... [0m[32mok[0m [0m[38;5;245m(365µs)[0m
+[injected] audit AND restore both fail: explicit unaudited_delete, never silence ... [0m[32mok[0m [0m[38;5;245m(258µs)[0m
+[injected] retry budget of one skips straight to compensation (no sleeps) ... [0m[32mok[0m [0m[38;5;245m(280µs)[0m
+[injected] delete-failure and zero-row-delete never reach the audit decision ... [0m[32mok[0m [0m[38;5;245m(469µs)[0m
+[source-level] delete_zone delegates the delete+audit pair to the atomic RPC ... [0m[32mok[0m [0m[38;5;245m(2ms)[0m
+[source-level] the pre-check precedes the RPC and success is returned only after its errors ... [0m[32mok[0m [0m[38;5;245m(21ms)[0m
+[0m[38;5;245mrunning 5 tests from ./supabase/functions/handler_wiring_test.ts[0m
+device-command: the ack path decides enforcement only in enforcement.ts ... [0m[32mok[0m [0m[38;5;245m(21ms)[0m
+family-admin: zone delete and purge route through the authorization predicates ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+family-admin: delete_zone sends the zone id and JWT actor to the atomic RPC ... [0m[32mok[0m [0m[38;5;245m(803µs)[0m
+remote-session: request sweeps abandoned rows and respond uses the guard patches ... [0m[32mok[0m [0m[38;5;245m(933µs)[0m
+account: delete and retention actions use the extracted modules ... [0m[32mok[0m [0m[38;5;245m(1ms)[0m
+[0m[38;5;245mrunning 11 tests from ./supabase/functions/remote-session/guard_test.ts[0m
+open statuses hold the device microphone ... [0m[32mok[0m [0m[38;5;245m(733µs)[0m
+terminal statuses never block a new request ... [0m[32mok[0m [0m[38;5;245m(173µs)[0m
+concurrent rejection maps to 409 session_in_progress ... [0m[32mok[0m [0m[38;5;245m(827µs)[0m
+device and kind errors map to their documented statuses ... [0m[32mok[0m [0m[38;5;245m(258µs)[0m
+unexpected SQL errors become a generic 500 ...
+[0m[38;5;245m------- post-test output -------[0m
+request_remote_session_failed:42P01
+request_remote_session_failed:unknown
+[0m[38;5;245m----- post-test output end -----[0m
+unexpected SQL errors become a generic 500 ... [0m[32mok[0m [0m[38;5;245m(654µs)[0m
+session_state returns only the three safe fields ... [0m[32mok[0m [0m[38;5;245m(280µs)[0m
+session_state reports terminal and expired status verbatim ... [0m[32mok[0m [0m[38;5;245m(198µs)[0m
+session_state reports a null expiry for a consented session ... [0m[32mok[0m [0m[38;5;245m(167µs)[0m
+only the requesting parent may end a session ... [0m[32mok[0m [0m[38;5;245m(469µs)[0m
+end patch is server-derived and ignores caller input ... [0m[32mok[0m [0m[38;5;245m(267µs)[0m
+another device or child cannot read the session ... [0m[32mok[0m [0m[38;5;245m(352µs)[0m
+[0m[38;5;245mrunning 8 tests from ./supabase/functions/remote-session/lifecycle_test.ts[0m
+contract: the sweeper RPC name and arguments are stable ... [0m[32mok[0m [0m[38;5;245m(705µs)[0m
+accept clears the pending deadline and records consent ... [0m[32mok[0m [0m[38;5;245m(184µs)[0m
+decline is terminal and keeps no deadline ... [0m[32mok[0m [0m[38;5;245m(146µs)[0m
+end is parent-only; the child id can never be the actor ... [0m[32mok[0m [0m[38;5;245m(692µs)[0m
+request proceeds when the sweep fails (dependency-injected fake) ... [0m[32mok[0m [0m[38;5;245m(546µs)[0m
+request proceeds when the sweep throws ... [0m[32mok[0m [0m[38;5;245m(487µs)[0m
+sweep reports the closed count and stays quiet at zero ... [0m[32mok[0m [0m[38;5;245m(262µs)[0m
+an unexpected sweep payload is discarded, not trusted ... [0m[32mok[0m [0m[38;5;245m(185µs)[0m
+
+[0m[32mok[0m | 150 passed | 0 failed [0m[38;5;245m(1s)[0m
+

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" tests="8" skipped="0" failures="0" errors="0" timestamp="2026-11-03T09:40:25.985Z" hostname="LAPTOP-8MUBEF6G" time="0.077">
+  <properties/>
+  <testcase name="recreatingTheActivityForTheSameSessionDoesNotStartASecondCapture" classname="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" time="0.073"/>
+  <testcase name="aStoppedServiceAcceptsAnyStart" classname="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" time="0.0"/>
+  <testcase name="aDifferentSessionIsRefusedWithoutTearingDownTheLiveOne" classname="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" time="0.0"/>
+  <testcase name="aFreshHeartbeatKeepsCaptureRunning" classname="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" time="0.0"/>
+  <testcase name="captureHeartbeatTimeoutStaysWellBelowTheSessionWatchdog" classname="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" time="0.0"/>
+  <testcase name="startAndCaptureReasonsAreStable" classname="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" time="0.0"/>
+  <testcase name="aServiceThatIsNotRunningOrHasNoHeartbeatIsLeftToTheSessionWatchdog" classname="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" time="0.001"/>
+  <testcase name="aStaleHeartbeatStopsTheMicrophoneService" classname="com.parentcontrol.parent_control.AudioAssistanceRecreationTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

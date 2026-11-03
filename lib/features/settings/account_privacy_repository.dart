@@ -11,6 +11,32 @@ import '../../data/services/supabase_service.dart';
 
 /// Result of `account` action `export`. The payload is the server document
 /// (profile, families, memberships, devices, table rows and `truncated` flags).
+/// PRIV-01 / WORD-02 — whose rows a retention or export payload describes, as
+/// the **server** declared it. Three states, because the previous boolean read
+/// "family-scoped" whenever the role was missing or unexpected, which is a
+/// sentence the server can produce for a caller it knows nothing about.
+enum DataScope {
+  /// Every row of the families the caller belongs to (parent).
+  family,
+
+  /// Only this account's own devices and their rows (child).
+  device,
+
+  /// The server reported nothing, or said nothing usable.
+  notReported;
+
+  /// Unknown, absent and malformed tokens fail closed to [notReported]: a
+  /// missing `scope` cannot earn the family-scoped sentence. The hosted
+  /// function predates this field, so a live app talking to it lands here.
+  static DataScope parse(Object? value) {
+    return switch (value is String ? value : '') {
+      'family' => DataScope.family,
+      'device' => DataScope.device,
+      _ => DataScope.notReported,
+    };
+  }
+}
+
 class AccountDataExport {
   const AccountDataExport({
     required this.payload,
@@ -35,11 +61,10 @@ class AccountDataExport {
     };
   }
 
-  /// The server stamps the caller's profile role into the document, so the
-  /// scope note can state what was actually exported rather than what the
-  /// client believes the account is.
-  bool get isChildExport =>
-      jsonString(jsonMap(payload['profile'])['role']) == 'child';
+  /// PRIV-01: the export document carries the scope the server resolved for
+  /// this caller, so the note states what was actually exported rather than
+  /// what the client guesses from the signed-in profile.
+  DataScope get scope => DataScope.parse(payload['scope']);
 
   List<String> get truncatedTables {
     final tables = jsonMap(payload['tables']);
@@ -85,6 +110,7 @@ class FamilyRetentionWindow {
 class RetentionReport {
   const RetentionReport({
     required this.families,
+    required this.scope,
     this.generatedAt,
     this.lastSweepAt,
   });
@@ -93,10 +119,14 @@ class RetentionReport {
   final DateTime? lastSweepAt;
   final List<FamilyRetentionWindow> families;
 
+  /// Whose rows the counts below cover. Server-declared, never inferred.
+  final DataScope scope;
+
   factory RetentionReport.fromJson(Map<String, dynamic> json) {
     return RetentionReport(
       generatedAt: jsonDate(json['generated_at']),
       lastSweepAt: jsonDate(json['last_sweep_at']),
+      scope: DataScope.parse(json['scope']),
       families: jsonList(json['families'])
           .map((row) => FamilyRetentionWindow.fromJson(jsonMap(row)))
           .toList(growable: false),

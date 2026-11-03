@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" tests="13" skipped="0" failures="0" errors="0" timestamp="2026-11-03T09:40:26.087Z" hostname="LAPTOP-8MUBEF6G" time="0.02">
+  <properties/>
+  <testcase name="appRuleWindowOnlyBlocksInsideWindow" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.012"/>
+  <testcase name="restoreListContainsOnlyPreviouslySuspendedPackages" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.004"/>
+  <testcase name="noBedtimeWhenUnsetOrEqual" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.001"/>
+  <testcase name="criticalAndDynamicPackagesAreProtected" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.001"/>
+  <testcase name="windowSpanningMidnightUsesPreviousDay" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.0"/>
+  <testcase name="allowedPackageOverridesBlockedListOnlyWhenBlockAllIsSet" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.0"/>
+  <testcase name="blockAllExceptAllowedBlocksUnlistedApps" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.0"/>
+  <testcase name="windowInsideSameDay" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.001"/>
+  <testcase name="explicitBlockedNowHonoursRulesAndLists" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.0"/>
+  <testcase name="disabledEnforcementBlocksNothing" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.0"/>
+  <testcase name="emptyOrZeroLengthWindowIsInactive" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.0"/>
+  <testcase name="bedtimeSpanningMidnight" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.0"/>
+  <testcase name="appRuleWinsOverPackageLists" classname="com.parentcontrol.parent_control.policy.PolicyEvaluatorTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

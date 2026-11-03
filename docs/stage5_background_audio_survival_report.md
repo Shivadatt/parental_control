@@ -124,7 +124,7 @@ build:
 | `flutter analyze` | No issues |
 | `flutter test` | 251 passed (Stage 5; 252 after the Stage 6 control test) |
 | `gradlew :app:testDebugUnitTest` | 32 passed, 0 failed |
-| `deno test supabase/functions/_shared/` | 36 passed |
+| `deno test supabase/functions/_shared/` | 36 passed *(2026-11-03 DOC-01: needs `--allow-read` today; file-reading tests added to `_shared/` in Phase 3; number unchanged)* |
 | Local SQL suite (ten migrations through `20261028000300`, test `62`) | EXIT=0, all assertions passed |
 
 Stage 5 APK: `app-debug.apk`, 243,790,060 bytes, SHA-256

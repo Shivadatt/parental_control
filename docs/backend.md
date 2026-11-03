@@ -700,6 +700,11 @@ deno check supabase/functions/auth-bootstrap/index.ts \
 deno test supabase/functions/_shared/
 # Result: 36 passed, 0 failed (PASS — LOCAL VERIFIED, 2026-10-27).
 # Includes the four identifierHash HMAC cases added for BUG-034.
+# 2026-11-03 (DOC-01): re-running this command today needs
+# `deno test --allow-read supabase/functions/_shared/` — `_shared/` now contains
+# `error_mapping_test.ts`, which reads handler sources from disk
+# (`:50-52`, `:550`; Deno denies fs reads by default). The 36/0 result above is
+# the 2026-10-27 observation and is kept unchanged.
 ```
 
 The migrations and SQL authorization tests were executed against a **fresh,

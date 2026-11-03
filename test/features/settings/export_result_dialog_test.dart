@@ -3,17 +3,22 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:parent_control/features/settings/account_privacy_repository.dart';
 import 'package:parent_control/features/settings/export_result_dialog.dart';
 
-AccountDataExport _export({required String role}) {
-  return AccountDataExport(
-    payload: {
-      'profile': {'role': role, 'display_name': 'Alex'},
-      'tables': {
-        'location_events': {
-          'row_count': 12,
-          'truncated': false,
-        },
+/// PRIV-01 / WORD-02: the sentence follows the server-declared `scope` token,
+/// never the profile role the document happens to carry. `scope: null` builds
+/// the document the currently hosted function still returns.
+AccountDataExport _export({Object? scope, String role = 'parent'}) {
+  final payload = <String, dynamic>{
+    'profile': {'role': role, 'display_name': 'Alex'},
+    'tables': {
+      'location_events': {
+        'row_count': 12,
+        'truncated': false,
       },
     },
+  };
+  if (scope != null) payload['scope'] = scope;
+  return AccountDataExport(
+    payload: payload,
     fileName: 'parent-control-export-2026-11-02.json',
     byteCount: 4096,
     savedPath: null,
@@ -37,7 +42,7 @@ Future<void> _open(WidgetTester tester, AccountDataExport export) async {
 
 void main() {
   testWidgets('a parent export is described as family-scoped', (tester) async {
-    await _open(tester, _export(role: 'parent'));
+    await _open(tester, _export(scope: 'family'));
 
     expect(
       find.textContaining('family-scoped, not personal-only'),
@@ -55,7 +60,7 @@ void main() {
 
   testWidgets('a child export is limited to their own devices, including '
       'parent actions on them', (tester) async {
-    await _open(tester, _export(role: 'child'));
+    await _open(tester, _export(scope: 'device'));
 
     expect(find.textContaining('limited to this account'), findsOneWidget);
     expect(
@@ -68,9 +73,38 @@ void main() {
     );
   });
 
+  testWidgets('a document with no scope token says so instead of claiming a '
+      'family scope', (tester) async {
+    await _open(tester, _export());
+
+    expect(
+      find.textContaining('does not state whose rows it covers'),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('A parent export is family-scoped'),
+      findsNothing,
+    );
+    expect(find.textContaining('limited to this account'), findsNothing);
+  });
+
+  testWidgets('an unrecognised scope token fails closed to the same warning',
+      (tester) async {
+    await _open(tester, _export(scope: 'FAMILY'));
+
+    expect(
+      find.textContaining('does not state whose rows it covers'),
+      findsOneWidget,
+    );
+    expect(
+      find.textContaining('A parent export is family-scoped'),
+      findsNothing,
+    );
+  });
+
   testWidgets('the export names the identifiers it does include',
       (tester) async {
-    await _open(tester, _export(role: 'parent'));
+    await _open(tester, _export(scope: 'family'));
 
     expect(
       find.textContaining('each device row does carry its installation id'),
@@ -90,7 +124,7 @@ void main() {
   });
 
   testWidgets('the real server row count is shown', (tester) async {
-    await _open(tester, _export(role: 'parent'));
+    await _open(tester, _export(scope: 'family'));
 
     expect(find.text('location_events: 12 rows'), findsOneWidget);
     expect(find.textContaining('4096 bytes'), findsOneWidget);

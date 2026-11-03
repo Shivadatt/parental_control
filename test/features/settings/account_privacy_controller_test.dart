@@ -206,6 +206,7 @@ void main() {
       (_) async => RetentionReport(
         generatedAt: DateTime.utc(2026, 10, 30, 7),
         lastSweepAt: sweepAt,
+        scope: DataScope.family,
         families: const [
           FamilyRetentionWindow(
             familyId: 'family-1',

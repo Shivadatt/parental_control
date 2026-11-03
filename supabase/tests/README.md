@@ -45,6 +45,7 @@ psql -v ON_ERROR_STOP=1 \
   -f supabase/migrations/20261030000100_abandoned_session_sweep.sql \
   -f supabase/migrations/20261030000200_phase1_authorization.sql \
   -f supabase/migrations/20261030000300_retention_sweep.sql \
+  -f supabase/migrations/20261103000100_zone_delete_atomic_rpc.sql \
   -f supabase/tests/10_schema.sql \
   -f supabase/tests/20_fixtures.sql \
   -f supabase/tests/50_realtime_policy.sql \
@@ -59,6 +60,8 @@ psql -v ON_ERROR_STOP=1 \
   -f supabase/tests/71_phase1_rollback_privileges.sql \
   -f supabase/tests/72_retention_sweep.sql \
   -f supabase/tests/74_sweep_indexes_and_repeatability.sql \
+  -f supabase/tests/75_signaling_replay_index_duplicate_guard.sql \
+  -f supabase/tests/76_zone_delete_atomic_rpc.sql \
   -f supabase/tests/45_device_recovery.sql \
   -d "$DATABASE_URL"
 ```
@@ -76,6 +79,22 @@ and must leave it forward again before `72_retention_sweep.sql` starts.
 `74_sweep_indexes_and_repeatability.sql` runs after `72_retention_sweep.sql`
 because both invoke the global retention sweep; 72 has already purged the aged
 fixture rows the earlier files leave behind, so 74 only adds and purges its own.
+`75_signaling_replay_index_duplicate_guard.sql` runs after those two because it
+asserts the forward state `71` leaves behind (the `(session_id, sequence)` unique
+index present) and then re-applies `20261030000200_phase1_authorization.sql`
+inside a transaction that is fully rolled back, so it mutates nothing the later
+files depend on.
+
+`20261103000100_zone_delete_atomic_rpc.sql` is the last migration in filename
+order and is applied before every test file: it only creates
+`public.delete_safe_zone_audited(uuid, uuid)` — no table, index, policy or
+table-grant change — so it cannot move any count `10_schema.sql` asserts.
+`76_zone_delete_atomic_rpc.sql` runs after `75_...` and **before**
+`45_device_recovery.sql`, because its section 2 temporarily installs a failing
+`BEFORE INSERT` trigger on `public.audit_logs` and drops it again at the end of
+the section; `45_device_recovery.sql` writes real audit rows and must never meet
+that trigger. Its own rows use `a8../b8../c8..`-style UUIDs and it leaves the
+`20_fixtures.sql` safe zone untouched.
 
 `20261028000100_remote_session_concurrency.sql`,
 `20261028000200_parent_controlled_session_lifetime.sql`,
@@ -86,6 +105,12 @@ fixture rows the earlier files leave behind, so 74 only adds and purges its own.
 recorded earlier; the command above now applies all ten migrations and every
 test file. The new tests are self-contained and run before
 `45_device_recovery.sql`.
+
+> [2026-11-03 correction] "ten migrations" was the count at that date. The chain
+> has grown twice since (migrations `20261030000100`, `20261030000200`,
+> `20261030000300` and, for SQL-05, `20261103000100`) and now applies **14**
+> migrations plus 19 test files, 33 `-f` entries in total. The original sentence
+> is left in place as the record of the 2026-10-28 append.
 
 `20260101000500_child_contact_ids.sql` and
 `20260101000600_atomic_pairing_invite.sql` were appended after the earliest run
@@ -102,7 +127,10 @@ Keep every option before the connection argument. On Windows, PostgreSQL
 are reported as "extra command-line argument ... ignored" and the command can
 still exit 0 without executing a single file. Treat a run as valid only if the
 log shows SQL activity and the database ends with 19 public tables for the
-seven-migration command above.
+command above. (The table count is unchanged by SQL-05: migration
+`20261103000100` adds a function only. The "seven-migration" wording that stood
+here until 2026-11-03 was stale even then — the chain already applied 13 files
+and applies 14 now.)
 
 `$DATABASE_URL` is your own local connection string; no credential value is
 stored in this repository. Example shape only:
@@ -248,6 +276,33 @@ Same connection defaults and `PATH` setup as the pairing race; the disposable
 - `72_retention_sweep.sql` — migration `20261030000300`:
   `run_retention_sweep()` deletes only rows outside the configured windows,
   returns counts, and is service-role only.
+- `71_phase1_rollback_privileges.sql` — SQL-01: rolls migration `20261030000200`
+  back and re-applies it inside the chain, proving the de-hardening rollback no
+  longer restores `PUBLIC` execute on the private helpers, client `DELETE` on
+  `safe_zones` or the old delete policy, and that the forward re-apply returns
+  the hardened state. (R3, the unsafe rollback text, stays quarantined and is
+  never run against hosted data.)
+- `74_sweep_indexes_and_repeatability.sql` — SQL-02/SQL-04/PERF-01a: the
+  abandoned-session index leads with the expression the sweep actually filters
+  (`coalesce(accepted_at, requested_at)`), the `webrtc_signals`/`audit_logs`
+  sweep indexes lead with `created_at`, each batch is repeatable (a second sweep
+  deletes nothing new), and the approved faster DELETE shape deletes the same
+  row set as the original.
+- `75_signaling_replay_index_duplicate_guard.sql` — SQL-06/SQL-06a: asserts the
+  forward state `71` leaves behind (the `(session_id, sequence)` unique replay
+  index present) and re-applies `20261030000200_phase1_authorization.sql` inside
+  a transaction that is fully rolled back, so the duplicate-skip guard cannot
+  quietly leave the index absent.
+- `76_zone_delete_atomic_rpc.sql` — SQL-05: migration `20261103000100`. The
+  contract (one `SECURITY DEFINER` `public.delete_safe_zone_audited(uuid, uuid)`
+  with a pinned `search_path`, `service_role`-only execute, and no client-settable
+  identity source); a parent's delete and its `zone_deleted` audit row commit in
+  the same call; **an audit insert made to fail leaves the zone present and
+  unaudited** (the gap this closes); a non-parent actor is refused with
+  `not_family_parent` (42501) and deletes nothing; a missing or already-deleted
+  zone answers `zone_not_found` / `already_gone` without touching the ledger; and
+  the row lock is asserted structurally. Local disposable PostgreSQL only — no
+  hosted behaviour is verified.
 
 These tests cover database authorization and RPC behavior only. Edge Function
 HTTP behavior is covered by the Deno tests noted in `docs/backend.md`; neither

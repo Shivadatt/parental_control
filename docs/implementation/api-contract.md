@@ -220,8 +220,21 @@ Values are the database `check` constraints; clients must not invent new strings
 | `audit_logs.event_type` | free text 1–80 chars (`core.sql:380`); used values include `session_requested/accepted/started/ended`, `device_registered`, `policy_updated`, `alert_acknowledged`, `zone_deleted` | producers in `supabase/functions/**` |
 
 `remote_sessions.session_nonce` is **written but never validated** — it is a reserved field, not a
-replay control. Signal replay protection is the unique `(session_id, sequence)` index added in
-`20261030000200_phase1_authorization.sql`. Do not depend on the nonce until a validation path exists.
+replay control. Signal replay mitigation is **client-side**: dedupe by row `id` with a
+`kind:sequence` fallback when the id is missing, plus a time horizon that rejects stored
+pre-negotiation rows (`lib/features/remote_assistance/remote_session_controller.dart:911-921`). The
+unique `(session_id, sequence)` index in `20261030000200_phase1_authorization.sql:476-495` is
+hygiene against **imported/restored duplicates only — not replay protection**: `sequence` is
+`GENERATED ALWAYS AS IDENTITY` (`20260101000000_core.sql:366`), so a replayed signal arrives as a
+new row with a new sequence and never violates it. The index is created **conditionally**: with
+pre-existing duplicate `(session_id, sequence)` groups the migration skips creation with a NOTICE
+(`:492`) and deletes nothing — hence the mandatory pre-apply duplicate check. Do not depend on the
+nonce until a validation path exists.
+
+*(2026-11-03 SQL-06: this paragraph replaces the earlier claim that "Signal replay protection is the
+unique `(session_id, sequence)` index" — wording drafted in `docs/implementation/_work/p4-docs-sql06.md`
+§3 and approved by the owner on 2026-11-03. Every citation above was re-verified against the files
+named, not copied from the draft.)*
 
 **NEW vocabulary (Phase 1, not deployed):**
 
@@ -240,6 +253,7 @@ replay control. Signal replay protection is the unique `(session_id, sequence)` 
 | `cron` action `sweep_sessions` | `{}` → `{closed_sessions:int}`; calls `public.expire_abandoned_sessions('24 hours')` (window fixed in the handler) | lifecycle |
 | `cron` action `retention_sweep` | `{}` → deletion counts; calls `public.run_retention_sweep() returns jsonb` (service-role only); deletes `webrtc_signals` > 7 d, `audit_logs` > 365 d, per-family `location_events`/`usage_daily` outside `location_retention_days`/`usage_retention_days` | lifecycle |
 | `family-admin` action `delete_zone` | `{zone_id}` → `{deleted:true}`; replaces the client `safe_zones` DELETE | security |
+| `public.delete_safe_zone_audited` (SQL-05; written locally 2026-11-03, **not applied**) | `(p_zone_id uuid, p_actor_user_id uuid) returns jsonb`; SECURITY DEFINER, `search_path = public, private, pg_temp`; grant `service_role` only, revoke `public, anon, authenticated`. One call = one transaction: resolve the zone under `for update` → `private.is_parent_of_family` → `delete` → `private.record_audit`. Raises `zone_not_found` (`P0001`) for an unknown or null zone id, `family_unavailable` / `not_family_parent` (`42501`); a zero-row delete returns `{status:"already_gone", audited:false}` and writes **no** audit row. Called only by the `family-admin` `delete_zone` action — the actor id is the verified JWT subject, never a body field — so §7's "no new client-callable RPC" rule is unchanged (`supabase/migrations/20261103000100_zone_delete_atomic_rpc.sql`) | security |
 | `family-admin` `purge_data` | now requires the **family owner** | security |
 | `account` Edge Function (NEW function) | `export` → JSON attachment via `Content-Disposition`, caller's profile/family/devices + own `location_events`, `usage_daily`, `safety_alerts`, `audit_logs` rows, 20 000-row cap per table with `truncated` flags; `delete_account` → body `{confirm:"DELETE", email:"<caller email>"}`, refuses while the caller owns a family with other active members or active devices, deletes memberships, profile, then `auth.admin.deleteUser`; `retention_report` → configured windows + last sweep timestamp | lifecycle |
 | `policy_ack.result` | additive fields listed in §5 | enforcement |

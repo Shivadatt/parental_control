@@ -350,6 +350,11 @@ psql (seven migrations + all test files)    exit 0, no ERROR, 19 public tables
 bash supabase/tests/run_pairing_invite_race.sh   PASS, B blocked 3404 ms, 1 row
 ```
 
+*(2026-11-03, DOC-01: transcript kept verbatim. The `deno test supabase/functions/_shared/`
+line above was as-executed on 2026-10-27; today the same suite needs
+`deno test --allow-read supabase/functions/_shared/` — `_shared/` gained file-reading tests in
+Phase 3, and Deno denies filesystem reads by default.)*
+
 Migration apply list for that run (seven files, filename order):
 
 ```text
@@ -506,6 +511,10 @@ deno test supabase/functions/_shared/
 ok | 36 passed | 0 failed
 DENO_TEST_EXIT=0
 ```
+
+*(2026-11-03, DOC-01: transcript kept verbatim; a re-run of that suite today needs
+`deno test --allow-read supabase/functions/_shared/` (file-reading tests were added to `_shared/`
+in Phase 3). Recorded numbers unchanged.)*
 
 ### APK secret scan
 
@@ -771,6 +780,8 @@ supabase/functions/_shared/` → **36 passed, 0 failed**. The SQL suite was not
 re-run in this pass: the local PostgreSQL 16.9 instance was listening on
 `127.0.0.1:55432`, but no disposable database was created for it. Logs:
 `.tools/evidence/qa-20261028/{flutter,deno}/`.
+*(2026-11-03, DOC-01: as-executed 2026-10-28; re-running that Deno command today needs
+`--allow-read` — `_shared/` gained file-reading tests in Phase 3. Numbers unchanged.)*
 
 ### Root cause of the Revoked rows on the parent dashboard (BUG-040)
 

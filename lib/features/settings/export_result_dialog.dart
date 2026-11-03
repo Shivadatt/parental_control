@@ -70,16 +70,26 @@ class _ExportResultDialogState extends State<_ExportResultDialog> {
             ),
             const SizedBox(height: 8),
             Text(
-              export.isChildExport
-                  ? 'A child export is limited to this account: profile, '
+              // WORD-02: the sentence follows the scope token the server put in
+              // the document, so an unknown role can never read as family scope.
+              switch (export.scope) {
+                DataScope.device =>
+                  'A child export is limited to this account: profile, '
                       'memberships, the families it belongs to, its own '
                       'devices, and the location, usage, alert and audit rows '
                       'recorded by or about those devices — which includes '
-                      'actions a parent took on them.'
-                  : 'A parent export is family-scoped, not personal-only: it '
+                      'actions a parent took on them.',
+                DataScope.family =>
+                  'A parent export is family-scoped, not personal-only: it '
                       'contains the location, usage, alert and audit rows of '
                       'every family this account belongs to, including rows '
                       'recorded about other members.',
+                DataScope.notReported =>
+                  'The export document does not state whose rows it covers. '
+                      'Treat it as family-wide until the server confirms '
+                      'otherwise: it can contain the location, usage, alert '
+                      'and audit rows of every family this account belongs to.',
+              },
               style: const TextStyle(fontSize: 12, height: 1.4),
             ),
             const SizedBox(height: 8),

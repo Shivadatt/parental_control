@@ -70,7 +70,22 @@ function assertOrder(
 }
 
 Deno.test("device-command: the ack path decides enforcement only in enforcement.ts", async () => {
-  const source = await handler("./device-command/index.ts");
+  // P5-TEST-01: the served logic lives in handler.ts behind a thin Deno.serve
+  // entry. Pin the decision rule where it runs, then pin that the entry point
+  // actually serves it, so the split cannot strand a dead copy.
+  const source = await handler("./device-command/handler.ts");
+  const entry = await handler("./device-command/index.ts");
+
+  assert(
+    entry.includes('import { handler, defaultDeps } from "./handler.ts";') &&
+      entry.includes("Deno.serve(") &&
+      entry.includes("handler(req, defaultDeps())"),
+    "index.ts must register Deno.serve over the extracted handler",
+  );
+  assert(
+    !entry.includes("decideEnforcement("),
+    "the entry point must not keep a second enforcement decision site",
+  );
 
   assert(
     source.includes(
@@ -126,13 +141,13 @@ Deno.test("family-admin: zone delete and purge route through the authorization p
   assertOrder(
     zone,
     "assertFamilyParent(",
-    '.from("safe_zones") .delete(',
+    'db.rpc("delete_safe_zone_audited"',
     "delete_zone",
   );
   assertOrder(
     zone,
     "canDeleteZone(",
-    '.from("safe_zones") .delete(',
+    'db.rpc("delete_safe_zone_audited"',
     "delete_zone",
   );
   assert(
@@ -171,7 +186,7 @@ Deno.test("family-admin: zone delete and purge route through the authorization p
   );
 });
 
-Deno.test("family-admin: delete_zone scopes the service-role delete to the caller's family", async () => {
+Deno.test("family-admin: delete_zone sends the zone id and JWT actor to the atomic RPC", async () => {
   const source = await handler("./family-admin/index.ts");
   const zone = caseBody(source, "delete_zone");
 
@@ -179,24 +194,32 @@ Deno.test("family-admin: delete_zone scopes the service-role delete to the calle
     source.includes('case "delete_zone":'),
     "the delete_zone action must stay reachable",
   );
-  // Exactly one delete, in this action, scoped by both ids.
+  // SQL-05 replaced the two-transaction handler with one RPC call. Family
+  // scoping moved inside the function, which resolves and locks the zone row
+  // before it deletes (proof: supabase/tests/76_zone_delete_atomic_rpc.sql), so
+  // the handler no longer has a delete statement to scope.
   assertEqualCount(
     zone,
-    '.from("safe_zones") .delete(',
+    'db.rpc("delete_safe_zone_audited"',
     1,
-    "delete_zone delete sites",
+    "delete_zone RPC call sites",
   );
   assert(
     zone.includes(
-      'const deleted = await db .from("safe_zones") .delete({ count: "exact" }) .eq("id", zoneId) .eq("family_id", zone.family_id);',
+      'const rpc = await db.rpc("delete_safe_zone_audited", { p_zone_id: zoneId, p_actor_user_id: auth.user.id, });',
     ),
-    "the delete must be scoped by both zone id and the family resolved from the row",
+    "the RPC must be called with the validated zone id and the verified JWT subject",
   );
   assert(
-    zone.includes('if ((deleted.count ?? 0) > 0)'),
-    "the audit row is written only for a deletion that actually happened",
+    !zone.includes('.from("safe_zones") .delete('),
+    "no client-side safe_zones delete may survive beside the RPC",
   );
-  assertOrder(zone, ".delete(", "if ((deleted.count ?? 0) > 0)", "delete_zone");
+  assertOrder(
+    zone,
+    "readUuid(body.zone_id, \"zone_id\")",
+    'db.rpc("delete_safe_zone_audited"',
+    "delete_zone",
+  );
 });
 
 Deno.test("remote-session: request sweeps abandoned rows and respond uses the guard patches", async () => {

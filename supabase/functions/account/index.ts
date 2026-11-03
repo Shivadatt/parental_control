@@ -25,10 +25,13 @@ import {
 } from "./validation.ts";
 import {
   buildFamilyRetentionReport,
-  DEFAULT_LOCATION_RETENTION_DAYS,
-  DEFAULT_USAGE_RETENTION_DAYS,
+  buildRetentionReportPayload,
   type FamilyRetentionReport,
+  retentionCountFilter,
   retentionFromSettings,
+  resolveRetentionScope,
+  type RetentionCountFilter,
+  type SweepMarkerRow,
 } from "./retention.ts";
 
 /** Hard safety cap per exported table, independent of PostgREST max-rows. */
@@ -137,6 +140,86 @@ async function loadFamilies(
   return (result.data ?? []) as FamilyRow[];
 }
 
+/**
+ * The device rows a `device`-scoped caller owns: `devices.child_user_id` is the
+ * caller themself. This is the same rule `exportAccount` applies, deliberately
+ * not a second weaker variant of it.
+ */
+async function loadOwnDeviceIds(
+  db: SupabaseClient,
+  userId: string,
+): Promise<string[]> {
+  const result = await db
+    .from("devices")
+    .select("id, child_user_id")
+    .eq("child_user_id", userId);
+  ensureNoError(result);
+  const rows = (result.data ?? []) as Array<Record<string, unknown>>;
+  return rows
+    .map((row) => (typeof row.id === "string" ? row.id : ""))
+    .filter((id) => id !== "");
+}
+
+/**
+ * Newest project-wide sweep marker. Its `family_id` is null, so no RLS select
+ * policy matches it (`audit_logs_select_family_parent` requires a non-null
+ * family_id) and only the service role can read it — which is exactly why the
+ * caller's scope decides whether this row is read at all, and which part of it
+ * is returned.
+ */
+async function loadLatestSweepMarker(
+  db: SupabaseClient,
+): Promise<SweepMarkerRow | null> {
+  const result = await db
+    .from("audit_logs")
+    .select("created_at, metadata")
+    .eq("event_type", "retention_sweep")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  ensureNoError(result);
+  return (result.data as SweepMarkerRow | null) ?? null;
+}
+
+/** Count filter -> never an unfiltered or empty `in.()` query. */
+async function countOlderLocationEvents(
+  db: SupabaseClient,
+  filter: RetentionCountFilter,
+  before: string,
+): Promise<number> {
+  if (!filter.run || filter.device_ids?.length === 0) return 0;
+  let query = db
+    .from("location_events")
+    .select("id", { count: "exact", head: true })
+    .eq("family_id", filter.family_id)
+    .lt("recorded_at", before);
+  if (filter.device_ids !== null) {
+    query = query.in("device_id", [...filter.device_ids]);
+  }
+  const result = await query;
+  ensureNoError(result);
+  return result.count ?? 0;
+}
+
+async function countOlderUsageDays(
+  db: SupabaseClient,
+  filter: RetentionCountFilter,
+  beforeDay: string,
+): Promise<number> {
+  if (!filter.run || filter.device_ids?.length === 0) return 0;
+  let query = db
+    .from("usage_daily")
+    .select("id", { count: "exact", head: true })
+    .eq("family_id", filter.family_id)
+    .lt("day", beforeDay);
+  if (filter.device_ids !== null) {
+    query = query.in("device_id", [...filter.device_ids]);
+  }
+  const result = await query;
+  ensureNoError(result);
+  return result.count ?? 0;
+}
+
 async function exportAccount(
   db: SupabaseClient,
   auth: AuthContext,
@@ -147,15 +230,30 @@ async function exportAccount(
   const families = await loadFamilies(db, familyIds);
   const familyById = new Map(families.map((f) => [f.id, f]));
 
-  // Devices: a child exports only their own; a parent exports the family's
-  // devices (the same rows the parent UI already shows). Secret material is
-  // never selected.
+  // PRIV-01: one scope rule for both actions. The export document carries the
+  // same three-state token the retention report does, so the disclosure in the
+  // UI is read from the server's answer instead of inferred from a boolean.
+  const decision = resolveRetentionScope({
+    callerUserId: userId,
+    profileRole: auth.profile?.role,
+    memberships,
+    families,
+  });
+  const scope = decision.scope;
+  // `family` is the only scope that may contain another member's rows. A child
+  // (device) and a caller whose scope the server could not establish
+  // (not_reported) both get only rows tied to this account directly.
+  const familyScoped = scope === "family";
+
+  // Devices: a device-scoped caller exports only their own; a family-scoped
+  // parent exports the family's devices (the same rows the parent UI already
+  // shows). Secret material is never selected.
   let devicesQuery = db.from("devices").select(DEVICE_COLUMNS);
-  devicesQuery = auth.profile.role === "child"
-    ? devicesQuery.eq("child_user_id", userId)
-    : familyIds.length > 0
-    ? devicesQuery.in("family_id", familyIds)
-    : devicesQuery.eq("id", NO_MATCH_UUID);
+  devicesQuery = familyScoped
+    ? familyIds.length > 0
+      ? devicesQuery.in("family_id", familyIds)
+      : devicesQuery.eq("id", NO_MATCH_UUID)
+    : devicesQuery.eq("child_user_id", userId);
   const devicesResult = await devicesQuery;
   ensureNoError(devicesResult);
   const devices =
@@ -164,9 +262,8 @@ async function exportAccount(
     .filter((d) => d.child_user_id === userId)
     .map((d) => String(d.id));
 
-  const isChild = auth.profile.role === "child";
   const scopeRows = (query: AnyQuery): AnyQuery => {
-    if (isChild) {
+    if (!familyScoped) {
       return childDeviceIds.length === 0
         ? query.eq("device_id", NO_MATCH_UUID)
         : query.in("device_id", childDeviceIds);
@@ -184,13 +281,14 @@ async function exportAccount(
       db,
       "audit_logs",
       (query) => {
-        if (!isChild) {
+        if (familyScoped) {
           return familyIds.length === 0
             ? query.eq("family_id", NO_MATCH_UUID)
             : query.in("family_id", familyIds);
         }
-        // A child sees only audit rows they caused or that concern their own
-        // device; never the parents' family-wide history.
+        // A device-scoped (or unscoped) caller sees only audit rows they caused
+        // or that concern their own device; never the parents' family-wide
+        // history.
         return childDeviceIds.length === 0
           ? query.eq("actor_user_id", userId)
           : query.or(
@@ -203,6 +301,7 @@ async function exportAccount(
 
   return {
     generated_at: new Date().toISOString(),
+    scope,
     account: {
       user_id: userId,
       email: auth.user.email ?? null,
@@ -374,67 +473,65 @@ async function retentionReport(
   );
   const now = new Date();
 
-  const lastSweepResult = await db
-    .from("audit_logs")
-    .select("created_at, metadata")
-    .eq("event_type", "retention_sweep")
-    .order("created_at", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  ensureNoError(lastSweepResult);
-  const lastSweep = lastSweepResult.data as
-    | { created_at?: string; metadata?: unknown }
-    | null;
+  // PRIV-01: the scope is decided from the caller's own profile role plus their
+  // active memberships and ownership, BEFORE any row is counted. A child gets
+  // their own device rows; only a parent gets family counts; only the owner
+  // gets the project-wide sweep totals; anything else gets nothing.
+  const decision = resolveRetentionScope({
+    callerUserId: auth.user.id,
+    profileRole: auth.profile?.role,
+    memberships,
+    families,
+  });
 
-  const reports: FamilyRetentionReport[] = await Promise.all(
-    families.map(async (family) => {
-      const windows = retentionFromSettings(family.settings);
-      const dayMs = 24 * 60 * 60 * 1000;
-      const locationBefore = new Date(
-        now.getTime() - windows.location_retention_days * dayMs,
-      ).toISOString();
-      const usageBefore = new Date(
-        now.getTime() - windows.usage_retention_days * dayMs,
-      ).toISOString().slice(0, 10);
+  // Device scope reuses the export path's device rule (child_user_id = caller),
+  // so there is only ever one definition of "this child's devices".
+  const deviceIds = decision.scope === "device"
+    ? await loadOwnDeviceIds(db, auth.user.id)
+    : [];
 
-      const [location, usage] = await Promise.all([
-        db
-          .from("location_events")
-          .select("id", { count: "exact", head: true })
-          .eq("family_id", family.id)
-          .lt("recorded_at", locationBefore),
-        db
-          .from("usage_daily")
-          .select("id", { count: "exact", head: true })
-          .eq("family_id", family.id)
-          .lt("day", usageBefore),
-      ]);
-      ensureNoError(location);
-      ensureNoError(usage);
+  // Read only for the family scope. The sweep metadata stays in the payload
+  // builder, where the owner-only redaction is applied.
+  const lastSweep = decision.readsSweepMarker
+    ? await loadLatestSweepMarker(db)
+    : null;
 
-      return buildFamilyRetentionReport({
-        familyId: family.id,
-        name: family.name,
-        settings: family.settings,
-        locationEventsOlder: location.count ?? 0,
-        usageDaysOlder: usage.count ?? 0,
-        now,
-      });
-    }),
-  );
+  const reports: FamilyRetentionReport[] = decision.scope === "not_reported"
+    ? []
+    : await Promise.all(
+      families.map(async (family) => {
+        const windows = retentionFromSettings(family.settings);
+        const dayMs = 24 * 60 * 60 * 1000;
+        const locationBefore = new Date(
+          now.getTime() - windows.location_retention_days * dayMs,
+        ).toISOString();
+        const usageBefore = new Date(
+          now.getTime() - windows.usage_retention_days * dayMs,
+        ).toISOString().slice(0, 10);
 
-  return {
-    generated_at: now.toISOString(),
-    defaults: {
-      location_retention_days: DEFAULT_LOCATION_RETENTION_DAYS,
-      usage_retention_days: DEFAULT_USAGE_RETENTION_DAYS,
-      webrtc_signals_days: 7,
-      audit_logs_days: 365,
-    },
-    last_sweep_at: lastSweep?.created_at ?? null,
-    last_sweep: lastSweep?.metadata ?? null,
-    families: reports,
-  };
+        const filter = retentionCountFilter({
+          scope: decision.scope,
+          familyId: family.id,
+          deviceIds,
+        });
+
+        const [location, usage] = await Promise.all([
+          countOlderLocationEvents(db, filter, locationBefore),
+          countOlderUsageDays(db, filter, usageBefore),
+        ]);
+
+        return buildFamilyRetentionReport({
+          familyId: family.id,
+          name: family.name,
+          settings: family.settings,
+          locationEventsOlder: location,
+          usageDaysOlder: usage,
+          now,
+        });
+      }),
+    );
+
+  return buildRetentionReportPayload({ now, decision, reports, lastSweep });
 }
 
 function exportResponse(payload: unknown): Response {
@@ -463,6 +560,9 @@ Deno.serve(async (req: Request): Promise<Response> => {
 
     // Account data belongs to the caller: export and deletion must remain
     // possible even when the email is not verified, so no verified-email gate.
+    // The gate that does exist is the JWT itself — every action below runs only
+    // after `requireUser`, and `retention_report` further narrows the payload by
+    // the caller's resolved scope (family / device / not_reported).
     const auth = await requireUser(req, db);
 
     switch (action) {

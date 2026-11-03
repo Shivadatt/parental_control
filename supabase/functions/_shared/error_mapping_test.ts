@@ -350,7 +350,20 @@ Deno.test("SQL-03: caller scenarios produce the documented statuses through the 
 
 Deno.test("SQL-03: device-policy and device-command delegate the RPC denial and keep their mappings", async () => {
   const policy = await source("../device-policy/index.ts");
-  const command = await source("../device-command/index.ts");
+  // P5-TEST-01 moved device-command's logic to handler.ts behind a thin
+  // Deno.serve entry point. The mapping rule is pinned where the code runs, and
+  // the entry point is pinned separately below so the split cannot hide a dead
+  // file that nothing serves.
+  const command = await source("../device-command/handler.ts");
+  const commandEntry = await source("../device-command/index.ts");
+  assert(
+    commandEntry.includes('import { handler, defaultDeps } from "./handler.ts";'),
+    "device-command: index.ts must import the extracted handler",
+  );
+  assert(
+    commandEntry.includes("Deno.serve((req: Request): Promise<Response> => handler(req, defaultDeps()));"),
+    "device-command: index.ts must serve the extracted handler with production deps",
+  );
 
   for (const [name, text, fnName] of [
     ["device-policy", policy, "mapPolicyRpcError"],
@@ -516,7 +529,7 @@ Deno.test("SQL-03: all four affected handlers answer a denial with the same code
   for (const path of [
     "../family-admin/index.ts",
     "../device-policy/index.ts",
-    "../device-command/index.ts",
+    "../device-command/handler.ts",
     "../pairing/index.ts",
   ]) {
     const text = await source(path);
@@ -544,6 +557,7 @@ Deno.test("SQL-03: the caller-facing message is fixed text, never database text"
   // database error object.
   for (const path of [
     "../device-policy/index.ts",
+    "../device-command/handler.ts",
     "../device-command/index.ts",
     "../pairing/index.ts",
   ]) {
