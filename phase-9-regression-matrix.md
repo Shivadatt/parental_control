@@ -1,5 +1,7 @@
 # Phase 9 Regression Matrix & Verification Register
 
+> _Dated reconciliation (2026-11-04 governance-consistency pass; measured 16:32 +0530): commit and tree references in this document belong to its execution window and are preserved verbatim. Current measured state: HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` (= `origin/main`); 0 staged / 0 unstaged / 0 untracked non-ignored, 32 ignored. Note on the CI line "working tree verified clean": that phrase is emitted by the local CI script and is not evidence of a clean tree - cleanliness requires zero staged, zero unstaged and zero untracked non-ignored files. All test results in this register are LOCAL HERMETIC evidence, not hosted production verification. Authority and digests: `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`._
+
 **Document ID:** `PHASE-9-REGRESSION-MATRIX`  
 **Companion Mirror:** [`docs/implementation/phase-9-regression-matrix.md`](file:///d:/parentcontrol_app/docs/implementation/phase-9-regression-matrix.md)  
 **Date:** 2026-11-04  

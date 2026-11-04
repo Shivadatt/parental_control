@@ -1,5 +1,7 @@
 # Phase 9 Git Integrity & DEC-01 Evidence Durability Report
 
+> _Dated reconciliation (2026-11-04 governance-consistency pass; measured 16:32 +0530): HEAD/index/tree figures in this document, including the "Current HEAD Commit" header lines at the top and in §2, belong to its own execution window and are preserved verbatim as history. Current measured state: HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` (= `origin/main`); 0 staged, 0 unstaged, 0 untracked non-ignored, 32 ignored. Chronology: `b12659b` (entry) → `75d1a52` (owner's external commit 12:23:31 +0530) → `65b3948` (owner's external commit 15:18:45 +0530, pushed). "Zero Git write operations" in this document is a statement about this documentation pass, not a denial that the owner committed externally. An empty index is not a clean working tree. Authority and digests: `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`._
+
 **Document ID:** `PHASE-9-GIT-INTEGRITY`  
 **Companion Mirror:** [`docs/implementation/phase-9-git-integrity-report.md`](file:///d:/parentcontrol_app/docs/implementation/phase-9-git-integrity-report.md)  
 **Date:** 2026-11-04  
@@ -24,7 +26,7 @@ A forensic Git integrity audit was conducted across repository `D:\parentcontrol
 5. **Root vs `docs/implementation/` Duplication:** Exactly 6 deliverables from Phase 8 are duplicated byte-for-byte between repository root and `docs/implementation/`. Phase 6 and 7 deliverables reside exclusively under `docs/implementation/`.
 6. **Phase 5 Log Verification:** All 11 ignored `.log` files in `docs/evidence/phase5/logs/` (total 201,441 bytes, 4,195 lines) exist on disk and match the authoritative checksums in `docs/evidence/phase5/MANIFEST.md` § 8 with **100% bit-level precision**. They are ignored exclusively by line 22 of `.gitignore` (`*.log`).
    > Dated line-count correction (2026-11-04): the line figures in this section are the historical reported values. Re-measured current evidence is **11 ignored `.log` files / 201,441 bytes / 4,403 lines**, and **12/12 SHA-256 entries verified** against `docs/evidence/phase5/MANIFEST.md` §8. The byte total (201,441) and the per-file digests were correct as reported; only the line counts were wrong — the historical **4,195 L** total is superseded by **4,403 L**, and the per-file line column is likewise superseded (e.g. `p5coord-chain-run6.log` recorded 323 L, measured 646 L; `p5coord-chain-run9.log` recorded 324 L, measured 648 L). No raw log was modified; digests re-verified read-only.
-7. **DEC-01 Decision Status:** Evaluated as **BLOCKED / PENDING OWNER APPROVAL**. Zero files were force-staged (`git add -f`) and zero `.gitignore` modifications were executed.
+7. **DEC-01 Decision Status:** Evaluated as **BLOCKED / PENDING OWNER APPROVAL** [dated 2026-11-04: superseded - DEC-01 was subsequently **APPROVED, CHOICE B (local-only evidence)**]. Zero files were force-staged (`git add -f`) and zero `.gitignore` modifications were executed.
 
 ---
 
@@ -244,7 +246,7 @@ DEC-01 governs whether these execution logs should be elevated to permanent vers
   !docs/evidence/**/logs/*.log
   ```
 - **Advantages:**
-  1. **Full Clone Durability:** A clean `git clone` on any machine will possess the full evidentiary audit trail. Automated verification commands (`sha256sum -c`) against `docs/evidence/phase5/MANIFEST.md` will pass out-of-the-box.
+  1. **Full Clone Durability:** A clean `git clone` on any machine will possess the full evidentiary audit trail. Automated verification commands (`sha256sum -c`) against `docs/evidence/phase5/MANIFEST.md` will pass out-of-the-box. **[Dated 2026-11-04: this is the Choice A benefit analysis. Choice A was NOT selected - DEC-01 was approved as Choice B, so this property does NOT hold in this repository and must not be relied upon.]**
   2. **Cryptographic Immutability:** Binds test execution proof directly into the Merkle tree of Git commit objects.
   3. **Disaster Recovery:** Protection against local disk failure, workstation loss, or inadvertent directory cleanup.
 - **Disadvantages:**
@@ -275,7 +277,7 @@ DEC-01 governs whether these execution logs should be elevated to permanent vers
 ### 6.5 Formal Status of DEC-01
 In strict adherence to governance rules and negative operational boundaries:
 - **No Git write commands were executed.**
-- **DEC-01 Status:** **BLOCKED / PENDING OWNER APPROVAL**.
+- **DEC-01 Status:** **BLOCKED / PENDING OWNER APPROVAL**. [dated 2026-11-04: superseded - DEC-01 was subsequently **APPROVED, CHOICE B (local-only evidence)**; DUR-01 remains OPEN as an accepted durability risk.]
 - Any resolution requires explicit, active, written instruction from the project owner.
 
 ---
@@ -315,7 +317,7 @@ To permanently stabilize line endings across Windows and Linux environments with
 - [x] All 6 root vs `docs/implementation/` duplicate files verified bit-for-bit.
 - [x] All 11 ignored Phase 5 logs hashed and verified against canonical `MANIFEST.md` § 8.
 - [x] Exact `.gitignore:22:*.log` exclusion rule confirmed via `git check-ignore`.
-- [x] Trade-off analysis for DEC-01 Options A & B completed with definitive status reported as PENDING.
+- [x] Trade-off analysis for DEC-01 Options A & B completed with definitive status reported as PENDING. [dated 2026-11-04: the analysis status line above is the historical pass record; the owner subsequently ruled **Choice B**.]
 
 
 ## Canonical Decision Wording (Dated 2026-11-04, Documentation Correction Pass)

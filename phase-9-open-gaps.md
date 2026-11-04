@@ -1,10 +1,12 @@
 # Phase 9 Master Open Gaps & Blocker Register
 
+> _Dated reconciliation (2026-11-04 governance-consistency pass; measured 16:32 +0530): HEAD/index/tree figures in this document belong to its own execution window and are preserved verbatim as history. Current measured state: HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` (= `origin/main`); 0 staged, 0 unstaged, 0 untracked non-ignored, 32 ignored. Chronology: `b12659b` (entry) → `75d1a52` (owner's external commit 12:23:31 +0530) → `65b3948` (owner's external commit 15:18:45 +0530, pushed). No documentation pass committed or pushed. An empty index is not a clean working tree. Authority and digests: `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`._
+
 **Document ID:** `PHASE-9-OPEN-GAPS`  
 **Companion Mirror:** [`docs/implementation/phase-9-open-gaps.md`](file:///d:/parentcontrol_app/docs/implementation/phase-9-open-gaps.md)  
 **Date:** 2026-11-04  
 **Target Commit:** `b12659b9795ba69499483a84750a33897dd7e08a` (`main`)  
-**Active Release Blockers:** Exactly **2 P1 Blockers** (HOST-01 and AND-01 / GATE-B-01)  
+**Active Release Blockers:** Exactly **2 P1 Blockers** (HOST-01 and AND-01 / GATE-B-01) [dated 2026-11-04: "2" counts P1 blockers only - §2 of this register still carries **14 active/residual items** (2 P1, 6 P2, 6 P3). No P2/P3 item was closed by the DEC-01 or DEC-05 rulings.]  
 **Production Criticality:** **0 P0 Vulnerabilities on Live Production** (Protected by DEC-02 Negative Boundary)
 
 ---
@@ -25,7 +27,7 @@ Gaps and technical debts are prioritized according to strict operational criteri
 |---|:---:|---|---|---|:---:|---|
 | **HOST-01** | **P1** | Database / Hosted | **Hosted Migration & Function Deployment Gap**: Migrations 1–4 unapplied and Edge Functions (`account`, `family-admin`, `device-command`) undeployed on hosted Supabase (`hhqgreaoqulmfwfwarhc`). Direct client `DELETE` privilege on `public.safe_zones` remains live on hosted PostgreSQL. | **OPEN — HARD RELEASE BLOCKER**. Withheld under DEC-02 negative boundary. | DEC-02 | **CRITICAL RELEASE BLOCKER** |
 | **AND-01 / GATE-B-01** | **P1** | Hardware QA | **Android QA Hardware Execution Gap**: 0 of 75 rows in the controlled QA matrix executed on real hardware or emulators. 10 privacy invariants unverified on live devices. | **STOPPED BY POLICY**. Held strictly at `NOT RUN` under Owner Ruling #9. | DEC-03 | **CRITICAL RELEASE BLOCKER** |
-| **DUR-01** | **P2** | Audit / Git | **Evidence Durability & Gitignore Trap**: 11 Phase 5 run logs (201,441 B, 4,195 lines) untracked on disk due to `.gitignore:22:*.log`. Only `p5-coord-deno-full3.txt` is tracked. Missing on fresh `git clone`. | **OPEN (Clone Durability Risk)**. Verified bit-for-bit on local disk. | DEC-01 (Choice A vs B) | **Soft Gate (Audit Integrity)** |
+| **DUR-01** | **P2** | Audit / Git | **Evidence Durability & Gitignore Trap**: 11 Phase 5 run logs (201,441 B, 4,195 lines [dated 2026-11-04: line total re-measured at **4,403**]) untracked on disk due to `.gitignore:22:*.log`. Only `p5-coord-deno-full3.txt` is tracked. Missing on fresh `git clone`. | **OPEN (Clone Durability Risk)**. Verified bit-for-bit on local disk. | DEC-01 (Choice A vs B) | **Soft Gate (Audit Integrity)** |
 | **SQL-06h** | **P2** | Database Preflight | **Hosted WebRTC Replay Index Pre-Check**: Preflight Query 1 required before Migration 2 to confirm zero duplicate `(session_id, sequence)` rows exist on hosted database. | **OPEN (Pre-check Formulated)**. Verified clean in local tests. | DEC-04 / DEC-02 | Prerequisite to Migration 2 |
 | **PERF-01h** | **P2** | Hosted Verification | **Hosted Retention Sweep Plan Verification**: Batch delete shape (`id = ANY (ARRAY(SELECT id ... LIMIT 10000))`) verified locally; hosted query plan unmeasured. | **SCOPED PASS (Local) / OPEN (Hosted)**. | DEC-10 / DEC-02 | Post-Apply Verification Gate |
 | **SQL-04r** | **P2** | Architectural Limit | **Unbounded Retention Transaction Under Owner Ruling #3**: Multi-transaction execution across calls refused by Owner Ruling #3. Single-transaction sweep risks statement timeouts on massive backlogs. | **STOPPED BY POLICY**. Documented design limitation in migration header. | Owner Ruling #3 | Documented Design Limitation |
@@ -69,7 +71,7 @@ Gaps and technical debts are prioritized according to strict operational criteri
 
 ### 4.1 Gap DUR-01: Evidence Durability & Gitignore Trap
 - Trapped by line 22 of `.gitignore` (`*.log`).
-- The 11 Phase 5 run logs (201,441 bytes, 4,195 lines) are present on the local workstation disk and verified bit-for-bit against `docs/evidence/phase5/MANIFEST.md` § 8, but are absent from the remote Git repository.
+- The 11 Phase 5 run logs (201,441 bytes, 4,195 lines [dated 2026-11-04: line total re-measured at **4,403**]) are present on the local workstation disk and verified bit-for-bit against `docs/evidence/phase5/MANIFEST.md` § 8, but are absent from the remote Git repository.
 - A fresh `git clone` on another machine will lack these logs, causing manifest verification to fail.
 - **Resolution:** Owner election under DEC-01 (Choice A: force-stage logs; Choice B: accept workstation-only durability).
 
@@ -152,7 +154,7 @@ Until the project owner explicitly signs off on **DEC-02** and **DEC-03**, the r
 **Recorded by:** Phase 9 documentation pass, from the project owner's written instruction dated 2026-11-04.
 **Relationship to the original Phase 9 report:** This addendum is appended after the original Phase 9 sections, which are preserved verbatim. Those sections recorded DEC-01/02/03/05 as PENDING earlier on the same calendar date; the owner's written rulings supersede those PENDING entries as of this addendum.
 **Target HEAD Commit:** `b12659b9795ba69499483a84750a33897dd7e08a` (`main`)  
-**Active Release Blockers:** Exactly **2 P1 Blockers** (HOST-01 and AND-01 / GATE-B-01)  
+**Active Release Blockers:** Exactly **2 P1 Blockers** (HOST-01 and AND-01 / GATE-B-01) [dated 2026-11-04: "2" counts P1 blockers only - §2 of this register still carries **14 active/residual items** (2 P1, 6 P2, 6 P3). No P2/P3 item was closed by the DEC-01 or DEC-05 rulings.]  
 **Production Release Verdict:** **NO-GO FOR GENERAL PRODUCTION RELEASE**
 
 ### 7.1 Reconciled Gaps Posture Following Owner Decisions

@@ -3,7 +3,8 @@
 **Document ID:** `PHASE-9-OWNER-DECISION-ADDENDUM`  
 **Repository:** `D:\parentcontrol_app`  
 **Branch:** `main`  
-**Current HEAD Commit:** `b12659b9795ba69499483a84750a33897dd7e08a` (`feat: implement GuardianService background sync and policy enforcement core`)  
+**Current HEAD Commit:** `b12659b9795ba69499483a84750a33897dd7e08a` (`feat: implement GuardianService background sync and policy enforcement core`)
+> Dated 2026-11-04 (governance-consistency pass): the header line above is this addendum's execution-window value, preserved verbatim. Since then the owner externally committed `75d1a52` (12:23:31 +0530) and `65b3948` (15:18:45 +0530, pushed); current measured HEAD is `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` with 0 staged / 0 unstaged / 0 untracked non-ignored files and 32 ignored entries. No documentation pass committed or pushed. The decision rulings recorded in this addendum are unaffected by that commit, and the commit added no raw `.log` evidence (DEC-01 Choice B intact).  
 **Working Tree State:** 53 staged files in index at the 2026-11-04 12:00 +05:30 pre-edit baseline (23 baseline + 14 Phase 8 + 16 Phase 9) with 0 unstaged modifications - a tree holding 53 staged files is not a clean working tree. **Corrected 2026-11-04 (documentation correction pass): HEAD `75d1a5232acbd87fe1068b5000d2916892e8143d` on `main`, 0 staged, 15 unstaged modifications, 1 untracked non-ignored file (the new docs/evidence/phase9/DOCUMENTATION-CORRECTION-ADDENDUM.md).** The owner's external commit at 12:23:31 +05:30 turned those 53 staged files into committed history. No `git add`, staging, commit or push was performed by any documentation pass.  
 **Addendum Timestamp:** 2026-11-04 (+05:30, Asia/Kolkata) - addendum written 12:08-12:14, coordinator evidence re-verification 12:00-12:24
 **Recorded by:** Phase 9 documentation pass, from the project owner's written instruction dated 2026-11-04.
@@ -119,8 +120,8 @@ This document establishes the authoritative, binding record of owner decision re
   1. *Storage Backlog Accumulation:* Telemetry, location events (4,320 rows/month per device), daily usage, and WebRTC signaling payloads accumulate monotonically on disk between manual sweeps, increasing database disk footprint.
   2. *Single-Transaction Statement Timeout (SQL-04r / Owner Ruling #3):* Multi-transaction sweeps across calls were refused by Owner Ruling #3. `run_retention_sweep()` executes as a single outer database transaction across all tables and batches. Delayed sweeps result in massive backlogs that risk exceeding Supabase's `statement_timeout` (8–60s), triggering an all-or-nothing rollback (0 rows deleted).
   3. *Abandoned WebRTC Sessions:* Without scheduled background sweeps, abandoned WebRTC sessions remain in the database for up to 24 hours, locking child devices from initiating new audio assistance sessions until swept or cleared by reactive opportunistic triggers.
-  4. *Manual Diligence Required:* Operators must manually execute sweeps according to an operational schedule to maintain compliance with declared COPPA/GDPR retention horizons (30 days for location, 7 days for signaling).
-  5. *Gap SCHED-01:* Formally resolved as an accepted on-demand execution policy.
+  4. *Manual Diligence Required:* Operators must manually execute sweeps according to an operational schedule to maintain compliance with declared COPPA/GDPR retention horizons (30 days for location, 7 days for signaling). **[Dated 2026-11-04: "operational schedule" = operator-managed manual diligence. Not a recurring schedule, no automation authorized, and no hosted invocation authorized without separate written owner authorisation.]**
+  5. *Gap SCHED-01:* Formally resolved as an accepted on-demand execution policy. [dated 2026-11-04: the DECISION is resolved; the underlying gap **SCHED-01 remains OPEN - P2, accepted** under DEC-05 Choice B. Automated scheduler verification stays unperformed because no automation is permitted.]
 - **Authorized Invocation Protocol:**
   - *Method 1 (Dashboard SQL Editor):*
     ```sql

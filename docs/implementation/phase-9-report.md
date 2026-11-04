@@ -1,5 +1,7 @@
 # Phase 9 Final Report: Owner Decision Resolution & Production Release Gate
 
+> _Dated reconciliation (2026-11-04 governance-consistency pass; measured 16:32 +0530): the HEAD, index and tree figures printed by this document belong to its own execution window and are preserved verbatim as history. Current measured state: HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` (= `origin/main`); 0 staged, 0 unstaged, 0 untracked non-ignored files, 32 ignored entries. Commit chronology: `b12659b` (Phase 9 entry HEAD) → `75d1a52` (owner's external commit, 2026-11-04 12:23:31 +0530) → `65b3948` (owner's external commit, 15:18:45 +0530, pushed). No documentation pass created or pushed any commit; the owner committed externally. An empty index is not a clean working tree: a clean tree requires zero staged, zero unstaged and zero untracked non-ignored files. Authority, digests and the R1-R8 chronology: `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`._
+
 **Document ID:** `PHASE-9-REPORT`  
 **Companion Mirror:** [`docs/implementation/phase-9-report.md`](file:///d:/parentcontrol_app/docs/implementation/phase-9-report.md)  
 **Date:** 2026-11-04  
@@ -54,13 +56,14 @@ Subagent 2 audited repository state and reconciled the Phase 8 working tree clai
 - **Working Tree State:** Exactly **37 staged files**, **0 unstaged modifications**, clean working tree.
 > _Dated correction (2026-11-04 documentation correction pass): the line above is the historical snapshot from that execution window, retained verbatim for chronology. It is not the current repository state, and "0 unstaged modifications" was never equivalent to a clean working tree while 37 files were staged. Current verified state: HEAD `75d1a52` on `main`, 0 staged, 15 unstaged, 1 untracked. See `docs/evidence/phase9/DOCUMENTATION-CORRECTION-ADDENDUM.md`._
 - **Phase 8 Staged File Reconciliation:** Phase 8 reports stated *"23 staged files from prior phases"*, describing the baseline entering Phase 8 (from Phase 6 and 7). Authoring the 14 Phase 8 deliverables (8 in `docs/` and 6 root duplicates) expanded the index count from 23 to 37.
-- **11 Ignored Phase 5 Logs:** Total 201,441 bytes across 4,195 lines in `docs/evidence/phase5/logs/` exist uncorrupted on disk and match canonical hashes. They are ignored exclusively by `.gitignore:22:*.log`.
+- **11 Ignored Phase 5 Logs:** Total 201,441 bytes across 4,195 lines [dated 2026-11-04 correction: the byte total is confirmed, the line total was re-measured at **4,403 lines** - see §9 line-total correction] in `docs/evidence/phase5/logs/` exist uncorrupted on disk and match canonical hashes. They are ignored exclusively by `.gitignore:22:*.log`.
 
 ### 2.3 Workstream C: DEC-01 Evidence Durability
 The owner is presented with two explicit choices regarding the 11 untracked Phase 5 run logs:
-- **Choice A (Recommended):** Authorize `git add -f docs/evidence/phase5/logs/*.log` (and add `.gitignore` exception `!docs/evidence/**/logs/*.log`). Separately authorize staging Phase 6, 7, and 8 evidence manifests. Guarantees full clone durability and cryptographic immutability.
+- **Choice A (Recommended):** Authorize `git add -f docs/evidence/phase5/logs/*.log` (and add `.gitignore` exception `!docs/evidence/**/logs/*.log`). Separately authorize staging Phase 6, 7, and 8 evidence manifests. Guarantees full clone durability and cryptographic immutability. **[Dated 2026-11-04: this option was NOT chosen. DEC-01 was approved as Choice B, so no `git add -f` is authorized, no `.gitignore` exception exists, and clone durability is explicitly NOT provided.]**
 - **Choice B:** Maintain current `.gitignore` and retain logs as local-only workstation artifacts. Preserves lightweight Git history, but fresh clones will lack test logs.
 - **Current Status:** **PENDING OWNER APPROVAL / BLOCKED**. Zero Git mutations executed.
+> Dated 2026-11-04: the line above is the pre-decision snapshot from this document's execution window, preserved verbatim. DEC-01 was subsequently **APPROVED - CHOICE B (LOCAL-ONLY EVIDENCE)**. The decision is resolved; gap DUR-01 remains **OPEN** as an accepted local-only durability risk. "Zero Git mutations executed" remains true of this documentation pass and no force-add was ever authorized.
 
 ### 2.4 Workstream D: DEC-02 Hosted Deployment Readiness
 Subagent 3 prepared the deployment package for project `hhqgreaoqulmfwfwarhc` (AWS Seoul, `ap-northeast-2`):
@@ -89,6 +92,7 @@ Subagent 6 audited `pg_cron` and automated background workers:
 - **Operational Analysis:** On-demand execution prevents unexpected database lock contention, but causes storage bloat between sweeps, risks single-transaction statement timeouts on massive backlogs (Owner Ruling #3 / Gap SQL-04r), and leaves abandoned WebRTC sessions locking devices for up to 24 hours.
 - **Operational Runbook:** Formulated manual execution methods via Dashboard SQL Editor and authenticated Edge Function calls (`POST /functions/v1/cron` with `x-cron-secret`).
 - **Current Status:** **STOPPED BY POLICY / PENDING (P2)**. Sweeps remain strictly on-demand.
+> Dated 2026-11-04: the line above is the pre-decision snapshot from this document's execution window, preserved verbatim. DEC-05 was subsequently **APPROVED - CHOICE B (ON-DEMAND EXECUTION ONLY)**: automation (`pg_cron`, Supabase scheduled triggers, recurring external cron webhooks, any automated scheduler activation) stays prohibited, and an actual hosted invocation of `run_retention_sweep()` or `expire_abandoned_sessions(interval '24 hours')` still requires separate written owner authorisation.
 
 ### 2.7 Workstream G: Final Security Review
 Subagent 7 executed a deep architectural security and privacy review:
@@ -104,7 +108,7 @@ Subagent 7 executed a deep architectural security and privacy review:
 
 | Release Gate | Component Scope | Evaluated Status | Gating Severity | Next Action Required |
 |---|---|:---:|:---:|---|
-| **Gate A** | Local Implementation & Hermetic Test Baseline | **CLEARED (100% Pass)** | Green | Baseline frozen; working tree clean |
+| **Gate A** | Local Implementation & Hermetic Test Baseline | **CLEARED (100% Pass)** | Green | Baseline frozen; working tree clean **[Dated 2026-11-04 governance-consistency correction: the words "working tree clean" describe only the pre-execution window of this document. Gate A is a LOCAL hermetic verification baseline, not hosted production verification. The 2026-11-04 governance pass measured HEAD `65b3948` with 0 staged / 0 unstaged / 0 untracked at 16:32 +0530; after its own documentation edits the tree carries 20 unstaged files plus 1 untracked report and is therefore NOT clean now.]** |
 | **Gate B** | Android Hardware & Mobile Subsystem QA | **BLOCKED** | **P1** (Release Blocker) | Awaiting explicit owner sign-off on DEC-03 |
 | **Gate C** | Hosted Supabase Backend Hardening | **BLOCKED** | **P1** (Release Blocker) | Awaiting explicit owner sign-off on DEC-02 |
 | **Gate D** | Production Release & Public Distribution | **HARD STOP (NO-GO)** | Critical | Dependent on clearing Gates B and C |
@@ -160,7 +164,7 @@ Phase 9 is **COMPLETE**. All investigations, checksum calculations, preflight qu
 In accordance with mandatory negative governance boundaries:
 - **No production deployment has been dispatched.**
 - **No Android device operations have been executed.**
-- **No Git commits or pushes have been made.**
+- **No Git commits or pushes have been made** by this documentation pass. [Dated 2026-11-04 clarification: the repository owner separately committed `75d1a52` (12:23:31 +0530) and `65b3948` (15:18:45 +0530) outside these sessions and pushed `main`; that is the owner's action, not the documentation pass's, and it is not denied anywhere in this document. The owner's commits did not add any raw `.log` evidence - DEC-01 Choice B remains intact.]
 - **Phase 10 has not been started.**
 
 The system stands down at entry HEAD `b12659b9795ba69499483a84750a33897dd7e08a` and awaits explicit owner instructions.
@@ -198,8 +202,8 @@ On 2026-11-04, the 2026-11-04 documentation pass completed comprehensive forensi
      * *Storage Backlog Accumulation:* Telemetry, location events, daily usage, and WebRTC signaling accumulate monotonically on disk between manual sweeps.
      * *Single-Transaction Statement Timeout (SQL-04r):* Per Owner Ruling #3, `run_retention_sweep()` executes as a single outer database transaction across all tables and batches. Delayed sweeps result in massive backlogs that risk exceeding Supabase's `statement_timeout` (8–60s), triggering an all-or-nothing rollback (0 rows deleted).
      * *Abandoned WebRTC Sessions:* Without scheduled background sweeps, abandoned WebRTC sessions remain in the database for up to 24 hours, locking child devices from initiating new audio assistance sessions.
-     * *Manual Diligence Required:* Operators must manually execute sweeps according to an operational schedule to maintain compliance with declared COPPA/GDPR retention horizons.
-   - **Authorized Invocation Runbook:** Sweeps are invoked on-demand via the Dashboard SQL Editor (`SELECT public.run_retention_sweep();` and `SELECT public.expire_abandoned_sessions(interval '24 hours');`) or authenticated `POST https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/cron` with `x-cron-secret` or service-role Bearer token.
+     * *Manual Diligence Required:* Operators must manually execute sweeps according to an operational schedule to maintain compliance with declared COPPA/GDPR retention horizons. **[Dated 2026-11-04: "operational schedule" means an operator-managed manual diligence practice. It is not a recurring schedule, does not authorize any automated scheduler, and does not by itself authorize a hosted invocation - each such invocation needs separate written owner authorisation.]**
+   - **Authorized Invocation Runbook** [Dated 2026-11-04: the SQL and curl forms below are runbook documentation only. Their presence is not execution authorisation; invoking them against hosted Supabase is a production mutation requiring separate written owner authorisation, and none has been given.]: Sweeps are invoked on-demand via the Dashboard SQL Editor (`SELECT public.run_retention_sweep();` and `SELECT public.expire_abandoned_sessions(interval '24 hours');`) or authenticated `POST https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/cron` with `x-cron-secret` or service-role Bearer token.
 
 4. **the 2026-11-04 documentation pass & DEC-02 Reconciliation (Hosted Deployment Readiness):**
    - **Forensic Verification:** 4 migrations unapplied; 3 Edge Functions undeployed; 5 read-only preflight queries prepared with strict stop thresholds; none executed against hosted (DEC-02 PENDING).

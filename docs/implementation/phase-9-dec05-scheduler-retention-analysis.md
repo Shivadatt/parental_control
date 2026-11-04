@@ -1,5 +1,7 @@
 # PHASE 9 — Workstream F: DEC-05 Scheduler Policy & Data Retention Architecture Audit
 
+> _Dated reconciliation (2026-11-04 governance-consistency pass; measured 16:32 +0530): the `Current HEAD` header line in this document is its execution-window value, preserved verbatim. Current measured state: HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` (= `origin/main`); 0 staged / 0 unstaged / 0 untracked non-ignored, 32 ignored; the owner committed `75d1a52` (12:23:31 +0530) and `65b3948` (15:18:45 +0530) externally - no documentation pass committed or pushed. DEC-05 is now **APPROVED - CHOICE B (ON-DEMAND EXECUTION ONLY)**: the on-demand operating model is approved, automation remains prohibited, and every hosted invocation of `run_retention_sweep()` or `expire_abandoned_sessions(interval '24 hours')` requires separate written owner authorisation that has never been granted. Authority and digests: `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`._
+
 **Project:** Android-first Parental Control Application  
 **Repository:** `D:\parentcontrol_app`  
 **Branch:** `main`  
@@ -59,7 +61,7 @@ flowchart TD
         OD4 --> OD5["Reports Show Stale 'last_sweep_at' Between Runs"]
     end
 
-    subgraph AutomatedExecution["Automated Model (Proposed under DEC-05 Approval)"]
+    subgraph AutomatedExecution["AUTOMATED MODEL - NOT APPROVED (rejected by DEC-05 Choice B; historical proposal)"]
         AU1["Nightly Cron / Scheduler Trigger"] --> AU2["Bounded Off-Peak Execution"]
         AU2 --> AU3["Zero Backlog Accumulation (<24h data)"]
         AU3 --> AU4["Continuous COPPA/GDPR Window Compliance"]
@@ -155,7 +157,7 @@ The project architecture incorporates two layers of protection against dangling 
 
 ### 3.4 Permissions & Credentials Required for DEC-05 Approval
 
-If the repository owner approves DEC-05, the following credentialing and access structure must be provisioned:
+If the repository owner approves DEC-05, the following credentialing and access structure must be provisioned: [Dated 2026-11-04: DEC-05 was approved as Choice B - on-demand only. Nothing in this subsection provisions or authorizes automation; `CRON_SECRET` provisioning and any recurring invocation remain prohibited without separate written owner instruction.]
 
 #### Option 1: Supabase Scheduled Edge Function (External / HTTP Trigger - Recommended)
 1. **Edge Function Secret:**
@@ -220,7 +222,7 @@ If the repository owner approves DEC-05, the following credentialing and access 
 
 ## 5. Operational Runbook: On-Demand Execution Procedures
 
-Until DEC-05 receives explicit owner authorization, operators must execute retention and session sweeps **manually** according to the following runbook.
+Until DEC-05 receives explicit owner authorization, operators must execute retention and session sweeps **manually** according to the following runbook. [Dated 2026-11-04: DEC-05 has since been **APPROVED - CHOICE B**, so the manual/on-demand model below is the approved operating model. That approval does not itself authorize any hosted execution: the runbook remains gated on separate written owner authorisation for each production mutation.]
 
 ### 5.1 Preflight Safety Verifications (Hosted SQL Editor)
 
@@ -235,11 +237,14 @@ SELECT
     AND coalesce(accepted_at, requested_at) < now() - interval '24 hours') AS abandoned_sessions_to_close;
 ```
 > [!WARNING]
-> If `signals_to_purge` or `audit_to_purge` exceeds **100,000 rows**, do not execute `run_retention_sweep()` during peak operational hours. Execute during maintenance windows to avoid database lock contention.
+> If `signals_to_purge` or `audit_to_purge` exceeds **100,000 rows**, do not execute `run_retention_sweep()` during peak operational hours. Execute during maintenance windows to avoid database lock contention. **[Dated 2026-11-04: window selection is an execution-hygiene concern and implies nothing about authorisation - no hosted execution is authorized by this advisory.]** to avoid database lock contention.
 
 ---
 
 ### 5.2 Method 1: Edge Function HTTP Execution (Recommended Operator Path)
+
+> [!WARNING]
+> Dated 2026-11-04: "Recommended Operator Path" describes the mechanics only. The SQL and HTTPS forms in §5.2-§5.3 are runbook documentation, not execution authorisation. Invoking `run_retention_sweep()` or `expire_abandoned_sessions(interval '24 hours')` against hosted Supabase is a production mutation that requires separate written owner authorisation, which has never been issued; DEC-02 and DEC-03 also remain PENDING.
 
 Operators with possession of `CRON_SECRET` can trigger sweeps via standard HTTPS calls:
 

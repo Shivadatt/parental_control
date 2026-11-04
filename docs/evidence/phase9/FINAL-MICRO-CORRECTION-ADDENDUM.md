@@ -247,6 +247,7 @@ therefore with no root mirror):
 
 Because this file is untracked, editing it changes no `git status` count: unstaged stays **16**, untracked
 stays **4**, staged stays **0**, HEAD stays `75d1a5232acbd87fe1068b5000d2916892e8143d` on `main`.
+> Dated 2026-11-04 (governance-consistency pass): the counts and HEAD above are the R5-R7 window's measurements, preserved verbatim, and are no longer current. This file is now **tracked** (committed by the owner in `65b3948` at 15:18:45 +0530, parent `75d1a52`); current measured state is HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126`, 0 staged / 0 unstaged / 0 untracked non-ignored, 32 ignored - and any further edit to Phase 9 documents now shows up as an unstaged modification. **R8 independence status:** the PASS below was author self-verification (see §7: seven dispatched agents all failed with infrastructure errors and no agent result was incorporated); independent second-party confirmation remains OPEN.
 
 **R8 result: PASS.** Release posture unchanged — **NO-GO FOR GENERAL PRODUCTION RELEASE / GO FOR LOCAL
 VERIFICATION BASELINE.** Work stops after R8; no Phase 10, no staging, no commit.

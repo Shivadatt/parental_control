@@ -1,5 +1,7 @@
 # PHASE 9 — Decision Execution Log & Owner Governance Reconciliation Audit
 
+> _Dated reconciliation (2026-11-04 governance-consistency pass; measured 16:32 +0530): the HEAD, index and tree figures in this document - including the `Current HEAD` and `Working Tree Status` header lines - belong to their own execution windows and are preserved verbatim as history. Current measured state: HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` (= `origin/main`); 0 staged, 0 unstaged, 0 untracked non-ignored, 32 ignored. Chronology: `b12659b` (entry) → `75d1a52` (owner's external commit 12:23:31 +0530) → `65b3948` (owner's external commit 15:18:45 +0530, pushed). No documentation pass committed or pushed; the owner committed externally. An empty index is not a clean working tree. Authority and digests: `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`._
+
 **Project:** Android-first Parental Control Application  
 **Repository:** `D:\parentcontrol_app`  
 **Branch:** `main`  
@@ -147,7 +149,7 @@ The following register provides the reconciled, authoritative status of all 11 o
   1. *Storage Backlog Accumulation:* Telemetry, location events (4,320 rows/month per device), daily usage, and WebRTC signaling payloads accumulate monotonically between manual runs, bloating table storage and indexes.
   2. *Single-Transaction Statement Timeout (SQL-04r / Owner Ruling #3):* Multi-transaction sweeps across calls were refused by Owner Ruling #3. `run_retention_sweep()` executes as a single outer database transaction. Delayed manual sweeps create massive backlogs that risk exceeding Supabase's `statement_timeout` (8–60s), triggering an all-or-nothing rollback (0 rows deleted).
   3. *Abandoned WebRTC Sessions:* Without scheduled background sweeps, abandoned WebRTC sessions remain in the database for up to 24 hours, locking child devices from initiating new audio assistance sessions.
-  4. *Operational Diligence Required:* Operators must manually trigger sweeps on a regular cadence to remain compliant with declared COPPA/GDPR retention horizons (30 days for location, 7 days for signaling).
+  4. *Operational Diligence Required:* Operators must manually trigger sweeps on a regular cadence to remain compliant with declared COPPA/GDPR retention horizons (30 days for location, 7 days for signaling). **[Dated 2026-11-04: "regular cadence" here means an operator-managed manual practice. It is not a recurring schedule and authorizes no automation; each hosted sweep invocation requires separate written owner authorisation.]**
 - **Authorized Invocation Protocol:**
   - *Method 1 (Dashboard SQL Editor):*
     ```sql
@@ -223,7 +225,7 @@ The production release gating evaluation following owner decision reconciliation
 - **Production Release Verdict:** **NO-GO FOR GENERAL PRODUCTION RELEASE**.
 
 ### 6.2 Stand-Down Condition
-Phase 9 is complete. All investigations, audits, and documentation reconciliations are concluded. The repository stands down cleanly at HEAD commit `b12659b9795ba69499483a84750a33897dd7e08a` awaiting explicit owner authorization before initiating any staging or deployment activity.
+Phase 9 is complete. All investigations, audits, and documentation reconciliations are concluded. The repository stands down cleanly at HEAD commit `b12659b9795ba69499483a84750a33897dd7e08a` awaiting explicit owner authorization before initiating any staging or deployment activity. [Dated 2026-11-04 reconciliation: the HEAD named above is this log's execution-window value, preserved verbatim. Since then the owner externally committed `75d1a52` and `65b3948` and pushed `main`; "stands down cleanly" was never equivalent to a verified clean working tree - at the time of writing 53 files were staged. Current measured state: HEAD `65b3948`, 0 staged / 0 unstaged / 0 untracked non-ignored, 32 ignored.]
 
 *End of Decision Execution Log.*
 

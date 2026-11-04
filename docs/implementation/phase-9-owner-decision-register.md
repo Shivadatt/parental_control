@@ -1,5 +1,7 @@
 # Phase 9 Owner Decision Register & Governance Framework
 
+> _Dated reconciliation (2026-11-04 governance-consistency pass; measured 16:32 +0530): HEAD/index/tree figures in this document belong to its own execution window and are preserved verbatim as history. Current measured state: HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` (= `origin/main`); 0 staged, 0 unstaged, 0 untracked non-ignored, 32 ignored. Chronology: `b12659b` (entry) → `75d1a52` (owner's external commit 12:23:31 +0530) → `65b3948` (owner's external commit 15:18:45 +0530, pushed). No documentation pass committed or pushed; the owner committed externally. An empty index is not a clean working tree. Authority and digests: `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`._
+
 **Document ID:** `PHASE-9-OWNER-DECISION-REGISTER`  
 **Companion Mirror:** [`docs/implementation/phase-9-owner-decision-register.md`](file:///d:/parentcontrol_app/docs/implementation/phase-9-owner-decision-register.md)  
 **Date:** 2026-11-04  
@@ -19,6 +21,8 @@ This register formalizes the operational and architectural boundaries governing 
 ---
 
 ## 2. Master Owner Decision Status Register (DEC-01 through DEC-11)
+
+> Dated 2026-11-04: the status column below is the snapshot taken during the pre-decision execution window. DEC-01 and DEC-05 were subsequently **APPROVED - CHOICE B** by the owner; DEC-02 and DEC-03 remain **PENDING**, and DEC-04 and DEC-06 through DEC-11 retain their existing statuses with no approval inferred. §6.2 and the canonical decision wording at the end of this document carry the current statuses.
 
 | Decision ID | Decision Title | Scope & Technical Summary | Evaluated Status | Gating Severity | Required Action for Progression |
 |---|---|---|:---:|:---:|---|
@@ -40,7 +44,7 @@ This register formalizes the operational and architectural boundaries governing 
 
 ### 3.1 DEC-01: Evidence Durability Policy
 - **Technical Context:**  
-  During Phase 5, 11 test execution logs totaling 201,441 bytes across 4,195 lines were generated in `docs/evidence/phase5/logs/`. When commit `b12659b` was constructed, Git line 22 (`*.log`) ignored these files. Only `p5-coord-deno-full3.txt` (19,608 bytes) was tracked.
+  During Phase 5, 11 test execution logs totaling 201,441 bytes across 4,195 lines [dated 2026-11-04 correction: byte total confirmed; line total re-measured at **4,403 lines**] were generated in `docs/evidence/phase5/logs/`. When commit `b12659b` was constructed, Git line 22 (`*.log`) ignored these files. Only `p5-coord-deno-full3.txt` (19,608 bytes) was tracked.
 - **Current Evidence:**  
   All 11 files exist intact on the workstation disk and match the authoritative checksums in `docs/evidence/phase5/MANIFEST.md` § 8 with 100% bit-level precision.
 - **The Two Explicit Choices for the Owner:**
@@ -53,6 +57,7 @@ This register formalizes the operational and architectural boundaries governing 
     - *Pros:* Clean repository history; zero Git packfile overhead.
     - *Cons:* A fresh `git clone` will lack the 11 logs; DUR-01 gap remains accepted; workstation single point of failure.
 - **Current Status:** **PENDING OWNER DECISION / BLOCKED**. Zero Git mutations executed.
+> Dated 2026-11-04: pre-decision snapshot, preserved verbatim. DEC-01 was subsequently **APPROVED - CHOICE B (LOCAL-ONLY EVIDENCE)**. The decision is resolved; DUR-01 remains **OPEN** as an accepted local-only durability risk, and no `git add -f` was ever authorized.
 
 ### 3.2 DEC-02: Hosted Migration & Function Deployment Readiness
 - **Technical Context:**  
@@ -78,6 +83,7 @@ This register formalizes the operational and architectural boundaries governing 
 - **Consequences of On-Demand Policy:**  
   Storage accumulates between manual sweeps; risk of single-transaction query timeouts on large backlogs (Owner Ruling #3); abandoned WebRTC sessions lock devices for up to 24 hours until swept.
 - **Current Status:** **STOPPED BY POLICY / PENDING (P2)**. Sweeps remain strictly on-demand.
+> Dated 2026-11-04: pre-decision snapshot, preserved verbatim. DEC-05 was subsequently **APPROVED - CHOICE B (ON-DEMAND EXECUTION ONLY)**. Prohibition on automation is unchanged (`pg_cron`, Supabase scheduled triggers, recurring external cron webhooks, automated scheduler activation), and any actual hosted invocation of `run_retention_sweep()` or `expire_abandoned_sessions(interval '24 hours')` still requires separate written owner authorisation.
 
 ---
 

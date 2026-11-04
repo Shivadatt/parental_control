@@ -1,5 +1,7 @@
 # Phase 9 Production Release Readiness & Controlled Deployment Playbook
 
+> _Dated reconciliation (2026-11-04 governance-consistency pass; measured 16:32 +0530): HEAD/index/tree figures in this document belong to its own execution window and are preserved verbatim as history. Current measured state: HEAD `65b39485a10b51e9a3e26f6b7f09f057b904b126` on `main` (= `origin/main`); 0 staged, 0 unstaged, 0 untracked non-ignored, 32 ignored. Chronology: `b12659b` (entry) → `75d1a52` (owner's external commit 12:23:31 +0530) → `65b3948` (owner's external commit 15:18:45 +0530, pushed). No documentation pass committed or pushed. An empty index is not a clean working tree. Authority and digests: `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`._
+
 **Document ID:** `PHASE-9-RELEASE-READINESS`  
 **Companion Mirror:** [`docs/implementation/phase-9-release-readiness.md`](file:///d:/parentcontrol_app/docs/implementation/phase-9-release-readiness.md)  
 **Date:** 2026-11-04  
@@ -204,7 +206,7 @@ Apply the 4 migrations sequentially in the Dashboard SQL Editor, verifying SHA-2
 
 To advance from **NO-GO** to **GO**, the following stakeholder approvals must be fulfilled:
 
-- [ ] **Owner Sign-Off on DEC-01** (Evidence Durability Policy resolved).
+- [ ] **Owner Sign-Off on DEC-01** (Evidence Durability Policy resolved). [dated 2026-11-04: superseded for DEC-01 - the owner ruled **Choice B (local-only evidence)**; DEC-02 and DEC-03 sign-offs below remain genuinely unsigned and this checklist must not be read as Gate B/C clearance.]
 - [ ] **Owner Sign-Off on DEC-02** (Hosted Database Migrations 1–4 approved).
 - [ ] **Owner Sign-Off on DEC-03** (Physical/AVD Android Hardware QA approved).
 - [ ] **Owner Sign-Off on DEC-05** (Scheduler Policy resolved).
@@ -239,7 +241,7 @@ By written instruction dated 2026-11-04, the project owner rendered formal deter
      * *Backlog Accumulation:* Telemetry (`location_events`), signaling (`webrtc_signals`), and daily usage (`usage_daily`) accumulate monotonically on disk between manual sweeps.
      * *Single-Transaction Statement Timeout (SQL-04r):* Per Owner Ruling #3, `run_retention_sweep()` executes as a single outer database transaction across all tables and batches. Delayed sweeps result in massive backlogs that risk exceeding Supabase's `statement_timeout` (8–60s), triggering an all-or-nothing rollback (0 rows deleted).
      * *Abandoned WebRTC Sessions:* Without scheduled background sweeps, abandoned WebRTC sessions remain in the database for up to 24 hours, locking child devices from initiating new audio assistance sessions.
-     * *Manual Diligence Required:* Operators must manually execute sweeps according to an operational schedule to maintain compliance with declared COPPA/GDPR retention horizons (30 days for location, 7 days for signaling).
+     * *Manual Diligence Required:* Operators must manually execute sweeps according to an operational schedule to maintain compliance with declared COPPA/GDPR retention horizons (30 days for location, 7 days for signaling). **[Dated 2026-11-04: "operational schedule" means an operator-managed manual diligence practice, not a recurring schedule. It authorizes no automation and no hosted invocation; each hosted `run_retention_sweep()` / `expire_abandoned_sessions()` call requires separate written owner authorisation.]**
    - *Operational Invocation Runbook:*
      * *SQL Editor:* `SELECT public.run_retention_sweep();` and `SELECT public.expire_abandoned_sessions(interval '24 hours');`
      * *HTTP POST:* `POST https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/cron` with `x-cron-secret: $CRON_SECRET` or service-role Bearer token.
