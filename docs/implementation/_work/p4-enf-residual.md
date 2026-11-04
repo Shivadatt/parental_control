@@ -11,7 +11,7 @@ logic and `PolicyEnforcementEvidence` are byte-identical to `HEAD`; only *who ma
 
 ## 1. Reachability trace, against `HEAD` (`953b337`) only
 
-`git show HEAD:lib/.../app_restrictions_controller.dart` — the report side already had a generation
+`git show HEAD:lib/features/app_restrictions/app_restrictions_controller.dart` — the report side already had a generation
 token (`_reportRequest` at `:62`, `:533`, checked at `:543` and `:569`, the Phase 3 fix). The **policy
 side had none**:
 

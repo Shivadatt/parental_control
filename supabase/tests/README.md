@@ -66,6 +66,21 @@ psql -v ON_ERROR_STOP=1 \
   -d "$DATABASE_URL"
 ```
 
+### Automated Chain Runners (CHAIN-01)
+
+To automate cluster startup, fresh disposable database creation, metric collection, and teardown without manual option assembly, use the automated runners:
+
+```bash
+# Bash (Git Bash / Linux / macOS / CI):
+bash supabase/tests/run_sql_chain.sh
+bash supabase/tests/run_sql_chain.sh --negative   # Injects SQL-05 lossy RPC before test 76 (expects exit 3)
+
+# Native Windows PowerShell:
+.\supabase\tests\run_sql_chain.ps1
+.\supabase\tests\run_sql_chain.ps1 -NegativeControl
+```
+Both runners strictly enforce disposable naming, never connect to hosted Supabase, and report exit codes and assertion failures.
+
 `50_realtime_policy.sql` runs before `40_functions.sql` because the latter unlinks
 a fixture child used by the policy test. `55_pairing_invite_atomic.sql` is
 self-contained (it inserts its own `auth.users`/profiles/families with fresh
@@ -89,7 +104,7 @@ files depend on.
 order and is applied before every test file: it only creates
 `public.delete_safe_zone_audited(uuid, uuid)` — no table, index, policy or
 table-grant change — so it cannot move any count `10_schema.sql` asserts.
-`76_zone_delete_atomic_rpc.sql` runs after `75_...` and **before**
+`76_zone_delete_atomic_rpc.sql` runs after `75_signaling_replay_index_duplicate_guard.sql` and **before**
 `45_device_recovery.sql`, because its section 2 temporarily installs a failing
 `BEFORE INSERT` trigger on `public.audit_logs` and drops it again at the end of
 the section; `45_device_recovery.sql` writes real audit rows and must never meet
