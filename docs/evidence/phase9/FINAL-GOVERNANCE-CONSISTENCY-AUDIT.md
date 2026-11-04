@@ -57,6 +57,8 @@ b12659b feat: implement GuardianService background sync and policy enforcement c
 8da1de7 chore: generate build artifacts and configure project files
 ```
 
+> Dated 2026-11-04 17:46:54 +0530 (post-publication observation, this pass): after the table above was written, the owner externally committed and pushed this pass's 21 documentation files as `6b6c027390fa54b30be91263825a7599eae8376e` ("refactor: finalize phase 9 governance consistency audit and documentation addenda", 17:46:37 +0530, `HEAD -> main, origin/main`). Re-measurement after that commit: `git diff --cached` **0**, `git diff` **0**, `git ls-files --others --exclude-standard` **0** — i.e. the working tree is now genuinely clean, and this report is tracked content rather than an untracked artefact. **This documentation pass staged, committed and pushed nothing**; the third-party commit is the owner's action, recorded here so the "End of pass" column above is not read as current.
+
 ---
 
 ## 3. Document Inventory
@@ -136,8 +138,11 @@ Cross-check performed: every line pairing DEC-02 or DEC-03 with approved/authori
 | 5 | Micro-correction pass R5–R8 | `75d1a52`, 0 staged / 16 unstaged / 4 untracked | FINAL-MICRO-CORRECTION-ADDENDUM |
 | 6 | **Owner external commit + push** | `65b3948…` (15:18:45 +0530, 20 files +1553/−206) | measured this pass (git log, reflog `update by push`); previously recorded in **no** document |
 | 7 | Governance-consistency pass (this pass) | `65b3948`, 0 staged at baseline; 20 unstaged + 1 untracked after edits | measured 16:32 and 16:58 +0530 |
+| 8 | **Owner external commit + push (again)** | `6b6c027390fa54b30be91263825a7599eae8376e` (17:46:37 +0530) = `origin/main`; contains all 21 files of this pass including this report | measured 17:46:54 +0530 (`git log`, `git reflog`); first recording of this commit |
 
 The documentation coordinator did **not** make either commit; both are the owner's external actions. `65b3948` added **no** `.log` evidence (`git show --name-only 65b3948 | grep -ci '\.log$'` → 0), so DEC-01 Choice B is unaffected by it.
+
+> Dated 2026-11-04 17:46:54 +0530: "either / both" above was written when two owner commits existed. A third owner commit, `6b6c027`, landed during this pass (chronology row 8). The statement stands in its corrected scope — no documentation pass created or pushed any commit; the owner committed externally three times (`75d1a52`, `65b3948`, `6b6c027`). `git show --name-only 6b6c027 | grep -ci '\.log$'` → 0, so DEC-01 Choice B (11 raw Phase 5 `.log` files still local-only, ignored via `.gitignore:22`) remains unaffected.
 
 ---
 
@@ -274,7 +279,7 @@ Carried-forward decisions DEC-04 and DEC-06…DEC-11 retain their register statu
 | 18 | `docs/evidence/phase9/MANIFEST.md` | reconciliation block; DEC-01/DEC-05 annotations; new **§7** (authority, chronology, current digests, provenance, status) |
 | 19 | `docs/evidence/phase9/OWNER-DECISION-ADDENDUM.md` | dated HEAD note; schedule clarification; SCHED-01 "resolved" annotation |
 | 20 | `docs/evidence/phase9/FINAL-MICRO-CORRECTION-ADDENDUM.md` | dated note superseding its own measurements + R8 independence limitation |
-| 21 | `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md` | **new file** (this report); untracked, not committed |
+| 21 | `docs/evidence/phase9/FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md` | **new file** (this report); untracked, not committed [Dated 2026-11-04 17:46:54 +0530: subsequently tracked — the owner committed it externally in `6b6c027`; this pass staged and committed nothing] |
 
 **Deliberately NOT changed:** the 11 raw Phase 5 `.log` files and `p5-coord-deno-full3.txt`; `docs/evidence/phase5/MANIFEST.md`; `.gitignore` and `.gitattributes`; all source code (`lib/`, `android/`), SQL migrations and tests, Edge Functions, `config.toml`, scripts; `phase-8-*.md` documents (out of scope); `DOCUMENTATION-CORRECTION-ADDENDUM.md`, `FINAL-CONSISTENCY-AUDIT.md`, `FINAL-DOCUMENTATION-CORRECTION-ADDENDUM.md` (immutable historical records of their own passes — see §17).
 
@@ -361,7 +366,7 @@ sha256sum docs/implementation/<doc>.md  vs  sha256sum <doc>.md  -> 8/8 IDENTICAL
 - **Documentation-consistency objective: PARTIAL PASS.** Contradictions C-01…C-13 were located and corrected in the current documentation set with dated annotations that preserve every historical statement; mirrors re-verified byte-identical; the manifest now states authority, chronology, current digests and provenance. Audit G remains **FAIL/OPEN** because independent second-party verification could not be obtained.
 - **General production release: NO-GO.** DEC-02 and DEC-03 remain PENDING; Gate B **BLOCKED** (75/75 Android QA rows NOT RUN, AND-01 P1); Gate C **BLOCKED** (4 migrations unapplied, 3 Edge Functions undeployed, HOST-01 P1); Gate D **HARD STOP**.
 - **Local verification baseline: GO**, limited to the documented hermetic scope, with the durability caveat that its supporting artifacts are Git-ignored and absent from a fresh clone.
-- **Git posture:** index untouched (0 staged), no commit, no push, no branch or history operation; all pre-existing ignored content preserved; the only new change set is this pass's 20 documentation modifications plus this untracked report.
+- **Git posture:** index untouched (0 staged), no commit, no push, no branch or history operation; all pre-existing ignored content preserved; the only new change set is this pass's 20 documentation modifications plus this untracked report. **[Dated 2026-11-04 17:46:54 +0530: the pass itself performed no staging, commit or push — verified again after the fact: `git diff --cached` 0 entries throughout. The owner then committed and pushed all 21 files externally as `6b6c027`, so HEAD is now `6b6c027` (= `origin/main`) and the tree measures 0 staged / 0 unstaged / 0 untracked / 32 ignored. That cleanliness is the owner's commit's effect, not an action of this pass.]**
 - **Phase 10: NOT authorised.** This pass is not Phase 10 and begins nothing.
 
 **Stop condition:** work stops here. No fixes beyond this documentation-only pass, no hosted operations, no scheduler activation, no sweeps, no builds, no device QA, no staging, no commit, no push. Further action requires explicit written owner instruction.
