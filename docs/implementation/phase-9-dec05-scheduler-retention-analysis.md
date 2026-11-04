@@ -8,7 +8,7 @@
 **Author / Role:** Subagent 6: Scheduler & Retention Policy Analyst  
 **Coordinator ID:** `69ce22be-3642-4007-a757-b448f71c7ebc`  
 **Governing Decision:** DEC-05 (Scheduler Deployment & Data Retention Policy)  
-**Decision Status:** **PENDING / STOPPED BY POLICY (P2)**  
+**Decision Status:** **DEC-05: APPROVED — CHOICE B (ON-DEMAND EXECUTION ONLY).** (corrected 2026-11-04; this header originally read `PENDING / STOPPED BY POLICY (P2)`)  
 
 ---
 
@@ -16,6 +16,7 @@
 
 In strict conformance with Phase 9 governance protocols and the project's inviolable negative operational boundaries:
 1. **DEC-05 Status is Formally PENDING:** No scheduled jobs, background daemons, cron extension hooks, or recurring cloud webhooks have been created, activated, or enabled.
+   > Dated correction (2026-11-04, semantics finalised in the R5 micro-correction pass): **DEC-05: APPROVED — CHOICE B (ON-DEMAND EXECUTION ONLY).** What remains prohibited is **automation only**: no `pg_cron`, no Supabase scheduled trigger, no recurring cron webhook and no automated scheduler activation. Choice B does **not** prohibit retention-sweep execution as such — authorised manual / on-demand execution of `run_retention_sweep()` and `expire_abandoned_sessions()` **is** the approved operating model. Neither this documentation pass nor any Phase 9 pass authorises or executes a sweep: an on-demand invocation against hosted Supabase is a production mutation requiring separate written owner authorisation. Approval of Choice B ratifies the on-demand posture; it does not activate any scheduler. The sentence above is preserved as the historical pre-decision record.
 2. **Explicit Owner Authorization Mandatory:** Under Owner Ruling #3 and the Master Decision Register, automated scheduling is **strictly prohibited** without separate, explicit, written authorization from the project owner.
 3. **Zero Automated Scheduling Active:** All automatic database maintenance, telemetry data purges, and session expiry routines are **100% disabled by default**. The database and Edge Functions operate exclusively in an **on-demand execution posture**.
 
@@ -51,7 +52,7 @@ The single server-side retention procedure is `public.run_retention_sweep()`, wh
 
 ```mermaid
 flowchart TD
-    subgraph OnDemandExecution["On-Demand Model (Current Posture - DEC-05 PENDING)"]
+    subgraph OnDemandExecution["On-Demand Model (DEC-05 APPROVED Choice B - On-Demand Only)"]
         OD1["Manual CLI / SQL Editor Trigger"] --> OD2["Single DB Transaction: run_retention_sweep()"]
         OD2 --> OD3["Backlog Deletion (10k batches)"]
         OD3 --> OD4["Append-Only Audit Marker Inserted"]
@@ -141,7 +142,7 @@ The project architecture incorporates two layers of protection against dangling 
 
 ### 3.3 Comparative Operational Trade-Offs (Enabling vs. Disabling DEC-05)
 
-| Dimension | DEC-05 DISABLED (Current State / PENDING) | DEC-05 ENABLED (Automated Scheduler Active) |
+| Dimension | DEC-05 DISABLED (APPROVED Choice B — On-Demand Execution Only) | DEC-05 ENABLED (Automated Scheduler Active — NOT AUTHORISED) |
 |---|---|---|
 | **Governance Posture** | 100% compliant with negative operational boundary. Zero unauthorized state changes. | Requires formal Owner Authorization sign-off. |
 | **Storage Consumption** | Unbounded linear growth between sweeps. High disk bloat on signaling and GPS tables. | Strictly bounded storage. Ephemeral signals purged after 7d; GPS after 30d. |
@@ -318,7 +319,9 @@ LIMIT 1;
 
 | Decision Reference | Operational Domain | Current Formal Status | Authorization Requirement |
 |---|---|---|---|
-| **DEC-05** | Recurring Scheduler & Background Cron Infrastructure | **PENDING / STOPPED BY POLICY** | Requires explicit, written owner instruction to provision `CRON_SECRET` and enable recurring scheduler invocation. |
+| **DEC-05** | Recurring Scheduler & Background Cron Infrastructure | **APPROVED — CHOICE B (ON-DEMAND EXECUTION ONLY)** | Requires explicit, written owner instruction to provision `CRON_SECRET` and enable recurring scheduler invocation. |
 
 ### Definitive Invariant:
 **No background worker, pg_cron schedule, cloud scheduler trigger, or automated recurring job has been configured or enabled in Phase 9.** All data retention and session cleanup functionality remains strictly dormant until invoked on-demand by authorized personnel or until the owner formally approves DEC-05.
+> Dated clarification (2026-11-04, R5): the final clause above — "or until the owner formally approves DEC-05" — is the pre-decision historical wording and is **no longer current**. **DEC-05: APPROVED — CHOICE B (ON-DEMAND EXECUTION ONLY).** The approved operating model is exactly what this sentence already describes as permitted: dormant automated machinery, with retention and session cleanup invoked **manually / on-demand by authorised personnel**. Automation stays prohibited (no `pg_cron`, no Supabase scheduled trigger, no recurring cron webhook); on-demand execution is authorised as the model, but **this documentation pass neither authorises nor executes any sweep** — an actual hosted invocation still requires separate written owner authorisation. The sentence above is preserved verbatim.
+

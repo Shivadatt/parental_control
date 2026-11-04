@@ -180,4 +180,3 @@ The wire contract in `supabase/functions/account/retention.ts` implements strict
 ## 9. Conclusion
 
 The security architecture of the Parental Control App is mathematically verified, hermetically isolated, and thoroughly protected against authorization bypasses, replay attacks, and privacy violations. Advancing these safeguards to live production requires explicit owner approval under **DEC-02** and **DEC-03**.
-

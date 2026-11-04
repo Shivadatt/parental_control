@@ -42,7 +42,9 @@ The project enforces an inviolable sequential gating model:
 1. **Gate A — Local Implementation & Test Verification:** **CLEARED (GO)**.
    - 100% offline test suite passage across Deno, local PostgreSQL 16.9, Android JVM, and Flutter.
    - Clean working tree with 0 unstaged modifications.
+> _Dated correction (2026-11-04 documentation correction pass): inaccurate as written - 37 files were staged in that window, so the tree was not clean; "no unstaged modifications" is not equivalent to a clean working tree. Verified current state: HEAD `75d1a52` on `main`, 0 staged, 15 unstaged modifications, 1 untracked non-ignored file (the new docs/evidence/phase9/DOCUMENTATION-CORRECTION-ADDENDUM.md). See `docs/evidence/phase9/DOCUMENTATION-CORRECTION-ADDENDUM.md`._
    - 37 staged files verified; zero secrets exposed.
+> _Dated correction (2026-11-04): 37 staged files was the historical Phase 9 snapshot, not current state - 0 staged since the owner's commit `75d1a52` at 12:23:31 +05:30. Retained verbatim for chronology._
 2. **Gate B — Android Hardware & Mobile Subsystem QA:** **BLOCKED (NO-GO)**.
    - Governed by Owner Ruling #9 and DEC-03.
    - ADB connectivity reported as UNKNOWN. Zero APKs compiled or installed.
@@ -214,23 +216,23 @@ To advance from **NO-GO** to **GO**, the following stakeholder approvals must be
 
 ## 6. Owner Decision Reconciliation Addendum (Dated 2026-11-04)
 
-**Addendum Timestamp:** `2026-11-04T12:00:00Z`  
-**Governing Coordinator ID:** `2cf4d2a8-bc94-44c4-96d3-10edfe3e10ea`  
-**Synthesizing Subagent:** Subagent 6: Master Documentation Synthesizer for Phase 9 Owner Decision Reconciliation  
+**Addendum Timestamp:** 2026-11-04 (+05:30, Asia/Kolkata) - addendum written 12:08-12:14, coordinator evidence re-verification 12:00-12:24
+**Recorded by:** Phase 9 documentation pass, from the project owner's written instruction dated 2026-11-04.
+**Relationship to the original Phase 9 report:** This addendum is appended after the original Phase 9 sections, which are preserved verbatim. Those sections recorded DEC-01/02/03/05 as PENDING earlier on the same calendar date; the owner's written rulings supersede those PENDING entries as of this addendum.
 **Target HEAD Commit:** `b12659b9795ba69499483a84750a33897dd7e08a` (`main`)  
 **Target Environment:** Supabase Project `hhqgreaoqulmfwfwarhc` (AWS Seoul, Region: `ap-northeast-2`)
 
 ### 6.1 Formal Owner Rulings Synthesis (2026-11-04)
 
-Following the forensic audits conducted by Subagents 1 through 5, the project owner rendered formal determinations on DEC-01 and DEC-05, while confirming that DEC-02 and DEC-03 remain pending authorization:
+By written instruction dated 2026-11-04, the project owner rendered formal determinations on DEC-01 and DEC-05, while confirming that DEC-02 and DEC-03 remain pending authorization:
 
-1. **DEC-01: Evidence Durability Policy — Choice B Approved [RESOLVED / ACCEPTED RISK]**
+1. **DEC-01: Evidence Durability Policy — Choice B Approved [DECIDED - GAP DUR-01 REMAINS OPEN as an accepted local-only risk]**
    - *Owner Ruling:* The owner approved **Choice B — Local-only evidence**.
    - *Implementation:* Line 22 of `.gitignore` (`*.log`) remains in effect and unchanged. No `git add -f` was or will be performed.
-   - *Evidence Verification:* Subagent 2 verified all 11 Phase 5 test run logs (`docs/evidence/phase5/logs/*.log`, 201,441 bytes, 4,195 lines) bit-for-bit against canonical `docs/evidence/phase5/MANIFEST.md` § 8.
+   - *Evidence Verification:* Read-only `sha256sum` verification during the 2026-11-04 pass confirmed all 11 Phase 5 test run logs (`docs/evidence/phase5/logs/*.log`, 201,441 bytes, 4,403 lines) bit-for-bit against canonical `docs/evidence/phase5/MANIFEST.md` § 8.
    - *Durability Consequences:* Fresh repository clones will lack raw run logs; only `p5-coord-deno-full3.txt` is tracked in Git commit `b12659b`. The workstation represents an accepted single point of failure. GAP DUR-01 is formally accepted as an operational local-only evidence policy.
 
-2. **DEC-05: Retention Sweep Scheduler Policy — Choice B Approved [RESOLVED / OPERATIONAL MODE]**
+2. **DEC-05: Retention Sweep Scheduler Policy — Choice B Approved [DECIDED - standing on-demand policy]**
    - *Owner Ruling:* The owner approved **Choice B — On-demand execution only**.
    - *Implementation:* All automated scheduling is disabled. No `pg_cron` extension installed; no Supabase scheduled triggers configured; no external cron webhooks active.
    - *Documented Operational Risks:*
@@ -259,10 +261,10 @@ Following the forensic audits conducted by Subagents 1 through 5, the project ow
 ```markdown
 ### RECONCILED RELEASE SIGN-OFF MATRIX (2026-11-04)
 
-[X] Owner Sign-Off on DEC-01: RESOLVED — Choice B (Local-Only Evidence) Approved.
+[X] Owner Sign-Off on DEC-01: DECIDED — Choice B (Local-Only Evidence) Approved; GAP DUR-01 remains OPEN as an accepted risk.
 [ ] Owner Sign-Off on DEC-02: PENDING OWNER AUTHORIZATION — Zero hosted mutations permitted.
 [ ] Owner Sign-Off on DEC-03: PENDING OWNER AUTHORIZATION — Zero hardware QA permitted.
-[X] Owner Sign-Off on DEC-05: RESOLVED — Choice B (On-Demand Execution Only) Approved.
+[X] Owner Sign-Off on DEC-05: DECIDED — Choice B (On-Demand Execution Only) Approved.
 [ ] Gate B Cleared: BLOCKED (0 of 75 Android QA rows run on live hardware).
 [ ] Gate C Cleared: BLOCKED (Migrations 1-4 unapplied; safe_zones client DELETE live).
 [ ] Gate D Progression Authorized: HARD STOP (NO-GO FOR GENERAL RELEASE).
@@ -272,11 +274,11 @@ Following the forensic audits conducted by Subagents 1 through 5, the project ow
 
 ### 6.3 Definitive Four-Gate Release Readiness Verdict
 
-| Gate | Scope | Status | Severity | Reconciled Posture |
+| Gate | Scope | Status | Severity | Status |
 |---|---|:---:|:---:|---|
-| **Gate A** | **Local Implementation & Regression Baseline** | **CLEARED** | **Green (100% Pass)** | 150 Deno unit tests pass; 12 `family-admin` tests pass; 33-file SQL regression chain passes with 0 errors; negative control caught with Exit Code 3 at line 411; 39 Android JVM tests pass; 408 Flutter tests pass. Clean working tree with 0 unstaged modifications. |
+| **Gate A** | **Local Implementation & Regression Baseline** | **CLEARED** | **Green (100% Pass)** | 150 Deno unit tests pass; 12 `family-admin` tests pass; 33-file SQL regression chain passes with 0 errors; negative control caught with Exit Code 3 at line 411; 39 Android JVM tests pass; 408 Flutter tests pass (Phase 5 historical baseline reference, not a Phase 9 re-run). At the pre-edit baseline (2026-11-04, 12:00 +05:30) the index held 53 staged files with 0 unstaged modifications and 0 untracked non-ignored files. Correction pass (2026-11-04, read-only verification): current state is HEAD `75d1a5232acbd87fe1068b5000d2916892e8143d` on `main`, 0 staged, 15 unstaged modifications, 1 untracked non-ignored file (the new docs/evidence/phase9/DOCUMENTATION-CORRECTION-ADDENDUM.md). The 53 baseline files became committed history via the owner's external commit at 12:23:31 +05:30, so the documents created by the earlier documentation pass are tracked now, not untracked. Neither documentation pass ran `git add`, staging or commit; these edits remain unstaged working-tree modifications. |
 | **Gate B** | **Android QA Hardware Verification** | **BLOCKED** | **P1 (Release Blocker)** | DEC-03 is PENDING OWNER AUTHORIZATION. All 75 QA matrix rows remain `NOT RUN`. GAP AND-01 / GATE-B-01 is OPEN. Hardware privacy invariants unverified on live devices. |
-| **Gate C** | **Hosted Supabase Hardening** | **BLOCKED** | **P1 (Release Blocker)** | DEC-02 is PENDING OWNER AUTHORIZATION. Migrations 1–4 and Edge Functions unapplied to hosted Supabase `hhqgreaoqulmfwfwarhc`. GAP HOST-01 is OPEN. Direct client `DELETE` vulnerability remains live on hosted PostgreSQL. |
+| **Gate C** | **Hosted Supabase Hardening** | **BLOCKED** | **P1 (Release Blocker)** | DEC-02 is PENDING OWNER AUTHORIZATION. Migrations 1–4 unapplied and Edge Functions (`account`, `family-admin`, `device-command`) undeployed on hosted Supabase `hhqgreaoqulmfwfwarhc`. GAP HOST-01 is OPEN. Direct client `DELETE` vulnerability remains live on hosted PostgreSQL. |
 | **Gate D** | **General Production Release** | **NO-GO** | **CRITICAL RELEASE STOP** | **HARD STOP**. **Inviolable Release Rule:** General production release is strictly prohibited until Gates B and C have independently passed their authorized verification requirements. Local regression success must not be presented as hosted production verification. |
 
 ---
@@ -292,3 +294,33 @@ The following negative operational boundaries are strictly enforced:
 6. **NO initiation of Phase 10.**
 
 *End of Release Readiness Playbook.*
+
+
+---
+
+## ADDENDUM VERIFICATION NOTES (2026-11-04)
+
+These notes are part of the dated owner-decision addendum and apply to every Phase 9 addendum document.
+
+1. **Verification method.** Read-only `sha256sum`, `wc`, `git ls-files`, `git cat-file -e`, `git check-ignore -v`, `git status` and `git diff` were used. No file other than the Phase 9 addendum documents was written. No test suite, build, device command or hosted operation was run.
+2. **Line-total correction.** `wc -l` over the 11 ignored `*.log` files in `docs/evidence/phase5/logs/` totals **4,403 lines**, not the 4,195 lines carried in the original Phase 9 sections. The byte total (**201,441**) reproduces exactly, and all 12 SHA-256 digests in the directory match `docs/evidence/phase5/MANIFEST.md` section 8 (Pack contents, lines 203-214). The original 4,195 figure is preserved unaltered in the historical sections.
+3. **Staged-file count reconciliation.** The original Phase 9 report's "37 staged files" was accurate at the time it was captured. As of the 2026-11-04 pre-edit baseline the index holds **53** staged files. Nothing was staged or unstaged by this documentation pass.
+4. **DUR-01 status.** DEC-01 Choice B was approved. The consequence is that **GAP DUR-01 REMAINS OPEN** as an accepted local-only durability risk: a fresh `git clone` will not contain the 11 raw execution logs, which are preserved on this workstation only. This evidence is **not clone-durable**.
+5. **Decisions NOT ruled on 2026-11-04.** The owner ruled only on DEC-01, DEC-02, DEC-03 and DEC-05. DEC-04 and DEC-06 through DEC-11, and the gaps governed by them, simply **carry forward their original register statuses** and await a future ruling. No approval or closure should be inferred.
+6. **On-demand invocation is documentation, not authorisation.** The `run_retention_sweep()` / `expire_abandoned_sessions()` SQL and the `x-cron-secret` HTTP form describe the authenticated on-demand procedure only. Executing either against hosted Supabase is a production mutation requiring separate written owner authorisation; DEC-05 Choice B authorises no scheduled execution and no deployment. `pg_cron`, scheduled triggers and external cron webhooks remain prohibited.
+7. **Gate posture is unchanged.** Gate A CLEARED (local baseline only), Gate B BLOCKED, Gate C BLOCKED, Gate D NO-GO. P1 blockers remain exactly GAP HOST-01 and GAP AND-01 / GATE-B-01. Verdict: **NO-GO FOR GENERAL PRODUCTION RELEASE. GO FOR LOCAL VERIFICATION BASELINE.**
+8. **Digest detail.** The full per-file SHA-256 table is recorded once in `docs/evidence/phase9/OWNER-DECISION-ADDENDUM.md` and is referenced, not duplicated, by the other Phase 9 addenda. `docs/evidence/phase9/MANIFEST.md` was left unchanged.
+9. **Repository state during the addendum window.** The addendum text above records entry HEAD `b12659b9795ba69499483a84750a33897dd7e08a`, which was the checked-out commit when the Phase 9 documents were authored and when this addendum's evidence was verified (12:00-12:16 +05:30). During that same window, at **12:23:31 +05:30, the project owner - not this documentation pass - committed the 53 previously staged files** as `75d1a5232acbd87fe1068b5000d2916892e8143d` ("docs: add phase 6-9 evidence packs, implementation reports, and CI test runner scripts"). Those assets are therefore committed history rather than staged content, and this addendum's own edits are unstaged working-tree modifications. The documentation pass executed no `git add`, `commit`, `push`, `reset`, `restore`, `checkout` or `stash`.
+10. **Correction sub-pass, 12:36-12:52 +05:30.** A follow-up read-only audit corrected the addenda: the per-file SHA-256 tables in `docs/implementation/phase-9-decision-execution-log.md` and `docs/evidence/phase9/OWNER-DECISION-ADDENDUM.md` were rebuilt from digests computed directly from the files, because the first drafts listed five log filenames that do not exist (`p5-coord-sqlchain-*.log`) and eleven SHA-256 values matching no file on disk; attributions of this pass's verification work to numbered subagents were replaced with the recording method and the original Phase 9 sections were left untouched; present-tense working-tree claims were replaced with the two-stage baseline statement in note 3; and DEC-04 and DEC-06 through DEC-11 were relabelled as carried-forward, not ruled.
+
+
+## Canonical Decision Wording (Dated 2026-11-04, Documentation Correction Pass)
+
+- DEC-01 - APPROVED - CHOICE B: LOCAL-ONLY EVIDENCE. The owner decision is resolved.
+- DUR-01 - ACCEPTED LOCAL-ONLY EVIDENCE DURABILITY RISK. The 11 raw Phase 5 `.log` files stay ignored by `.gitignore:22` (`*.log`), remain local-workstation artifacts, and are absent from fresh clones. No `git add -f` is authorised and `.gitignore` is unchanged. The decision is resolved; the durability limitation is accepted, not technically eliminated.
+- DEC-02 - PENDING OWNER AUTHORIZATION - BLOCKED. No hosted migration, no Edge Function deployment, no hosted SQL execution. Five read-only preflight queries are prepared and none has been executed against hosted. HOST-01 remains a P1 release blocker.
+- DEC-03 - PENDING OWNER AUTHORIZATION - BLOCKED. No APK build or installation, no ADB, no device pairing. All 75 QA rows remain NOT RUN. AND-01 / GATE-B-01 remains a P1 release blocker.
+- DEC-05 - APPROVED - CHOICE B: ON-DEMAND ONLY. No pg_cron, no Supabase scheduled trigger, no external cron webhook.
+- Approval of DEC-01 or DEC-05 never implies approval of DEC-02 or DEC-03.
+- Evidence checksums re-verified read-only on 2026-11-04: 12/12 MATCH (11 local-only logs = 201,441 bytes / 4,403 lines; tracked `p5-coord-deno-full3.txt` = 19,608 bytes / 200 lines).
+- Verdict: NO-GO FOR GENERAL PRODUCTION RELEASE. GO FOR LOCAL VERIFICATION BASELINE.

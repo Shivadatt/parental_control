@@ -19,9 +19,11 @@ A forensic Git integrity audit was conducted across repository `D:\parentcontrol
 1. **Branch & Remote Alignment:** The active branch is `main`, tracking `origin/main` (`Your branch is up to date with 'origin/main'`).
 2. **Current HEAD Commit:** `b12659b9795ba69499483a84750a33897dd7e08a`.
 3. **Index & Working Tree State:** Exactly **37 staged files** (8,137 insertions, 3 deletions), **0 unstaged modifications** (`git diff --stat` is completely empty), and clean working tree.
+   > _Dated correction (2026-11-04 documentation correction pass): retained verbatim as the historical Phase 9 snapshot. "0 unstaged modifications" was never a clean working tree while 37 files were staged. Current verified state: HEAD `75d1a5232acbd87fe1068b5000d2916892e8143d` on `main`, 0 staged, 15 unstaged modifications, 1 untracked non-ignored file (the new docs/evidence/phase9/DOCUMENTATION-CORRECTION-ADDENDUM.md); the owner's commit at 12:23:31 +05:30 consumed the staged content._
 4. **Phase 8 Staged File Reconciliation:** Phase 8 deliverables stated *"23 staged files from prior phases"*, referring to the state entering Phase 8 (from Phase 6 and 7). When the 14 Phase 8 deliverables (8 files under `docs/` and 6 root duplicates) were staged into the index, the total staged count increased from 23 to 37.
 5. **Root vs `docs/implementation/` Duplication:** Exactly 6 deliverables from Phase 8 are duplicated byte-for-byte between repository root and `docs/implementation/`. Phase 6 and 7 deliverables reside exclusively under `docs/implementation/`.
 6. **Phase 5 Log Verification:** All 11 ignored `.log` files in `docs/evidence/phase5/logs/` (total 201,441 bytes, 4,195 lines) exist on disk and match the authoritative checksums in `docs/evidence/phase5/MANIFEST.md` § 8 with **100% bit-level precision**. They are ignored exclusively by line 22 of `.gitignore` (`*.log`).
+   > Dated line-count correction (2026-11-04): the line figures in this section are the historical reported values. Re-measured current evidence is **11 ignored `.log` files / 201,441 bytes / 4,403 lines**, and **12/12 SHA-256 entries verified** against `docs/evidence/phase5/MANIFEST.md` §8. The byte total (201,441) and the per-file digests were correct as reported; only the line counts were wrong — the historical **4,195 L** total is superseded by **4,403 L**, and the per-file line column is likewise superseded (e.g. `p5coord-chain-run6.log` recorded 323 L, measured 646 L; `p5coord-chain-run9.log` recorded 324 L, measured 648 L). No raw log was modified; digests re-verified read-only.
 7. **DEC-01 Decision Status:** Evaluated as **BLOCKED / PENDING OWNER APPROVAL**. Zero files were force-staged (`git add -f`) and zero `.gitignore` modifications were executed.
 
 ---
@@ -42,6 +44,7 @@ Your branch is up to date with 'origin/main'.
 ```text
 $ git diff --stat
 (0 unstaged modifications / clean working tree)
+> _Dated correction (2026-11-04): the label "clean working tree" is wrong for a tree with 37 staged files; the observation itself (0 unstaged modifications) was accurate for that window. See `docs/evidence/phase9/DOCUMENTATION-CORRECTION-ADDENDUM.md`._
 ```
 
 ### 2.3 Staged Modifications Summary
@@ -104,6 +107,7 @@ cf4c7d4 (backup/pre-cleanup-main) git ignore fix
 ### 3.1 Background of the Claim
 In Phase 8 deliverables (`phase-8-decision-execution-log.md:7` and `phase-8-report.md:8`), it was recorded:
 > *"Working Tree Status: 23 staged files from prior phases; 0 unstaged modifications; clean working tree."*
+> _Dated correction (2026-11-04): quoted historical claim retained; a tree with 23 staged files was not clean._
 
 Forensic investigation reveals that **23 files** had been staged into the Git index during Phases 6 and 7 prior to Phase 8 execution. When Phase 8 completed its analysis, its own deliverables were authored and staged:
 - **8 files under `docs/`**: `docs/evidence/phase8/MANIFEST.md` and 7 files in `docs/implementation/phase-8-*.md`.
@@ -202,6 +206,8 @@ All 11 execution logs located in `docs/evidence/phase5/logs/` were evaluated usi
 | 10 | `p5coord-chain-run6.log` | 16,325 | 323 | `23c127e039967692b24202bbf5598c114334b54c8e218d7b67292fb4e853840f` | `23c127e039967692b24202bbf5598c114334b54c8e218d7b67292fb4e853840f` | **100% MATCH** | Ignored (`.gitignore:22`) |
 | 11 | `p5coord-chain-run9.log` | 16,388 | 324 | `4978d306e5458116a3211ad4e9bef4d0d9691381fd70c279aeba12b03397664f` | `4978d306e5458116a3211ad4e9bef4d0d9691381fd70c279aeba12b03397664f` | **100% MATCH** | Ignored (`.gitignore:22`) |
 | **SUM** | **11 Files** | **201,441 B** | **4,195 L** | **All 11 Cryptographically Uncorrupted** | **11 / 11 Bit-Level Match** | **100% Pass** | **All Ignored** |
+
+> Dated line-count correction (2026-11-04): the line figures in this section are the historical reported values. Re-measured current evidence is **11 ignored `.log` files / 201,441 bytes / 4,403 lines**, and **12/12 SHA-256 entries verified** against `docs/evidence/phase5/MANIFEST.md` §8. The byte total (201,441) and the per-file digests were correct as reported; only the line counts were wrong — the historical **4,195 L** total is superseded by **4,403 L**, and the per-file line column is likewise superseded (e.g. `p5coord-chain-run6.log` recorded 323 L, measured 646 L; `p5coord-chain-run9.log` recorded 324 L, measured 648 L). No raw log was modified; digests re-verified read-only.
 
 ### 5.2 The 12th File: Tracked Test Evidence
 In `docs/evidence/phase5/logs/`, a 12th file exists: `p5-coord-deno-full3.txt` (19,608 bytes, 198 lines, SHA-256 `9ebdaedc6b9031d4a5c0a3cd57cd5b05ddc8dcf6d30afe294b1c3a5fbec5d789`, Git blob `8f2706c06f2820898b8d8a0b4122543f78c8db3e`). This file is **ALREADY TRACKED** in Git commit `b12659b` because its extension is `.txt` rather than `.log`.
@@ -310,3 +316,15 @@ To permanently stabilize line endings across Windows and Linux environments with
 - [x] All 11 ignored Phase 5 logs hashed and verified against canonical `MANIFEST.md` § 8.
 - [x] Exact `.gitignore:22:*.log` exclusion rule confirmed via `git check-ignore`.
 - [x] Trade-off analysis for DEC-01 Options A & B completed with definitive status reported as PENDING.
+
+
+## Canonical Decision Wording (Dated 2026-11-04, Documentation Correction Pass)
+
+- DEC-01 - APPROVED - CHOICE B: LOCAL-ONLY EVIDENCE. The owner decision is resolved.
+- DUR-01 - ACCEPTED LOCAL-ONLY EVIDENCE DURABILITY RISK. The 11 raw Phase 5 `.log` files stay ignored by `.gitignore:22` (`*.log`), remain local-workstation artifacts, and are absent from fresh clones. No `git add -f` is authorised and `.gitignore` is unchanged. The decision is resolved; the durability limitation is accepted, not technically eliminated.
+- DEC-02 - PENDING OWNER AUTHORIZATION - BLOCKED. No hosted migration, no Edge Function deployment, no hosted SQL execution. Five read-only preflight queries are prepared and none has been executed against hosted. HOST-01 remains a P1 release blocker.
+- DEC-03 - PENDING OWNER AUTHORIZATION - BLOCKED. No APK build or installation, no ADB, no device pairing. All 75 QA rows remain NOT RUN. AND-01 / GATE-B-01 remains a P1 release blocker.
+- DEC-05 - APPROVED - CHOICE B: ON-DEMAND ONLY. No pg_cron, no Supabase scheduled trigger, no external cron webhook.
+- Approval of DEC-01 or DEC-05 never implies approval of DEC-02 or DEC-03.
+- Evidence checksums re-verified read-only on 2026-11-04: 12/12 MATCH (11 local-only logs = 201,441 bytes / 4,403 lines; tracked `p5-coord-deno-full3.txt` = 19,608 bytes / 200 lines).
+- Verdict: NO-GO FOR GENERAL PRODUCTION RELEASE. GO FOR LOCAL VERIFICATION BASELINE.
