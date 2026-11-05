@@ -462,7 +462,7 @@ The project owner has reviewed the DEC-13 decision package and explicitly approv
 | Decision ID | Description | Status on 2026-11-05 (Phase 9.2) | Owner Ruling & Authority Scope |
 |---|---|---|---|
 | **DEC-01** | Phase 5 Evidence Durability | **APPROVED (Choice B)** | Local-only evidence accepted. GAP DUR-01 remains OPEN. |
-| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migrations verified applied hosted. Remaining 4 migrations, preflights, and Edge Functions unapplied. |
+| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migration pair reconciled historical evidence only; 4 migrations, preflights, and Edge Functions unapplied. |
 | **DEC-03** | Android QA Hardware Testing | **PENDING / BLOCKED** | P1 Release Blocker. 75/75 QA matrix rows remain strictly NOT RUN. |
 | **DEC-04** | Preflight Formulation | **READY / CARRIED FORWARD** | Preflight queries formulated; execution gated by DEC-02. |
 | **DEC-05** | Retention Sweep Scheduler | **APPROVED (Choice B)** | Standing on-demand policy only. Automated cron/schedulers prohibited. |
@@ -503,7 +503,7 @@ The project owner has reviewed the DEC-12 decision package and explicitly approv
 | Decision ID | Description | Status on 2026-11-05 (Phase 9.3) | Owner Ruling & Authority Scope |
 |---|---|---|---|
 | **DEC-01** | Phase 5 Evidence Durability | **APPROVED (Choice B)** | Local-only evidence accepted. GAP DUR-01 remains OPEN. |
-| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migrations verified applied hosted. Remaining 4 migrations, preflights, and Edge Functions unapplied. |
+| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migration pair reconciled historical evidence only; 4 migrations, preflights, and Edge Functions unapplied. |
 | **DEC-03** | Android QA Hardware Testing | **PENDING / BLOCKED** | P1 Release Blocker. 75/75 QA matrix rows remain strictly NOT RUN. |
 | **DEC-04** | Preflight Formulation | **READY / CARRIED FORWARD** | Preflight queries formulated; execution gated by DEC-02. |
 | **DEC-05** | Retention Sweep Scheduler | **APPROVED (Choice B)** | Standing on-demand policy only. Automated cron/schedulers prohibited. |
@@ -555,7 +555,7 @@ The ten binding architectural rules approved by the owner:
 | Decision ID | Description | Status on 2026-11-05 (Phase 9.5) | Owner Ruling & Authority Scope |
 |---|---|---|---|
 | **DEC-01** | Phase 5 Evidence Durability | **APPROVED (Choice B)** | Local-only evidence accepted. GAP DUR-01 remains OPEN. |
-| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migrations verified applied hosted. Remaining 4 migrations, preflights, and Edge Functions unapplied. |
+| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migration pair reconciled historical evidence only; 4 migrations, preflights, and Edge Functions unapplied. |
 | **DEC-03** | Android QA Hardware Testing | **PENDING / BLOCKED** | P1 Release Blocker. 75/75 QA matrix rows remain strictly NOT RUN. |
 | **DEC-04** | Preflight Formulation | **READY / CARRIED FORWARD** | Preflight queries formulated; execution gated by DEC-02. |
 | **DEC-05** | Retention Sweep Scheduler | **APPROVED (Choice B)** | Standing on-demand policy only. Automated cron/schedulers prohibited. |
@@ -605,7 +605,7 @@ The approved interpretation and binding constraints:
 | Decision ID | Description | Status on 2026-11-05 (Phase 9.7) | Owner Ruling & Authority Scope |
 |---|---|---|---|
 | **DEC-01** | Phase 5 Evidence Durability | **APPROVED (Choice B)** | Local-only evidence accepted. GAP DUR-01 remains OPEN. |
-| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migrations verified applied hosted. Remaining 4 migrations, preflights, and Edge Functions unapplied. |
+| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migration pair reconciled historical evidence only; 4 migrations, preflights, and Edge Functions unapplied. |
 | **DEC-03** | Android QA Hardware Testing | **PENDING / BLOCKED** | P1 Release Blocker. 75/75 QA matrix rows remain strictly NOT RUN. |
 | **DEC-04** | Preflight Formulation | **READY / CARRIED FORWARD** | Preflight queries formulated; execution gated by DEC-02. |
 | **DEC-05** | Retention Sweep Scheduler | **APPROVED (Choice B)** | Standing on-demand policy only. Automated cron/schedulers prohibited. |
@@ -626,3 +626,57 @@ The approved interpretation and binding constraints:
 Documentation and governance consolidation only. Zero application code modified, zero Android services added, zero database mutations executed, zero APKs built, zero ADB commands run, zero devices tested, and zero hosted deployments initiated.
 
 *End of Phase 9.7 DEC-15 approval recording & scope exclusion addendum (2026-11-05).*
+
+
+---
+
+## Phase 9.9 DEC-16 Explicit Owner Approval & Formal Scope Exclusion Addendum (2026-11-05)
+
+### 1. DEC-16 — Explicit Owner Approval Recorded
+
+The project owner has reviewed the DEC-16 decision package (`docs/dec-16-screen-mirroring-recording-owner-decision.md`) and explicitly approved **DEC-16 (Screen Mirroring & Screen Recording Product Scope)** with the following binding ruling:
+
+> **DEC-16 owner decision: Option A — Exclude both screen mirroring and screen recording from product scope.**
+
+The approved interpretation and binding scope constraints:
+
+1. **Parent-to-Child Screen Mirroring Excluded:** Remote display casting or streaming from parent to child is formally excluded from the product scope.
+2. **Child-to-Parent Screen Mirroring Excluded:** Remote viewing or streaming of the child's display to the parent device is formally excluded from the product scope.
+3. **Live Screen Viewing Excluded:** All real-time display capture and screen streaming mechanisms are excluded from HAVEN.
+4. **Screen Recording Excluded:** Video capture, display encoding (H.264/MP4), local clip storage, and cloud video upload are formally excluded from the product scope.
+5. **Screenshot Capture Excluded:** Static display captures, automated screenshot schedules, and on-demand screenshot commands are formally excluded from the product scope.
+6. **Android MediaProjection Excluded:** Integration with Android's `MediaProjection`, `createVirtualDisplay`, `PixelCopy`, or `ImageReader` screen capture APIs is excluded.
+7. **Screen-Capture WebRTC Tracks Excluded:** `getDisplayMedia` or screen video tracks within WebRTC are excluded.
+8. **Media Storage and Export Excluded:** Creation of media storage buckets, video playback routes, clip downloading, and video export capabilities are excluded.
+9. **No Covert Capture Permitted:** Hidden, automated, background, or unconsented screen capture of any kind is strictly prohibited.
+10. **Existing Audio & Camera Assistance Boundary:** Existing live assistance features (one-way microphone audio assistance and optional front-camera video during active assistance sessions) remain governed separately under their established requirements. DEC-16 does not authorize modifying, expanding, or recording those features.
+11. **Child Privacy Commitments Preserved:** Existing child-facing privacy guarantees (`child_settings_tab.dart:67-70`, `child_session_page.dart:144-147`, `remote_assistance_page.dart:89-91`, `remote_session_page.dart:139-142`) stating that the app never takes screenshots, records video, or captures passwords remain preserved intact in code and UI copy.
+12. **Future Reconsideration Requirements:** Any future proposal to introduce screen capture or recording requires a formal product re-charter, child privacy impact assessment, threat model, legal review, and a separate explicit owner decision. Option A is a formal product-scope exclusion, not a temporary deferral.
+13. **Options B, C, and D Not Selected:** Options B (live mirroring only), C (mirroring and recording), and D (milestone deferral) remain unselected.
+14. **No Implementation Authorization:** This ruling authorizes governance records and documentation updates only. It does NOT authorize writing code, modifying `AndroidManifest.xml`, creating database tables, building APKs, or testing on hardware.
+
+### 2. Comprehensive Decision Governance Status Snapshot (Phase 9.9)
+
+| Decision ID | Description | Status on 2026-11-05 (Phase 9.9) | Owner Ruling & Authority Scope |
+|---|---|---|---|
+| **DEC-01** | Phase 5 Evidence Durability | **APPROVED (Choice B)** | Local-only evidence accepted. GAP DUR-01 remains OPEN. |
+| **DEC-02** | Hosted Migration & Deployment Authorization | **PENDING / BLOCKED** | P1 Release Blocker. Stage 7 migration pair reconciled historical evidence only; 4 migrations, preflights, and Edge Functions unapplied. |
+| **DEC-03** | Android QA Hardware Testing | **PENDING / BLOCKED** | P1 Release Blocker. 75/75 QA matrix rows remain strictly NOT RUN. |
+| **DEC-04** | Preflight Formulation | **READY / CARRIED FORWARD** | Preflight queries formulated; execution gated by DEC-02. |
+| **DEC-05** | Retention Sweep Scheduler | **APPROVED (Choice B)** | Standing on-demand policy only. Automated cron/schedulers prohibited. |
+| **DEC-06–11** | Historical Architecture Records | **CARRIED FORWARD** | Retained as reviewed baseline / standby specifications. |
+| **DEC-12** | Screen-Time & Bedtime Enforcement Integrity | **APPROVED (D1-B, B1-B, O1-C, P1-A, DEFER)** | Approved with 10-minute emergency pass, mode-split enforcement, and deferred remediation. |
+| **DEC-13** | Device Owner & Managed Mode Strategy | **APPROVED (Option B)** | Approved with mandatory safe-exit release blocker and DA retirement. |
+| **DEC-14** | Push Notifications / FCM Delivery | **APPROVED (Option B)** | Realtime + FCM non-authoritative wake-up transport. Implementation gated. |
+| **DEC-15** | Website Filtering Scope & Architecture | **APPROVED (Option D: Deferred)** | Website filtering excluded from current release. Options A, B, C not selected. No implementation authorized. |
+| **DEC-16** | Screen Mirroring & Recording Scope | **APPROVED (Option A: Excluded)** | Screen mirroring, recording, and screenshots formally excluded from product scope. Options B, C, D not selected. |
+
+### 3. Deliverables Finalized in Phase 9.9
+- **Ratified DEC-16 Specification:** `docs/dec-16-screen-mirroring-recording-owner-decision.md` (records APPROVED — Option A status, formal product scope exclusion, 12 approved interpretations, and privacy invariants).
+- **Consolidated Approval Report:** `docs/phase9-9-dec16-owner-approval-record.md`.
+- **Updated P0 Specifications:** `docs/p0-decision-specifications.md` (reflects DEC-16 APPROVED — Option A status).
+
+### 4. Implementation & Execution Boundaries
+Documentation and governance consolidation only. Zero application code modified, zero Android permissions or services added, zero Supabase migrations created, zero APKs built, zero ADB commands run, zero devices tested, and zero hosted deployments initiated.
+
+*End of Phase 9.9 DEC-16 approval recording & scope exclusion addendum (2026-11-05).*
