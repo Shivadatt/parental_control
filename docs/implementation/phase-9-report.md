@@ -6,7 +6,7 @@
 **Companion Mirror:** [`docs/implementation/phase-9-report.md`](file:///d:/parentcontrol_app/docs/implementation/phase-9-report.md)  
 **Date:** 2026-11-04  
 **Active Branch:** `main`  
-**Current HEAD Commit:** `b12659b9795ba69499483a84750a33897dd7e08a` (`feat: implement GuardianService background sync and policy enforcement core`)  
+**Execution-window HEAD (historical snapshot — not the repository tip):** `b12659b9795ba69499483a84750a33897dd7e08a` (`feat: implement GuardianService background sync and policy enforcement core`) _[Label corrected by the 2026-11-05 R9 pass; the value was this document's HEAD at authoring time. The current tip must be taken from a fresh measurement — see `docs/evidence/phase9/FINAL-RESIDUAL-CORRECTION-ADDENDUM-R9.md`.]_  
 **Phase 5 Reference Commit:** `953b337bb8e24a46dd5ddfdf7b281b2159d73c2d`  
 **Architecture:** Flutter (FVM 3.44.6) + GetX + Kotlin + Supabase (PostgreSQL 17 / Deno 2.9.4)  
 **Target Environment:** Supabase Project `hhqgreaoqulmfwfwarhc` (AWS Seoul, Region: `ap-northeast-2`)  
@@ -28,7 +28,7 @@ Phase 9 establishes the definitive governance resolution, evidentiary audit, and
    - **Phase 10 Not Started:** Phase 10 will **not** be initiated automatically.
 
 ### Summary Gating Verdicts:
-- **Gate A (Local Implementation Baseline):** **CLEARED / 100% PASS (HERMETIC SCOPE)**. All 150 Deno unit tests pass; 12 `family-admin` tests pass; 33-file SQL regression chain passes with 0 errors; negative control caught with Exit Code 3 at line 411; 39 Android JVM unit tests pass; 408 Flutter tests pass.
+- **Gate A (Local Implementation Baseline):** **CLEARED / 100% PASS (HERMETIC SCOPE)**. All 150 Deno unit tests pass; 12 `family-admin` tests pass; 33-file SQL regression chain passes with 0 errors; negative control caught with Exit Code 3 at line 411; 39 Android JVM unit tests pass; 408 Flutter tests pass. **[Dated R9 classification (2026-11-05 09:17 +0530): these figures are not a single Phase 9 execution window. Per `phase-9-regression-matrix.md` §2.1 — Deno 150 / family-admin 12 / SQL chain / negative control were re-run locally in the 2026-11-04 09:51–11:09 +0530 Phase 9 window; the 39 JVM tests (2026-11-03 15:10) and the 408 Flutter tests (2026-11-03 16:21:40) are the Phase 5 historical baseline and were **not** re-run in Phase 9. Gate A is a local hermetic baseline, not hosted production verification.]**
 - **Gate B (Android Hardware QA):** **BLOCKED (P1 Release Blocker - GAP AND-01)**. 0 of 75 controlled QA rows run on live devices.
 - **Gate C (Hosted Supabase Backend Hardening):** **BLOCKED (P1 Release Blocker - GAP HOST-01)**. Four migrations unapplied, three Edge Functions (`account`, `family-admin`, `device-command`) undeployed, and five read-only preflight queries prepared but not executed against hosted. Migrations 1–4 unapplied; client `DELETE` privilege on `safe_zones` remains live on hosted PostgreSQL.
 - **Gate D (Production Release & Distribution):** **HARD STOP (NO-GO)**. Gated until Gates B and C are resolved.
@@ -44,7 +44,7 @@ Subagent 1 independently verified all Phase 8 deliverables, test harnesses, migr
   * Deno 150-test suite: Exit 0, 150 passed / 0 failed in 2.0s (`.tools/ci-logs/deno-full-test.log`).
   * Targeted `family-admin` suite: Exit 0, 12 passed / 0 failed in 142ms (`.tools/ci-logs/deno-family-admin-test.log`).
   * Local CI Stage 3: Exit 0, Deno Edge Function tests passed in 2.7s (`.tools/ci-logs/ci-run-20261104-110917.log`).
-  * PostgreSQL 33-file SQL chain (Positive): Exit 0, 33 files, 621 lines, 0 errors (`.tools/chain_p6chain_20261104_095112.log`).
+  * PostgreSQL 33-file SQL chain (Positive): Exit 0, 33 files, 621 lines, 0 errors (`.tools/chain_p6chain_20261104_095112.log`). **[Dated R9 correction 2026-11-05 09:17 +0530: "33 files" and "0 errors" are supported by the log; the "621 lines" figure is not — the log measures 648 lines. Suite-by-suite evidence classification: see `phase-9-regression-matrix.md` §2.1.]**
   * SQL-05 Negative Control: Exit 3, caught assertion failure at `76_zone_delete_atomic_rpc.sql:411` (`.tools/chain_p6chain_neg_20261104_095527.log`).
 - **Migration & Edge Function Checksums:** Verified 100% against disk files in `supabase/migrations/` and `supabase/functions/`.
 - **Historical References (Phases 5, 6, 7):** All 69 delivered tree paths in Phase 5 match disk bytes (aggregate `2bd6b310...`); all 20 manifest artifacts match; Phase 6 and 7 deliverables verified on disk.

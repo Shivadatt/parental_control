@@ -110,7 +110,7 @@ As established in [`docs/implementation/phase-8-android-qa-report.md`](file:///d
 | Subsystem Category | Rows | Planned Scope | Actual Observed Result | Operational Status |
 |---|---:|---|---|---|
 | Audio Assistance & Consent Lifecycle | 1–25 | WebRTC audio stream, green dot, consent dialogs, 15s watchdog | Zero commands issued; devices isolated | **NOT RUN** |
-| Remote Management & Policy Sync | 26–40 | Web filtering, app blocking, bedtime lock, safe zones | Zero commands issued; devices isolated | **NOT RUN** |
+| Remote Management & Policy Sync | 26–40 | App blocking, bedtime lock, safe zones (web filtering deferred per DEC-15) | Zero commands issued; devices isolated | **NOT RUN** |
 | Account Privacy & Data Governance | 41–55 | Retention sweeps, audit log immutability, RLS isolation | Zero commands issued; devices isolated | **NOT RUN** |
 | Pairing, Provisioning & Recovery | 56–65 | QR code ceremony, re-pairing revoked devices, token expiry | Zero commands issued; devices isolated | **NOT RUN** |
 | Edge Cases & Resilience | 66–75 | Airplane mode cycling, low disk, high RTT, crash recovery | Zero commands issued; devices isolated | **NOT RUN** |

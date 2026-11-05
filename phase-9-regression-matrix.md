@@ -40,6 +40,25 @@ The following 10 automated verification suites establish the local hermetic base
 | **S9** | Android JVM Unit Tests | `./gradlew test` (Robolectric / JUnit 4) | `0` | 6 test classes, **39 tests passed / 0 failed** | **PASS (SCOPED)** | `reports/test-results/TEST-*.xml` |
 | **S10** | Flutter Unit & Widget Tests | `flutter test` (Dart test runner) | `0` | **408 tests passed / 0 failed**; Dart analyze clean | **PASS (SCOPED)** | `docs/evidence/phase5/logs/p5-coord-flutter-run2.log` |
 
+### 2.1 Dated R9 evidence classification (2026-11-05 09:17 +0530)
+
+_Classification only — **no suite was re-run by this pass**. Execution windows were taken from the cited artifacts themselves (file mtimes and log contents re-read 2026-11-05), not from the prose above, which is preserved as the execution-window record._
+
+| Suite | Evidence class | Measured window / basis | Independent verification |
+|---|---|---|---|
+| **S1** | PHASE 9 EXECUTION **+** HISTORICAL BASELINE corroboration | `.tools/ci-logs/deno-full-test.log` mtime 2026-11-04 11:08:46, ends `ok \| 150 passed \| 0 failed`; same figure exists historically at Phase 5 (`p5-coord-deno-full3.txt`, 2026-11-03 16:21:40) | Author re-read; **no second party** |
+| **S2** | PHASE 9 EXECUTION | `.tools/ci-logs/deno-family-admin-test.log` 2026-11-04 11:09:08, `12 passed \| 0 failed`. Note: the Phase 5 log `p5-coord-deno-sql05.log` recorded **17 passed** over a different file set — 12 and 17 are different runs, not a contradiction | Author re-read |
+| **S3** | PHASE 9 EXECUTION (script self-report) | `.tools/ci-logs/ci-run-20261104-110917.log` 2026-11-04 11:09:20. **"working tree verified clean" is the CI script's own printed message**, not a measured tree state | **NOT INDEPENDENTLY VERIFIED** |
+| **S4** | PHASE 9 EXECUTION **+** HISTORICAL corroboration | `.tools/chain_p6chain_20261104_095112.log` (run 09:51:12), 648 lines, 0 ERROR; Phase 5 `p5coord-chain-run10.log` ends `PSQL_EXIT=0 PRE76=<none> F_FILES=33`. **Defect: the "621 log lines" figure in this table and in `phase-9-report.md` is unsupported — 648 measured.** 33 files and exit 0 are supported | Author re-read |
+| **S5** | PHASE 9 EXECUTION **+** HISTORICAL corroboration | `.tools/chain_p6chain_neg_20261104_095527.log` (run 09:55:27), 647 lines, `ASSERTION FAILED` reported at `76_zone_delete_atomic_rpc.sql:411`; Phase 5 `p5coord-chain-negative3.log` ends `PSQL_EXIT=3 … F_FILES=34` (34, not 33 — the injected lossy file adds one) | Author re-read |
+| **S6** | HISTORICAL BASELINE — **digest audit, not software test execution** | `docs/evidence/phase5/tree-digest-final.txt` mtime 2026-11-03 17:44:49, 69 paths; its own SHA-256 re-measured 2026-11-05 = `2bd6b310dae6a0b516dbb60f6bc27b6ccc24f20df20e36491834568cb3aa4e4b`, matching `docs/evidence/phase5/MANIFEST.md:216` | Author re-read |
+| **S7** | HISTORICAL BASELINE — **evidence-table audit, not test execution** | Phase 5 window (2026-11-03), `docs/evidence/phase5/MANIFEST.md` §8 table vs `Get-FileHash` output | Author re-read |
+| **S8** | HISTORICAL BASELINE — **documentation scan, not test execution** | Phase 6 window, `docs/implementation/phase-6-doc-path-validation*` | **NOT INDEPENDENTLY VERIFIED** |
+| **S9** | HISTORICAL BASELINE — **not re-run in Phase 9** | XML mtimes 2026-11-03 15:10. **Path defect: the cited `reports/test-results/TEST-*.xml` does not exist.** Actual ignored copies: `build/app/test-results/testDebugUnitTest/TEST-*.xml` (hidden by `.gitignore:54`, not clone-durable). Clone-durable tracked copies: `docs/evidence/phase5/gradle-junit/TEST-*.xml` — 6 files, `tests=` 8+7+4+3+4+13 = **39**, `failures=` 0, re-measured 2026-11-05 | Author re-read |
+| **S10** | HISTORICAL BASELINE — **NOT a Phase 9 run** | `docs/evidence/phase5/logs/p5-coord-flutter-run2.log` mtime 2026-11-03 16:21:40, line 418 `00:30 +408: All tests passed!`. The 408-test figure is the **Phase 5** baseline; Phase 9 never executed `flutter test` | Author re-read |
+
+**Effect on Gate A framing:** S1–S5 are genuine local Phase 9 executions against a local Deno/PostgreSQL harness; S6–S8 are checksum, manifest and documentation audits and **must not be counted as software test executions**; S9–S10 are Phase 5/8-era historical results. All ten together constitute a **local hermetic baseline only** — none of them verifies hosted production behaviour, and none was independently witnessed by a second party.
+
 ---
 
 ## 3. Detailed SQL Chain Execution & Negative Control Verification

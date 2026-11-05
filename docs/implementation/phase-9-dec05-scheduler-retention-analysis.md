@@ -5,7 +5,7 @@
 **Project:** Android-first Parental Control Application  
 **Repository:** `D:\parentcontrol_app`  
 **Branch:** `main`  
-**Current HEAD:** `b12659b9795ba69499483a84750a33897dd7e08a`  
+**Execution-window HEAD (historical snapshot — not the repository tip):** `b12659b9795ba69499483a84750a33897dd7e08a` _[Label corrected by the 2026-11-05 R9 pass; value is this document's authoring-time HEAD. Current tip requires a fresh measurement — see `docs/evidence/phase9/FINAL-RESIDUAL-CORRECTION-ADDENDUM-R9.md`.]_  
 **Date:** 2026-11-04  
 **Author / Role:** Subagent 6: Scheduler & Retention Policy Analyst  
 **Coordinator ID:** `69ce22be-3642-4007-a757-b448f71c7ebc`  

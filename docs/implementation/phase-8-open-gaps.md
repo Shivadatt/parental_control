@@ -81,7 +81,7 @@ The 75-row Android Controlled QA suite covers critical end-to-end user behaviors
 - WebRTC microphone streaming with active OS green dot indicator.
 - 15-second watchdog termination when parent backgrounds the application.
 - Immediate 500ms audio stream teardown when child taps "Stop Sharing".
-- Real-time policy push (web filtering, app restrictions, bedtime lock).
+- Real-time policy push (app restrictions, bedtime lock; web filtering deferred/not implemented per DEC-15).
 Because DEC-03 is withheld, **none of these behaviors have been verified on physical hardware**. AND-01 is a **P1 Release Blocker** for production client rollout.
 
 ### 4.3 DUR-01: Untracked Phase 5 Execution Logs

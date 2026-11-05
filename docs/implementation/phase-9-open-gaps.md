@@ -7,7 +7,7 @@
 **Date:** 2026-11-04  
 **Target Commit:** `b12659b9795ba69499483a84750a33897dd7e08a` (`main`)  
 **Active Release Blockers:** Exactly **2 P1 Blockers** (HOST-01 and AND-01 / GATE-B-01) [dated 2026-11-04: "2" counts P1 blockers only - §2 of this register still carries **14 active/residual items** (2 P1, 6 P2, 6 P3). No P2/P3 item was closed by the DEC-01 or DEC-05 rulings.]  
-**Production Criticality:** **0 P0 Vulnerabilities on Live Production** (Protected by DEC-02 Negative Boundary)
+**Production Criticality:** **0 P0 Vulnerabilities on Live Production** (Protected by DEC-02 Negative Boundary) _**[Dated R9 correction (2026-11-05 09:17 +0530): "Protected by DEC-02 Negative Boundary" must not be read as remediation.** Per §3.1 of this register and the 2026-11-04 read-only hosted evidence, the direct authenticated `DELETE` privilege on hosted `public.safe_zones` **remains live** on Supabase `hhqgreaoqulmfwfwarhc`. What DEC-02 protects is the boundary against unauthorised hosted mutation: it forbids this team from applying or testing fixes hosted-side without written authorisation. It does not revoke, mitigate or remediate the privilege — the fix ships with Migrations 1–4 and the Edge Function deployments that DEC-02 has not yet authorised. **GAP HOST-01 stays an ACTIVE P1 release blocker** (severity unchanged; this pass neither reclassified it nor claims closure), and **no remediation may be claimed until authorised hosted deployment plus post-deployment verification actually occur**. The count "0 P0" is a severity classification of recorded gaps, not a statement that production is secure.]_
 
 ---
 

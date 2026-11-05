@@ -150,6 +150,8 @@ All workstreams are complete. The release gate stands at **NO-GO** awaiting owne
 | 5 | **Owner external commit + push (15:18:45 +0530)** | `65b39485a10b51e9a3e26f6b7f09f057b904b126` | previously unrecorded; recorded here for the first time |
 | 6 | Governance-consistency pass (measured 16:32 +0530) | `65b3948` - 0 staged / 0 unstaged / 0 untracked non-ignored / 32 ignored | this section |
 | 7 | **Owner external commit + push (17:46:37 +0530)** | `6b6c027390fa54b30be91263825a7599eae8376e` = `origin/main` ("refactor: finalize phase 9 governance consistency audit and documentation addenda"; the 21 files of the governance pass, including `FINAL-GOVERNANCE-CONSISTENCY-AUDIT.md`; tree then 0 staged / 0 unstaged / 0 untracked / 32 ignored) | measured 17:46:54 +0530 (`git log`, `git reflog`); recorded here for the first time |
+| 8 | **Owner external commit + push (2026-11-04 17:49:46 +0530)** | `b398ab8425b256f5991aed0dd55b8ccd1d71fbe6` = `origin/main` ("docs: add phase 9 final governance consistency audit and manifest"; 2 files — this manifest and the governance audit; 0 `.log` files) | measured 2026-11-05 09:11:14 +0530 at the R9 baseline; **supersedes every earlier "current HEAD" statement in this manifest, which are historical snapshots** |
+| 9 | **R9 residual-correction pass (2026-11-05)** | baseline `b398ab8`, 0 staged / 0 unstaged / 0 untracked at 09:11:14 and 09:17:13 +0530; the index then changed at **09:23:01 +0530** (8 files staged by a process outside this pass — see the R9 addendum §index anomaly). No commit or push by this pass | `docs/evidence/phase9/FINAL-RESIDUAL-CORRECTION-ADDENDUM-R9.md` |
 
 No documentation pass created or pushed any commit; items 2 and 5 are the owner's external actions. [Dated 2026-11-04 17:46:54 +0530: item 7 is a third owner external commit, made while the governance-consistency pass was still running — that wording above was accurate when written with two known owner commits. Item 7 also added **no** raw `.log` evidence (`git show --name-only 6b6c027 | grep -ci '\.log$'` → 0).] The owner's commits added **no** raw `.log` evidence, so DEC-01 Choice B remains intact.
 
@@ -185,4 +187,12 @@ No documentation pass created or pushed any commit; items 2 and 5 are the owner'
 ### 7.5 Decision and Gate Status After This Pass
 
 DEC-01 **APPROVED - CHOICE B**; DEC-02 **PENDING**; DEC-03 **PENDING**; DEC-05 **APPROVED - CHOICE B (on-demand only; hosted invocation separately gated)**; DEC-04 and DEC-06 through DEC-11 unchanged. DUR-01 **OPEN (accepted, P2)**; SCHED-01 **OPEN (accepted, P2)**; HOST-01 **P1 blocker OPEN**; AND-01 / GATE-B-01 **P1 blocker OPEN**. Gate A = local verification baseline only; Gate B **BLOCKED**; Gate C **BLOCKED**; Gate D **NO-GO**.
+
+### 7.6 R9 Residual-Correction Pass (2026-11-05)
+
+Added 2026-11-05 by the R9 documentation-only pass. §7.2 row 8 and row 9 record the current measured HEAD (`b398ab8…`, owner commit + push 2026-11-04 17:49:46 +0530) and the R9 index anomaly; both supersede every "current HEAD" value earlier in this manifest, which are execution-window snapshots.
+
+- **§7.3 is the 2026-11-04 digest record and is left untouched as history.** The R9 pass modified seven of the nine documents listed there, so those digests are no longer current. The authoritative before/after SHA-256 table for the R9 pass is §"Before/After hashes" of `docs/evidence/phase9/FINAL-RESIDUAL-CORRECTION-ADDENDUM-R9.md`, measured 2026-11-05 with the same worktree-bytes basis and the same `core.autocrlf` caveat.
+- **New content added by R9:** gate independence clarification for DEC-02 vs DEC-03 (`phase-9-release-readiness.md` §playbook directive), live-privilege wording for HOST-01 (`phase-9-open-gaps.md` §Production Criticality), the S1–S10 evidence-classification table (`phase-9-regression-matrix.md` §2.1, cross-referenced from `phase-9-report.md` and `phase-9-decision-execution-log.md`), and precise "Execution-window HEAD (historical snapshot)" labels replacing five bare "Current HEAD" header fields.
+- **Decision and gate status is unchanged by R9:** the posture in §7.5 above still holds verbatim — no approval was inferred, no gap closed, no gate weakened.
 

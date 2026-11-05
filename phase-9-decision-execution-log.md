@@ -5,7 +5,7 @@
 **Project:** Android-first Parental Control Application  
 **Repository:** `D:\parentcontrol_app`  
 **Branch:** `main`  
-**Current HEAD:** `b12659b9795ba69499483a84750a33897dd7e08a` (`feat: implement GuardianService background sync and policy enforcement core`)  
+**Execution-window HEAD (historical snapshot — not the repository tip):** `b12659b9795ba69499483a84750a33897dd7e08a` (`feat: implement GuardianService background sync and policy enforcement core`) _[Label corrected by the 2026-11-05 R9 pass; the value was this document's HEAD at authoring time. Current tip requires a fresh measurement — see `docs/evidence/phase9/FINAL-RESIDUAL-CORRECTION-ADDENDUM-R9.md`.]_  
 **Working Tree Status:** 53 staged files in index at the 2026-11-04 12:00 +05:30 pre-edit baseline (23 baseline + 14 Phase 8 + 16 Phase 9) with 0 unstaged modifications - a tree holding 53 staged files is not a clean working tree. **Correction pass (2026-11-04): HEAD `75d1a5232acbd87fe1068b5000d2916892e8143d` on `main`, 0 staged, 15 unstaged modifications, 1 untracked non-ignored file (the new docs/evidence/phase9/DOCUMENTATION-CORRECTION-ADDENDUM.md).** The owner's external commit at 12:23:31 +05:30 converted those 53 staged files into committed history. No `git add`, staging or commit was performed by either documentation pass; all edits remain unstaged.  
 **Date:** 2026-11-04  
 **Author / Role:** Phase 9 documentation pass - owner decision reconciliation
@@ -212,6 +212,10 @@ The production release gating evaluation following owner decision reconciliation
 | **Gate B** | **Android QA Hardware Verification** | **BLOCKED** | **P1 (Release Blocker)** | Governed by DEC-03 (Pending Owner Authorization). All 75 QA matrix rows remain `NOT RUN`. GAP AND-01 / GATE-B-01 is OPEN. Hardware privacy invariants unverified on live devices. |
 | **Gate C** | **Hosted Supabase Hardening** | **BLOCKED** | **P1 (Release Blocker)** | Governed by DEC-02 (Pending Owner Authorization). Migrations 1–4 unapplied and Edge Functions (`account`, `family-admin`, `device-command`) undeployed on hosted Supabase `hhqgreaoqulmfwfwarhc`. GAP HOST-01 is OPEN. Direct client `DELETE` vulnerability remains live on hosted PostgreSQL. |
 | **Gate D** | **General Production Release** | **NO-GO** | **CRITICAL RELEASE STOP** | **HARD STOP**. Inviolable Release Rule: General production release is strictly prohibited until Gates B and C have independently passed their authorized verification requirements. Local regression success must not be presented as hosted production verification. |
+
+---
+
+> **Dated R9 evidence classification note (2026-11-05 09:17 +0530).** The Gate A row above aggregates results from **two different execution windows**. Per `phase-9-regression-matrix.md` §2.1: the Deno 150-test suite, the targeted `family-admin` 12-test suite, the local CI Stage 3 run, the 33-file PostgreSQL chain and the SQL-05 negative control are **PHASE 9 EXECUTION** artifacts (local logs dated 2026-11-04 09:51–11:09 +0530). The 39 Robolectric/JVM tests and the 408 Flutter widget/unit tests are **HISTORICAL BASELINE** artifacts from the Phase 5 window (2026-11-03 15:10 and 16:21:40) and were **not re-run in Phase 9** — the Kotlin figure cited here as "39/39 passed" is that historical run, not a fresh Phase 9 execution. S6–S8 (checksum digest audit, Phase 5 manifest table audit, documentation path scan) are **verification audits of evidence, not software test execution**, and must not be counted toward the test totals. Everything in this register remains a **local hermetic baseline**; hosted production behaviour is unverified and Gate C stays BLOCKED. No suite was re-run by the R9 pass.
 
 ---
 

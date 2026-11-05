@@ -65,6 +65,8 @@ The project enforces an inviolable sequential gating model:
 
 > [!IMPORTANT]
 > **GOVERNANCE DIRECTIVE:** The following playbook is **FROZEN ON STANDBY**. No step may be executed until explicit written approval for DEC-02 and DEC-03 is recorded.
+>
+> _Dated R9 clarification (2026-11-05 09:17 +0530): the sentence above couples two independent approvals. Under the owner decision model, **DEC-02 and DEC-03 gate disjoint stage sets and neither implies the other**: **DEC-02** governs Stages 1–4 — hosted read-only preflight queries, hosted migrations 2.1–2.4, Edge Function deployments, and hosted post-deployment verification; **DEC-03** governs Stage 5 only — APK compilation, ADB connection, device pairing, physical/emulator Android QA and the 75-row QA matrix. A lone DEC-02 approval would unblock Stages 1–4 without authorising Stage 5, and a lone DEC-03 approval would unblock Stage 5 without authorising any hosted mutation; Gate D still requires both gates to have passed independently. The directive above is preserved verbatim because it is this document's execution-window wording. **Measured current posture: DEC-02 PENDING and DEC-03 PENDING, so every stage remains prohibited — including the read-only hosted preflights, which were not executed by the R9 pass.** No operation is authorised by this clarification._
 
 ### Stage 1: Supabase Dashboard SQL Editor Preflights (Read-Only)
 Execute the 5 Preflight Queries in the Supabase Dashboard SQL Editor for project `hhqgreaoqulmfwfwarhc`:

@@ -6,7 +6,7 @@
 **Companion Mirror:** [`docs/implementation/phase-9-git-integrity-report.md`](file:///d:/parentcontrol_app/docs/implementation/phase-9-git-integrity-report.md)  
 **Date:** 2026-11-04  
 **Active Branch:** `main`  
-**Current HEAD Commit:** `b12659b9795ba69499483a84750a33897dd7e08a` (`feat: implement GuardianService background sync and policy enforcement core`)  
+**Execution-window HEAD (historical snapshot — not the repository tip):** `b12659b9795ba69499483a84750a33897dd7e08a` (`feat: implement GuardianService background sync and policy enforcement core`) _[Label corrected by the 2026-11-05 R9 pass; the value was this document's HEAD at authoring time. Current tip requires a fresh measurement — see `docs/evidence/phase9/FINAL-RESIDUAL-CORRECTION-ADDENDUM-R9.md`.]_  
 **Phase 5 Baseline Commit:** `953b337bb8e24a46dd5ddfdf7b281b2159d73c2d`  
 **Auditor:** Subagent 2 (Git Integrity Auditor) & Antigravity Phase 9 Coordinator  
 **Governance Status:** Strictly Read-Only Audit (Zero Git write commands executed)
