@@ -7,6 +7,7 @@ import 'package:parent_control/data/models/device.dart';
 import 'package:parent_control/data/models/telemetry.dart';
 import 'package:parent_control/data/repositories/repository_contracts.dart';
 import 'package:parent_control/data/services/connectivity_service.dart';
+import 'package:parent_control/features/app_restrictions/enforcement_reason.dart';
 import 'package:uuid/uuid.dart';
 
 class ScreenTimeController extends GetxController {
@@ -57,7 +58,15 @@ class ScreenTimeController extends GetxController {
   int? get currentVersion => currentPolicy?.version;
   bool get awaitingAcknowledgement =>
       currentStatus == PolicyEnforcementStatus.pending;
-  bool get hasLimit => dailyLimitMinutes.value != null;
+  bool get hasLimit => configuredDailyLimit != null;
+
+  /// The stored limit only when it is a real one: 0 or an out-of-range value is
+  /// not a quota, it is the absence of one.
+  int? get configuredDailyLimit {
+    final limit = dailyLimitMinutes.value;
+    if (limit == null || limit < 1 || limit > 1440) return null;
+    return limit;
+  }
   bool get hasBedtime =>
       bedtimeStartMinutes.value != null && bedtimeEndMinutes.value != null;
 
@@ -83,6 +92,46 @@ class ScreenTimeController extends GetxController {
         return day == _today;
       })
       .fold(0, (total, entry) => total + entry.totalMs);
+
+  int get todayTotalMinutes => todayTotalMs ~/ 60000;
+
+  /// Whether today's usage is a reading at all. Denied access, an unreported
+  /// access state or a failed usage read leaves the number unknown, which is
+  /// not the same as zero used.
+  bool get usageKnownToday =>
+      !usageAccessDenied && !usageAccessUnknown && usageError.value == null;
+
+  /// `max(0, limit - usage)` in minutes for the day so far, or null when no
+  /// limit is configured.
+  int? get remainingMinutesToday {
+    final limit = configuredDailyLimit;
+    if (limit == null || !usageKnownToday) return null;
+    final remaining = limit - todayTotalMinutes;
+    return remaining < 0 ? 0 : remaining;
+  }
+
+  bool get limitReachedToday {
+    final limit = configuredDailyLimit;
+    if (limit == null) return false;
+    return todayTotalMinutes >= limit;
+  }
+
+  String get remainingTimeText {
+    if (configuredDailyLimit == null) return 'No daily limit set';
+    final remaining = remainingMinutesToday;
+    if (remaining == null) {
+      return 'Unknown — the device has not reported usage yet';
+    }
+    return formatMinutes(remaining);
+  }
+
+  String get limitReachedText {
+    if (configuredDailyLimit == null) return 'No limit to reach';
+    if (!usageKnownToday) {
+      return 'Unknown — the device has not reported usage yet';
+    }
+    return limitReachedToday ? 'Reached' : 'Not reached';
+  }
 
   int get weekTotalMs => entries
       .where((entry) {
@@ -266,11 +315,14 @@ class ScreenTimeController extends GetxController {
   }
 
   void setDailyLimit(int? minutes) {
-    if (minutes == null) {
+    // Only 1–1440 is a configurable limit. A value below 1 clears it rather
+    // than storing a zero the server would reject and the device could read as
+    // a total ban.
+    if (minutes == null || minutes < 1) {
       dailyLimitMinutes.value = null;
       return;
     }
-    dailyLimitMinutes.value = minutes.clamp(0, 1440).toInt();
+    dailyLimitMinutes.value = minutes.clamp(1, 1440).toInt();
   }
 
   void adjustDailyLimit(int deltaMinutes) {
@@ -418,8 +470,11 @@ class ScreenTimeController extends GetxController {
         return 'Policy v${policy.version} acknowledged by the device. Enforcement depends on the '
             'guardian service running on the child phone.';
       case PolicyEnforcementStatus.failed:
-        final error = policy.lastError == null ? '' : ': ${policy.lastError}';
-        return 'Policy v${policy.version} failed on the device$error.';
+        final reason = enforcementReasonText(policy.lastError);
+        if (reason == null) {
+          return 'Policy v${policy.version} failed on the device.';
+        }
+        return 'Policy v${policy.version} failed on the device: $reason';
       case PolicyEnforcementStatus.unsupported:
         return 'Policy v${policy.version} is unsupported on this device.';
     }

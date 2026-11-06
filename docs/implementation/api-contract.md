@@ -243,6 +243,7 @@ named, not copied from the draft.)*
 | `audit_logs.event_type` | `session_expired` with `metadata = {"reason":"abandoned","age_seconds":N}` |
 | `remote_sessions` system closure | **resolved deviation:** `ended_by = null` + `ended_reason = 'abandoned'` (the pair is the system marker). The coordinator text says `ended_by='system'`, but the column is `uuid references profiles` (`core.sql:340`), so the literal value is unrepresentable. Recorded in `phase-0-report.md` §4 as D1. |
 | `policy_ack.result` | adds `desired_count:int`, `applied_count:int`, `failed_count:int`, `enforcement_supported:bool`, `enforcement_mode:string` |
+| `policy_ack.result.quota` | T-B-02 additive object (2026-11-06): `configured:bool`, `usage_available:bool`, `usage_minutes:int\|null`, `limit_minutes:int\|null`, `day_bucket:string\|null`, `limit_reached:bool`, `action:none\|advisory\|suspended\|suspend_failed`, `desired_count:int`, `applied_count:int`, `failed_count:int`, `enforcement_supported:bool`, `enforcement_mode:string`, `reason:string\|null`. Absent object = no quota proof, never quota satisfied. |
 | `Device.syncHealth` | `healthy` < 12 min, `stalled` < 30 min, `offline` otherwise (derived, not stored) |
 
 ## 6. Phase 1 additions (NEW — written locally, not applied, not deployed)

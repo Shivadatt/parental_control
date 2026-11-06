@@ -10,6 +10,8 @@ import com.parentcontrol.parent_control.policy.ChildPolicy
 import com.parentcontrol.parent_control.policy.PolicyEvaluator
 import com.parentcontrol.parent_control.policy.PolicyGuard
 import com.parentcontrol.parent_control.policy.PolicyJson
+import com.parentcontrol.parent_control.policy.QuotaDecision
+import com.parentcontrol.parent_control.policy.QuotaEvaluator
 import java.util.Calendar
 
 /**
@@ -45,6 +47,7 @@ class PolicyApplier(
         var desiredCount = 0
         var appliedCount = 0
         var enforcementSupported = false
+        var quotaDecision: QuotaDecision? = null
         try {
             if (policyJson != null) store.setPolicyJson(policyJson.toString())
             val raw = policyJson ?: store.policyJson()?.let { JSONObject(it) }
@@ -111,6 +114,22 @@ class PolicyApplier(
             // wanted but cannot be applied, so it must show up as a failure
             // instead of disappearing from the denominator.
             desiredCount = desired.size + failures.size
+            val appDesired = LinkedHashSet(desired)
+            val quotaPlan = quotaPlan(
+                policy = policy,
+                installed = installed.values.toList(),
+                dayBucket = TimeUtils.localDayString(calendar.timeInMillis),
+                dayStartMillis = TimeUtils.startOfLocalDay(calendar.timeInMillis),
+                dayEndMillis = calendar.timeInMillis,
+                isOwner = isOwner,
+                protectedHome = protectedHome,
+                protectedIme = protectedIme,
+                persistedDayBucket = store.quotaActiveDayBucket()
+            )
+            // Quota targets join the same desired set, so the differential below
+            // keeps them suspended on every tick and restores them when the
+            // limit is raised, removed, or the local day rolls over.
+            desired.addAll(quotaPlan.targets)
             var suspendCallSucceeded = false
 
             if (desiredCount > 0 && !isOwner) {
@@ -121,7 +140,7 @@ class PolicyApplier(
                     "Device Owner provisioning is required to suspend apps on this device. " +
                         "No apps were suspended."
                 )
-                unsupported.addAll(desired)
+                unsupported.addAll(appDesired)
             } else if (isOwner) {
                 val toSuspend = desired - previous
                 val toRestore = PolicyEvaluator.restoreList(previous, desired)
@@ -146,7 +165,7 @@ class PolicyApplier(
             for (packageName in desired + previous) {
                 if (isSuspended(packageName)) tracked.add(packageName)
             }
-            for (packageName in desired) {
+            for (packageName in appDesired) {
                 if (packageName !in tracked) {
                     val reason = "Could not confirm that $packageName is suspended."
                     failures.putIfAbsent(packageName, reason)
@@ -160,16 +179,45 @@ class PolicyApplier(
             }
             store.setSuspendedPackages(tracked)
             suspended = tracked
+
+            val quota = QuotaEvaluator.decide(
+                configured = quotaPlan.configured,
+                usageAvailable = quotaPlan.usageAvailable,
+                usageMinutes = quotaPlan.usageMinutes,
+                limitMinutes = quotaPlan.limitMinutes,
+                dayBucket = quotaPlan.dayBucket,
+                isManaged = isOwner,
+                targetPackages = quotaPlan.targetPackages,
+                alreadySuspended = { packageName -> packageName in tracked },
+                persistedDayBucket = quotaPlan.persistedDayBucket,
+                confirmationAvailable = quotaPlan.confirmationAvailable
+            )
+            quotaDecision = quota
+            // The day a suspension is held for is persisted so a reboot or a
+            // process restart cannot be mistaken for a fresh quota day. An
+            // advisory verdict suspends nothing, so it records no day.
+            val heldDayBucket = if (quota.quotaActive && quota.targets.isNotEmpty()) {
+                quota.dayBucket
+            } else {
+                null
+            }
+            store.setQuotaActiveDayBucket(heldDayBucket)
+            if (quota.action == QuotaEvaluator.ACTION_SUSPEND_FAILED) {
+                errors.add(
+                    "The daily screen-time limit was reached, but not every app could be suspended."
+                )
+            }
+
             if (policyVersion != null) store.setAppliedVersion(policyVersion)
 
-            val applied = desired.filter { it in tracked }.toSet()
+            val applied = appDesired.filter { it in tracked }.toSet()
             appliedCount = applied.size
             // Supported needs Device Owner plus evidence that every eligible
             // package really is suspended: either this run's
             // setPackagesSuspended call or a previously confirmed set. With no
             // eligible package at all, Device Owner alone is the capability.
             enforcementSupported = isOwner && (
-                suspendCallSucceeded || applied.size == desired.size
+                suspendCallSucceeded || applied.size == appDesired.size
                 )
             countsKnown = true
             success = errors.isEmpty() && (
@@ -197,7 +245,8 @@ class PolicyApplier(
             desiredCount = desiredCount,
             appliedCount = appliedCount,
             enforcementSupported = enforcementSupported,
-            failures = failures
+            failures = failures,
+            quota = quotaDecision
         )
     }
 
@@ -346,6 +395,89 @@ class PolicyApplier(
         }
     }
 
+    /** Quota inputs measured from the device; the verdict itself is pure. */
+    private data class QuotaPlan(
+        val configured: Boolean,
+        val usageAvailable: Boolean,
+        val usageMinutes: Int?,
+        val limitMinutes: Int?,
+        val dayBucket: String,
+        val persistedDayBucket: String?,
+        val targetPackages: Set<String>,
+        val targets: Set<String>,
+        val confirmationAvailable: Boolean
+    )
+
+    private fun quotaPlan(
+        policy: ChildPolicy,
+        installed: List<InstalledPackage>,
+        dayBucket: String,
+        dayStartMillis: Long,
+        dayEndMillis: Long,
+        isOwner: Boolean,
+        protectedHome: String?,
+        protectedIme: String?,
+        persistedDayBucket: String?
+    ): QuotaPlan {
+        val limit = QuotaEvaluator.limitMinutes(policy.dailyScreenTimeLimitMinutes)
+        val configured = limit != null
+        var usageAvailable = UsageReporter.hasAccess(context)
+        var usageMinutes: Int? = null
+        if (configured && usageAvailable) {
+            // A UsageStatsManager query every tick has a battery cost, so it
+            // only runs when a valid limit is configured.
+            val rows = try {
+                UsageReporter.query(context, dayStartMillis, dayEndMillis)
+            } catch (_: Exception) {
+                null
+            }
+            if (rows == null) {
+                usageAvailable = false
+            } else {
+                usageMinutes = QuotaEvaluator.totalUsageMinutesToday(rows, dayBucket)
+                if (usageMinutes == null) usageAvailable = false
+            }
+        }
+        val targetPackages = if (configured && usageAvailable && isOwner) {
+            QuotaEvaluator.quotaTargetPackages(
+                installed,
+                context.packageName,
+                protectedHome,
+                protectedIme
+            )
+        } else {
+            emptySet()
+        }
+        val targets = QuotaEvaluator.quotaSuspensionTargets(
+            configured = configured,
+            usageAvailable = usageAvailable,
+            usageMinutes = usageMinutes,
+            limitMinutes = limit,
+            isManaged = isOwner,
+            targetPackages = targetPackages
+        )
+        val confirmationAvailable = targets.isEmpty() || canConfirmSuspension()
+        return QuotaPlan(
+            configured = configured,
+            usageAvailable = usageAvailable,
+            usageMinutes = usageMinutes,
+            limitMinutes = limit,
+            dayBucket = dayBucket,
+            persistedDayBucket = persistedDayBucket,
+            targetPackages = targetPackages,
+            targets = targets,
+            confirmationAvailable = confirmationAvailable
+        )
+    }
+
+    /** Fail closed: without a readable DPM state no quota suspension is provable. */
+    private fun canConfirmSuspension(): Boolean = try {
+        devicePolicyManager.isPackageSuspended(admin, context.packageName)
+        true
+    } catch (_: Exception) {
+        false
+    }
+
     private fun buildResult(
         success: Boolean,
         suspended: Set<String>,
@@ -356,7 +488,8 @@ class PolicyApplier(
         desiredCount: Int = 0,
         appliedCount: Int = 0,
         enforcementSupported: Boolean = false,
-        failures: Map<String, String> = emptyMap()
+        failures: Map<String, String> = emptyMap(),
+        quota: QuotaDecision? = null
     ): JSONObject {
         val calendar = Calendar.getInstance()
         val result = JSONObject()
@@ -376,8 +509,32 @@ class PolicyApplier(
             result.put("enforcement_supported", enforcementSupported)
             result.put("enforcement_mode", enforcementMode())
             result.put("failures", failureArray(failures))
+            val quotaView = quota ?: QuotaEvaluator.notConfigured(
+                isDeviceOwner(),
+                TimeUtils.localDayString(calendar.timeInMillis)
+            )
+            result.put("quota", quotaObject(quotaView))
         }
         return result
+    }
+
+    /** `result.quota` — the screen-time verdict the app counters must not carry. */
+    private fun quotaObject(quota: QuotaDecision): JSONObject {
+        val json = JSONObject()
+        json.put("configured", quota.configured)
+        json.put("usage_available", quota.usageAvailable)
+        json.put("usage_minutes", quota.usageMinutes ?: JSONObject.NULL)
+        json.put("limit_minutes", quota.limitMinutes ?: JSONObject.NULL)
+        json.put("day_bucket", quota.dayBucket ?: JSONObject.NULL)
+        json.put("limit_reached", quota.limitReached)
+        json.put("action", quota.action)
+        json.put("desired_count", quota.desiredCount)
+        json.put("applied_count", quota.appliedCount)
+        json.put("failed_count", quota.failedCount)
+        json.put("enforcement_supported", quota.enforcementSupported)
+        json.put("enforcement_mode", quota.enforcementMode)
+        json.put("reason", quota.reason ?: JSONObject.NULL)
+        return json
     }
 
     private fun failureArray(failures: Map<String, String>): JSONArray {

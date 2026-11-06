@@ -68,6 +68,34 @@ code. Where this file and an older document disagree, this file wins for Phase 1
 - Parent UI must print "Applied to N of M apps" and must show an explicit unsupported state instead
   of a green enforced badge when `enforcement_supported` is false.
 - `enforcement_status` check already allows `pending|enforced|failed|unsupported` — no migration.
+- **T-B-02 additive extension (owner approved 2026-11-06).** `policy_ack.result.quota` is present
+  whenever the device evaluated a daily screen-time quota. `result` is free `jsonb`, so old devices
+  are unaffected; an absent object means "no quota proof", never "quota satisfied". Shape:
+  `{ configured, usage_available, usage_minutes|null, limit_minutes|null, day_bucket|null,
+  limit_reached, action, desired_count, applied_count, failed_count, enforcement_supported,
+  enforcement_mode, reason|null }` with `action ∈ none|advisory|suspended|suspend_failed` and
+  `reason ∈ quota_not_configured|quota_usage_unavailable|quota_below_limit|quota_advisory_only|`
+  `quota_confirmation_missing|quota_suspended N of M|quota_suspend_failed`.
+- Quota verdicts — device-local calendar day, suspension at `usage >= limit`, a limit outside
+  1–1440 counts as not configured:
+  - `enforced` + advance — Managed Mode, `action=suspended`, `desired_count>0`,
+    `applied_count == desired_count`, `failed_count == 0`.
+  - `enforced` + advance, `last_error=quota_below_limit` — usage measured and below the limit on a
+    capable device; the monitor is provably active.
+  - `unsupported` + advance, `last_error=quota_advisory_only` — Standard Mode advisory. Nothing was
+    suspended and nothing is claimed.
+  - `pending`, no advance — usage unavailable, the limit is reached but no suspension outcome was
+    established (`quota_confirmation_missing`), or the ack carries no `quota` object
+    (`limits_enforcement_unverified`, the pre-T-B-02 fallback for old devices).
+  - `failed`, no advance — `action=suspend_failed`, partial or total. A device that attributes the
+    failure to an unreadable DPM state still lands on `failed`, never on `enforced`.
+  - Malformed quota fields never count as proof.
+- A mixed policy keeps its app verdict (status and advance): app `failed` always wins, a quota
+  `suspend_failed` out-votes a non-failing app verdict, and otherwise the quota state is reported
+  through `last_error` only. `enforced` may therefore carry the qualifying `quota_below_limit`.
+- The app counters above stay scoped to app-targeting; quota counters live only inside
+  `result.quota`, so "Applied to N of M apps" keeps its meaning. No new `enforcement_status` value
+  is introduced: `partially_enforced` remains DEC-12 proposed vocabulary, not a wire value.
 
 ### Authorization (workstream: security)
 - `purge_data` requires **family owner**, not any parent.

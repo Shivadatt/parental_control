@@ -7,6 +7,7 @@ import 'package:parent_control/data/models/device.dart';
 import 'package:parent_control/data/models/policy_enforcement.dart';
 import 'package:parent_control/data/repositories/repository_contracts.dart';
 import 'package:parent_control/data/services/connectivity_service.dart';
+import 'package:parent_control/features/app_restrictions/enforcement_reason.dart';
 import 'package:uuid/uuid.dart';
 
 class AppRestrictionsController extends GetxController {
@@ -153,6 +154,72 @@ class AppRestrictionsController extends GetxController {
   /// Why the report on screen does or does not prove this policy.
   String? get enforcementCorrelationNotice =>
       enforcementEvidence.value?.correlationNotice;
+
+  /// The device's own daily-quota verdict for the policy on screen.
+  ///
+  /// Comes from `result.quota` on the same ack the app counters already use, so
+  /// no extra read is needed; null is the pre-T-B-02 shape and claims nothing.
+  QuotaReport? get quotaReport => enforcementReport?.quota;
+
+  String get quotaLimitText {
+    final quota = quotaReport;
+    if (quota == null) return 'Not reported by the device';
+    final limit = quota.limitMinutes;
+    if (limit == null || !quota.hasLimit) return 'No daily limit configured';
+    return formatMinutes(limit);
+  }
+
+  String get quotaUsageText {
+    final quota = quotaReport;
+    if (quota == null) return 'Not reported by the device';
+    final usage = quota.usageMinutes;
+    if (!quota.usageKnown || usage == null) {
+      return 'Usage unavailable on the device';
+    }
+    final bucket = quota.dayBucket;
+    return bucket == null
+        ? '${formatMinutes(usage)} today'
+        : '${formatMinutes(usage)} ($bucket)';
+  }
+
+  /// `max(0, limit - usage)`, or an explicit unknown. Never zero-by-default:
+  /// unknown usage is not the same as a full allowance or an empty one.
+  String get quotaRemainingText {
+    final remaining = quotaReport?.remainingMinutes;
+    if (remaining == null) return 'Unknown — the device reported no limit or no usage';
+    return formatMinutes(remaining);
+  }
+
+  String get quotaLimitReachedText {
+    final reached = quotaReport?.isLimitReached;
+    if (reached == null) return 'Not reported';
+    return reached ? 'Reached' : 'Not reached';
+  }
+
+  String get quotaActionText {
+    switch (quotaReport?.action) {
+      case 'none':
+        return 'No action taken';
+      case 'advisory':
+        return 'Advisory only — apps are not blocked';
+      case 'suspended':
+        return 'Apps suspended at the limit';
+      case 'suspend_failed':
+        return 'The device could not block apps';
+      default:
+        return 'Not reported by the device';
+    }
+  }
+
+  String get quotaReasonText {
+    final reason = enforcementReasonText(quotaReport?.reason);
+    if (reason == null) return 'The device gave no reason.';
+    return reason;
+  }
+
+  /// Rows for the quota panel. Hidden entirely when the ack carried no quota,
+  /// because "not reported" must not read as a set of zeros.
+  bool get showsQuotaPanel => enforcementReport?.hasQuotaReport ?? false;
 
   String get appsSnapshotMessage {
     if (appsError.value != null) {
@@ -670,9 +737,11 @@ class AppRestrictionsController extends GetxController {
             : ' (acknowledged ${formatDateTime(policy.acknowledgedAt)})';
         return 'Policy v${policy.version} enforced on the device — $counts$acknowledged.';
       case PolicyEnforcementStatus.failed:
-        final error =
-            policy.lastError == null ? '' : ': ${policy.lastError}';
-        return 'Policy v${policy.version} failed on the device$error.';
+        final reason = enforcementReasonText(policy.lastError);
+        if (reason == null) {
+          return 'Policy v${policy.version} failed on the device.';
+        }
+        return 'Policy v${policy.version} failed on the device: $reason';
       case PolicyEnforcementStatus.unsupported:
         return 'Policy v${policy.version} cannot be enforced on this device. '
             'App blocking requires Device Owner.';

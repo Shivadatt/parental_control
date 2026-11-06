@@ -44,6 +44,14 @@ import {
   readUuid,
 } from "../_shared/validation.ts";
 import { decideEnforcement, policyTargetsApps } from "./enforcement.ts";
+// Kept as a separate statement: handler_wiring_test.ts pins the exact text of
+// the import above, and widening it would break a wiring assertion that still
+// needs to hold.
+import { policyDeclaresTimeLimits } from "./enforcement.ts";
+// Also a separate statement, for the same reason as above: the quota block of
+// the ack is validated here and only ever reaches the decision as a
+// normalized value, so `decideEnforcement` never re-parses raw jsonb.
+import { normalizeQuotaAck } from "./enforcement.ts";
 import { denyAuthorization, type PostgresErrorLike } from "../_shared/error_mapping.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 
@@ -382,6 +390,10 @@ export async function handler(
               result,
               ackStatus: nextStatus,
               targetsApps: policyTargetsApps(command.payload.policy),
+              timeLimitsConfigured: policyDeclaresTimeLimits(
+                command.payload.policy,
+              ),
+              quota: normalizeQuotaAck(result),
             });
             const policyUpdate = await db
               .from("device_policies")

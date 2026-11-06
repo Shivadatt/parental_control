@@ -5,6 +5,7 @@ import 'package:parent_control/core/utils/formatters.dart';
 import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/data/models/device.dart';
 import 'package:parent_control/data/models/telemetry.dart';
+import 'package:parent_control/features/app_restrictions/enforcement_reason.dart';
 import 'package:parent_control/features/devices/device_presentation.dart';
 import 'package:parent_control/features/screen_time/screen_time_controller.dart';
 
@@ -298,7 +299,7 @@ class ScreenTimePage extends GetView<ScreenTimeController> {
             InfoBanner(
               tone: BannerTone.danger,
               title: 'Enforcement failed',
-              message: controller.currentPolicy?.lastError ??
+              message: enforcementReasonText(controller.currentPolicy?.lastError) ??
                   'The device reported a failure without an explanation.',
             ),
           ],
@@ -357,6 +358,18 @@ class ScreenTimePage extends GetView<ScreenTimeController> {
                 child: const Text('Remove limit'),
               ),
             ),
+          KeyValueRow(
+            label: 'Time remaining today',
+            value: controller.remainingTimeText,
+          ),
+          KeyValueRow(
+            label: 'Limit reached',
+            value: controller.limitReachedText,
+          ),
+          KeyValueRow(
+            label: 'Enforcement mode',
+            value: enforcementModeLabel(controller.device.value?.enforcementMode),
+          ),
           const SizedBox(height: 8),
           const Divider(),
           const SizedBox(height: 8),

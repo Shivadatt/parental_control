@@ -5,6 +5,7 @@ import 'package:parent_control/core/widgets/widgets.dart';
 import 'package:parent_control/data/models/device.dart';
 import 'package:parent_control/data/models/policy_enforcement.dart';
 import 'package:parent_control/features/app_restrictions/app_restrictions_controller.dart';
+import 'package:parent_control/features/app_restrictions/enforcement_reason.dart';
 import 'package:parent_control/features/devices/device_presentation.dart';
 
 class AppRestrictionsPage extends StatefulWidget {
@@ -285,6 +286,48 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
               value: controller.appliedCountsText!,
             ),
           ],
+          if (controller.showsQuotaPanel) ...[
+            const SizedBox(height: 10),
+            const Divider(),
+            const SizedBox(height: 6),
+            Text(
+              'Daily limit as the device reported it',
+              style: Theme.of(context)
+                  .textTheme
+                  .bodySmall
+                  ?.copyWith(fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 4),
+            KeyValueRow(
+              label: 'Daily limit',
+              value: controller.quotaLimitText,
+            ),
+            KeyValueRow(
+              label: 'Used in the device day',
+              value: controller.quotaUsageText,
+            ),
+            KeyValueRow(
+              label: 'Remaining',
+              value: controller.quotaRemainingText,
+            ),
+            KeyValueRow(
+              label: 'Limit reached',
+              value: controller.quotaLimitReachedText,
+            ),
+            KeyValueRow(
+              label: 'Action at the limit',
+              value: controller.quotaActionText,
+            ),
+            KeyValueRow(
+              label: 'Enforcement mode',
+              value:
+                  enforcementModeLabel(controller.quotaReport?.enforcementMode),
+            ),
+            KeyValueRow(
+              label: 'Device reason',
+              value: controller.quotaReasonText,
+            ),
+          ],
           const SizedBox(height: 4),
           Text(
             controller.policyStateText,
@@ -363,7 +406,7 @@ class _AppRestrictionsPageState extends State<AppRestrictionsPage> {
             InfoBanner(
               tone: BannerTone.danger,
               title: 'Enforcement failed',
-              message: controller.currentPolicy?.lastError ??
+              message: enforcementReasonText(controller.currentPolicy?.lastError) ??
                   'The device reported a failure without an explanation.',
             ),
           ],

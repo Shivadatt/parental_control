@@ -35,6 +35,7 @@ class PolicyEnforcementReport {
     this.enforcementSupported,
     this.enforcementMode = 'none',
     this.failures = const [],
+    this.quota,
   });
 
   /// Apps the policy wanted suspended. Null when the device did not report.
@@ -53,6 +54,12 @@ class PolicyEnforcementReport {
   final String enforcementMode;
 
   final List<PolicyEnforcementFailure> failures;
+
+  /// The device's daily screen-time quota verdict, or null when the ack carried
+  /// no `quota` object. Null means "no quota proof" — never "quota satisfied".
+  final QuotaReport? quota;
+
+  bool get hasQuotaReport => quota != null;
 
   bool get hasCounts => desiredCount != null && appliedCount != null;
 
@@ -96,12 +103,133 @@ class PolicyEnforcementReport {
       enforcementSupported: jsonBool(json['enforcement_supported']),
       enforcementMode: jsonStringOr(json['enforcement_mode'], 'none'),
       failures: List.unmodifiable(failures),
+      quota: QuotaReport.fromResult(json),
     );
   }
 
   static int? _count(Object? raw) {
     final value = jsonInt(raw);
     if (value == null || value < 0 || value > 100000) return null;
+    return value;
+  }
+}
+
+/// The device's own daily screen-time quota verdict, carried in
+/// `policy_ack.result.quota`.
+///
+/// T-B-02 added this as an optional key inside a free-form `jsonb` result, so
+/// an ack from an older device simply has no `quota`. [fromResult] returns null
+/// in that case and every parent-facing reading stays at its pre-T-B-02
+/// behaviour: nothing is claimed, and nothing defaults to success.
+class QuotaReport {
+  const QuotaReport({
+    this.configured,
+    this.usageAvailable,
+    this.usageMinutes,
+    this.limitMinutes,
+    this.dayBucket,
+    this.limitReached,
+    this.action,
+    this.desiredCount,
+    this.appliedCount,
+    this.failedCount,
+    this.enforcementSupported,
+    this.enforcementMode = 'none',
+    this.reason,
+  });
+
+  /// The server's `readInteger(..., 1, 1440)` bounds the stored limit, and a
+  /// device-local day has at most 1440 minutes of usage.
+  static const int _maxDayMinutes = 1440;
+
+  final bool? configured;
+  final bool? usageAvailable;
+
+  /// Minutes used in the device's own calendar day. Null when not reported.
+  final int? usageMinutes;
+
+  /// The configured daily limit as the device read it. Null means not configured.
+  final int? limitMinutes;
+
+  /// The device-local day the numbers belong to, informational only.
+  final String? dayBucket;
+
+  final bool? limitReached;
+
+  /// `none`, `advisory`, `suspended` or `suspend_failed` as reported.
+  final String? action;
+
+  final int? desiredCount;
+  final int? appliedCount;
+  final int? failedCount;
+  final bool? enforcementSupported;
+  final String enforcementMode;
+
+  /// The device's reason token; read through `enforcementReasonText` for display.
+  final String? reason;
+
+  /// True only when a usable limit exists. A limit of `0` or of `2000` is not a
+  /// total ban: the server rejects it, so a device reporting one has reported
+  /// no limit at all.
+  bool get hasLimit => limitMinutes != null && configured != false;
+
+  /// Usage counts as known only when the device both says it measured it and
+  /// gives the number; otherwise remaining time must render as unknown.
+  bool get usageKnown => usageMinutes != null && usageAvailable != false;
+
+  /// `max(0, limit - usage)` in minutes, or null when either side is unknown.
+  int? get remainingMinutes {
+    if (!hasLimit || !usageKnown) return null;
+    final remaining = limitMinutes! - usageMinutes!;
+    return remaining < 0 ? 0 : remaining;
+  }
+
+  /// The device's own verdict when it gave one; only otherwise derived from the
+  /// numbers, and never invented when either is missing.
+  bool? get isLimitReached {
+    final reported = limitReached;
+    if (reported != null) return reported;
+    if (!hasLimit || !usageKnown) return null;
+    return usageMinutes! >= limitMinutes!;
+  }
+
+  /// Reads `result.quota`. Absent, null or a non-object all mean "no quota
+  /// proof" rather than an empty quota, so malformed shapes fail closed.
+  static QuotaReport? fromResult(Map<String, dynamic> result) {
+    final raw = result['quota'];
+    if (raw == null) return null;
+    if (raw is! Map) return null;
+    final json = jsonMap(raw);
+    final bucket = jsonString(json['day_bucket'])?.trim();
+    final action = jsonString(json['action'])?.trim().toLowerCase();
+    final reason = jsonString(json['reason'])?.trim();
+    return QuotaReport(
+      configured: jsonBool(json['configured']),
+      usageAvailable: jsonBool(json['usage_available']),
+      usageMinutes: _usageMinutes(json['usage_minutes']),
+      limitMinutes: _limitMinutes(json['limit_minutes']),
+      dayBucket: (bucket == null || bucket.isEmpty) ? null : bucket,
+      limitReached: jsonBool(json['limit_reached']),
+      action: (action == null || action.isEmpty) ? null : action,
+      desiredCount: PolicyEnforcementReport._count(json['desired_count']),
+      appliedCount: PolicyEnforcementReport._count(json['applied_count']),
+      failedCount: PolicyEnforcementReport._count(json['failed_count']),
+      enforcementSupported: jsonBool(json['enforcement_supported']),
+      enforcementMode: jsonStringOr(json['enforcement_mode'], 'none'),
+      reason: (reason == null || reason.isEmpty) ? null : reason,
+    );
+  }
+
+  static int? _limitMinutes(Object? raw) {
+    final value = jsonInt(raw);
+    if (value == null) return null;
+    if (value < 1 || value > _maxDayMinutes) return null;
+    return value;
+  }
+
+  static int? _usageMinutes(Object? raw) {
+    final value = jsonInt(raw);
+    if (value == null || value < 0 || value > _maxDayMinutes) return null;
     return value;
   }
 }

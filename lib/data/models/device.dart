@@ -103,6 +103,18 @@ class AppRule {
       );
 }
 
+/// The stored daily limit, or null when none is configured.
+///
+/// `null` means no limit, and so does anything outside 1–1440: the server
+/// validator accepts only that range, so a `0` on the wire is not a total ban
+/// but a device or row that never configured a limit. Reading it as one would
+/// invent a restriction the owner never set.
+int? _configuredDailyLimit(Object? raw) {
+  final value = jsonInt(raw);
+  if (value == null || value < 1 || value > 1440) return null;
+  return value;
+}
+
 class PolicyPayload {
   const PolicyPayload({
     this.enforceAppBlocks = true,
@@ -190,7 +202,8 @@ class PolicyPayload {
         appRules: jsonList(json['app_rules'])
             .map((value) => AppRule.fromJson(jsonMap(value)))
             .toList(growable: false),
-        dailyScreenTimeLimitMinutes: jsonInt(json['daily_screen_time_limit_minutes']),
+        dailyScreenTimeLimitMinutes:
+            _configuredDailyLimit(json['daily_screen_time_limit_minutes']),
         bedtimeStartMinutes: jsonInt(json['bedtime_start_minutes']),
         bedtimeEndMinutes: jsonInt(json['bedtime_end_minutes']),
       );

@@ -38,6 +38,7 @@ class SecureStore private constructor(context: Context) {
         private const val KEY_POLICY_JSON = "last_policy_json"
         private const val KEY_APPLIED_VERSION = "applied_policy_version"
         private const val KEY_SUSPENDED = "suspended_packages"
+        private const val KEY_QUOTA_ACTIVE_DAY_BUCKET = "quota_active_day_bucket"
         private const val KEY_HANDLED_COMMANDS = "handled_command_ids"
         private const val MAX_HANDLED_COMMANDS = 100
 
@@ -178,6 +179,16 @@ class SecureStore private constructor(context: Context) {
         writeStringSet(KEY_SUSPENDED, packages)
     }
 
+    /** Device-local `yyyy-MM-dd` the active screen-time quota suspension is held for. */
+    fun quotaActiveDayBucket(): String? = prefs.getString(KEY_QUOTA_ACTIVE_DAY_BUCKET, null)
+    fun setQuotaActiveDayBucket(dayBucket: String?) {
+        if (dayBucket.isNullOrBlank()) {
+            prefs.edit().remove(KEY_QUOTA_ACTIVE_DAY_BUCKET).apply()
+        } else {
+            prefs.edit().putString(KEY_QUOTA_ACTIVE_DAY_BUCKET, dayBucket).apply()
+        }
+    }
+
     fun handledCommands(): Set<String> = readStringSet(KEY_HANDLED_COMMANDS)
     fun markCommandHandled(commandId: String) {
         if (commandId.isBlank()) return
@@ -201,6 +212,7 @@ class SecureStore private constructor(context: Context) {
             .remove(KEY_POLICY_JSON)
             .remove(KEY_APPLIED_VERSION)
             .remove(KEY_SUSPENDED)
+            .remove(KEY_QUOTA_ACTIVE_DAY_BUCKET)
             .apply()
     }
 
