@@ -1,0 +1,5 @@
+Request audio assistance?
+Sending this request notifies the child. The child must accept it, then tap Join on their own phone to start the session. You join from the session screen afterwards. This phone's camera and microphone are never opened; the child's microphone opens only after the child accepts and joins. The request expires in 10 minutes.
+Cancel
+Send request
+Dismiss

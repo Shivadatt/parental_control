@@ -1,0 +1,10 @@
+Back
+Location
+Refresh
+Safe zones
+Latest fix | No location reported yet | This device has not uploaded a location. Check that location permission is granted and tracking is enabled on the child device.
+Manage safe zones
+History
+24h
+7d
+No location history | No fixes were recorded in the last 7 days.

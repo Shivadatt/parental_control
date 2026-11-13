@@ -1,0 +1,113 @@
+11-13 11:18:46.845 I/adbd    ( 1712): adbd service requested 'shell,v2,TERM=xterm-256color,raw:am start -n com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity'
+11-13 11:18:46.947 V/ActivityTaskManager(  686): TaskLaunchParamsModifier: phase=3 task=Task{f60599 #16 type=standard I=com.parentcontrol.parent_control/.MainActivity} activity=ActivityRecord{128529213 u0 com.parentcontrol.parent_control/.MainActivity t-1} display-from-task=0 display-id=0 task-display-area-windowing-mode=1 suggested-display-area=DefaultTaskDisplayArea@66036468 inherit-from-task=fullscreen non-freeform-task-display-area display-area=DefaultTaskDisplayArea@66036468 skip-bounds-fullscreen
+11-13 11:18:46.947 I/ActivityTaskManager(  686): START u0 {flg=0x10000000 xflg=0x5 cmp=com.parentcontrol.parent_control/.MainActivity} with LAUNCH_SINGLE_TOP from uid 2000 (com.android.shell) (BAL_ALLOW_PERMISSION) result code=3
+11-13 11:18:46.975 D/WindowManagerShell( 1182): onActivityRestartAttempt: topActivity=ComponentInfo{com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}, wasVisible=true, displayId=0, pipDisplayLayoutState#displayId=0
+11-13 11:19:03.354 D/AndroidRuntime(29992): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:19:03.455 I/AndroidRuntime(29992): Using default boot image
+11-13 11:19:03.456 I/AndroidRuntime(29992): Leaving lock profiling enabled
+11-13 11:19:04.456 D/AndroidRuntime(29992): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:19:06.623 D/AndroidRuntime(29992): Shutting down VM
+11-13 11:20:03.092 D/AndroidRuntime(30085): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:20:03.111 I/AndroidRuntime(30085): Using default boot image
+11-13 11:20:03.112 I/AndroidRuntime(30085): Leaving lock profiling enabled
+11-13 11:20:03.398 D/AndroidRuntime(30085): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:20:04.834 D/AndroidRuntime(30085): Shutting down VM
+11-13 11:20:17.737 D/AndroidRuntime(30134): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:20:17.747 I/AndroidRuntime(30134): Using default boot image
+11-13 11:20:17.747 I/AndroidRuntime(30134): Leaving lock profiling enabled
+11-13 11:20:17.979 D/AndroidRuntime(30134): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:20:19.366 D/AndroidRuntime(30134): Shutting down VM
+11-13 11:20:23.921 D/AndroidRuntime(30167): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:20:23.943 I/AndroidRuntime(30167): Using default boot image
+11-13 11:20:23.943 I/AndroidRuntime(30167): Leaving lock profiling enabled
+11-13 11:20:24.214 D/AndroidRuntime(30167): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:20:25.676 D/AndroidRuntime(30167): Shutting down VM
+11-13 11:20:45.942 D/AndroidRuntime(30212): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:20:45.960 I/AndroidRuntime(30212): Using default boot image
+11-13 11:20:45.960 I/AndroidRuntime(30212): Leaving lock profiling enabled
+11-13 11:20:46.259 D/AndroidRuntime(30212): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:20:47.887 D/AndroidRuntime(30212): Shutting down VM
+11-13 11:21:08.670 D/AndroidRuntime(30260): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:21:08.684 I/AndroidRuntime(30260): Using default boot image
+11-13 11:21:08.684 I/AndroidRuntime(30260): Leaving lock profiling enabled
+11-13 11:21:08.942 D/AndroidRuntime(30260): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:21:10.286 D/AndroidRuntime(30260): Shutting down VM
+11-13 11:21:11.872 D/CoreBackPreview(  686): Window{eb4ab42 u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@97bef93, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+11-13 11:21:15.938 D/AndroidRuntime(30314): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:21:15.948 I/AndroidRuntime(30314): Using default boot image
+11-13 11:21:15.949 I/AndroidRuntime(30314): Leaving lock profiling enabled
+11-13 11:21:16.303 D/AndroidRuntime(30314): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:21:17.696 D/AndroidRuntime(30314): Shutting down VM
+11-13 11:21:34.727 D/AndroidRuntime(30350): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:21:34.740 I/AndroidRuntime(30350): Using default boot image
+11-13 11:21:34.740 I/AndroidRuntime(30350): Leaving lock profiling enabled
+11-13 11:21:35.040 D/AndroidRuntime(30350): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:21:36.437 D/AndroidRuntime(30350): Shutting down VM
+11-13 11:21:37.706 D/CoreBackPreview(  686): Window{eb4ab42 u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@5176b90, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+11-13 11:21:38.958 D/CoreBackPreview(  686): Window{eb4ab42 u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@fb845, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+11-13 11:21:42.908 D/AndroidRuntime(30397): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:21:42.929 I/AndroidRuntime(30397): Using default boot image
+11-13 11:21:42.930 I/AndroidRuntime(30397): Leaving lock profiling enabled
+11-13 11:21:43.225 D/AndroidRuntime(30397): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:21:44.583 D/AndroidRuntime(30397): Shutting down VM
+11-13 11:22:06.855 D/AndroidRuntime(30427): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:22:06.873 I/AndroidRuntime(30427): Using default boot image
+11-13 11:22:06.873 I/AndroidRuntime(30427): Leaving lock profiling enabled
+11-13 11:22:07.391 D/AndroidRuntime(30427): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:22:09.026 D/AndroidRuntime(30427): Shutting down VM
+11-13 11:22:27.601 W/.parent_control(28756): Verification of androidx.core.os.LocaleListCompat androidx.core.os.LocaleListCompat.wrap(android.os.LocaleList) took 109.288ms (100.65 bytecodes/s) (0B arena alloc)
+11-13 11:22:28.091 W/.parent_control(28756): Verification of void com.google.android.gms.internal.mlkit_vision_barcode.zzox.configure(com.google.firebase.encoders.config.EncoderConfig) took 469.532ms (2983.82 bytecodes/s) (0B arena alloc)
+11-13 11:22:28.303 I/.parent_control(28756): Background young concurrent mark compact GC freed 2688KB AllocSpace bytes, 4(208KB) LOS objects, 40% free, 4156KB/6937KB, paused 6.789ms,8.232ms total 102.429ms
+11-13 11:22:28.303 W/.parent_control(28756): Reducing the number of considered missed Gc histogram windows from 141 to 100
+11-13 11:22:28.626 W/.parent_control(28756): Verification of java.util.List androidx.camera.camera2.pipe.compat.Camera2Backend.buildOutputConfiguration(androidx.camera.camera2.pipe.CameraGraph$Config) took 130.143ms (1260.14 bytecodes/s) (0B arena alloc)
+11-13 11:22:30.591 D/AndroidRuntime(30496): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:22:30.613 I/AndroidRuntime(30496): Using default boot image
+11-13 11:22:30.613 I/AndroidRuntime(30496): Leaving lock profiling enabled
+11-13 11:22:30.890 W/.parent_control(28756): Verification of java.lang.Object kotlinx.coroutines.channels.ChannelsKt.consumeEach(kotlinx.coroutines.channels.ReceiveChannel, kotlin.jvm.functions.Function1, kotlin.coroutines.Continuation) took 177.947ms (28.10 bytecodes/s) (0B arena alloc)
+11-13 11:22:31.461 D/AndroidRuntime(30496): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:22:32.761 I/CameraService(  609): CameraService::connect call (PID 28756 "com.parentcontrol.parent_control", camera ID 10) and Camera API version 2
+11-13 11:22:32.902 V/WindowManager(  686): AppCompatCamera: Camera 10 is open for package com.parentcontrol.parent_control
+11-13 11:22:34.357 V/WindowManager(  686): CameraOpen: cameraApp=ProcessRecord{8ae80be 28756:com.parentcontrol.parent_control/u0a235} cameraInfo.mPid=28756 cameraTask=Task{f60599 #16 type=standard I=com.parentcontrol.parent_control/.MainActivity} cameraAppInfo.mTaskId=16
+11-13 11:22:34.361 V/WindowManager(  686): AppCompatCamera: Policy is notified that Camera 10 is opened for package: com.parentcontrol.parent_control.
+11-13 11:22:34.362 V/WindowManager(  686): AppCompatCamera: Activity is not eligible for camera compat treatment: ActivityRecord{47901839 u0 com.parentcontrol.parent_control/.MainActivity t16}.
+11-13 11:22:34.482 D/AndroidRuntime(30496): Shutting down VM
+11-13 11:22:34.884 I/CameraService(  609): Start camera streaming for com.parentcontrol.parent_control (PID 28756, UID 10235)
+11-13 11:22:36.444 D/nativeloader(28756): Load /data/app/~~2OTTCWnFY0qArgLedKuc6A==/com.parentcontrol.parent_control-joCpxNA8FPev-_Clsrw_2A==/base.apk!/lib/x86_64/libbarhopper_v3.so using class loader ns clns-9 (caller=/data/app/~~2OTTCWnFY0qArgLedKuc6A==/com.parentcontrol.parent_control-joCpxNA8FPev-_Clsrw_2A==/base.apk!classes18.dex): ok
+11-13 11:22:36.790 W/.parent_control(28756): Verification of java.lang.String com.google.android.gms.internal.mlkit_vision_barcode_bundled.zzdf.toString() took 188.443ms (318.40 bytecodes/s) (0B arena alloc)
+11-13 11:22:37.213 I/.parent_control(28756): Background concurrent mark compact GC freed 3003KB AllocSpace bytes, 0(0B) LOS objects, 49% free, 6574KB/12MB, paused 17.617ms,16.246ms total 659.998ms
+11-13 11:22:37.301 W/.parent_control(28756): Verification of void com.google.android.gms.internal.mlkit_vision_common.zzhe.configure(com.google.firebase.encoders.config.EncoderConfig) took 877.852ms (1125.47 bytecodes/s) (0B arena alloc)
+11-13 11:22:51.781 D/AndroidRuntime(30565): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:22:51.803 I/AndroidRuntime(30565): Using default boot image
+11-13 11:22:51.803 I/AndroidRuntime(30565): Leaving lock profiling enabled
+11-13 11:22:52.011 I/.parent_control(28756): Background young concurrent mark compact GC freed 3524KB AllocSpace bytes, 1(864KB) LOS objects, 54% free, 5978KB/12MB, paused 9.362ms,13.605ms total 179.790ms
+11-13 11:22:52.273 D/AndroidRuntime(30565): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:22:53.712 D/AndroidRuntime(30565): Shutting down VM
+11-13 11:23:08.510 I/CameraService(  609): Stop camera streaming for com.parentcontrol.parent_control (PID 28756, UID 10235)
+11-13 11:23:09.240 D/CoreBackPreview(  686): Window{eb4ab42 u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@5fcf2d1, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+11-13 11:23:11.712 V/WindowManager(  686): AppCompatCamera: Policy is notified that Camera 10 is closed for package: com.parentcontrol.parent_control.
+11-13 11:23:11.733 I/WindowManager(  686): AppCompatCamera: Updating CameraCompatibilityInfo for package: com.parentcontrol.parent_control to: CameraCompatibilityInfo{mRotateAndCropRotation=-1, mShouldOverrideSensorOrientation=false, mShouldLetterboxForCameraCompat=false, mDisplayRotationSandbox=-1, mShouldAllowTransformInverseDisplay=true}.
+11-13 11:23:19.244 D/AndroidRuntime(30647): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:23:19.254 I/AndroidRuntime(30647): Using default boot image
+11-13 11:23:19.255 I/AndroidRuntime(30647): Leaving lock profiling enabled
+11-13 11:23:19.491 D/AndroidRuntime(30647): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:23:20.880 D/AndroidRuntime(30647): Shutting down VM
+11-13 11:23:28.668 D/CoreBackPreview(  686): Window{eb4ab42 u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@254d6ce, mPriority=0, mIsAnimationCallback=true, mOverrideBehavior=0}
+11-13 11:23:32.647 D/AndroidRuntime(30695): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:23:32.662 I/AndroidRuntime(30695): Using default boot image
+11-13 11:23:32.662 I/AndroidRuntime(30695): Leaving lock profiling enabled
+11-13 11:23:33.029 D/AndroidRuntime(30695): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:23:34.448 D/AndroidRuntime(30695): Shutting down VM
+11-13 11:23:48.993 D/CoreBackPreview(  686): Window{eb4ab42 u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}: Setting back callback OnBackInvokedCallbackInfo{mCallback=android.window.IOnBackInvokedCallback$Stub$Proxy@58a4260, mPriority=-1, mIsAnimationCallback=false, mOverrideBehavior=0}
+11-13 11:24:17.893 D/AndroidRuntime(30808): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:24:17.909 I/AndroidRuntime(30808): Using default boot image
+11-13 11:24:17.909 I/AndroidRuntime(30808): Leaving lock profiling enabled
+11-13 11:24:18.155 D/AndroidRuntime(30808): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:24:19.481 D/AndroidRuntime(30808): Shutting down VM
+11-13 11:24:24.401 D/AndroidRuntime(30839): >>>>>> START com.android.internal.os.RuntimeInit uid 2000 <<<<<<
+11-13 11:24:24.411 I/AndroidRuntime(30839): Using default boot image
+11-13 11:24:24.411 I/AndroidRuntime(30839): Leaving lock profiling enabled
+11-13 11:24:24.653 D/AndroidRuntime(30839): Calling main entry com.android.commands.uiautomator.Launcher
+11-13 11:24:25.879 D/AndroidRuntime(30839): Shutting down VM
+11-13 11:24:33.150 V/WindowManager(  686):         {WCT{RemoteToken{cd4534d Task{f60599 #16 type=standard I=com.parentcontrol.parent_control/.MainActivity}}} m=TO_BACK f=FLAG_CHANGED_INTERACTIVE leash=Surface(name=Task=16#579)/@0xbe073f4 sb=Rect(0, 0 - 1080, 2424) eb=Rect(0, 0 - 1080, 2424) epz=Point(1080, 2424) d=0 taskParent=-1 winMode=1 userId=0},
+11-13 11:24:36.070 I/adbd    ( 1712): adbd service requested 'shell,v2,TERM=xterm-256color,raw:pidof com.parentcontrol.parent_control'
+11-13 11:24:43.332 I/adbd    ( 1712): adbd service requested 'shell,v2,TERM=xterm-256color,raw:pidof com.parentcontrol.parent_control'

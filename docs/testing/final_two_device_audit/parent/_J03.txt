@@ -1,0 +1,10 @@
+Back
+Remote assistance
+Refresh
+Assistance with explicit consent | A request is delivered to the child account. Nothing opens until the child accepts it and then taps Join on their own session screen; you join from the session screen on this phone. This phone's camera and microphone are never opened by the app. Nothing is recorded, and no screenshots or screen capture are taken. A pending request expires if it is not answered; once accepted, the session stays open until the guardian ends it. The status on each card is the server's session status, not a media indicator.
+Request audio
+Request video
+Audio and video come from the child device only, after the child accepts and joins. This phone's camera and microphone are never opened, so audio assistance is listen-only.
+Recent sessions | 9
+Video assistance | Ended | Device | realme RMX2161 | Child | ankit1 | Media | No media is open | Requested | Nov 13, 2026 11:47 AM · 2 h ago | Tap to open the session screen
+Audio assistance | Ended | Device | realme RMX2161 | Child | ankit1 | Media | No media is open | Requested | Nov 13, 2026 11:46 AM · 2 h ago | Tap to open the session screen

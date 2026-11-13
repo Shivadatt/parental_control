@@ -1,0 +1,11 @@
+Devices
+Refresh devices
+realme RMX2161 | 100% (charging) | Revoked | Last seen | last seen 3 h ago · Nov 13, 2026 10:18 AM | Enforcement | Device admin only | Policy | No policy applied yet
+Open device
+realme RMX2161 | 100% (charging) | Online | Last seen | synced 2 min ago · Nov 13, 2026 1:34 PM | Enforcement | Not enforced | Policy | Policy v1
+Open device
+Updated Just now
+Dashboard | Tab 1 of 4
+Devices | Tab 2 of 4
+Alerts | Tab 3 of 4
+Settings | Tab 4 of 4

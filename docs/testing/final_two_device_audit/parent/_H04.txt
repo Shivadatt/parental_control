@@ -1,0 +1,12 @@
+Back
+Safety alerts
+Safety alerts | 2 unacknowledged · 2 total
+Refresh
+All
+Info
+Warning
+Critical
+Device battery is low (4%). | Low battery | Warning | Device | realme RMX2161 | Time | Nov 3, 2026 5:47 PM · Nov 3, 2026
+Acknowledge
+Device battery is low (1%). | Low battery | Warning | Device | realme RMX2161 | Time | Oct 30, 2026 7:45 AM · Oct 30, 2026
+Acknowledge

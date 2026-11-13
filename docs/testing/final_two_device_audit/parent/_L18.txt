@@ -1,0 +1,8 @@
+Back
+realme RMX2161
+Refresh device
+Device identity | Online | Name | realme RMX2161 | Platform | android | Android | 12 | App version | 1.0.0 | Last seen | synced 4 min ago · Nov 13, 2026 1:39 PM | Battery | 100% (charging) | Enforcement mode | Not enforced
+App suspension is not supported here | This device is not a fully managed Device Owner device. Parent Control cannot suspend or block apps until the phone is provisioned as fully managed. A policy flag on its own does not block an app.
+Policy | Saved policy version and the device acknowledgement | Enforced on device | Version | 1 | Enforcement status | Enforced on device | Acknowledged | Nov 13, 2026 1:11 PM
+Refresh policy state
+Device permissions | Reported by the child device. Unknown means it has not reported. | Usage access | Required for screen-time reports | Granted | Location | Granted | Background location | Granted | Camera | Granted | Microphone | Granted | Notifications | Granted

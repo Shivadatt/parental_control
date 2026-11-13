@@ -1,0 +1,15 @@
+Back
+realme RMX2161
+Refresh device
+Device permissions | Reported by the child device. Unknown means it has not reported. | Usage access | Required for screen-time reports | Granted | Location | Granted | Background location | Granted | Camera | Granted | Microphone | Granted | Notifications | Granted
+Recent commands | Delivery is confirmed by the device, not by this screen. | Apply policy | Succeeded · 42 min ago
+Manage
+App restrictions
+Screen time
+Location
+Safe zones
+Safety alerts
+Remote assistance
+Revoke device
+Revoking invalidates the device credential and stops reports. Linking the phone again is required.
+Lost or reinstalled phone | Use recovery when the child reinstalled Parent Control or the phone lost its device credential. The server revokes the old credential and removes the family link, so the old phone stops reporting. A new device is only linked after a fresh one-time pairing code and the child approves it.

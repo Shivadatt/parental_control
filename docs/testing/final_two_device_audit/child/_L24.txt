@@ -1,0 +1,6 @@
+Back
+Rules and permissions
+Refresh rules
+Rules are not enforced on this device | This app is not a Device Owner here, so it cannot suspend other apps. Rules are shown as configured, not as blocked. A guardian must provision Android managed-device or Device Owner setup.
+Rules from your guardian | Version 1 · received Nov 13, 2026 1:11 PM | Enforced on device | App blocking | On | Mode | Selected apps only | Named blocked apps | None named | Daily screen time | 1h 15m | Bedtime | 9:00 PM – 7:00 AM | Daily screen-time limits and bedtime are shown for information only. This Android build enforces app blocks and their schedules, not a system-wide time limit.
+Permissions needed for background features | Rules can be configured without these, but background enforcement, usage reporting and location need the related Android permission. | Usage access | Usage reports come from Android UsageStatsManager. | Granted | Background location | Needed only while location sharing is on and the app is not visible. | Granted | Notifications | Android requires a visible notification for background services. | Granted

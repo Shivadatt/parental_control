@@ -1,0 +1,13 @@
+Back
+realme RMX2161
+Refresh device
+Device permissions | Reported by the child device. Unknown means it has not reported. | Usage access | Required for screen-time reports | Granted | Location | Granted | Background location | Granted | Camera | Granted | Microphone | Granted | Notifications | Granted
+Recent commands | Delivery is confirmed by the device, not by this screen. | Apply policy | Succeeded · 32 min ago
+Manage
+App restrictions
+Screen time
+Location
+Safe zones
+Safety alerts
+Remote assistance
+Revoke device
