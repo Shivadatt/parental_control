@@ -68,6 +68,10 @@ export interface EnforcementInput {
    * never be proven applied by this mapping (see `policyDeclaresTimeLimits`).
    */
   timeLimitsConfigured: boolean;
+  /** True when the stored policy explicitly configures daily_screen_time_limit_minutes. */
+  dailyLimitConfigured?: boolean;
+  /** True when the stored policy explicitly configures a bedtime window. */
+  bedtimeConfigured?: boolean;
   /**
    * The `result.quota` block of the ack, already passed through
    * `normalizeQuotaAck`. `null` means the ack carried no quota proof at all:
@@ -145,6 +149,24 @@ export function policyDeclaresTimeLimits(policy: unknown): boolean {
   ] as const;
   return keys.some((key) =>
     policy[key] !== undefined && policy[key] !== null
+  );
+}
+
+export function policyDeclaresDailyLimit(policy: unknown): boolean {
+  if (!isRecord(policy)) return false;
+  return (
+    policy.daily_screen_time_limit_minutes !== undefined &&
+    policy.daily_screen_time_limit_minutes !== null
+  );
+}
+
+export function policyDeclaresBedtime(policy: unknown): boolean {
+  if (!isRecord(policy)) return false;
+  return (
+    policy.bedtime_start_minutes !== undefined &&
+    policy.bedtime_start_minutes !== null &&
+    policy.bedtime_end_minutes !== undefined &&
+    policy.bedtime_end_minutes !== null
   );
 }
 
@@ -338,16 +360,41 @@ function decideAppEnforcement(input: EnforcementInput): EnforcementDecision {
     };
   }
 
-  if (input.timeLimitsConfigured && !input.targetsApps) {
-    // The parent configured a daily limit or a bedtime window and the policy
-    // blocks no app. The ack proves package suspension only, so time-based
-    // control is unverified here — never "applied". Pending, and the version
-    // stays where it is until the device can report the real outcome.
+  const hasDailyLimit = input.dailyLimitConfigured ?? (
+    input.timeLimitsConfigured && !input.bedtimeConfigured
+  );
+  const hasBedtime = input.bedtimeConfigured ?? (
+    input.timeLimitsConfigured && !input.dailyLimitConfigured
+  );
+
+  if (hasDailyLimit && !input.targetsApps) {
+    // The parent configured a daily limit and the policy blocks no app.
+    // The ack counters describe package suspension only, so daily limit
+    // control is unverified here without a validated quota block.
     return {
       ...base,
       status: "pending",
       lastError: "limits_enforcement_unverified",
     };
+  }
+
+  if (hasBedtime && !input.targetsApps) {
+    // Bedtime or schedule configured without app targets, and no quota block present.
+    // Device Owner acknowledged the policy: enforced.
+    // Unmanaged device: unsupported (advisory), advancing policy version to prevent retry loop.
+    return supported
+      ? {
+        ...base,
+        status: "enforced",
+        lastError: null,
+        advancePolicyVersion: true,
+      }
+      : {
+        ...base,
+        status: "unsupported",
+        lastError: "bedtime_advisory_only",
+        advancePolicyVersion: true,
+      };
   }
 
   // Zero desired and a policy that does not target apps: there is nothing to
@@ -473,7 +520,16 @@ export function decideEnforcement(input: EnforcementInput): EnforcementDecision 
     return app;
   }
 
-  const quota = decideQuotaEnforcement(input.quota);
+  const hasDailyLimit = input.dailyLimitConfigured ?? (
+    input.timeLimitsConfigured && !input.bedtimeConfigured
+  );
+  const isBedtimeOnly = !hasDailyLimit && (input.bedtimeConfigured || input.timeLimitsConfigured);
+
+  const quota = (isBedtimeOnly && !input.quota.configured)
+    ? (input.quota.enforcement_supported
+      ? quotaDecision(input.quota, "enforced", null)
+      : quotaDecision(input.quota, "unsupported", "bedtime_advisory_only"))
+    : decideQuotaEnforcement(input.quota);
 
   // A limits-only policy says nothing about packages, so the quota block is
   // the only evidence there is and it decides on its own.

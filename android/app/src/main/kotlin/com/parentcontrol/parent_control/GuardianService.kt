@@ -378,12 +378,12 @@ class GuardianService : Service() {
         val commandType = command.optString("type", "")
         val expiresAt = TimeUtils.parseIso(command.optString("expires_at"))
         if (expiresAt != null && expiresAt < System.currentTimeMillis()) {
-            store.markCommandHandled(commandId)
             pendingAcks += 1
             try {
                 sendAck(client, commandId, "expired", JSONObject())
+                store.markCommandHandled(commandId)
             } catch (error: Exception) {
-                recordError("An expired command could not be acknowledged.")
+                recordError("An expired command could not be acknowledged: ${error.message}")
             } finally {
                 pendingAcks -= 1
             }
@@ -472,11 +472,11 @@ class GuardianService : Service() {
             result.put("errors", JSONArray().put(errorMessage))
             recordError(errorMessage)
         }
-        store.markCommandHandled(commandId)
         try {
             sendAck(client, commandId, status, result)
+            store.markCommandHandled(commandId)
         } catch (error: Exception) {
-            recordError("The command result could not be delivered to the server.")
+            recordError("The command result could not be delivered to the server: ${error.message}")
         }
         NativeEventBus.emitCommand(commandId, commandType, status)
     }

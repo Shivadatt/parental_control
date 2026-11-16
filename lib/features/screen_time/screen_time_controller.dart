@@ -476,7 +476,8 @@ class ScreenTimeController extends GetxController {
         }
         return 'Policy v${policy.version} failed on the device: $reason';
       case PolicyEnforcementStatus.unsupported:
-        return 'Policy v${policy.version} is unsupported on this device.';
+        return 'Policy v${policy.version} acknowledged by device (Advisory). '
+            'Bedtime and screen-time limits are for guidance only — Device Owner setup is required for OS-level enforcement.';
     }
   }
 }

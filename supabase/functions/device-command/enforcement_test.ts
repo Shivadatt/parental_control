@@ -5,6 +5,8 @@
 import {
   decideEnforcement,
   normalizeQuotaAck,
+  policyDeclaresBedtime,
+  policyDeclaresDailyLimit,
   policyDeclaresTimeLimits,
   policyTargetsApps,
   type EnforcementInput,
@@ -327,6 +329,78 @@ Deno.test("a daily limit plus a bedtime with no app targets stays pending", () =
     false,
     "a combined limits policy still does not advance",
   );
+});
+
+// ---------------------------------------------------------------------------
+// E-7 & E-11: Phase 1 focused tests
+// ---------------------------------------------------------------------------
+
+Deno.test("E-11 / E-7: bedtime-only policy advances version and is truthful (enforced on DO, advisory on non-DO)", () => {
+  const policy = {
+    blocked_packages: [],
+    app_rules: [],
+    daily_screen_time_limit_minutes: null,
+    bedtime_start_minutes: 1260,
+    bedtime_end_minutes: 420,
+  };
+  const dailyLimit = policyDeclaresDailyLimit(policy);
+  const bedtime = policyDeclaresBedtime(policy);
+  assertEqual(dailyLimit, false, "no daily limit");
+  assertEqual(bedtime, true, "bedtime is configured");
+
+  // Managed device (Device Owner): enforced and version advances
+  const decisionDO = decideEnforcement(input({
+    result: zeroTargetAck(),
+    targetsApps: false,
+    timeLimitsConfigured: true,
+    dailyLimitConfigured: dailyLimit,
+    bedtimeConfigured: bedtime,
+  }));
+  assertEqual(decisionDO.status, "enforced", "bedtime is enforced on Device Owner");
+  assertEqual(decisionDO.advancePolicyVersion, true, "advances policy version on DO");
+
+  // Standard device (Non-Device-Owner): advisory and version advances to unfreeze UI
+  const decisionStandard = decideEnforcement(input({
+    result: { ...zeroTargetAck(), enforcement_supported: false, enforcement_mode: "none" },
+    targetsApps: false,
+    timeLimitsConfigured: true,
+    dailyLimitConfigured: dailyLimit,
+    bedtimeConfigured: bedtime,
+  }));
+  assertEqual(decisionStandard.status, "unsupported", "bedtime is advisory on standard device");
+  assert(
+    decisionStandard.lastError === "bedtime_advisory_only" ||
+      decisionStandard.lastError === "device_owner_required",
+    "honest advisory reason",
+  );
+  assertEqual(decisionStandard.advancePolicyVersion, true, "advances policy version on standard to unfreeze UI");
+});
+
+Deno.test("E-11: empty app restriction list on unmanaged device advances version without trapping in pending", () => {
+  const decision = decideEnforcement(input({
+    result: {
+      desired_count: 0,
+      applied_count: 0,
+      failed_count: 0,
+      enforcement_supported: false,
+      enforcement_mode: "none",
+      failures: [],
+    },
+    targetsApps: false,
+    timeLimitsConfigured: false,
+  }));
+  assertEqual(decision.status, "unsupported", "unmanaged empty app list is unsupported/advisory");
+  assertEqual(decision.advancePolicyVersion, true, "advances version to avoid pending loop");
+});
+
+Deno.test("E-11: empty app restriction list on Device Owner device advances version as enforced", () => {
+  const decision = decideEnforcement(input({
+    result: zeroTargetAck(),
+    targetsApps: false,
+    timeLimitsConfigured: false,
+  }));
+  assertEqual(decision.status, "enforced", "Device Owner empty app list is enforced");
+  assertEqual(decision.advancePolicyVersion, true, "advances version as enforced");
 });
 
 Deno.test("a policy with app rules and limits keeps its app-targeting verdict", () => {

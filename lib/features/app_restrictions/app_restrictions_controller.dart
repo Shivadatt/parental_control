@@ -743,8 +743,8 @@ class AppRestrictionsController extends GetxController {
         }
         return 'Policy v${policy.version} failed on the device: $reason';
       case PolicyEnforcementStatus.unsupported:
-        return 'Policy v${policy.version} cannot be enforced on this device. '
-            'App blocking requires Device Owner.';
+        return 'Policy v${policy.version} acknowledged by device (Advisory). '
+            'App suspension requires Device Owner setup on this device.';
     }
   }
 }

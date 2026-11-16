@@ -276,12 +276,11 @@ class DeviceDetailPage extends GetView<DeviceDetailController> {
           if (policy?.status == PolicyEnforcementStatus.unsupported) ...[
             const SizedBox(height: 10),
             const InfoBanner(
-              tone: BannerTone.warning,
-              icon: Icons.block,
-              title: 'Unsupported on this device',
+              tone: BannerTone.info,
+              icon: Icons.info_outline,
+              title: 'Advisory on this device',
               message:
-                  'The device refused this policy because enforcement is not available. '
-                  'Set the phone up as a fully managed device to suspend apps.',
+                  'The policy was received and saved by the child device, but OS-level app suspension is not available without Device Owner setup.',
             ),
           ],
           if (policy?.status == PolicyEnforcementStatus.failed) ...[

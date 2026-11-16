@@ -248,9 +248,14 @@ enum PolicyEnforcementStatus {
       case PolicyEnforcementStatus.failed:
         return 'Enforcement failed';
       case PolicyEnforcementStatus.unsupported:
-        return 'Not supported on device';
+        return 'Advisory on this device';
     }
   }
+
+  bool get isEnforced => this == PolicyEnforcementStatus.enforced;
+  bool get isAdvisory => this == PolicyEnforcementStatus.unsupported;
+  bool get isPending => this == PolicyEnforcementStatus.pending;
+  bool get isFailed => this == PolicyEnforcementStatus.failed;
 }
 
 class DevicePolicy {
@@ -277,6 +282,11 @@ class DevicePolicy {
   final String? lastError;
 
   bool get isAcknowledged => acknowledgedAt != null;
+  bool get isEnforcedOnManagedDevice =>
+      status == PolicyEnforcementStatus.enforced;
+  bool get isAdvisory =>
+      status == PolicyEnforcementStatus.unsupported ||
+      (lastError != null && lastError!.contains('advisory'));
 
   factory DevicePolicy.fromJson(Map<String, dynamic> json) => DevicePolicy(
         id: jsonStringOr(json['id']),

@@ -27,6 +27,9 @@ String policySummary({
   final version = policy?.version ?? devicePolicyVersion;
   if (version == null || version <= 0) return 'No policy applied yet';
   if (policy == null) return 'Policy v$version · status not available';
+  if (policy.status == PolicyEnforcementStatus.unsupported) {
+    return 'Policy v$version · Advisory (Unmanaged)';
+  }
   return 'Policy v$version · ${policy.status.label}';
 }
 
@@ -64,7 +67,7 @@ StatusTone policyTone(PolicyEnforcementStatus status) {
     case PolicyEnforcementStatus.failed:
       return StatusTone.danger;
     case PolicyEnforcementStatus.unsupported:
-      return StatusTone.neutral;
+      return StatusTone.info;
   }
 }
 

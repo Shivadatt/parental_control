@@ -63,11 +63,15 @@ class ChildPolicySummaryCard extends StatelessWidget {
       subtitle:
           'Version ${policy.version} · received ${formatDateTime(policy.createdAt)}',
       trailing: StatusChip(
-        label: policy.status.label,
+        label: policy.status == PolicyEnforcementStatus.unsupported
+            ? 'Advisory'
+            : policy.status.label,
         tone: _statusTone(policy.status),
         icon: policy.status == PolicyEnforcementStatus.enforced
             ? Icons.shield_outlined
-            : null,
+            : (policy.status == PolicyEnforcementStatus.unsupported
+                ? Icons.info_outline
+                : null),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -168,7 +172,7 @@ class ChildPolicySummaryCard extends StatelessWidget {
       case PolicyEnforcementStatus.failed:
         return StatusTone.danger;
       case PolicyEnforcementStatus.unsupported:
-        return StatusTone.neutral;
+        return StatusTone.info;
       case PolicyEnforcementStatus.pending:
         return StatusTone.warning;
     }

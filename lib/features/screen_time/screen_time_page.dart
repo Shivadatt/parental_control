@@ -307,11 +307,11 @@ class ScreenTimePage extends GetView<ScreenTimeController> {
               PolicyEnforcementStatus.unsupported) ...[
             const SizedBox(height: 10),
             const InfoBanner(
-              tone: BannerTone.warning,
-              icon: Icons.block,
-              title: 'Not supported on this device',
+              tone: BannerTone.info,
+              icon: Icons.info_outline,
+              title: 'Advisory Mode (Unmanaged)',
               message:
-                  'The device refused this policy. Screen-time enforcement depends on device support and permissions.',
+                  'The device acknowledged this policy. Bedtime and daily limits are advisory only because this device is not configured as a Device Owner.',
             ),
           ],
           const SizedBox(height: 16),

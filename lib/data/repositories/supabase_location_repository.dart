@@ -113,19 +113,19 @@ class SupabaseLocationRepository implements LocationRepository {
     required String familyId,
     required SafeZone zone,
   }) async {
-    final payload = zone.toUpsertJson(familyId);
     try {
       final Map<String, dynamic> row;
       if (zone.id.isEmpty) {
         row = await _supabase.client
             .from('safe_zones')
-            .insert(payload)
+            .insert(zone.toUpsertJson(familyId))
             .select()
             .single();
       } else {
+        // Excludes family_id from UPDATE payload to satisfy PostgreSQL RLS column-level grants
         row = await _supabase.client
             .from('safe_zones')
-            .update(payload)
+            .update(zone.toUpdateJson())
             .eq('id', zone.id)
             .eq('family_id', familyId)
             .select()

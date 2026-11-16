@@ -198,6 +198,16 @@ class SafeZone {
         'radius_m': radiusM,
         'active': active,
       };
+
+  /// Allowed UPDATE columns under PostgreSQL column privileges (20260101000200_rls.sql:281).
+  /// Excludes `family_id` to prevent 42501 insufficient privilege errors.
+  Map<String, dynamic> toUpdateJson() => {
+        'name': name,
+        'lat': latitude,
+        'lng': longitude,
+        'radius_m': radiusM,
+        'active': active,
+      };
 }
 
 enum SafetyAlertType {

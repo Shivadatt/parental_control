@@ -48,6 +48,7 @@ import { decideEnforcement, policyTargetsApps } from "./enforcement.ts";
 // the import above, and widening it would break a wiring assertion that still
 // needs to hold.
 import { policyDeclaresTimeLimits } from "./enforcement.ts";
+import { policyDeclaresDailyLimit, policyDeclaresBedtime } from "./enforcement.ts";
 // Also a separate statement, for the same reason as above: the quota block of
 // the ack is validated here and only ever reaches the decision as a
 // normalized value, so `decideEnforcement` never re-parses raw jsonb.
@@ -391,6 +392,12 @@ export async function handler(
               ackStatus: nextStatus,
               targetsApps: policyTargetsApps(command.payload.policy),
               timeLimitsConfigured: policyDeclaresTimeLimits(
+                command.payload.policy,
+              ),
+              dailyLimitConfigured: policyDeclaresDailyLimit(
+                command.payload.policy,
+              ),
+              bedtimeConfigured: policyDeclaresBedtime(
                 command.payload.policy,
               ),
               quota: normalizeQuotaAck(result),
