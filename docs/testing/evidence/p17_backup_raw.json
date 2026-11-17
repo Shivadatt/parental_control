@@ -1,0 +1,706 @@
+{
+  "backup_timestamp": "2026-11-17T06:42:35.471Z",
+  "parent_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+  "child_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+  "families": [
+    {
+      "id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "name": "demo",
+      "owner_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "settings": {
+        "usage_retention_days": 90,
+        "location_retention_days": 30
+      },
+      "created_at": "2026-10-29T05:46:41.475949+00:00",
+      "updated_at": "2026-10-29T05:46:41.475949+00:00",
+      "deleted_at": null
+    }
+  ],
+  "family_members": [
+    {
+      "id": "94600e48-d9c6-43b0-af3c-5ac8a986b52f",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "role": "parent",
+      "status": "active",
+      "created_at": "2026-10-29T05:46:41.475949+00:00",
+      "removed_at": null
+    },
+    {
+      "id": "d5f4ad55-e7c0-4747-bb2e-735a1ab18def",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "role": "child",
+      "status": "active",
+      "created_at": "2026-10-29T05:47:15.752813+00:00",
+      "removed_at": null
+    }
+  ],
+  "devices": [
+    {
+      "id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "child_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "display_name": "realme RMX2161",
+      "platform": "android",
+      "android_version": "12",
+      "app_version": "1.0.0",
+      "status": "active",
+      "credential_issued_at": "2026-11-13T07:28:20.657+00:00",
+      "credential_revoked_at": null,
+      "last_seen_at": "2026-11-13T11:53:57.531+00:00",
+      "policy_version": 2,
+      "enforcement_mode": "none",
+      "battery_level": 100,
+      "is_charging": true,
+      "usage_access_granted": true,
+      "location_granted": true,
+      "background_location_granted": true,
+      "camera_granted": true,
+      "microphone_granted": true,
+      "notifications_granted": true,
+      "created_at": "2026-11-13T07:28:21.305537+00:00",
+      "updated_at": "2026-11-13T11:53:57.64314+00:00"
+    },
+    {
+      "id": "fd79ee34-c6fe-4abd-a3ae-39f9b16ed628",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "child_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "display_name": "realme RMX2161",
+      "platform": "android",
+      "android_version": "12",
+      "app_version": "1.0.0",
+      "status": "revoked",
+      "credential_issued_at": "2026-10-29T05:47:22.321+00:00",
+      "credential_revoked_at": "2026-11-13T07:22:42.063574+00:00",
+      "last_seen_at": "2026-11-13T04:48:51.205+00:00",
+      "policy_version": 0,
+      "enforcement_mode": "device_admin",
+      "battery_level": 100,
+      "is_charging": true,
+      "usage_access_granted": true,
+      "location_granted": true,
+      "background_location_granted": true,
+      "camera_granted": true,
+      "microphone_granted": true,
+      "notifications_granted": true,
+      "created_at": "2026-10-29T05:47:22.842507+00:00",
+      "updated_at": "2026-11-13T07:22:42.063574+00:00"
+    }
+  ],
+  "device_commands": [
+    {
+      "id": "0b61ada9-1333-4b6c-95fb-37836864b736",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "type": "apply_policy",
+      "payload": {
+        "policy": {
+          "app_rules": [],
+          "allowed_packages": [],
+          "blocked_packages": [],
+          "enforce_app_blocks": true,
+          "bedtime_end_minutes": 420,
+          "bedtime_start_minutes": 1320,
+          "block_all_except_allowed": false,
+          "daily_screen_time_limit_minutes": null
+        },
+        "version": 4,
+        "policy_id": "17b10879-a1ac-40e7-ab98-c912ba63c809"
+      },
+      "status": "pending",
+      "idempotency_key": "eb88cbe8-a495-48e0-965f-6ec57aad8024",
+      "created_by": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "created_at": "2026-11-17T05:51:41.317287+00:00",
+      "expires_at": "2026-11-17T06:06:41.317287+00:00",
+      "delivered_at": null,
+      "acked_at": null,
+      "result": null,
+      "error_message": null,
+      "attempts": 0
+    },
+    {
+      "id": "24979567-cd83-4770-9ac9-e94043ac8f6a",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "type": "apply_policy",
+      "payload": {
+        "policy": {
+          "app_rules": [],
+          "allowed_packages": [],
+          "blocked_packages": [],
+          "enforce_app_blocks": true,
+          "bedtime_end_minutes": 420,
+          "bedtime_start_minutes": 1260,
+          "block_all_except_allowed": false,
+          "daily_screen_time_limit_minutes": null
+        },
+        "version": 3,
+        "policy_id": "8408a71d-161e-4ce6-9365-ac0b900a0ac6"
+      },
+      "status": "pending",
+      "idempotency_key": "2a08dab9-83c4-4db9-8359-27d7200505f4",
+      "created_by": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "created_at": "2026-11-16T10:34:40.583853+00:00",
+      "expires_at": "2026-11-16T10:49:40.583853+00:00",
+      "delivered_at": null,
+      "acked_at": null,
+      "result": null,
+      "error_message": null,
+      "attempts": 0
+    },
+    {
+      "id": "b3a19cf6-5b5b-467c-b6e3-b1ddcf6b21c8",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "type": "apply_policy",
+      "payload": {
+        "policy": {
+          "app_rules": [],
+          "allowed_packages": [],
+          "blocked_packages": [],
+          "enforce_app_blocks": true,
+          "bedtime_end_minutes": 420,
+          "bedtime_start_minutes": 1260,
+          "block_all_except_allowed": false,
+          "daily_screen_time_limit_minutes": 90
+        },
+        "version": 2,
+        "policy_id": "270877e9-5f98-4b4e-9166-c1ad27bab251"
+      },
+      "status": "succeeded",
+      "idempotency_key": "602d8f3c-536c-43ac-9413-bf4cc66a8216",
+      "created_by": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "created_at": "2026-11-13T10:00:55.404764+00:00",
+      "expires_at": "2026-11-13T10:15:55.404764+00:00",
+      "delivered_at": "2026-11-13T10:00:57.085141+00:00",
+      "acked_at": "2026-11-13T10:00:59.154+00:00",
+      "result": {
+        "quota": {
+          "action": "advisory",
+          "reason": "quota_advisory_only",
+          "configured": true,
+          "day_bucket": "2026-11-13",
+          "failed_count": 0,
+          "applied_count": 0,
+          "desired_count": 0,
+          "limit_minutes": 90,
+          "limit_reached": true,
+          "usage_minutes": 335,
+          "usage_available": true,
+          "enforcement_mode": "none",
+          "enforcement_supported": false
+        },
+        "errors": [],
+        "success": true,
+        "failures": [],
+        "applied_at": "2026-11-13T10:00:55.691Z",
+        "failed_count": 0,
+        "applied_count": 0,
+        "desired_count": 0,
+        "bedtime_active": false,
+        "service_running": true,
+        "enforcement_mode": "none",
+        "suspended_packages": [],
+        "unsupported_packages": [],
+        "enforcement_supported": false
+      },
+      "error_message": null,
+      "attempts": 1
+    },
+    {
+      "id": "bcb3e4b1-9282-47b9-842d-545664064b82",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "type": "apply_policy",
+      "payload": {
+        "policy": {
+          "app_rules": [],
+          "allowed_packages": [],
+          "blocked_packages": [],
+          "enforce_app_blocks": true,
+          "bedtime_end_minutes": 420,
+          "bedtime_start_minutes": 1260,
+          "block_all_except_allowed": false,
+          "daily_screen_time_limit_minutes": 75
+        },
+        "version": 1,
+        "policy_id": "ec4ec6ab-7e8d-459a-a1a0-526e9ccf1267"
+      },
+      "status": "succeeded",
+      "idempotency_key": "95da70ab-5c63-41d4-8dc1-09f19b8bc600",
+      "created_by": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "created_at": "2026-11-13T07:41:13.05116+00:00",
+      "expires_at": "2026-11-13T07:56:13.05116+00:00",
+      "delivered_at": "2026-11-13T07:41:31.615487+00:00",
+      "acked_at": "2026-11-13T07:41:34.121+00:00",
+      "result": {
+        "quota": {
+          "action": "advisory",
+          "reason": "quota_advisory_only",
+          "configured": true,
+          "day_bucket": "2026-11-13",
+          "failed_count": 0,
+          "applied_count": 0,
+          "desired_count": 0,
+          "limit_minutes": 75,
+          "limit_reached": true,
+          "usage_minutes": 198,
+          "usage_available": true,
+          "enforcement_mode": "none",
+          "enforcement_supported": false
+        },
+        "errors": [],
+        "success": true,
+        "failures": [],
+        "applied_at": "2026-11-13T07:41:30.254Z",
+        "failed_count": 0,
+        "applied_count": 0,
+        "desired_count": 0,
+        "bedtime_active": false,
+        "service_running": true,
+        "enforcement_mode": "none",
+        "suspended_packages": [],
+        "unsupported_packages": [],
+        "enforcement_supported": false
+      },
+      "error_message": null,
+      "attempts": 1
+    }
+  ],
+  "device_policies": [
+    {
+      "id": "17b10879-a1ac-40e7-ab98-c912ba63c809",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "version": 4,
+      "policy": {
+        "app_rules": [],
+        "allowed_packages": [],
+        "blocked_packages": [],
+        "enforce_app_blocks": true,
+        "bedtime_end_minutes": 420,
+        "bedtime_start_minutes": 1320,
+        "block_all_except_allowed": false,
+        "daily_screen_time_limit_minutes": null
+      },
+      "created_by": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "created_at": "2026-11-17T05:51:41.317287+00:00",
+      "acknowledged_at": null,
+      "enforcement_status": "pending",
+      "last_error": null
+    },
+    {
+      "id": "8408a71d-161e-4ce6-9365-ac0b900a0ac6",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "version": 3,
+      "policy": {
+        "app_rules": [],
+        "allowed_packages": [],
+        "blocked_packages": [],
+        "enforce_app_blocks": true,
+        "bedtime_end_minutes": 420,
+        "bedtime_start_minutes": 1260,
+        "block_all_except_allowed": false,
+        "daily_screen_time_limit_minutes": null
+      },
+      "created_by": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "created_at": "2026-11-16T10:34:40.583853+00:00",
+      "acknowledged_at": null,
+      "enforcement_status": "pending",
+      "last_error": null
+    },
+    {
+      "id": "270877e9-5f98-4b4e-9166-c1ad27bab251",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "version": 2,
+      "policy": {
+        "app_rules": [],
+        "allowed_packages": [],
+        "blocked_packages": [],
+        "enforce_app_blocks": true,
+        "bedtime_end_minutes": 420,
+        "bedtime_start_minutes": 1260,
+        "block_all_except_allowed": false,
+        "daily_screen_time_limit_minutes": 90
+      },
+      "created_by": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "created_at": "2026-11-13T10:00:55.404764+00:00",
+      "acknowledged_at": "2026-11-13T10:00:59.154+00:00",
+      "enforcement_status": "enforced",
+      "last_error": null
+    },
+    {
+      "id": "ec4ec6ab-7e8d-459a-a1a0-526e9ccf1267",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "version": 1,
+      "policy": {
+        "app_rules": [],
+        "allowed_packages": [],
+        "blocked_packages": [],
+        "enforce_app_blocks": true,
+        "bedtime_end_minutes": 420,
+        "bedtime_start_minutes": 1260,
+        "block_all_except_allowed": false,
+        "daily_screen_time_limit_minutes": 75
+      },
+      "created_by": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "created_at": "2026-11-13T07:41:13.05116+00:00",
+      "acknowledged_at": "2026-11-13T07:41:34.121+00:00",
+      "enforcement_status": "enforced",
+      "last_error": null
+    }
+  ],
+  "pairing_requests": [
+    {
+      "id": "339df8d3-bf4c-4dd3-88f7-d507d8348c34",
+      "token_id": "4ac46bba-5211-45af-a4a4-6ed469926edb",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "parent_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "child_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "status": "approved",
+      "created_at": "2026-11-13T07:26:43.323903+00:00",
+      "expires_at": "2026-11-14T07:26:43.204+00:00",
+      "responded_at": "2026-11-13T07:28:03.306382+00:00"
+    },
+    {
+      "id": "c0c70473-55d4-4bd5-a3b2-e6a0b6407c76",
+      "token_id": "dc60d714-47fc-447e-8921-a8ff031d7f6f",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "parent_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "child_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "status": "approved",
+      "created_at": "2026-10-29T05:46:57.730466+00:00",
+      "expires_at": "2026-10-30T05:46:57.618+00:00",
+      "responded_at": "2026-10-29T05:47:15.752813+00:00"
+    }
+  ],
+  "audit_logs": [
+    {
+      "id": "7af32313-7872-42ca-99e4-f79f58c81565",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "policy_updated",
+      "target_type": "device_policy",
+      "target_id": "17b10879-a1ac-40e7-ab98-c912ba63c809",
+      "metadata": {
+        "version": 4,
+        "command_id": "0b61ada9-1333-4b6c-95fb-37836864b736"
+      },
+      "created_at": "2026-11-17T05:51:41.612434+00:00"
+    },
+    {
+      "id": "73184883-b540-4688-a2ca-47617a93e540",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "policy_updated",
+      "target_type": "device_policy",
+      "target_id": "8408a71d-161e-4ce6-9365-ac0b900a0ac6",
+      "metadata": {
+        "version": 3,
+        "command_id": "24979567-cd83-4770-9ac9-e94043ac8f6a"
+      },
+      "created_at": "2026-11-16T10:34:40.819047+00:00"
+    },
+    {
+      "id": "114ae9b9-e645-4945-aad8-5438c37aed04",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "session_ended",
+      "target_type": "remote_session",
+      "target_id": "98c68da3-b0cb-46ac-bbcd-5a6a6f173762",
+      "metadata": {
+        "reason": null,
+        "status_before": "active"
+      },
+      "created_at": "2026-11-13T11:01:43.161335+00:00"
+    },
+    {
+      "id": "1d4dbadb-9e9a-4ca0-aabe-b57deef489aa",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "session_started",
+      "target_type": "remote_session",
+      "target_id": "98c68da3-b0cb-46ac-bbcd-5a6a6f173762",
+      "metadata": {},
+      "created_at": "2026-11-13T10:58:38.068602+00:00"
+    },
+    {
+      "id": "1d83e1d0-0886-46be-8010-1a04dbcf39f4",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "session_accepted",
+      "target_type": "remote_session",
+      "target_id": "98c68da3-b0cb-46ac-bbcd-5a6a6f173762",
+      "metadata": {},
+      "created_at": "2026-11-13T10:55:27.338043+00:00"
+    },
+    {
+      "id": "820e7d7e-2d24-4277-92c8-64645ae1b20a",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "session_requested",
+      "target_type": "remote_session",
+      "target_id": "98c68da3-b0cb-46ac-bbcd-5a6a6f173762",
+      "metadata": {
+        "kind": "audio"
+      },
+      "created_at": "2026-11-13T10:50:34.840726+00:00"
+    },
+    {
+      "id": "e04ae988-c202-4792-bf55-231972495fbb",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": null,
+      "event_type": "alert_acknowledged",
+      "target_type": "safety_alert",
+      "target_id": "569638d2-142f-4468-9809-46604c421086",
+      "metadata": {
+        "alert_type": "low_battery"
+      },
+      "created_at": "2026-11-13T10:27:06.635008+00:00"
+    },
+    {
+      "id": "fbeb42d4-8ae5-44c6-a566-48745797ff4d",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": null,
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "command_acked",
+      "target_type": "device_command",
+      "target_id": "b3a19cf6-5b5b-467c-b6e3-b1ddcf6b21c8",
+      "metadata": {
+        "type": "apply_policy",
+        "status": "succeeded"
+      },
+      "created_at": "2026-11-13T10:00:59.897762+00:00"
+    },
+    {
+      "id": "b218a6c7-f50e-46c4-8309-1fdd0b480dc3",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "policy_updated",
+      "target_type": "device_policy",
+      "target_id": "270877e9-5f98-4b4e-9166-c1ad27bab251",
+      "metadata": {
+        "version": 2,
+        "command_id": "b3a19cf6-5b5b-467c-b6e3-b1ddcf6b21c8"
+      },
+      "created_at": "2026-11-13T10:00:55.643517+00:00"
+    },
+    {
+      "id": "fbf7fff3-de5d-497e-bb6a-c3c5f4d12b9b",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "session_started",
+      "target_type": "remote_session",
+      "target_id": "f5c7a29d-54eb-4c8d-b718-d268c9ab17c9",
+      "metadata": {},
+      "created_at": "2026-11-13T08:52:22.965922+00:00"
+    },
+    {
+      "id": "7562b5a6-c196-4c98-a15a-b8ab1ed1bf47",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "session_accepted",
+      "target_type": "remote_session",
+      "target_id": "f5c7a29d-54eb-4c8d-b718-d268c9ab17c9",
+      "metadata": {},
+      "created_at": "2026-11-13T08:29:03.76942+00:00"
+    },
+    {
+      "id": "60a21299-2304-4dfd-9e17-bb8e7d9296ac",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "session_requested",
+      "target_type": "remote_session",
+      "target_id": "f5c7a29d-54eb-4c8d-b718-d268c9ab17c9",
+      "metadata": {
+        "kind": "audio"
+      },
+      "created_at": "2026-11-13T08:27:32.514934+00:00"
+    },
+    {
+      "id": "6c5b430d-357f-4d19-a4e5-6ecad94b2a0f",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": null,
+      "event_type": "alert_acknowledged",
+      "target_type": "safety_alert",
+      "target_id": "8cc72f40-b6a5-4014-af5d-91fd093b2011",
+      "metadata": {
+        "alert_type": "low_battery"
+      },
+      "created_at": "2026-11-13T08:03:30.535243+00:00"
+    },
+    {
+      "id": "be894cc0-2787-47c9-bbbf-2b18b2e7331e",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": null,
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "command_acked",
+      "target_type": "device_command",
+      "target_id": "bcb3e4b1-9282-47b9-842d-545664064b82",
+      "metadata": {
+        "type": "apply_policy",
+        "status": "succeeded"
+      },
+      "created_at": "2026-11-13T07:41:34.807374+00:00"
+    },
+    {
+      "id": "2ea22f48-adb5-4851-ab0b-5bb27709bb65",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "policy_updated",
+      "target_type": "device_policy",
+      "target_id": "ec4ec6ab-7e8d-459a-a1a0-526e9ccf1267",
+      "metadata": {
+        "version": 1,
+        "command_id": "bcb3e4b1-9282-47b9-842d-545664064b82"
+      },
+      "created_at": "2026-11-13T07:41:13.286707+00:00"
+    },
+    {
+      "id": "62920b97-b382-4346-8403-7ffc0ab595fd",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "device_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "event_type": "device_registered",
+      "target_type": "device",
+      "target_id": "a7177c84-68d6-483e-8a5a-03865982b5e4",
+      "metadata": {},
+      "created_at": "2026-11-13T07:28:21.477471+00:00"
+    },
+    {
+      "id": "9ec59177-14a4-44ff-abf4-eaaa18a24462",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "device_id": null,
+      "event_type": "pairing_approved",
+      "target_type": "pairing_request",
+      "target_id": "339df8d3-bf4c-4dd3-88f7-d507d8348c34",
+      "metadata": {
+        "parent_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3"
+      },
+      "created_at": "2026-11-13T07:28:03.306382+00:00"
+    },
+    {
+      "id": "d5dfea7e-bd7b-49ae-8a67-4b9c02d46114",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": null,
+      "event_type": "pairing_invited",
+      "target_type": "pairing_request",
+      "target_id": "339df8d3-bf4c-4dd3-88f7-d507d8348c34",
+      "metadata": {
+        "via": "child_id",
+        "child_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae"
+      },
+      "created_at": "2026-11-13T07:26:43.817023+00:00"
+    },
+    {
+      "id": "2339b674-7cb9-41b1-85bb-35247a298d4a",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": null,
+      "event_type": "member_removed",
+      "target_type": "family_member",
+      "target_id": "d5f4ad55-e7c0-4747-bb2e-735a1ab18def",
+      "metadata": {
+        "child_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae"
+      },
+      "created_at": "2026-11-13T07:22:42.063574+00:00"
+    },
+    {
+      "id": "82f104a6-3d09-4fde-b4b1-974aff4376e5",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "fd79ee34-c6fe-4abd-a3ae-39f9b16ed628",
+      "event_type": "device_recovery_started",
+      "target_type": "device",
+      "target_id": "fd79ee34-c6fe-4abd-a3ae-39f9b16ed628",
+      "metadata": {
+        "child_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+        "devices_revoked": "1",
+        "already_unlinked": false
+      },
+      "created_at": "2026-11-13T07:22:42.063574+00:00"
+    },
+    {
+      "id": "8e9cfe89-7436-444c-bc47-031087c7792d",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "fd79ee34-c6fe-4abd-a3ae-39f9b16ed628",
+      "event_type": "session_ended",
+      "target_type": "remote_session",
+      "target_id": "3df8513c-27bc-49d7-8b90-467063d93f8f",
+      "metadata": {
+        "reason": null,
+        "status_before": "active"
+      },
+      "created_at": "2026-11-13T06:19:18.997616+00:00"
+    },
+    {
+      "id": "64bb714f-fe9d-4ad5-b88e-573c19c867fa",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "device_id": "fd79ee34-c6fe-4abd-a3ae-39f9b16ed628",
+      "event_type": "session_started",
+      "target_type": "remote_session",
+      "target_id": "3df8513c-27bc-49d7-8b90-467063d93f8f",
+      "metadata": {},
+      "created_at": "2026-11-13T06:18:03.106164+00:00"
+    },
+    {
+      "id": "92952876-2feb-405f-8b96-890e521c932a",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "a29448c5-23ee-461c-bdac-2f7daab4bbae",
+      "device_id": "fd79ee34-c6fe-4abd-a3ae-39f9b16ed628",
+      "event_type": "session_accepted",
+      "target_type": "remote_session",
+      "target_id": "3df8513c-27bc-49d7-8b90-467063d93f8f",
+      "metadata": {},
+      "created_at": "2026-11-13T06:17:56.008659+00:00"
+    },
+    {
+      "id": "e6ed2e07-0190-41b1-85dc-8cac9deb1a98",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "fd79ee34-c6fe-4abd-a3ae-39f9b16ed628",
+      "event_type": "session_requested",
+      "target_type": "remote_session",
+      "target_id": "3df8513c-27bc-49d7-8b90-467063d93f8f",
+      "metadata": {
+        "kind": "video"
+      },
+      "created_at": "2026-11-13T06:17:47.457281+00:00"
+    },
+    {
+      "id": "41f2c27e-d111-448f-aee1-ea6512cda388",
+      "family_id": "4b97ad74-6032-48f4-a705-bef60f2c7a75",
+      "actor_user_id": "d8c7ee6a-6380-43bf-8205-ad448cfdc6e3",
+      "device_id": "fd79ee34-c6fe-4abd-a3ae-39f9b16ed628",
+      "event_type": "session_ended",
+      "target_type": "remote_session",
+      "target_id": "ced9b8fc-82fc-4a33-b4a0-0b90408481ac",
+      "metadata": {
+        "reason": null,
+        "status_before": "active"
+      },
+      "created_at": "2026-11-13T06:17:21.923026+00:00"
+    }
+  ]
+}
