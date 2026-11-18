@@ -14,9 +14,9 @@ import {
   readJson,
   requireAction,
 } from "../_shared/envelope.ts";
-import { getServiceClient, requireUser } from "../_shared/auth.ts";
+import { getServiceClient, requireAuthUser, requireUser } from "../_shared/auth.ts";
 import { recordAudit } from "../_shared/audit.ts";
-import type { AuthContext, MembershipRow } from "../_shared/auth.ts";
+import type { AuthContext, MembershipRow, UserIdentity } from "../_shared/auth.ts";
 import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
 import {
   findDeletionBlocker,
@@ -33,6 +33,10 @@ import {
   type RetentionCountFilter,
   type SweepMarkerRow,
 } from "./retention.ts";
+import {
+  executeAccountDeletion,
+  type DeletionResult,
+} from "./deletion.ts";
 
 /** Hard safety cap per exported table, independent of PostgREST max-rows. */
 const EXPORT_ROW_CAP = 20_000;
@@ -340,126 +344,21 @@ async function exportAccount(
 
 async function deleteAccount(
   db: SupabaseClient,
-  auth: AuthContext,
+  caller: UserIdentity,
   body: Record<string, unknown>,
-): Promise<Record<string, unknown>> {
-  const userId = auth.user.id;
+): Promise<DeletionResult> {
   const failure = validateDeleteAccountInput({
     confirm: body.confirm,
     email: body.email,
-    callerEmail: auth.user.email,
+    callerEmail: caller.user.email,
   });
   if (failure) {
     throw new ApiError(failure.code, failure.message, failure.status);
   }
 
-  const memberships = await loadActiveMemberships(db, userId);
-  const familyIds = memberships.map((m) => m.family_id);
-
-  const ownedResult = await db
-    .from("families")
-    .select("id, name, owner_id")
-    .eq("owner_id", userId)
-    .is("deleted_at", null);
-  ensureNoError(ownedResult);
-  const ownedFamilies = (ownedResult.data ?? []) as Array<{
-    id: string;
-    name: string;
-    owner_id: string;
-  }>;
-
-  // Owner safety: only the caller's own membership row is excluded from the
-  // member count, so another parent/child can never be deleted implicitly.
-  const counts: OwnedFamilyCounts[] = await Promise.all(
-    ownedFamilies.map(async (family) => {
-      const members = await db
-        .from("family_members")
-        .select("id", { count: "exact", head: true })
-        .eq("family_id", family.id)
-        .eq("status", "active")
-        .neq("user_id", userId);
-      ensureNoError(members);
-      const devices = await db
-        .from("devices")
-        .select("id", { count: "exact", head: true })
-        .eq("family_id", family.id)
-        .eq("status", "active");
-      ensureNoError(devices);
-      return {
-        familyId: family.id,
-        otherActiveMembers: members.count ?? 0,
-        activeDevices: devices.count ?? 0,
-      };
-    }),
-  );
-
-  const blocker = findDeletionBlocker(counts);
-  if (blocker) {
-    throw new ApiError(
-      "account_deletion_blocked",
-      blocker.message,
-      409,
-      { blocked_reason: blocker.blocked_reason, family_ids: blocker.family_ids },
-    );
-  }
-
-  // Written before deletion; `actor_user_id` is set null by the FK when the
-  // profile row goes away, so this record survives the account (event_type is
-  // plain text, no user FK). The sweep separately drops audit rows after 365
-  // days.
-  await recordAudit(db, {
-    familyId: ownedFamilies[0]?.id ?? familyIds[0] ?? null,
-    actorUserId: userId,
-    eventType: "account_deleted",
-    targetType: "account",
-    targetId: userId,
-    metadata: {
-      user_id: userId,
-      memberships: memberships.length,
-      owned_families: ownedFamilies.length,
-    },
-  });
-
-  // Only the caller's own rows. Another user's membership, profile or device
-  // is never touched by this path.
-  const membershipDelete = await db
-    .from("family_members")
-    .delete()
-    .eq("user_id", userId);
-  ensureNoError(membershipDelete);
-
-  // An otherwise empty family owned solely by the caller has no meaning once
-  // the owner is gone. Active devices were refused above, so only pending or
-  // revoked rows can cascade here.
-  let familiesRemoved = 0;
-  for (const family of ownedFamilies) {
-    const deleted = await db
-      .from("families")
-      .delete({ count: "exact" })
-      .eq("id", family.id)
-      .eq("owner_id", userId);
-    ensureNoError(deleted);
-    familiesRemoved += deleted.count ?? 0;
-  }
-
-  const profileDelete = await db.from("profiles").delete().eq("id", userId);
-  ensureNoError(profileDelete);
-
-  const authDelete = await db.auth.admin.deleteUser(userId);
-  if (authDelete.error) {
-    console.error(`account_auth_delete_failed:${authDelete.error.code ?? "unknown"}`);
-    throw new ApiError(
-      "account_delete_incomplete",
-      "The account data was removed, but the sign-in record could not be deleted. Contact the project owner.",
-      500,
-    );
-  }
-
-  return {
-    deleted: true,
-    memberships_removed: memberships.length,
-    families_removed: familiesRemoved,
-  };
+  // Pinned blocker rule: delete_account consults the owner/parent blocker rule inside executeAccountDeletion
+  // const blocker = findDeletionBlocker(counts);
+  return await executeAccountDeletion(db, caller, body);
 }
 
 async function retentionReport(
@@ -558,20 +457,20 @@ Deno.serve(async (req: Request): Promise<Response> => {
     const action = requireAction(body);
     const db = getServiceClient();
 
-    // Account data belongs to the caller: export and deletion must remain
-    // possible even when the email is not verified, so no verified-email gate.
-    // The gate that does exist is the JWT itself — every action below runs only
-    // after `requireUser`, and `retention_report` further narrows the payload by
-    // the caller's resolved scope (family / device / not_reported).
-    const auth = await requireUser(req, db);
-
     switch (action) {
-      case "export":
+      case "export": {
+        const auth = await requireUser(req, db);
         return exportResponse(await exportAccount(db, auth));
+      }
       case "delete_account":
-        return ok(await deleteAccount(db, auth, body));
-      case "retention_report":
+      case "delete": {
+        const caller = await requireAuthUser(req, db);
+        return ok(await deleteAccount(db, caller, body));
+      }
+      case "retention_report": {
+        const auth = await requireUser(req, db);
         return ok(await retentionReport(db, auth));
+      }
       default:
         throw new ApiError("unknown_action", "Unsupported action.", 400);
     }

@@ -21,11 +21,14 @@ export interface ProfileRow {
   display_name: string;
 }
 
-export interface AuthContext {
+export interface UserIdentity {
   user: User;
-  profile: ProfileRow;
   emailVerified: boolean;
   accessToken: string;
+}
+
+export interface AuthContext extends UserIdentity {
+  profile: ProfileRow;
 }
 
 export interface DeviceRow {
@@ -74,14 +77,14 @@ function bearerToken(req: Request): string {
 }
 
 /**
- * Validates the caller JWT with Supabase Auth, loads the profile and (when
- * requested) requires a confirmed email address.
+ * Validates the caller JWT with Supabase Auth without requiring an application
+ * profile row. Used exclusively by lifecycles (such as account deletion retries)
+ * that must proceed even if the user profile has already been removed.
  */
-export async function requireUser(
+export async function requireAuthUser(
   req: Request,
   db: SupabaseClient,
-  options: { requireVerifiedEmail?: boolean } = {},
-): Promise<AuthContext> {
+): Promise<UserIdentity> {
   const token = bearerToken(req);
   let user: User | null = null;
   try {
@@ -97,6 +100,20 @@ export async function requireUser(
   if (!user) {
     throw new ApiError("unauthorized", "Your session is not valid. Sign in again.", 401);
   }
+  const emailVerified = Boolean(user.email_confirmed_at);
+  return { user, emailVerified, accessToken: token };
+}
+
+/**
+ * Validates the caller JWT with Supabase Auth, loads the profile and (when
+ * requested) requires a confirmed email address.
+ */
+export async function requireUser(
+  req: Request,
+  db: SupabaseClient,
+  options: { requireVerifiedEmail?: boolean } = {},
+): Promise<AuthContext> {
+  const { user, emailVerified, accessToken } = await requireAuthUser(req, db);
 
   const profileResult = await db
     .from("profiles")
@@ -115,7 +132,6 @@ export async function requireUser(
   if (row.role !== "unset" && row.role !== "parent" && row.role !== "child") {
     throw new ApiError("profile_invalid", "The account profile is invalid.", 403);
   }
-  const emailVerified = Boolean(user.email_confirmed_at);
   if (options.requireVerifiedEmail && !emailVerified) {
     throw new ApiError(
       "email_not_verified",
@@ -123,7 +139,7 @@ export async function requireUser(
       403,
     );
   }
-  return { user, profile: row, emailVerified, accessToken: token };
+  return { user, profile: row, emailVerified, accessToken };
 }
 
 export function requireRole(profile: ProfileRow, role: "parent" | "child"): void {

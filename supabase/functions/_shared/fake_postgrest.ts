@@ -172,6 +172,7 @@ export class FakeQueryBuilder {
   readonly filters: FakeFilter[] = [];
   orderSpec: { column: string; ascending: boolean } | null = null;
   limitCount: number | null = null;
+  rangeSpec: { from: number; to: number } | null = null;
   terminal: "maybeSingle" | "single" | null = null;
 
   constructor(
@@ -258,6 +259,15 @@ export class FakeQueryBuilder {
     return this;
   }
 
+  range(from: number, to: number): this {
+    this.rangeSpec = { from, to };
+    return this;
+  }
+
+  or(_filters: string): this {
+    return this;
+  }
+
   maybeSingle(): this {
     this.terminal = "maybeSingle";
     return this;
@@ -291,13 +301,19 @@ export class FakePostgrest {
   private readonly failures: FailureRule[] = [];
   private authUser: Row | null = null;
   private authError: FakePostgrestError | null = null;
+  private authAdminError: FakePostgrestError | null = null;
   private nextIndex = 0;
 
-  /** `auth.getUser` is part of the client surface `requireUser` reaches for. */
+  /** `auth.getUser` and `auth.admin.deleteUser` are part of the client surface handlers reach for. */
   readonly auth: {
     getUser: (
       token: string,
     ) => Promise<{ data: { user: Row | null }; error: FakePostgrestError | null }>;
+    admin: {
+      deleteUser: (
+        userId: string,
+      ) => Promise<{ data: { user: null }; error: FakePostgrestError | null }>;
+    };
   };
 
   constructor(initial: Record<string, Row[]> = {}) {
@@ -318,7 +334,33 @@ export class FakePostgrest {
           record.failed = true;
           return { data: { user: null }, error: this.authError };
         }
+        if (!this.authUser) {
+          record.failed = true;
+          return {
+            data: { user: null },
+            error: { message: "User not found", code: "user_not_found" },
+          };
+        }
         return { data: { user: clone(this.authUser) }, error: null };
+      },
+      admin: {
+        deleteUser: async (userId: string) => {
+          const record = this.begin({
+            kind: "auth",
+            table: null,
+            rpc: null,
+            verb: null,
+            payload: { action: "deleteUser", userId },
+          });
+          if (this.authAdminError) {
+            record.failed = true;
+            return { data: { user: null }, error: this.authAdminError };
+          }
+          if (this.authUser && this.authUser.id === userId) {
+            this.authUser = null;
+          }
+          return { data: { user: null }, error: null };
+        },
       },
     };
   }
@@ -336,6 +378,11 @@ export class FakePostgrest {
 
   setUserError(error: FakePostgrestError | null): this {
     this.authError = error;
+    return this;
+  }
+
+  setAdminError(error: FakePostgrestError | null): this {
+    this.authAdminError = error;
     return this;
   }
 
@@ -477,7 +524,12 @@ export class FakePostgrest {
         compareValues(left[column], right[column]) * (ascending ? 1 : -1)
       );
     }
-    if (builder.limitCount !== null) matched = matched.slice(0, builder.limitCount);
+    if (builder.rangeSpec) {
+      const { from, to } = builder.rangeSpec;
+      matched = matched.slice(from, to + 1);
+    } else if (builder.limitCount !== null) {
+      matched = matched.slice(0, builder.limitCount);
+    }
 
     let affected: Row[] = matched;
     if (verb === "insert") {
