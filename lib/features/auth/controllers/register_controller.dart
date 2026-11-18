@@ -83,14 +83,17 @@ class RegisterController extends GetxController {
         email: email.trim(),
         password: password,
         displayName: displayName.trim(),
+        role: intendedRole.value,
       );
       final userId = _auth.currentUserId;
       if (userId == null || userId.isEmpty || !_auth.isEmailVerified) {
         // Supabase may require email confirmation, in which case there is no
-        // session yet. Neither case may assign a role.
+        // session yet. Pass password in-memory to verifyEmail for seamless
+        // activation upon confirmation.
         openDestination(
           SignedInDestination.verifyEmail,
           email: email.trim(),
+          password: password,
         );
         return SignedInDestination.verifyEmail;
       }

@@ -81,13 +81,12 @@ class _RegisterPageState extends State<RegisterPage> {
                           icon: Icons.mark_email_unread_outlined,
                           title: 'Email verification comes first',
                           message: intendedRole.isChosen
-                              ? 'You picked ${_roleLabel(intendedRole)} '
-                                  'earlier. That choice is only stored on this '
-                                  'device. After verification the role-lock '
-                                  'screen assigns the permanent server role once.'
-                              : 'The permanent parent or child role is '
-                                  'assigned only after the server confirms '
-                                  'this email. Nothing is assigned at sign-up.',
+                              ? 'You are creating a ${_roleLabel(intendedRole)} '
+                                  'account. After email verification, your '
+                                  '${_roleLabel(intendedRole)} role will be '
+                                  'assigned automatically.'
+                              : 'The parent or child role is assigned once '
+                                  'this email is verified.',
                         ),
                       ),
                       if (error != null)

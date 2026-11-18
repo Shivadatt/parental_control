@@ -61,10 +61,12 @@ class SupabaseAuthRepository implements AuthRepository {
     required String email,
     required String password,
     String? displayName,
+    ProfileRole? role,
   }) async {
     final trimmedName = displayName?.trim() ?? '';
     final metadata = <String, dynamic>{
       if (trimmedName.isNotEmpty) 'display_name': trimmedName,
+      if (role != null && role.isChosen) 'role': role.wireName,
     };
     try {
       await _supabase.client.auth.signUp(

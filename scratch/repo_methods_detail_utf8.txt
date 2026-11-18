@@ -1,0 +1,372 @@
+
+================================================================================
+FILE: supabase_alert_repository.dart
+================================================================================
+
+Method: fetchAlerts
+  Signature: Future<List<SafetyAlert>> fetchAlerts(
+  PostgREST: ['safety_alerts']
+
+Method: acknowledgeAlert
+  Signature: Future<void> acknowledgeAlert(String alertId) async
+  EdgeFunction: ['family-admin:ack_alert']
+
+Method: watchAlerts
+  Signature: Stream<List<SafetyAlert>> watchAlerts(String familyId)
+  Local / Cache / Stream Helper
+
+Method: _mapError
+  Signature: AppException _mapError(Object error, String fallbackMessage)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_audit_repository.dart
+================================================================================
+
+Method: fetchAuditLogs
+  Signature: Future<List<AuditLogEntry>> fetchAuditLogs(
+  PostgREST: ['audit_logs']
+
+Method: updateRetention
+  Signature: Future<void> updateRetention(
+  EdgeFunction: ['family-admin:update_retention']
+
+Method: purgeOldData
+  Signature: Future<int> purgeOldData(
+  EdgeFunction: ['family-admin:purge_data']
+
+Method: _extractDeletedCount
+  Signature: int _extractDeletedCount(Map<String, dynamic> data)
+  Local / Cache / Stream Helper
+
+Method: _mapError
+  Signature: AppException _mapError(Object error, String fallbackMessage)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_auth_repository.dart
+================================================================================
+
+Method: signIn
+  Signature: Future<void> signIn(
+  Auth: Supabase Auth SDK
+
+Method: signUp
+  Signature: Future<void> signUp(
+  Auth: Supabase Auth SDK
+
+Method: signOut
+  Signature: Future<void> signOut() async
+  Local / Cache / Stream Helper
+
+Method: resendVerificationEmail
+  Signature: Future<void> resendVerificationEmail(
+  Auth: Supabase Auth SDK
+
+Method: refreshEmailVerification
+  Signature: Future<bool> refreshEmailVerification() async
+  Auth: Supabase Auth SDK
+
+Method: fetchProfile
+  Signature: Future<Profile?> fetchProfile() async
+  PostgREST: ['profiles']
+
+Method: setInitialRole
+  Signature: Future<Profile> setInitialRole(
+  EdgeFunction: ['auth-bootstrap:set_role']
+
+Method: _mapError
+  Signature: AppException _mapError(Object error)
+  Local / Cache / Stream Helper
+
+Method: _mapAuthException
+  Signature: AppException _mapAuthException(AuthException error)
+  Local / Cache / Stream Helper
+
+Method: _mapPostgrestException
+  Signature: AppException _mapPostgrestException(PostgrestException error)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_device_repository.dart
+================================================================================
+
+Method: registerDevice
+  Signature: Future<Device> registerDevice(
+  Local / Cache / Stream Helper
+
+Method: uploadReportedApps
+  Signature: Future<int> uploadReportedApps(
+  Local / Cache / Stream Helper
+
+Method: heartbeat
+  Signature: Future<void> heartbeat(
+  Local / Cache / Stream Helper
+
+Method: _requireRegistered
+  Signature: void _requireRegistered(DeviceIdentity identity)
+  Local / Cache / Stream Helper
+
+Method: _mapPostgrest
+  Signature: throw _mapPostgrest(error); } on AuthException catch (error)
+  Local / Cache / Stream Helper
+
+Method: AppException
+  Signature: throw AppException( AppErrorCodes.unauthorized, 'Your session has expired. Sign in again.', cause: error, ); } catch (error)
+  Local / Cache / Stream Helper
+
+Method: _mapPostgrest
+  Signature: AppException _mapPostgrest(PostgrestException error)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_family_repository.dart
+================================================================================
+
+Method: createFamily
+  Signature: Future<Family> createFamily(String name) async
+  EdgeFunction: ['auth-bootstrap:create_family']
+
+Method: fetchMyFamilies
+  Signature: Future<List<Family>> fetchMyFamilies() async
+  PostgREST: ['family_members']
+
+Method: fetchFamily
+  Signature: Future<Family?> fetchFamily(String familyId) async
+  PostgREST: ['families']
+
+Method: fetchMembers
+  Signature: Future<List<FamilyMember>> fetchMembers(String familyId) async
+  PostgREST: ['family_members']
+
+Method: fetchMyMembership
+  Signature: Future<FamilyMember?> fetchMyMembership() async
+  PostgREST: ['family_members']
+
+Method: updateSettings
+  Signature: Future<void> updateSettings(
+  EdgeFunction: ['family-admin:update_retention']
+
+Method: _requireUserId
+  Signature: String _requireUserId()
+  Local / Cache / Stream Helper
+
+Method: _mapError
+  Signature: AppException _mapError(Object error)
+  Local / Cache / Stream Helper
+
+Method: _mapPostgrestException
+  Signature: AppException _mapPostgrestException(PostgrestException error)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_location_repository.dart
+================================================================================
+
+Method: fetchLatestLocation
+  Signature: Future<LocationEvent?> fetchLatestLocation(String deviceId) async
+  PostgREST: ['location_events']
+
+Method: fetchHistory
+  Signature: Future<List<LocationEvent>> fetchHistory(
+  PostgREST: ['location_events']
+
+Method: uploadLocation
+  Signature: Future<void> uploadLocation(
+  EdgeFunction: ['device-telemetry:location_upload']
+
+Method: fetchSafeZones
+  Signature: Future<List<SafeZone>> fetchSafeZones(String familyId) async
+  PostgREST: ['safe_zones']
+
+Method: upsertSafeZone
+  Signature: Future<SafeZone> upsertSafeZone(
+  PostgREST: ['safe_zones']
+
+Method: deleteSafeZone
+  Signature: Future<void> deleteSafeZone(String zoneId) async
+  EdgeFunction: ['family-admin:delete_zone']
+
+Method: _mapError
+  Signature: AppException _mapError(Object error, String fallbackMessage)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_pairing_repository.dart
+================================================================================
+
+Method: fetchChildContactId
+  Signature: Future<ChildContactId> fetchChildContactId() async
+  Local / Cache / Stream Helper
+
+Method: inviteChild
+  Signature: Future<PairingRequest> inviteChild(
+  Local / Cache / Stream Helper
+
+Method: createLinkingCode
+  Signature: Future<PairingCode> createLinkingCode() async
+  Local / Cache / Stream Helper
+
+Method: redeemLinkingCode
+  Signature: Future<PairingRequest> redeemLinkingCode(
+  Local / Cache / Stream Helper
+
+Method: _pairingRequest
+  Signature: PairingRequest _pairingRequest(Map<String, dynamic> map)
+  Local / Cache / Stream Helper
+
+Method: fetchForFamily
+  Signature: Future<List<PairingRequest>> fetchForFamily(String familyId)
+  Local / Cache / Stream Helper
+
+Method: respond
+  Signature: Future<void> respond(
+  Local / Cache / Stream Helper
+
+Method: cancel
+  Signature: Future<void> cancel(String requestId) async
+  Local / Cache / Stream Helper
+
+Method: unlink
+  Signature: Future<void> unlink(
+  Local / Cache / Stream Helper
+
+Method: _fetchList
+  Signature: Future<List<PairingRequest>> _fetchList( String action,
+  EdgeFunction: ['pairing']
+
+Method: _invoke
+  Signature: Future<dynamic> _invoke( String function,
+  Local / Cache / Stream Helper
+
+Method: _mapError
+  Signature: AppException _mapError(Object error)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_policy_repository.dart
+================================================================================
+
+Method: updatePolicy
+  Signature: Future<PolicyUpdateResult> updatePolicy(
+  Local / Cache / Stream Helper
+
+Method: fetchRecentCommands
+  Signature: Future<List<DeviceCommand>> fetchRecentCommands( String deviceId,
+  Local / Cache / Stream Helper
+
+Method: createCommand
+  Signature: Future<DeviceCommand> createCommand(
+  Local / Cache / Stream Helper
+
+Method: acknowledgeCommand
+  Signature: Future<DeviceCommand> acknowledgeCommand(
+  Local / Cache / Stream Helper
+
+Method: _mapPostgrest
+  Signature: throw _mapPostgrest(error); } on AuthException catch (error)
+  Local / Cache / Stream Helper
+
+Method: AppException
+  Signature: throw AppException( AppErrorCodes.unauthorized, 'Your session has expired. Sign in again.', cause: error, ); } catch (error)
+  Local / Cache / Stream Helper
+
+Method: _mapPostgrest
+  Signature: AppException _mapPostgrest(PostgrestException error)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_remote_session_repository.dart
+================================================================================
+
+Method: request
+  Signature: Future<RemoteSession> request(
+  EdgeFunction: ['remote-session:request']
+
+Method: fetchPendingForChild
+  Signature: Future<List<RemoteSession>> fetchPendingForChild() async
+  EdgeFunction: ['remote-session:pending_child']
+
+Method: fetchById
+  Signature: Future<RemoteSession?> fetchById(String sessionId) async
+  PostgREST: ['remote_sessions']
+
+Method: fetchForFamily
+  Signature: Future<List<RemoteSession>> fetchForFamily( String familyId,
+  PostgREST: ['remote_sessions']
+
+Method: respond
+  Signature: Future<RemoteSession> respond(
+  EdgeFunction: ['remote-session:respond']
+
+Method: markActive
+  Signature: Future<RemoteSession> markActive(String sessionId) async
+  EdgeFunction: ['remote-session:start']
+
+Method: end
+  Signature: Future<void> end(
+  EdgeFunction: ['remote-session:end']
+
+Method: fetchIceConfig
+  Signature: Future<IceConfig> fetchIceConfig(String sessionId) async
+  EdgeFunction: ['remote-session:ice']
+
+Method: sendSignal
+  Signature: Future<void> sendSignal(
+  PostgREST: ['webrtc_signals']
+
+Method: watchSession
+  Signature: Stream<RemoteSession> watchSession(String sessionId)
+  Local / Cache / Stream Helper
+
+Method: watchFamilySessions
+  Signature: Stream<List<RemoteSession>> watchFamilySessions(String familyId)
+  Local / Cache / Stream Helper
+
+Method: watchSignals
+  Signature: Stream<List<WebRtcSignal>> watchSignals(String sessionId)
+  Local / Cache / Stream Helper
+
+Method: _replaySignals
+  Signature: Future<void> _replaySignals( String sessionId, StreamController<List<WebRtcSignal>> controller, bool Function() isDisposed, ) async
+  PostgREST: ['webrtc_signals']
+
+Method: start
+  Signature: void start()
+  Local / Cache / Stream Helper
+
+Method: stop
+  Signature: Future<void> stop() async
+  Local / Cache / Stream Helper
+
+Method: _mapError
+  Signature: AppException _mapError(Object error, String fallbackMessage)
+  Local / Cache / Stream Helper
+
+================================================================================
+FILE: supabase_usage_repository.dart
+================================================================================
+
+Method: fetchUsage
+  Signature: Future<List<UsageDaily>> fetchUsage(
+  Local / Cache / Stream Helper
+
+Method: uploadUsage
+  Signature: Future<int> uploadUsage(
+  Local / Cache / Stream Helper
+
+Method: _dayString
+  Signature: String _dayString(DateTime value)
+  Local / Cache / Stream Helper
+
+Method: _mapPostgrest
+  Signature: throw _mapPostgrest(error); } on AuthException catch (error)
+  Local / Cache / Stream Helper
+
+Method: AppException
+  Signature: throw AppException( AppErrorCodes.unauthorized, 'Your session has expired. Sign in again.', cause: error, ); } catch (error)
+  Local / Cache / Stream Helper
+
+Method: _mapPostgrest
+  Signature: AppException _mapPostgrest(PostgrestException error)
+  Local / Cache / Stream Helper

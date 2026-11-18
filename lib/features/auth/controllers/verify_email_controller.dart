@@ -47,6 +47,7 @@ class VerifyEmailController extends GetxController {
 
   Timer? _cooldownTimer;
   StreamSubscription<void>? _authSubscription;
+  String? _pendingPassword;
   bool _disposed = false;
   bool _navigated = false;
 
@@ -83,7 +84,10 @@ class VerifyEmailController extends GetxController {
     }
   }
 
-  void prepare({String? emailAddress}) {
+  void prepare({String? emailAddress, String? password}) {
+    if (password != null && password.isNotEmpty) {
+      _pendingPassword = password;
+    }
     final trimmed = emailAddress?.trim() ?? '';
     if (trimmed.isNotEmpty) {
       email.value = trimmed;
@@ -136,7 +140,25 @@ class VerifyEmailController extends GetxController {
     }
     isRefreshing.value = true;
     try {
-      final verified = await _auth.refreshEmailVerification();
+      bool verified = false;
+      if (_auth.currentUserId != null) {
+        verified = await _auth.refreshEmailVerification();
+      } else if (_pendingPassword != null && _pendingPassword!.isNotEmpty) {
+        try {
+          await _auth.signIn(email: email.value, password: _pendingPassword!);
+          verified = true;
+        } on AppException catch (e) {
+          if (e.code == 'email_not_confirmed') {
+            verified = false;
+          } else {
+            rethrow;
+          }
+        }
+      } else {
+        signInInstead();
+        return;
+      }
+
       if (!verified) {
         info.value =
             'The server still reports this email as unverified. Open the newest '
@@ -223,6 +245,7 @@ class VerifyEmailController extends GetxController {
   @override
   void onClose() {
     _disposed = true;
+    _pendingPassword = null;
     _cooldownTimer?.cancel();
     _cooldownTimer = null;
     _authSubscription?.cancel();

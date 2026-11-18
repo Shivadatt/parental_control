@@ -20,7 +20,10 @@ class _VerifyEmailPageState extends State<VerifyEmailPage> {
   @override
   void initState() {
     super.initState();
-    _controller.prepare(emailAddress: routeString('email'));
+    _controller.prepare(
+      emailAddress: routeString('email'),
+      password: routeString('password'),
+    );
   }
 
   @override

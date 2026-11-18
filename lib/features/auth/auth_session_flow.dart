@@ -51,7 +51,27 @@ class AuthSessionFlow {
 
     if (!verified) return SignedInDestination.verifyEmail;
 
-    final profile = await _auth.fetchProfile();
+    var profile = await _auth.fetchProfile();
+    if (profile != null && !profile.role.isChosen) {
+      final cached = _settings.cachedRole;
+      final intended = cached != null && cached.isNotEmpty
+          ? ProfileRole.fromWire(cached)
+          : ProfileRole.unset;
+      if (intended.isChosen) {
+        try {
+          final updated = await _auth.setInitialRole(
+            role: intended,
+            displayName: profile.displayName,
+          );
+          if (updated.role.isChosen) {
+            profile = updated;
+          }
+        } catch (_) {
+          // Keep profile unset if auto-assignment fails; fallback to chooseRole.
+        }
+      }
+    }
+
     if (profile == null || !profile.role.isChosen) {
       _session.setProfile(profile);
       return SignedInDestination.chooseRole;
@@ -99,11 +119,18 @@ String routeForDestination(SignedInDestination destination) {
 
 /// Navigates with the route arguments each destination expects. Controllers
 /// call this only after the server state has been loaded.
-void openDestination(SignedInDestination destination, {String? email}) {
+void openDestination(
+  SignedInDestination destination, {
+  String? email,
+  String? password,
+}) {
   final route = routeForDestination(destination);
   switch (destination) {
     case SignedInDestination.verifyEmail:
-      Get.offAllNamed(route, arguments: {'email': email ?? ''});
+      Get.offAllNamed(route, arguments: {
+        'email': email ?? '',
+        if (password != null && password.isNotEmpty) 'password': password,
+      });
       return;
     case SignedInDestination.chooseRole:
       Get.offAllNamed(route, arguments: {'mode': 'lock'});

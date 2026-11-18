@@ -11,6 +11,7 @@ abstract class AuthRepository {
     required String email,
     required String password,
     String? displayName,
+    ProfileRole? role,
   });
   Future<void> signOut();
   Future<void> resendVerificationEmail({String? email});

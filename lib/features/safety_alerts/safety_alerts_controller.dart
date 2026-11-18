@@ -1,19 +1,26 @@
 import 'dart:async';
 
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 
 import '../../core/errors/app_exception.dart';
 import '../../data/models/telemetry.dart';
 import '../../data/repositories/repository_contracts.dart';
 
-class SafetyAlertsController extends GetxController {
+class SafetyAlertsController extends GetxController with WidgetsBindingObserver {
   SafetyAlertsController({
     required this._alertRepository,
     required this.familyId,
+    this.retryDelayProvider,
   });
 
   final AlertRepository _alertRepository;
   final String familyId;
+  final Duration Function(int attempt)? retryDelayProvider;
+
+  static const int maxReconnectAttempts = 3;
+  int _reconnectAttempts = 0;
+  Timer? _reconnectTimer;
 
   final RxList<SafetyAlert> alerts = <SafetyAlert>[].obs;
   final Rxn<AlertSeverity> severityFilter = Rxn<AlertSeverity>();
@@ -30,6 +37,7 @@ class SafetyAlertsController extends GetxController {
   bool get hasContext => familyId.isNotEmpty;
   bool get isEmpty => alerts.isEmpty;
   int get unacknowledgedCount => alerts.where((a) => !a.isAcknowledged).length;
+  int get reconnectAttempts => _reconnectAttempts;
 
   List<SafetyAlert> get visibleAlerts {
     final severity = severityFilter.value;
@@ -40,8 +48,24 @@ class SafetyAlertsController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    try {
+      WidgetsBinding.instance.addObserver(this);
+    } catch (_) {
+      // In tests without full binding, observer registration is gracefully skipped.
+    }
     load();
     _subscribe();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state != AppLifecycleState.resumed) return;
+    if (!hasContext) return;
+    if (!isWatching.value || realtimeError.value != null) {
+      _reconnectAttempts = 0;
+      _reconnectTimer?.cancel();
+      _subscribe();
+    }
   }
 
   Future<void> load({bool refresh = false}) async {
@@ -75,24 +99,39 @@ class SafetyAlertsController extends GetxController {
     }
   }
 
-  void _subscribe() {
-    if (!hasContext) return;
+  void _subscribe({bool isRetry = false}) {
+    if (!hasContext || isClosed) return;
+    _reconnectTimer?.cancel();
     unawaited(_subscription?.cancel());
     _subscription = _alertRepository.watchAlerts(familyId).listen(
       (incoming) {
+        _reconnectAttempts = 0;
         isWatching.value = true;
         realtimeError.value = null;
         _merge(incoming);
       },
       onError: (Object caught) {
         isWatching.value = false;
-        realtimeError.value = AppException.from(caught);
+        if (_reconnectAttempts < maxReconnectAttempts) {
+          _reconnectAttempts++;
+          final delay = retryDelayProvider?.call(_reconnectAttempts) ??
+              Duration(seconds: 1 << _reconnectAttempts);
+          _reconnectTimer = Timer(delay, () {
+            if (!isClosed) {
+              _subscribe(isRetry: true);
+            }
+          });
+        } else {
+          realtimeError.value = AppException.from(caught);
+        }
       },
     );
     isWatching.value = true;
   }
 
   Future<void> retryRealtime() async {
+    _reconnectTimer?.cancel();
+    _reconnectAttempts = 0;
     realtimeError.value = null;
     _subscribe();
   }
@@ -167,7 +206,11 @@ class SafetyAlertsController extends GetxController {
 
   @override
   void onClose() {
+    _reconnectTimer?.cancel();
     unawaited(_subscription?.cancel());
+    try {
+      WidgetsBinding.instance.removeObserver(this);
+    } catch (_) {}
     super.onClose();
   }
 }

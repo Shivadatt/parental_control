@@ -238,7 +238,8 @@ void main() {
     expect(controller.enforcementUnsupported, isTrue);
     expect(controller.enforcementProven, isFalse);
     expect(controller.appliedCountsText, 'Applied to 0 of 3 apps');
-    expect(controller.policyStateText, contains('cannot be enforced'));
+    expect(controller.policyStateText,
+        contains('App suspension requires Device Owner setup on this device'));
   });
 
   test('a report from another policy version is never reused', () async {

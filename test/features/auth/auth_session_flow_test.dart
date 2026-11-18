@@ -27,6 +27,7 @@ void main() {
       settings: settings,
     );
     when(() => settings.activeFamilyId).thenReturn(null);
+    when(() => settings.cachedRole).thenReturn(null);
     when(() => settings.setActiveFamilyId(any())).thenAnswer((_) async {});
     when(() => settings.setCachedRole(any())).thenAnswer((_) async {});
   });
@@ -84,6 +85,63 @@ void main() {
     expect(session.hasChosenRole, isFalse);
     verifyNever(() => settings.setCachedRole(any()));
     verifyNever(() => families.fetchMyFamilies());
+  });
+
+  test(
+      'a verified unset account with cached child role auto-assigns child role',
+      () async {
+    when(() => auth.currentUserId).thenReturn('user-1');
+    when(() => auth.currentEmail).thenReturn('child@example.com');
+    when(() => auth.isEmailVerified).thenReturn(true);
+    when(() => settings.cachedRole).thenReturn('child');
+    when(() => auth.fetchProfile()).thenAnswer(
+      (_) async => testProfile(role: ProfileRole.unset, displayName: 'Test Child'),
+    );
+    when(() => auth.setInitialRole(
+          role: ProfileRole.child,
+          displayName: any(named: 'displayName'),
+        )).thenAnswer(
+      (_) async => testProfile(role: ProfileRole.child, displayName: 'Test Child'),
+    );
+
+    final destination = await flow.resolve();
+
+    expect(destination, SignedInDestination.childShell);
+    expect(session.profile.value?.role, ProfileRole.child);
+    verify(() => auth.setInitialRole(
+          role: ProfileRole.child,
+          displayName: 'Test Child',
+        )).called(1);
+    verify(() => settings.setCachedRole('child')).called(1);
+  });
+
+  test(
+      'a verified unset account with cached parent role auto-assigns parent role',
+      () async {
+    when(() => auth.currentUserId).thenReturn('user-1');
+    when(() => auth.currentEmail).thenReturn('parent@example.com');
+    when(() => auth.isEmailVerified).thenReturn(true);
+    when(() => settings.cachedRole).thenReturn('parent');
+    when(() => auth.fetchProfile()).thenAnswer(
+      (_) async => testProfile(role: ProfileRole.unset, displayName: 'Test Parent'),
+    );
+    when(() => auth.setInitialRole(
+          role: ProfileRole.parent,
+          displayName: any(named: 'displayName'),
+        )).thenAnswer(
+      (_) async => testProfile(role: ProfileRole.parent, displayName: 'Test Parent'),
+    );
+    when(() => families.fetchMyFamilies()).thenAnswer((_) async => []);
+
+    final destination = await flow.resolve();
+
+    expect(destination, SignedInDestination.familySetup);
+    expect(session.profile.value?.role, ProfileRole.parent);
+    verify(() => auth.setInitialRole(
+          role: ProfileRole.parent,
+          displayName: 'Test Parent',
+        )).called(1);
+    verify(() => settings.setCachedRole('parent')).called(1);
   });
 
   test('a missing server profile never invents a role', () async {
