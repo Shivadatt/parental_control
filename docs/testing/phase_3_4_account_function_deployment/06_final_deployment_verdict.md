@@ -6,7 +6,7 @@
 **Supabase Project Ref:** `hhqgreaoqulmfwfwarhc`  
 **Verified Region:** `ap-northeast-2` (Seoul)  
 **Target Function:** `account` (`supabase/functions/account/`)  
-**Deployment Execution Timestamp:** 2026-11-19T09:57:45Z  
+**Deployment Execution Timestamps:** 2026-11-19T09:57:45Z (Initial), 2026-11-19T11:14:08Z (Re-attempt)  
 
 ---
 

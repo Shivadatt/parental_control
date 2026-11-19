@@ -5,7 +5,7 @@
 **Target Project Name:** `parent-control-prod`  
 **Target Project Ref:** `hhqgreaoqulmfwfwarhc`  
 **Target Function:** `account`  
-**Execution Timestamp:** 2026-11-19T09:57:45Z  
+**Execution Timestamps:** 2026-11-19T09:57:45Z (Initial), 2026-11-19T11:11:41Z (Re-attempt), 2026-11-19T11:14:08Z (Re-attempt with --use-api)  
 
 ---
 
