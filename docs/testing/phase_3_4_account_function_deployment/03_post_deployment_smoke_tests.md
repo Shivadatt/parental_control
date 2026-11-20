@@ -1,20 +1,21 @@
-# Phase 3.4 — Report 03: Post-Deployment Smoke Tests & Verification Audit
+# Phase 3.4 & 3.4.1 — Report 03: Post-Deployment Smoke Tests & Verification Audit
 
 **Project:** Parent Control App  
 **Workspace:** `D:\parentcontrol_app`  
 **Target Project:** `parent-control-prod` (`hhqgreaoqulmfwfwarhc`)  
 **Target Function:** `account`  
 **Verification Scope:** Authentication, Export, Retention, and Deletion Retry Paths  
+**Status Date:** 2026-11-20 (Phase 3.4.1 Revalidation)  
 
 ---
 
 ## 1. Cloud-Hosted vs. Local Verification Seam
 
-Because the cloud deployment was stopped by Supabase Management API RBAC (`403 privileges required`), the live endpoint on Supabase Edge Network (`https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/account`) does not yet host the new bundle.
+Because cloud deployment remains blocked pending organization access delegation (HTTP 403 on Management API), the live endpoint on the Supabase Edge Network (`https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/account`) does not yet host the Phase 3.3 remediated bundle.
 
 In strict compliance with the instructions:
 > **"Do not claim live verification when evidence is only from local source code. Clearly distinguish source-level fixes from hosted production verification."**  
-> **"If a live test would require deleting an actual Auth user or modifying actual user data, do not run it. Mark it as not live-tested and provide the existing automated test evidence instead."**
+> **"If cloud endpoint tests cannot be safely performed, mark them BLOCKED or NOT TESTED."**
 
 Every post-deployment check is evaluated across both tiers below.
 
@@ -24,11 +25,11 @@ Every post-deployment check is evaluated across both tiers below.
 
 | Check Item | Target Behavior | Offline / Harness Test Evidence | Cloud-Hosted Live Endpoint Status | Verdict |
 | :--- | :--- | :--- | :--- | :---: |
-| **Missing Authorization Header** | HTTP 401 `unauthorized` (`{"code": "unauthorized"}`) | `deletion_test.ts:303` (Test 5a passed) | Not live-tested (deployment blocked) | **VERIFIED (HARNESS)** |
-| **Invalid / Malformed JWT** | HTTP 401 `unauthorized` (`{"code": "unauthorized"}`) | `deletion_test.ts:311` (Test 5b passed) | Not live-tested (deployment blocked) | **VERIFIED (HARNESS)** |
-| **Rejected / Expired JWT** | HTTP 401 `unauthorized` (`{"code": "unauthorized"}`) | `deletion_test.ts:318` (Test 5c passed) | Not live-tested (deployment blocked) | **VERIFIED (HARNESS)** |
-| **Missing Profile on Normal Actions** | HTTP 403 `profile_missing` on `export` & `retention_report` | `deletion_test.ts:257` (Test 4a, 4b passed) | Not live-tested (deployment blocked) | **VERIFIED (HARNESS)** |
-| **Missing Profile on Deletion Retry** | HTTP 200 `deleted: true` (`requireAuthUser` bypass) | `deletion_test.ts:233` (Test 3 passed) | Not live-tested (deployment blocked) | **VERIFIED (HARNESS)** |
+| **Missing Authorization Header** | HTTP 401 `unauthorized` (`{"code": "unauthorized"}`) | `deletion_test.ts:303` (Test 5a passed) | **BLOCKED** (Cloud deploy blocked) | **VERIFIED (HARNESS)** |
+| **Invalid / Malformed JWT** | HTTP 401 `unauthorized` (`{"code": "unauthorized"}`) | `deletion_test.ts:311` (Test 5b passed) | **BLOCKED** (Cloud deploy blocked) | **VERIFIED (HARNESS)** |
+| **Rejected / Expired JWT** | HTTP 401 `unauthorized` (`{"code": "unauthorized"}`) | `deletion_test.ts:318` (Test 5c passed) | **BLOCKED** (Cloud deploy blocked) | **VERIFIED (HARNESS)** |
+| **Missing Profile on Normal Actions** | HTTP 403 `profile_missing` on `export` & `retention_report` | `deletion_test.ts:257` (Test 4a, 4b passed) | **BLOCKED** (Cloud deploy blocked) | **VERIFIED (HARNESS)** |
+| **Missing Profile on Deletion Retry** | HTTP 200 `deleted: true` (`requireAuthUser` bypass) | `deletion_test.ts:233` (Test 3 passed) | **BLOCKED** (Cloud deploy blocked) | **VERIFIED (HARNESS)** |
 
 ---
 
@@ -41,7 +42,7 @@ Every post-deployment check is evaluated across both tiers below.
   - Sensitive columns (`secret_hash`, `credential_revoked_at`, device secrets) are **never** selected or exported.
 - **Wire Format:** Verified `application/json` payload with `Content-Disposition: attachment; filename="parent-control-export-YYYY-MM-DD.json"` and `Cache-Control: no-store`.
 - **Harness Evidence:** `deletion_test.ts:558` (Test 15 passed in 7ms).
-- **Live Cloud Status:** Not live-tested against production database.
+- **Live Cloud Status:** **BLOCKED / NOT TESTED** against live production database.
 
 ---
 
@@ -57,7 +58,7 @@ Every post-deployment check is evaluated across both tiers below.
   - `retention_report` only executes read-only count queries (`head: true`, `count: "exact"`).
   - It does **not** invoke `run_retention_sweep()` or delete any rows.
 - **Harness Evidence:** `account/retention_test.ts` (6 tests passed), `account/scope_test.ts` (17 tests passed).
-- **Live Cloud Status:** Not live-tested against production database.
+- **Live Cloud Status:** **BLOCKED / NOT TESTED** against live production database.
 
 ---
 

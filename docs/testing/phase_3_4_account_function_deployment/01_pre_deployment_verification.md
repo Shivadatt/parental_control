@@ -1,11 +1,12 @@
-# Phase 3.4 — Report 01: Pre-Deployment Verification & Asset Audit
+# Phase 3.4 & 3.4.1 — Report 01: Pre-Deployment Verification & Asset Audit
 
 **Project:** Parent Control App  
 **Workspace:** `D:\parentcontrol_app`  
 **Supabase Project Name:** `parent-control-prod`  
 **Supabase Project Ref:** `hhqgreaoqulmfwfwarhc`  
+**Target Organization:** `symqztrmaziuwdibcfrq`  
 **Verified Region:** `ap-northeast-2` (Seoul)  
-**Execution Timestamp:** 2026-11-19T09:56:00Z  
+**Latest Revalidation Timestamp:** 2026-11-20T04:14:00Z (Phase 3.4.1)
 
 ---
 
@@ -14,8 +15,9 @@
 | Check Item | Expected Value | Observed Value | Status |
 | :--- | :--- | :--- | :---: |
 | **Workspace Directory** | `D:\parentcontrol_app` | `D:\parentcontrol_app` | **PASS** |
-| **Git Working Tree** | Clean (`main` branch) | Clean, commit `0badc13` | **PASS** |
+| **Git Working Tree** | Clean (`main` branch) | Clean, commit `17f0f38` | **PASS** |
 | **Supabase Project Ref** | `hhqgreaoqulmfwfwarhc` | `hhqgreaoqulmfwfwarhc` | **PASS** |
+| **Supabase Organization** | `symqztrmaziuwdibcfrq` | `symqztrmaziuwdibcfrq` | **PASS** |
 | **Supabase CLI Version** | 2.x | `2.109.0` | **PASS** |
 | **Deno Version** | 2.x compatible | Deno installed and operational | **PASS** |
 
@@ -23,7 +25,7 @@
 
 ## 2. Phase 3.3 Remediation Presence Verification
 
-The local `account` Edge Function source code was inspected to confirm that all remediation mechanisms from Phase 3.3 are present and uncorrupted:
+The local `account` Edge Function source code was re-inspected to confirm that all remediation mechanisms from Phase 3.3 remain present and uncorrupted:
 
 | Remediation Requirement | Implementation Location | Verification Evidence | Status |
 | :--- | :--- | :--- | :---: |
@@ -38,7 +40,7 @@ The local `account` Edge Function source code was inspected to confirm that all 
 
 ## 3. Dependency & Asset Packaging Audit
 
-The `account` Edge Function deployment package was inspected to confirm all necessary source modules and shared utilities are present and properly resolved:
+The `account` Edge Function deployment package was confirmed self-contained with all 9 required assets:
 
 ```
 supabase/functions/account/
@@ -46,7 +48,7 @@ supabase/functions/account/
 ├── deletion.ts       (Core lifecycle: retry-safe execution & HTTP handler)
 ├── retention.ts      (Retention calculations & sweep payload builders)
 ├── validation.ts     (Pure input validation & deletion blockers)
-└── deletion_test.ts  (Offline test harness, not deployed to cloud)
+└── deletion_test.ts  (Offline test harness, excluded from cloud package)
 
 supabase/functions/_shared/
 ├── auth.ts           (requireAuthUser, requireUser, getServiceClient)
@@ -56,31 +58,32 @@ supabase/functions/_shared/
 └── validation.ts     (sha256Hex, constantTimeEqualHex, isUuid)
 ```
 
-**Packaging Verdict:** All 9 required assets are self-contained, with zero missing dependencies or external runtime packages.
+**Packaging Verdict:** All 9 required assets are present and validated. Zero missing dependencies.
 
 ---
 
 ## 4. Test Evidence Baseline Confirmation
 
-Before proceeding to deployment, the complete test suite was executed locally:
+During Phase 3.4.1 revalidation, the complete test suite was re-executed locally:
 
 - **Command:** `deno test --allow-read supabase/functions/`
 - **Total Tests:** **199 passed, 0 failed, 0 skipped**
-- **Account Module Coverage:** **45 / 45 passed**
+- **Account Module Coverage:** **45 / 45 passed** (including 15 in `deletion_test.ts`)
 - **Handler Wiring Proofs:** **5 / 5 passed**
-- **Execution Time:** 1.5 seconds
+- **Regressions:** None (0)
 
 ---
 
 ## 5. Pre-Deployment Gate Checklist
 
 - [x] Current workspace verified as `D:\parentcontrol_app`.
-- [x] Project ref verified as `hhqgreaoqulmfwfwarhc`.
-- [x] Phase 3.3 remediation code confirmed present.
+- [x] Target project ref verified as `hhqgreaoqulmfwfwarhc`.
+- [x] Target organization verified as `symqztrmaziuwdibcfrq`.
+- [x] Phase 3.3 remediation code confirmed present and intact.
 - [x] All 199 unit and security tests pass locally.
 - [x] Shared dependencies verified and intact.
 - [x] Working tree clean (zero uncommitted or unexpected changes).
 - [x] Zero database migrations or schema mutations required.
 - [x] Zero secret alterations required.
 
-**Pre-Deployment Status: APPROVED FOR CONTROLLED DEPLOYMENT.**
+**Pre-Deployment Status: APPROVED FOR CONTROLLED DEPLOYMENT (Subject to Step 1 CLI Organization Access).**
