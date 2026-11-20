@@ -157,6 +157,57 @@ function matchesFilter(row: Row, filter: FakeFilter): boolean {
   }
 }
 
+function matchesOrClause(row: Row, clause: string): boolean {
+  const parts: string[] = [];
+  let depth = 0;
+  let current = "";
+  for (let i = 0; i < clause.length; i++) {
+    const ch = clause[i];
+    if (ch === "(") depth++;
+    else if (ch === ")") depth--;
+    if (ch === "," && depth === 0) {
+      parts.push(current.trim());
+      current = "";
+    } else {
+      current += ch;
+    }
+  }
+  if (current.trim()) parts.push(current.trim());
+
+  return parts.some((part) => {
+    const inMatch = part.match(/^([^.]+)\.in\.\((.*)\)$/);
+    if (inMatch) {
+      const col = inMatch[1];
+      const vals = inMatch[2].split(",").map((s) => s.trim());
+      const actual = String(row[col] ?? "");
+      return vals.includes(actual);
+    }
+    const eqMatch = part.match(/^([^.]+)\.eq\.(.*)$/);
+    if (eqMatch) {
+      const col = eqMatch[1];
+      const val = eqMatch[2].trim();
+      const actual = row[col];
+      return String(actual ?? "") === val;
+    }
+    const neqMatch = part.match(/^([^.]+)\.neq\.(.*)$/);
+    if (neqMatch) {
+      const col = neqMatch[1];
+      const val = neqMatch[2].trim();
+      const actual = row[col];
+      return String(actual ?? "") !== val;
+    }
+    const isMatch = part.match(/^([^.]+)\.is\.(.*)$/);
+    if (isMatch) {
+      const col = isMatch[1];
+      const val = isMatch[2].trim();
+      if (val === "null") {
+        return row[col] === null || row[col] === undefined;
+      }
+    }
+    return false;
+  });
+}
+
 /**
  * A chainable, awaitable PostgREST query builder over `FakePostgrest`'s tables.
  * `FakePostgrest.from()` wraps it in a Proxy so an unimplemented method throws
@@ -171,6 +222,8 @@ export class FakeQueryBuilder {
   requestedCount = false;
   readonly filters: FakeFilter[] = [];
   orderSpec: { column: string; ascending: boolean } | null = null;
+  readonly orderSpecs: Array<{ column: string; ascending: boolean }> = [];
+  readonly orClauses: string[] = [];
   limitCount: number | null = null;
   rangeSpec: { from: number; to: number } | null = null;
   terminal: "maybeSingle" | "single" | null = null;
@@ -250,7 +303,9 @@ export class FakeQueryBuilder {
   }
 
   order(column: string, options?: { ascending?: boolean }): this {
-    this.orderSpec = { column, ascending: options?.ascending ?? true };
+    const spec = { column, ascending: options?.ascending ?? true };
+    this.orderSpec = spec;
+    this.orderSpecs.push(spec);
     return this;
   }
 
@@ -264,7 +319,10 @@ export class FakeQueryBuilder {
     return this;
   }
 
-  or(_filters: string): this {
+  or(filters: string): this {
+    if (filters && typeof filters === "string" && filters.trim()) {
+      this.orClauses.push(filters.trim());
+    }
     return this;
   }
 
@@ -300,6 +358,7 @@ export class FakePostgrest {
   private readonly insertHooks: Record<string, InsertHook[]> = {};
   private readonly failures: FailureRule[] = [];
   private authUser: Row | null = null;
+  private readonly authTokens: Record<string, Row> = {};
   private authError: FakePostgrestError | null = null;
   private authAdminError: FakePostgrestError | null = null;
   private nextIndex = 0;
@@ -334,14 +393,15 @@ export class FakePostgrest {
           record.failed = true;
           return { data: { user: null }, error: this.authError };
         }
-        if (!this.authUser) {
+        const resolved = this.authTokens[token] ?? this.authUser;
+        if (!resolved) {
           record.failed = true;
           return {
             data: { user: null },
             error: { message: "User not found", code: "user_not_found" },
           };
         }
-        return { data: { user: clone(this.authUser) }, error: null };
+        return { data: { user: clone(resolved) }, error: null };
       },
       admin: {
         deleteUser: async (userId: string) => {
@@ -359,10 +419,21 @@ export class FakePostgrest {
           if (this.authUser && this.authUser.id === userId) {
             this.authUser = null;
           }
+          for (const token of Object.keys(this.authTokens)) {
+            if (this.authTokens[token]?.id === userId) {
+              delete this.authTokens[token];
+            }
+          }
           return { data: { user: null }, error: null };
         },
       },
     };
+  }
+
+  /** Sets a user corresponding to a specific Bearer token. */
+  setTokenUser(token: string, user: Row): this {
+    this.authTokens[token] = clone(user);
+    return this;
   }
 
   /** Declares a table that starts empty (audit_logs, or a write-only table). */
@@ -516,9 +587,18 @@ export class FakePostgrest {
     const verb: FakeVerb = builder.verb ?? "select";
     const columns = builder.columns === null ? null : parseColumns(builder.columns);
     let matched = this.rows[table].filter((row) =>
-      builder.filters.every((filter) => matchesFilter(row, filter))
+      builder.filters.every((filter) => matchesFilter(row, filter)) &&
+      builder.orClauses.every((clause) => matchesOrClause(row, clause))
     );
-    if (builder.orderSpec) {
+    if (builder.orderSpecs.length > 0) {
+      matched = [...matched].sort((left, right) => {
+        for (const { column, ascending } of builder.orderSpecs) {
+          const cmp = compareValues(left[column], right[column]) * (ascending ? 1 : -1);
+          if (cmp !== 0) return cmp;
+        }
+        return 0;
+      });
+    } else if (builder.orderSpec) {
       const { column, ascending } = builder.orderSpec;
       matched = [...matched].sort((left, right) =>
         compareValues(left[column], right[column]) * (ascending ? 1 : -1)
