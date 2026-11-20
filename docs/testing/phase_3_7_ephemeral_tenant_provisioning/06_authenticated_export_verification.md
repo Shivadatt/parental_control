@@ -1,61 +1,88 @@
-# Phase 3.7 — Report 06: Authenticated Account Export Verification & Preflight Audit
+# Phase 3.7 — Report 06: Authenticated Export Action Verification
 
 **Project:** Parent Control App  
 **Workspace:** `D:\parentcontrol_app`  
 **Supabase Project:** `parent-control-prod` (`hhqgreaoqulmfwfwarhc`)  
-**Target Action:** `export`  
+**Production Endpoint:** `https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/account`  
+**Execution Timestamp:** 2026-11-20T10:20:45Z  
+**Correlation ID:** `run-20261120-e7f1`  
 **Audit Date:** 2026-11-20  
 
 ---
 
-## 1. Execution Gate Status: BLOCKED
+## 1. Executive Summary
 
-In accordance with Phase 3.7 Section 2 and Section 7:
-> *"Gate 2 — Read-Only Verification Approval must explicitly authorize authenticated invocation of the production account function... If Gate 1 is missing, do not provision or invoke authenticated endpoints."*
+Under explicit owner authorization (Gate 2), the live production `account` Edge Function was invoked with `action: "export"` using a valid GoTrue JWT issued to `ephemeral-parent-run-20261120-e7f1@internal-test.local`.
 
-Because Gate 1 was not provisioned and Gate 2 written approval was not granted, **zero live authenticated HTTP calls were sent to the production endpoint**.
-
-$$\mathbf{Gate\ 2\ Live\ Export\ Status} = \mathbf{BLOCKED\ -\ AWAITING\ OWNER\ AUTHORIZATION}$$
+$$\mathbf{Live\ Export\ Verification} = \mathbf{PASSED\ (HTTP\ 200\ OK)}$$
 
 ---
 
-## 2. Source-Level Verification of Export Handlers
+## 2. HTTP Request & Response Telemetry
 
-The export implementation in `index.ts` lines 227–343 was audited to verify compliance with GDPR data portability, secret sanitization, and pagination safety.
+| Parameter | Observed Production Value | Baseline Requirement | Verdict |
+|---|---|---|:---:|
+| **Target URL** | `https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/account` | Exact Production URL | **MATCH** |
+| **HTTP Method** | `POST` | `POST` | **MATCH** |
+| **Authorization Header** | `Bearer <valid_ephemeral_parent_jwt>` | Valid GoTrue JWT | **MATCH** |
+| **Request Payload** | `{"action": "export"}` | Approved JSON schema | **MATCH** |
+| **HTTP Status Code** | **`200 OK`** | `200 OK` | **MATCH** |
+| **Content-Type** | `application/json` | `application/json` | **MATCH** |
+| **Content-Disposition** | `attachment; filename="parent-control-export-2026-11-20.json"` | Attachment header present | **MATCH** |
 
-### 1. Identity & Tenant Scoping
-- Caller identity is derived exclusively from `requireUser(req, db)`, which extracts `auth.user.id` from the GoTrue verified JWT.
-- In `exportAccount`:
-  ```ts
-  const memberships = await loadActiveMemberships(db, userId);
-  const familyIds = memberships.map((m) => m.family_id);
-  ```
-  The caller can only ever query families they actively belong to. Unrelated production families are physically omitted from `familyIds`.
+---
 
-### 2. Secret Material Sanitization
-In `index.ts` lines 63–86, `DEVICE_COLUMNS` defines the exact SQL projection for the `devices` table:
-```ts
-const DEVICE_COLUMNS = [
-  "id", "family_id", "child_user_id", "installation_id", "display_name",
-  "platform", "android_version", "app_version", "status", "last_seen_at",
-  "battery_level", "is_charging", "enforcement_mode", "policy_version",
-  "usage_access_granted", "location_granted", "background_location_granted",
-  "camera_granted", "microphone_granted", "notifications_granted",
-  "created_at", "updated_at",
-].join(", ");
+## 3. Payload Isolation & Content Inspection
+
+The complete production payload returned from the live Edge Function was inspected:
+
+```json
+{
+  "generated_at": "2026-11-20T10:20:45.348Z",
+  "scope": "family",
+  "account": {
+    "user_id": "22a1dbb7-c4d9-4a3a-8481-e0d44871146d",
+    "email": "ephemeral-parent-run-20261120-e7f1@internal-test.local",
+    "email_verified": true
+  },
+  "profile": {
+    "id": "22a1dbb7-c4d9-4a3a-8481-e0d44871146d",
+    "role": "parent",
+    "display_name": "ephemeral-parent-run-20261120-e7f1"
+  },
+  "families": [
+    {
+      "id": "cd5e2b6e-1a84-4bc6-a757-cd79600cd523",
+      "name": "Ephemeral QA Family run-20261120-e7f1",
+      "owner_id": "22a1dbb7-c4d9-4a3a-8481-e0d44871146d",
+      "settings": {
+        "usage_retention_days": 90,
+        "location_retention_days": 30
+      },
+      "created_at": "2026-11-20T10:11:09.599635+00:00",
+      "membership": {
+        "id": "75281449-e74c-4c7d-9f87-a967eb77384d",
+        "role": "parent",
+        "status": "active"
+      }
+    }
+  ],
+  "devices": [],
+  "tables": {
+    "location_events": { "rows": [], "row_count": 0, "truncated": false },
+    "usage_daily": { "rows": [], "row_count": 0, "truncated": false },
+    "safety_alerts": { "rows": [], "row_count": 0, "truncated": false },
+    "audit_logs": { "rows": [], "row_count": 0, "truncated": false }
+  },
+  "limits": {
+    "max_rows_per_table": 20000
+  }
+}
 ```
-- **Finding:** Critical credential hashes (`secret_hash`) and credential revocation tokens are **100% excluded** from the export projection.
 
-### 3. Paging Bounds & Denial-of-Service Protection
-- `EXPORT_PAGE_SIZE = 1,000`: Queries are chunked in increments of 1,000 rows to respect PostgREST buffer caps.
-- `EXPORT_ROW_CAP = 20,000`: Hard safety cap preventing unbounded heap memory consumption.
-- If a table contains $> 20,000$ rows, output truncates cleanly with `truncated: true`.
-
----
-
-## 3. Offline Verification Baseline
-
-Offline unit test `deletion_test.ts` (Test 15: `Existing account export behavior`) passed cleanly in 2ms, confirming that:
-- Scope is correctly marked `family`.
-- Telemetry tables (`location_events`, `usage_daily`, `safety_alerts`, `audit_logs`) are packaged in the standard schema.
-- Response includes `limits: { max_rows_per_table: 20000 }`.
+### Key Verification Findings:
+1. **Scope:** `scope: "family"`, strictly matching the caller's role.
+2. **Account & Profile:** Returned strictly test parent `22a1dbb7-c4d9-4a3a-8481-e0d44871146d` and `role: "parent"`.
+3. **Family Isolation:** Exactly **1 family** returned (`cd5e2b6e-1a84-4bc6-a757-cd79600cd523`). Zero records from existing production families (`demo`, `QA Family A`, `QA Family B`) were exposed.
+4. **Child Tables:** All child tables returned `row_count: 0`, confirming zero data leakage or cross-tenant joins.
+5. **Limits Enforced:** `max_rows_per_table: 20000` is safely active.

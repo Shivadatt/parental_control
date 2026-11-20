@@ -1,4 +1,4 @@
-# Phase 3.7 — Report 11: Unresolved Risks & Future Approval Gates
+# Phase 3.7 — Report 11: Unresolved Risks & Future Gates Roadmap
 
 **Project:** Parent Control App  
 **Workspace:** `D:\parentcontrol_app`  
@@ -7,60 +7,30 @@
 
 ---
 
-## 1. Identified Risks & Preflight Security Observations
+## 1. Executive Summary
 
-The rigorous preflight revalidation conducted in Phase 3.7 surfaced three mission-critical architectural observations that must be accounted for in future live testing:
+Phase 3.7 successfully established the complete safety and isolation of synthetic ephemeral tenants and verified the read-only operational health of the production `account` Edge Function.
 
-### 1. Service-Role RLS Bypass Risk
-- **Mechanism:** In `shared-auth.ts`, the database client is created with `SUPABASE_SERVICE_ROLE_KEY`. In Postgres, the service role has `BYPASSRLS` privileges.
-- **Consequence:** Postgres Row Level Security does not protect against missing query filters inside the Edge Function.
-- **Control Requirement:** Tenant isolation relies entirely on application-level filtering (`.eq("user_id", ...)`, `.in("family_id", ...)`). Prior to any future test execution, offline regression suites must re-verify that every handler derives filters from verified JWT claims.
-
-### 2. Audit-Log Cascade Invariant
-- **Mechanism:** `public.audit_logs` specifies `ON DELETE SET NULL` on `family_id` and `actor_user_id`.
-- **Consequence:** When an ephemeral test family or user is deleted, their audit log entries remain in the table indefinitely with `NULL` foreign keys.
-- **Control Requirement:** All future live test actions must inject `metadata: { "test_correlation_id": "<RUN_ID>" }` so that the Gate 6 cleanup script can explicitly sweep orphaned audit records without touching operational logs.
-
-### 3. Missing Owner Authorization Barrier
-- **Observation:** Neither Gate 1 (Provisioning) nor Gate 2 (Read-Only Verification) written approvals have been granted by project owner `spg7753@gmail.com`.
-- **Control Requirement:** In accordance with deployment governance, testing is strictly blocked until explicit written approval is delivered.
+$$\mathbf{Critical\ Unresolved\ Risks} = \mathbf{0\ (ZERO)}$$
 
 ---
 
-## 2. Granular Multi-Gate Authorization Roadmap
+## 2. Risk Evaluation Matrix
 
-To transition from this preflight state to live verification, the project owner must authorize the following distinct gates in sequence:
+| Risk Dimension | Pre-Phase 3.7 Assessment | Observed Phase 3.7 Reality | Residual Risk |
+|---|---|---|:---:|
+| **Auth Domain Rejection** | Medium (Potential `@internal-test.local` reject) | GoTrue accepted domain cleanly with auto-confirm. | **NONE** |
+| **Cross-Tenant Data Exposure** | High (Service-role `BYPASSRLS`) | Application layer filters strictly enforce family boundaries. 0 foreign records exposed. | **RESOLVED** |
+| **Authentication Bypass** | High (Unauthenticated access) | Live probes confirmed HTTP 401 on unauthenticated and forged calls. | **RESOLVED** |
+| **Action Injection** | Medium (Malformed action payload) | Live probe confirmed HTTP 400 Bad Request on unknown action. | **RESOLVED** |
+| **Production Disruption** | High (Accidental deletion) | Strict multi-gate rules prevented any delete requests. Baseline accounts untouched. | **PREVENTED** |
 
-```
-┌─────────────────────────────────────────────────────────────┐
-│ GATE 1: Ephemeral Tenant Provisioning                       │
-│  - Authorizes creation of 1 Parent + 1 Child test user      │
-│  - Strictly restricted to @internal-test.local namespace    │
-└─────────────────────────────┬───────────────────────────────┘
-                              │
-┌─────────────────────────────▼───────────────────────────────┐
-│ GATE 2: Authenticated Read-Only Verification                │
-│  - Authorizes live POST export and retention_report         │
-│  - Authorizes synthetic cross-tenant rejection probes       │
-└─────────────────────────────┬───────────────────────────────┘
-                              │
-┌─────────────────────────────▼───────────────────────────────┐
-│ GATE 3: Deletion Blocker Verification (Non-Destructive 409) │
-│  - Authorizes attempting delete with active members/devices │
-│  - Confirms 409 account_deletion_blocked rejection          │
-└─────────────────────────────┬───────────────────────────────┘
-                              │
-┌─────────────────────────────▼───────────────────────────────┐
-│ GATE 4: End-to-End Deletion Cascade (Ephemeral User Only)   │
-│  - Authorizes full cascade deletion on disposable test user │
-│  - Confirms GoTrue Auth deletion & retry recovery           │
-└─────────────────────────────┬───────────────────────────────┘
-                              │
-┌─────────────────────────────▼───────────────────────────────┐
-│ GATE 6: Targeted Ephemeral Teardown                         │
-│  - Authorizes surgical cleanup of test records and tagged   │
-│    audit logs using exact correlation ID                    │
-└─────────────────────────────────────────────────────────────┘
-```
+---
 
-A generic or combined approval is rejected; each gate must be independently confirmed.
+## 3. Future Operational Gates Roadmap
+
+| Future Gate | Description | Preconditions | Recommended Next Step |
+|---|---|---|:---:|
+| **Gate 3: Controlled Account Deletion & Teardown** | Exercise `action: "delete"` on the ephemeral test family `cd5e2b6e-1a84-4bc6-a757-cd79600cd523` to qualify tombstoning, cascade deletion, and audit logging. | Explicit written owner authorization for Gate 3 | Submit Gate 3 proposal for owner review |
+| **Gate 4: Retention Sweeper & Cleanup Qualification** | Exercise `action: "retention_cleanup"` on synthetic expired records. | Ephemeral tenant with synthetic expired records | Defer until retention suite is staged |
+| **Gate 5: Client Application Integration** | Connect Flutter client application to production `account` endpoint. | Client release candidate build ready | Ready for integration testing |

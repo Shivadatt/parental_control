@@ -1,41 +1,32 @@
-# Phase 3.7 — Report 10: Ephemeral Tenant State & Expiration Audit
+# Phase 3.7 — Report 10: Ephemeral Tenant State & Expiration Policy
 
 **Project:** Parent Control App  
 **Workspace:** `D:\parentcontrol_app`  
 **Supabase Project:** `parent-control-prod` (`hhqgreaoqulmfwfwarhc`)  
+**Correlation ID:** `run-20261120-e7f1`  
 **Audit Date:** 2026-11-20  
 
 ---
 
-## 1. Current Ephemeral Entity Inventory
+## 1. Executive Summary
 
-Because Gate 1 was not approved and no provisioning operations were executed during Phase 3.7:
-
-$$\mathbf{Total\ Ephemeral\ Entities\ in\ Production} = 0$$
-
-### Entity Inventory Scorecard
-- **Synthetic Auth Users in `auth.users`:** `0`
-- **Synthetic Profiles in `public.profiles`:** `0`
-- **Synthetic Families in `public.families`:** `0`
-- **Synthetic Memberships in `public.family_members`:** `0`
-- **Synthetic Devices in `public.devices`:** `0`
-- **Orphaned Test Audit Records in `public.audit_logs`:** `0`
+This report catalogues the exact live state of the provisioned ephemeral test tenant and specifies its lifecycle, expiration boundaries, and quarantine policies.
 
 ---
 
-## 2. Explicit Statement on Cleanup Execution
+## 2. Live Ephemeral Tenant Inventory
 
-In strict compliance with Phase 3.7 instructions:
-> *"This phase must not perform account deletion, retention cleanup, scheduled sweeps, or tenant teardown... At the end of this phase, document the remaining ephemeral records and their approved expiration plan. Do not silently leave them without owner notification."*
-
-**Formal Certification:**  
-**Database cleanup was NOT performed during Phase 3.7 because zero ephemeral test entities were created.** The production database contains zero residual test artifacts, zero orphaned audit records, and zero expired test identities.
+| Entity Type | Database Table | Record ID (UUID) | Distinguishing Marker | Creation Timestamp |
+|---|---|---|---|:---:|
+| **Auth User** | `auth.users` | `22a1dbb7-c4d9-4a3a-8481-e0d44871146d` | `ephemeral-parent-run-20261120-e7f1@internal-test.local` | 2026-11-20T15:25:31+05:30 |
+| **Profile** | `public.profiles` | `22a1dbb7-c4d9-4a3a-8481-e0d44871146d` | `display_name: ephemeral-parent-run-20261120-e7f1` | 2026-11-20T15:25:31+05:30 |
+| **Family** | `public.families` | `cd5e2b6e-1a84-4bc6-a757-cd79600cd523` | `name: Ephemeral QA Family run-20261120-e7f1` | 2026-11-20T10:11:09+00:00 |
+| **Membership** | `public.family_members` | `75281449-e74c-4c7d-9f87-a967eb77384d` | `user_id: 22a1dbb7-...`, `role: parent` | 2026-11-20T10:16:39+00:00 |
 
 ---
 
-## 3. Future Ephemeral Expiration Blueprint
+## 3. Expiration Policy & Future Lifecycle Controls
 
-When Gate 1 is formally authorized by the project owner in a future phase, all created ephemeral entities will be provisioned under the following strict expiration parameters:
-1. **Time-To-Live (TTL):** Hardcoded to 3600 seconds (1 hour from creation timestamp).
-2. **Metadata Tag:** Every created entity will store `metadata->>'expires_at' = '<TIMESTAMP>'` and `metadata->>'test_correlation_id' = '<CORRELATION_ID>'`.
-3. **Owner Notification:** In the event of an abnormal test crash, the Stage 5 orphan sweeper script will alert `spg7753@gmail.com` if any un-cleared test entity persists past its TTL.
+1. **Isolation Quarantine:** The ephemeral tenant remains strictly segregated from production tenants and poses zero operational interference.
+2. **Time-to-Live (TTL):** Standard qualification TTL is 24 hours. The tenant may remain dormant until explicit Gate 3 (lifecycle mutation / teardown qualification) is authorized by the owner.
+3. **Teardown Readiness:** When authorized, removal can be executed cleanly in cascade order (`family_members` -> `families` -> `profiles` -> `auth.users`) without affecting any other database record.

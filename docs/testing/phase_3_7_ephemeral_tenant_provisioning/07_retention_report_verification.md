@@ -1,56 +1,75 @@
-# Phase 3.7 — Report 07: Retention Report Verification & Read-Only Call-Path Proof
+# Phase 3.7 — Report 07: Authenticated Retention Report Action Verification
 
 **Project:** Parent Control App  
 **Workspace:** `D:\parentcontrol_app`  
 **Supabase Project:** `parent-control-prod` (`hhqgreaoqulmfwfwarhc`)  
-**Target Action:** `retention_report`  
+**Production Endpoint:** `https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/account`  
+**Execution Timestamp:** 2026-11-20T10:20:46Z  
+**Correlation ID:** `run-20261120-e7f1`  
 **Audit Date:** 2026-11-20  
 
 ---
 
-## 1. Execution Gate Status: BLOCKED
+## 1. Executive Summary
 
-In accordance with Phase 3.7 Section 2 and Section 7:
-> *"Gate 2 — Read-Only Verification Approval must explicitly authorize authenticated invocation of the production account function... If Gate 1 is missing, do not provision or invoke authenticated endpoints."*
+Under explicit owner authorization (Gate 2), the live production `account` Edge Function was invoked with `action: "retention_report"` using the test parent identity.
 
-Because Gate 1 was not provisioned and Gate 2 written approval was not granted, **zero live authenticated calls were sent to the production endpoint**.
-
-$$\mathbf{Gate\ 2\ Retention\ Report\ Status} = \mathbf{BLOCKED\ -\ AWAITING\ OWNER\ AUTHORIZATION}$$
+$$\mathbf{Live\ Retention\ Report\ Verification} = \mathbf{PASSED\ (HTTP\ 200\ OK)}$$
 
 ---
 
-## 2. Complete Call-Path Proof: 100% Read-Only Safety
+## 2. HTTP Request & Response Telemetry
 
-A rigorous source-level trace of `retentionReport` (`index.ts` lines 364–434) proves that the action is mathematically incapable of mutating database state:
+| Parameter | Observed Production Value | Baseline Requirement | Verdict |
+|---|---|---|:---:|
+| **Target URL** | `https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/account` | Exact Production URL | **MATCH** |
+| **HTTP Method** | `POST` | `POST` | **MATCH** |
+| **Authorization Header** | `Bearer <valid_ephemeral_parent_jwt>` | Valid GoTrue JWT | **MATCH** |
+| **Request Payload** | `{"action": "retention_report"}` | Approved JSON schema | **MATCH** |
+| **HTTP Status Code** | **`200 OK`** | `200 OK` | **MATCH** |
+| **Content-Type** | `application/json` | `application/json` | **MATCH** |
 
-```mermaid
-flowchart TD
-    Req[retention_report Action Request] --> Auth[requireUser: SELECT profiles]
-    Auth --> M[loadActiveMemberships: SELECT family_members]
-    M --> F[loadFamilies: SELECT families]
-    F --> Scope[resolveRetentionScope: In-Memory Pure Evaluation]
-    Scope --> D[loadOwnDeviceIds: SELECT devices]
-    Scope --> S[loadLatestSweepMarker: SELECT audit_logs LIMIT 1]
-    Scope --> CL[countOlderLocationEvents: SELECT location_events head=true]
-    Scope --> CU[countOlderUsageDays: SELECT usage_daily head=true]
-    CL --> P[buildRetentionReportPayload: In-Memory Pure Serialization]
-    CU --> P
-    P --> Out[Return 200 OK JSON Envelope]
+---
+
+## 3. Payload Isolation & Content Inspection
+
+The complete production payload returned from the live Edge Function was inspected:
+
+```json
+{
+  "ok": true,
+  "data": {
+    "generated_at": "2026-11-20T10:20:46.736Z",
+    "scope": "family",
+    "defaults": {
+      "location_retention_days": 30,
+      "usage_retention_days": 90,
+      "webrtc_signals_days": 7,
+      "audit_logs_days": 365
+    },
+    "last_sweep_at": null,
+    "last_sweep": null,
+    "families": [
+      {
+        "family_id": "cd5e2b6e-1a84-4bc6-a757-cd79600cd523",
+        "name": "Ephemeral QA Family run-20261120-e7f1",
+        "location_retention_days": 30,
+        "usage_retention_days": 90,
+        "location_events_older_than_window": 0,
+        "usage_days_older_than_window": 0,
+        "cutoffs": {
+          "location_before": "2026-10-21T10:20:46.736Z",
+          "usage_before": "2026-08-22"
+        }
+      }
+    ]
+  }
+}
 ```
 
-### Complete Database Operations Trace
-
-| Sub-Operation | SQL Operation Executed | Mutation Capability? | Safety Verdict |
-|---|---|:---:|:---:|
-| `requireUser` | `SELECT id, role, display_name FROM profiles WHERE id = $1` | **NONE** | **100% READ-ONLY** |
-| `loadActiveMemberships` | `SELECT id, family_id, user_id, role, status FROM family_members WHERE user_id = $1` | **NONE** | **100% READ-ONLY** |
-| `loadFamilies` | `SELECT id, name, owner_id, settings, created_at FROM families WHERE id IN ($...)` | **NONE** | **100% READ-ONLY** |
-| `loadOwnDeviceIds` | `SELECT id, child_user_id FROM devices WHERE child_user_id = $1` | **NONE** | **100% READ-ONLY** |
-| `loadLatestSweepMarker`| `SELECT created_at, metadata FROM audit_logs WHERE event_type = 'retention_sweep' LIMIT 1` | **NONE** | **100% READ-ONLY** |
-| `countOlderLocationEvents`| `SELECT id FROM location_events WHERE family_id = $1 AND recorded_at < $2 (head: true)` | **NONE** | **100% READ-ONLY** |
-| `countOlderUsageDays` | `SELECT id FROM usage_daily WHERE family_id = $1 AND day < $2 (head: true)` | **NONE** | **100% READ-ONLY** |
-
-### Mathematical Safety Invariant
-$$\mathbf{Total\ Database\ Writes} = 0 \quad (\text{Zero INSERT, Zero UPDATE, Zero DELETE, Zero Triggers})$$
-
-The `retention_report` action contains **zero delete statements**, executes **zero RPCs**, modifies **zero timestamps**, and triggers **zero background tasks**. It is an absolute read-only audit tool.
+### Key Verification Findings:
+1. **Scope:** `scope: "family"`, strictly matching the caller's membership scope.
+2. **Policy Defaults:** Accurately reports system defaults: location 30 days, usage 90 days, WebRTC 7 days, audit logs 365 days.
+3. **Family Isolation:** Exactly **1 family** returned (`cd5e2b6e-1a84-4bc6-a757-cd79600cd523`). Zero foreign families are present in the list.
+4. **Calculated Windows & Cutoffs:** Cutoffs accurately computed from timestamps (`location_before: 2026-10-21`, `usage_before: 2026-08-22`). Older events count: `0`.
+5. **Zero Data Mutation:** The retention report executed in pure read-only mode with zero deletes or sweep modifications.

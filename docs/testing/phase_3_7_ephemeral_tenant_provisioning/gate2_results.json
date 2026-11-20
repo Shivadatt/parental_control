@@ -1,0 +1,65 @@
+{
+  "phase": "3.7",
+  "correlation_id": "run-20261120-e7f1",
+  "timestamp": "2026-11-20T10:20:46.736Z",
+  "project_ref": "hhqgreaoqulmfwfwarhc",
+  "region": "ap-northeast-2",
+  "status": "PASSED",
+  "auth_login": {
+    "status": 200,
+    "user_id": "22a1dbb7-c4d9-4a3a-8481-e0d44871146d",
+    "email": "ephemeral-parent-run-20261120-e7f1@internal-test.local",
+    "user_id_matches": true,
+    "email_confirmed": true,
+    "success": true
+  },
+  "action_export": {
+    "status": 200,
+    "content_disposition_present": true,
+    "content_disposition": "attachment; filename=\"parent-control-export-2026-11-20.json\"",
+    "scope": "family",
+    "family_id": "cd5e2b6e-1a84-4bc6-a757-cd79600cd523",
+    "family_name": "Ephemeral QA Family run-20261120-e7f1",
+    "owner_id": "22a1dbb7-c4d9-4a3a-8481-e0d44871146d",
+    "family_id_matches": true,
+    "owner_id_matches": true,
+    "foreign_families_exposed": 0,
+    "sanitized_summary": {
+      "families_count": 1,
+      "devices_count": 0,
+      "tables": {
+        "location_events": 0,
+        "usage_daily": 0,
+        "safety_alerts": 0,
+        "audit_logs": 0
+      }
+    }
+  },
+  "action_retention_report": {
+    "status": 200,
+    "ok": true,
+    "scope": "family",
+    "family_id": "cd5e2b6e-1a84-4bc6-a757-cd79600cd523",
+    "family_name": "Ephemeral QA Family run-20261120-e7f1",
+    "family_id_matches": true,
+    "windows": {
+      "location_retention_days": 30,
+      "usage_retention_days": 90,
+      "webrtc_signals_days": 7,
+      "audit_logs_days": 365
+    },
+    "counts": {
+      "location_events_older_than_window": 0,
+      "usage_days_older_than_window": 0
+    },
+    "foreign_families_exposed": 0
+  },
+  "cross_tenant_rejection": {
+    "unauthenticated_status": 401,
+    "unauthenticated_rejected": true,
+    "tampered_token_status": 401,
+    "tampered_token_rejected": true,
+    "invalid_action_status": 400,
+    "invalid_action_rejected": true
+  }
+}
