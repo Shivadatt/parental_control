@@ -1,0 +1,44 @@
+# Phase 3.4.5: Browser Editor File Transfer Recovery & Complete Source Integrity Verification
+
+MANDATORY BOUNDARY:
+- THIS IS A RECOVERY AND VERIFICATION PHASE ONLY.
+- DO NOT CLICK "Deploy function" UNDER ANY CIRCUMSTANCES.
+- DO NOT PUBLISH OR DEPLOY THE FUNCTION.
+
+INSTRUCTIONS:
+1. Navigate page 6 to:
+   `https://supabase.com/dashboard/project/hhqgreaoqulmfwfwarhc/functions/new`
+   Wait for the editor and FILES tree to load.
+
+2. In the "Function name" input (`uid=47_78` or similar), set the value to:
+   `account`
+
+3. The staging directory on local disk is:
+   `D:\parentcontrol_app\docs\testing\phase_3_4_3_browser_package\staging\account`
+
+4. For each of the 9 files below, use your native `read_file` tool to read the file directly from disk, then transfer it into the editor:
+   - File 1: `index.ts` (already in tree by default, 480 lines)
+   - File 2: `deletion.ts` (Add File -> rename, 641 lines)
+   - File 3: `retention.ts` (Add File -> rename, 300 lines)
+   - File 4: `validation.ts` (Add File -> rename, 117 lines)
+   - File 5: `shared-audit.ts` (Add File -> rename, 37 lines)
+   - File 6: `shared-envelope.ts` (Add File -> rename, 111 lines) -- SPECIAL FOCUS: ensure lines 90-111 (ensureNoError, requireAction) are present!
+   - File 7: `shared-cors.ts` (Add File -> rename, 12 lines)
+   - File 8: `shared-auth.ts` (Add File -> rename, 353 lines)
+   - File 9: `shared-validation.ts` (Add File -> rename, 418 lines)
+
+Procedure for each secondary file:
+a) Click "Add File" (`uid=47_71`).
+b) Right click the new file in the tree (or double click) to Rename file. Type the exact name and press Enter.
+c) Call `read_file` on `D:\parentcontrol_app\docs\testing\phase_3_4_3_browser_package\staging\account\<filename>`.
+d) Click the file in the tree, focus the Monaco editor (`textbox "Editor content"`), select all (`Control+A`), and fill it using `mcp_chrome_devtools_fill` with the complete content returned by `read_file`.
+e) Press `Shift+Alt+F` to format.
+f) Inspect the editor's line numbers or bottom lines to verify completeness.
+
+5. After all 9 files are staged and formatted:
+   - Take a screenshot of the FILES tree showing all 9 files.
+   - Take a screenshot of `shared-envelope.ts` scrolled to the bottom showing lines 90-111.
+   - Verify Function name is `account`.
+   - DO NOT click "Deploy function".
+
+6. Report back with the line count and closing line verified for each file, and screenshot paths.

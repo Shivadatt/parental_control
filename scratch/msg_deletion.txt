@@ -1,0 +1,650 @@
+Please populate `deletion.ts`:
+1. Click on `deletion.ts` in the tree.
+2. Focus the editor, select all (Ctrl+A).
+3. Fill with:
+```ts
+// deletion.ts: retry-safe account deletion lifecycle and request handling for `account`.
+//
+// Addresses the `profile_missing` 403 lockout:
+// If GoTrue's `auth.admin.deleteUser` fails after relational cleanup and profile
+// deletion, the user's JWT remains valid. When the user retries with `delete_account`,
+// `requireAuthUser` verifies their identity from the token without requiring a `profiles`
+// row. This permits retrying the Auth deletion without opening any non-deletion action.
+import { preflightResponse, corsHeaders } from "./shared-cors.ts";
+import {
+  ApiError,
+  ensureNoError,
+  errorResponse,
+  ok,
+  readJson,
+  requireAction,
+} from "./shared-envelope.ts";
+import {
+  getServiceClient,
+  requireAuthUser,
+  requireUser,
+  type AuthContext,
+  type MembershipRow,
+  type ProfileRow,
+  type UserIdentity,
+} from "./shared-auth.ts";
+import { recordAudit } from "./shared-audit.ts";
+import type { SupabaseClient } from "npm:@supabase/supabase-js@2";
+import {
+  findDeletionBlocker,
+  type OwnedFamilyCounts,
+  validateDeleteAccountInput,
+} from "./validation.ts";
+import {
+  buildFamilyRetentionReport,
+  buildRetentionReportPayload,
+  type FamilyRetentionReport,
+  retentionCountFilter,
+  retentionFromSettings,
+  resolveRetentionScope,
+  type RetentionCountFilter,
+  type SweepMarkerRow,
+} from "./retention.ts";
+
+/** Hard safety cap per exported table, independent of PostgREST max-rows. */
+const EXPORT_ROW_CAP = 20_000;
+/** PostgREST/project max-rows is commonly 1000; page explicitly. */
+const EXPORT_PAGE_SIZE = 1_000;
+/** Matches nothing; used instead of an empty `in.()` filter. */
+const NO_MATCH_UUID = "00000000-0000-0000-0000-000000000000";
+
+interface FamilyRow {
+  id: string;
+  name: string;
+  owner_id: string;
+  settings: Record<string, unknown> | null;
+  created_at: string;
+}
+
+interface TableSection {
+  rows: unknown[];
+  row_count: number;
+  truncated: boolean;
+}
+
+const DEVICE_COLUMNS = [
+  "id",
+  "family_id",
+  "child_user_id",
+  "installation_id",
+  "display_name",
+  "platform",
+  "android_version",
+  "app_version",
+  "status",
+  "last_seen_at",
+  "battery_level",
+  "is_charging",
+  "enforcement_mode",
+  "policy_version",
+  "usage_access_granted",
+  "location_granted",
+  "background_location_granted",
+  "camera_granted",
+  "microphone_granted",
+  "notifications_granted",
+  "created_at",
+  "updated_at",
+].join(", ");
+
+// deno-lint-ignore no-explicit-any
+type AnyQuery = any;
+
+async function fetchCapped(
+  db: SupabaseClient,
+  table: string,
+  filter: (query: AnyQuery) => AnyQuery,
+  orderColumn: string,
+): Promise<TableSection> {
+  const rows: unknown[] = [];
+  for (let from = 0; ; from += EXPORT_PAGE_SIZE) {
+    const query = filter(db.from(table).select("*"))
+      .order(orderColumn, { ascending: false })
+      .order("id", { ascending: false })
+      .range(from, from + EXPORT_PAGE_SIZE - 1);
+    const result = await query;
+    ensureNoError(result);
+    const page = (result.data ?? []) as unknown[];
+    rows.push(...page);
+    if (rows.length > EXPORT_ROW_CAP) {
+      rows.length = EXPORT_ROW_CAP;
+      return { rows, row_count: rows.length, truncated: true };
+    }
+    if (page.length < EXPORT_PAGE_SIZE) {
+      return { rows, row_count: rows.length, truncated: false };
+    }
+  }
+}
+
+async function loadActiveMemberships(
+  db: SupabaseClient,
+  userId: string,
+): Promise<MembershipRow[]> {
+  const result = await db
+    .from("family_members")
+    .select("id, family_id, user_id, role, status")
+    .eq("user_id", userId)
+    .eq("status", "active");
+  ensureNoError(result);
+  return (result.data ?? []) as MembershipRow[];
+}
+
+async function loadFamilies(
+  db: SupabaseClient,
+  familyIds: string[],
+): Promise<FamilyRow[]> {
+  if (familyIds.length === 0) return [];
+  const result = await db
+    .from("families")
+    .select("id, name, owner_id, settings, created_at")
+    .in("id", familyIds);
+  ensureNoError(result);
+  return (result.data ?? []) as FamilyRow[];
+}
+
+async function loadOwnDeviceIds(
+  db: SupabaseClient,
+  userId: string,
+): Promise<string[]> {
+  const result = await db
+    .from("devices")
+    .select("id, child_user_id")
+    .eq("child_user_id", userId);
+  ensureNoError(result);
+  const rows = (result.data ?? []) as Array<Record<string, unknown>>;
+  return rows
+    .map((row) => (typeof row.id === "string" ? row.id : ""))
+    .filter((id) => id !== "");
+}
+
+async function loadLatestSweepMarker(
+  db: SupabaseClient,
+): Promise<SweepMarkerRow | null> {
+  const result = await db
+    .from("audit_logs")
+    .select("created_at, metadata")
+    .eq("event_type", "retention_sweep")
+    .order("created_at", { ascending: false })
+    .limit(1)
+    .maybeSingle();
+  ensureNoError(result);
+  return (result.data as SweepMarkerRow | null) ?? null;
+}
+
+async function countOlderLocationEvents(
+  db: SupabaseClient,
+  filter: RetentionCountFilter,
+  before: string,
+): Promise<number> {
+  if (!filter.run || filter.device_ids?.length === 0) return 0;
+  let query = db
+    .from("location_events")
+    .select("id", { count: "exact", head: true })
+    .eq("family_id", filter.family_id)
+    .lt("recorded_at", before);
+  if (filter.device_ids !== null) {
+    query = query.in("device_id", [...filter.device_ids]);
+  }
+  const result = await query;
+  ensureNoError(result);
+  return result.count ?? 0;
+}
+
+async function countOlderUsageDays(
+  db: SupabaseClient,
+  filter: RetentionCountFilter,
+  beforeDay: string,
+): Promise<number> {
+  if (!filter.run || filter.device_ids?.length === 0) return 0;
+  let query = db
+    .from("usage_daily")
+    .select("id", { count: "exact", head: true })
+    .eq("family_id", filter.family_id)
+    .lt("day", beforeDay);
+  if (filter.device_ids !== null) {
+    query = query.in("device_id", [...filter.device_ids]);
+  }
+  const result = await query;
+  ensureNoError(result);
+  return result.count ?? 0;
+}
+
+export async function exportAccount(
+  db: SupabaseClient,
+  auth: AuthContext,
+): Promise<Record<string, unknown>> {
+  const userId = auth.user.id;
+  const memberships = await loadActiveMemberships(db, userId);
+  const familyIds = memberships.map((m) => m.family_id);
+  const families = await loadFamilies(db, familyIds);
+  const familyById = new Map(families.map((f) => [f.id, f]));
+
+  const decision = resolveRetentionScope({
+    callerUserId: userId,
+    profileRole: auth.profile?.role,
+    memberships,
+    families,
+  });
+  const scope = decision.scope;
+  const familyScoped = scope === "family";
+
+  let devicesQuery = db.from("devices").select(DEVICE_COLUMNS);
+  devicesQuery = familyScoped
+    ? familyIds.length > 0
+      ? devicesQuery.in("family_id", familyIds)
+      : devicesQuery.eq("id", NO_MATCH_UUID)
+    : devicesQuery.eq("child_user_id", userId);
+  const devicesResult = await devicesQuery;
+  ensureNoError(devicesResult);
+  const devices =
+    (devicesResult.data ?? []) as unknown as Array<Record<string, unknown>>;
+  const childDeviceIds = devices
+    .filter((d) => d.child_user_id === userId)
+    .map((d) => String(d.id));
+
+  const scopeRows = (query: AnyQuery): AnyQuery => {
+    if (!familyScoped) {
+      return childDeviceIds.length === 0
+        ? query.eq("device_id", NO_MATCH_UUID)
+        : query.in("device_id", childDeviceIds);
+    }
+    return familyIds.length === 0
+      ? query.eq("family_id", NO_MATCH_UUID)
+      : query.in("family_id", familyIds);
+  };
+
+  const [locationEvents, usageDaily, safetyAlerts, auditLogs] = await Promise.all([
+    fetchCapped(db, "location_events", scopeRows, "recorded_at"),
+    fetchCapped(db, "usage_daily", scopeRows, "day"),
+    fetchCapped(db, "safety_alerts", scopeRows, "created_at"),
+    fetchCapped(
+      db,
+      "audit_logs",
+      (query) => {
+        if (familyScoped) {
+          return familyIds.length === 0
+            ? query.eq("family_id", NO_MATCH_UUID)
+            : query.in("family_id", familyIds);
+        }
+        return childDeviceIds.length === 0
+          ? query.eq("actor_user_id", userId)
+          : query.or(
+            `actor_user_id.eq.${userId},device_id.in.(${childDeviceIds.join(",")})`,
+          );
+      },
+      "created_at",
+    ),
+  ]);
+
+  return {
+    generated_at: new Date().toISOString(),
+    scope,
+    account: {
+      user_id: userId,
+      email: auth.user.email ?? null,
+      email_verified: auth.emailVerified,
+    },
+    profile: {
+      id: auth.profile.id,
+      role: auth.profile.role,
+      display_name: auth.profile.display_name,
+    },
+    families: memberships.map((membership) => {
+      const family = familyById.get(membership.family_id);
+      return {
+        id: membership.family_id,
+        name: family?.name ?? null,
+        owner_id: family?.owner_id ?? null,
+        settings: family?.settings ?? null,
+        created_at: family?.created_at ?? null,
+        membership: {
+          id: membership.id,
+          role: membership.role,
+          status: membership.status,
+        },
+      };
+    }),
+    devices,
+    tables: {
+      location_events: locationEvents,
+      usage_daily: usageDaily,
+      safety_alerts: safetyAlerts,
+      audit_logs: auditLogs,
+    },
+    limits: { max_rows_per_table: EXPORT_ROW_CAP },
+  };
+}
+
+export async function retentionReport(
+  db: SupabaseClient,
+  auth: AuthContext,
+): Promise<Record<string, unknown>> {
+  const memberships = await loadActiveMemberships(db, auth.user.id);
+  const families = await loadFamilies(
+    db,
+    memberships.map((m) => m.family_id),
+  );
+  const now = new Date();
+
+  const decision = resolveRetentionScope({
+    callerUserId: auth.user.id,
+    profileRole: auth.profile?.role,
+    memberships,
+    families,
+  });
+
+  const deviceIds = decision.scope === "device"
+    ? await loadOwnDeviceIds(db, auth.user.id)
+    : [];
+
+  const lastSweep = decision.readsSweepMarker
+    ? await loadLatestSweepMarker(db)
+    : null;
+
+  const reports: FamilyRetentionReport[] = decision.scope === "not_reported"
+    ? []
+    : await Promise.all(
+      families.map(async (family) => {
+        const windows = retentionFromSettings(family.settings);
+        const dayMs = 24 * 60 * 60 * 1000;
+        const locationBefore = new Date(
+          now.getTime() - windows.location_retention_days * dayMs,
+        ).toISOString();
+        const usageBefore = new Date(
+          now.getTime() - windows.usage_retention_days * dayMs,
+        ).toISOString().slice(0, 10);
+
+        const filter = retentionCountFilter({
+          scope: decision.scope,
+          familyId: family.id,
+          deviceIds,
+        });
+
+        const [location, usage] = await Promise.all([
+          countOlderLocationEvents(db, filter, locationBefore),
+          countOlderUsageDays(db, filter, usageBefore),
+        ]);
+
+        return buildFamilyRetentionReport({
+          familyId: family.id,
+          name: family.name,
+          settings: family.settings,
+          locationEventsOlder: location,
+          usageDaysOlder: usage,
+          now,
+        });
+      }),
+    );
+
+  return buildRetentionReportPayload({ now, decision, reports, lastSweep });
+}
+
+export function exportResponse(payload: unknown): Response {
+  const stamp = new Date().toISOString().slice(0, 10);
+  return new Response(JSON.stringify(payload), {
+    status: 200,
+    headers: {
+      ...corsHeaders,
+      "Content-Type": "application/json; charset=utf-8",
+      "Content-Disposition":
+        `attachment; filename="parent-control-export-${stamp}.json"`,
+      "Cache-Control": "no-store",
+    },
+  });
+}
+
+export interface DeletionResult {
+  deleted: boolean;
+  memberships_removed: number;
+  families_removed: number;
+  retry: boolean;
+}
+
+/**
+ * Executes account deletion with full retry-safety.
+ *
+ * Invariants:
+ * 1. Caller identity strictly comes from the verified JWT (UserIdentity.user.id).
+ * 2. Action is strictly deletion (`delete_account` / `delete`).
+ * 3. Exact confirmation word "DELETE" and typed email matching caller are verified.
+ * 4. A missing profile does not grant access to normal actions (export, retention, etc.).
+ * 5. A missing profile cannot delete any other user's account.
+ * 6. Auth deletion is safely retryable after a partial failure.
+ * 7. Active member / device blockers remain strictly enforced.
+ * 8. Audit event `account_deleted` is only recorded once Auth deletion succeeds.
+ * 9. Duplicate concurrent calls result in idempotent success without corrupted state.
+ * 10. Errors are sanitized ApiErrors.
+ */
+export async function executeAccountDeletion(
+  db: SupabaseClient,
+  caller: UserIdentity,
+  body: Record<string, unknown>,
+): Promise<DeletionResult> {
+  const userId = caller.user.id;
+
+  // 1. Validate confirmation and caller email
+  const failure = validateDeleteAccountInput({
+    confirm: body.confirm,
+    email: body.email,
+    callerEmail: caller.user.email,
+  });
+  if (failure) {
+    throw new ApiError(failure.code, failure.message, failure.status);
+  }
+
+  // 2. Check if application profile exists
+  const profileResult = await db
+    .from("profiles")
+    .select("id, role, display_name")
+    .eq("id", userId)
+    .maybeSingle();
+  ensureNoError(profileResult);
+  const profile = profileResult.data as ProfileRow | null;
+
+  let membershipsLength = 0;
+  let familiesRemoved = 0;
+  const isRetry = profile === null;
+
+  if (profile) {
+    // ---- Fresh deletion path (profile exists) ----
+    const memberships = await loadActiveMemberships(db, userId);
+    membershipsLength = memberships.length;
+    const familyIds = memberships.map((m) => m.family_id);
+
+    const ownedResult = await db
+      .from("families")
+      .select("id, name, owner_id")
+      .eq("owner_id", userId)
+      .is("deleted_at", null);
+    ensureNoError(ownedResult);
+    const ownedFamilies = (ownedResult.data ?? []) as Array<{
+      id: string;
+      name: string;
+      owner_id: string;
+    }>;
+
+    // Evaluate deletion blockers: owner cannot delete if other active members or active devices exist
+    const counts: OwnedFamilyCounts[] = await Promise.all(
+      ownedFamilies.map(async (family) => {
+        const members = await db
+          .from("family_members")
+          .select("id", { count: "exact", head: true })
+          .eq("family_id", family.id)
+          .eq("status", "active")
+          .neq("user_id", userId);
+        ensureNoError(members);
+        const devices = await db
+          .from("devices")
+          .select("id", { count: "exact", head: true })
+          .eq("family_id", family.id)
+          .eq("status", "active");
+        ensureNoError(devices);
+        return {
+          familyId: family.id,
+          otherActiveMembers: members.count ?? 0,
+          activeDevices: devices.count ?? 0,
+        };
+      }),
+    );
+
+    const blocker = findDeletionBlocker(counts);
+    if (blocker) {
+      throw new ApiError(
+        "account_deletion_blocked",
+        blocker.message,
+        409,
+        { blocked_reason: blocker.blocked_reason, family_ids: blocker.family_ids },
+      );
+    }
+
+    // Pre-deletion audit event: record initiation before row cascade
+    await recordAudit(db, {
+      familyId: ownedFamilies[0]?.id ?? familyIds[0] ?? null,
+      actorUserId: userId,
+      eventType: "account_deletion_requested",
+      targetType: "account",
+      targetId: userId,
+      metadata: {
+        user_id: userId,
+        memberships: memberships.length,
+        owned_families: ownedFamilies.length,
+      },
+    });
+
+    // Remove memberships
+    const membershipDelete = await db
+      .from("family_members")
+      .delete()
+      .eq("user_id", userId);
+    ensureNoError(membershipDelete);
+
+    // Remove empty owned families
+    for (const family of ownedFamilies) {
+      const deleted = await db
+        .from("families")
+        .delete({ count: "exact" })
+        .eq("id", family.id)
+        .eq("owner_id", userId);
+      ensureNoError(deleted);
+      familiesRemoved += deleted.count ?? 0;
+    }
+
+    // Remove application profile
+    const profileDelete = await db.from("profiles").delete().eq("id", userId);
+    ensureNoError(profileDelete);
+  } else {
+    // ---- Retry path (profile already deleted, resuming auth deletion) ----
+    // Defensively ensure no lingering membership records exist
+    const lingering = await db
+      .from("family_members")
+      .delete()
+      .eq("user_id", userId);
+    ensureNoError(lingering);
+  }
+
+  // 3. Supabase Auth user deletion via GoTrue admin
+  const authDelete = await db.auth.admin.deleteUser(userId);
+  if (authDelete.error) {
+    const errCode = (authDelete.error.code ?? "").toLowerCase();
+    const errMsg = (authDelete.error.message ?? "").toLowerCase();
+    const isAlreadyDeleted =
+      authDelete.error.status === 404 ||
+      errCode === "user_not_found" ||
+      errMsg.includes("not found") ||
+      errMsg.includes("user not found");
+
+    if (!isAlreadyDeleted) {
+      console.error(`account_auth_delete_failed:${authDelete.error.code ?? "unknown"}`);
+      await recordAudit(db, {
+        familyId: null,
+        actorUserId: null,
+        eventType: "account_deletion_failed",
+        targetType: "account",
+        targetId: userId,
+        metadata: {
+          user_id: userId,
+          error_code: authDelete.error.code ?? "unknown",
+        },
+      }).catch(() => {});
+
+      throw new ApiError(
+        "account_delete_incomplete",
+        "The account data was removed, but the sign-in record could not be deleted. Contact the project owner.",
+        500,
+      );
+    }
+  }
+
+  // 4. Deletion complete: record final forensic audit log
+  await recordAudit(db, {
+    familyId: null,
+    actorUserId: null,
+    eventType: "account_deleted",
+    targetType: "account",
+    targetId: userId,
+    metadata: {
+      user_id: userId,
+      memberships_removed: membershipsLength,
+      families_removed: familiesRemoved,
+      retry: isRetry,
+    },
+  });
+
+  return {
+    deleted: true,
+    memberships_removed: membershipsLength,
+    families_removed: familiesRemoved,
+    retry: isRetry,
+  };
+}
+
+export interface AccountDeps {
+  db?: SupabaseClient;
+}
+
+/**
+ * Top-level HTTP request handler for the `account` Edge Function.
+ */
+export async function handleAccountRequest(
+  req: Request,
+  deps: AccountDeps = {},
+): Promise<Response> {
+  if (req.method === "OPTIONS") return preflightResponse();
+  if (req.method !== "POST") {
+    return errorResponse(new ApiError("method_not_allowed", "Use POST.", 405));
+  }
+  try {
+    const body = await readJson(req);
+    const action = requireAction(body);
+    const db = deps.db ?? getServiceClient();
+
+    switch (action) {
+      case "export": {
+        const auth = await requireUser(req, db);
+        return exportResponse(await exportAccount(db, auth));
+      }
+      case "retention_report": {
+        const auth = await requireUser(req, db);
+        return ok(await retentionReport(db, auth));
+      }
+      case "delete_account":
+      case "delete": {
+        const caller = await requireAuthUser(req, db);
+        return ok(await executeAccountDeletion(db, caller, body));
+      }
+      default:
+        throw new ApiError("unknown_action", "Unsupported action.", 400);
+    }
+  } catch (error) {
+    return errorResponse(error);
+  }
+}
+
+```
+4. Format via Shift+Alt+F.
+5. Report back when completed.

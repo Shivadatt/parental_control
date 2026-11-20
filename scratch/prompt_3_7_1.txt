@@ -1,0 +1,1185 @@
+<USER_REQUEST>
+Phase 3.7.1 — Evidence Reconciliation & Isolation Test Gap Closure
+
+Project: Parent Control App
+Workspace: D:\parentcontrol_app
+Supabase Project: parent-control-prod
+Project Ref: hhqgreaoqulmfwfwarhc
+Organization ID: symqztrmaziuwdibcfrq
+Region: ap-northeast-2 (Seoul / Northeast Asia)
+Target Function: account
+Production Endpoint: https://hhqgreaoqulmfwfwarhc.supabase.co/functions/v1/account
+Previous Phase: Phase 3.7 — Controlled Ephemeral Tenant Provisioning & Read-Only Verification
+Previous Baseline Commit: b573b80
+Phase 3.7 Documentation Commit: 5c9d272
+Existing Test Correlation ID: run-20261120-e7f1
+Execution Mode: STRICTLY AUDIT-ONLY / READ-ONLY
+Authorization: Documentation and evidence reconciliation only
+
+1. Mission
+
+Perform an independent evidence reconciliation of Phase 3.7.
+
+The purpose is to determine whether the reported successful provisioning and authenticated read-only verification are adequately supported by available evidence.
+
+Resolve the following outstanding questions:
+
+Were Gate 1 and Gate 2 explicitly authorized before execution?
+
+Are reported provisioning operations supported by reliable Dashboard evidence?
+
+Do execution timestamps form a consistent chronological sequence?
+
+Does the sanitized gate2_results.json support the reported endpoint results?
+
+Were the service-role query boundaries correctly verified?
+
+Was actual cross-tenant denial tested, or was only absence of foreign data observed?
+
+Does the current evidence justify the claim of 100% tenant isolation?
+
+Does the correlation ID cover all relevant synthetic records and audit events?
+
+Is the ephemeral tenant's current production state documented accurately?
+
+What evidence and authorization are required before Gate 3?
+
+The final result must distinguish verified facts from reported assertions and untested scenarios.
+
+This phase must not perform new production operations.
+
+2. Absolute Execution Boundaries
+
+This is an evidence-reconciliation phase, not another production test phase.
+
+2.1 Prohibited production actions
+
+Do not:
+
+Create another Auth user.
+
+Create another family.
+
+Create or modify any database record.
+
+Update profiles or family membership.
+
+Invoke the production account endpoint.
+
+Invoke export.
+
+Invoke retention_report.
+
+Invoke delete.
+
+Invoke retry_delete.
+
+Invoke retention_cleanup.
+
+Invoke the cron Edge Function.
+
+Execute any database write or SQL mutation.
+
+Execute database migrations.
+
+Change RLS, grants, policies, or schema.
+
+Change Supabase secrets or environment configuration.
+
+Deploy or redeploy any Edge Function.
+
+Register, pair, unlink, or recover a device.
+
+Modify or delete audit records.
+
+Perform tenant teardown or cleanup.
+
+Enable or schedule an automated orphan sweeper.
+
+Do not repeat previously executed tests simply to generate new evidence.
+
+2.2 Supabase access restrictions
+
+Use the authenticated Supabase Dashboard browser session only when necessary for read-only inspection.
+
+Verify the project ref before any Dashboard inspection.
+
+Do not use Supabase CLI.
+
+Do not use a Personal Access Token.
+
+Do not use Supabase Management API.
+
+Do not use SQL Editor.
+
+Do not extract cookies, browser tokens, JWTs, localStorage, or sessionStorage.
+
+Do not expose service-role keys or other credentials.
+
+Do not use direct database mutation scripts.
+
+If evidence cannot be inspected safely through the permitted interfaces, record the limitation.
+
+2.3 Protected accounts
+
+Never modify, delete, authenticate as, or use these accounts for testing:
+
+spg7753@gmail.com
+
+ankit@gmail.com
+
+ankit1@gmail.com
+
+Do not disclose their unnecessary personal information in the reports.
+
+3. Establish the Evidence Baseline
+
+Inspect the following repository history and artifacts:
+
+Phase 3.6 documentation.
+
+Phase 3.7 documentation.
+
+Git commit b573b80.
+
+Git commit 5c9d272.
+
+All 12 Phase 3.7 reports.
+
+gate2_results.json.
+
+Phase 3.7 screenshot evidence.
+
+Relevant source files for the deployed account function.
+
+Existing offline test reports and test results.
+
+Expected documentation directory:
+
+docs/testing/phase_3_7_ephemeral_tenant_provisioning/
+
+Expected evidence directory:
+
+docs/testing/phase_3_7_ephemeral_tenant_provisioning/screenshots/
+
+3.1 Git integrity
+
+Before doing anything:
+
+Run git status --short.
+
+Record the current branch and HEAD commit.
+
+Confirm the Phase 3.7 documentation commit exists.
+
+Inspect the complete diff introduced by 5c9d272.
+
+Identify whether the documentation commit contains only the intended Phase 3.7 artifacts.
+
+Preserve all existing uncommitted changes.
+
+Do not reset, checkout, rebase, amend, or rewrite Git history.
+
+Do not modify application code.
+
+4. Owner Authorization Evidence Reconciliation
+
+Inspect:
+
+01_owner_approval_and_scope.md
+
+The report states that explicit written authorization was received in the conversation history.
+
+Verify the authorization evidence available in the actual repository and current authorized conversation context.
+
+Evaluate Gate 1 and Gate 2 independently.
+
+Gate 1 required scope
+
+Correct Supabase project.
+
+Explicit authorization to create synthetic Auth users.
+
+Maximum of two users.
+
+Exactly one ephemeral family.
+
+Approved @internal-test.local namespace.
+
+Approved Dashboard provisioning method.
+
+Test-run correlation ID.
+
+Permission to create the required profile and membership records.
+
+Gate 2 required scope
+
+Explicit permission to invoke the live production account endpoint.
+
+export action.
+
+retention_report action.
+
+Synthetic cross-tenant rejection probes.
+
+Use of only approved ephemeral identities.
+
+For each approval, classify:
+
+VERIFIED — EXPLICIT AUTHORIZATION
+
+REPORTED — EVIDENCE NOT AVAILABLE
+
+INCOMPLETE — SCOPE AMBIGUOUS
+
+NOT AUTHORIZED
+
+Do not invent an approval record.
+
+Do not treat the Phase 3.7 completion report as proof of prior authorization by itself.
+
+If the exact authorization message cannot be independently retrieved, state that limitation without claiming the authorization did not exist.
+
+5. Provisioning Evidence Reconciliation
+
+Inspect:
+
+03_synthetic_identity_and_tenant_design.md
+
+04_provisioning_execution.md
+
+05_tenant_isolation_verification.md
+
+Screenshots 01 through 08.
+
+Reconcile the following reported entities:
+
+Entity
+
+Expected identifier
+
+Synthetic parent Auth user
+
+22a1dbb7-c4d9-4a3a-8481-e0d44871146d
+
+Ephemeral family
+
+cd5e2b6e-1a84-4bc6-a757-cd79600cd523
+
+Family membership
+
+75281449-e74c-4c7d-9f87-a967eb77384d
+
+Correlation ID
+
+run-20261120-e7f1
+
+Verify the reported relationships:
+
+Auth user to profile.
+
+Auth user to family owner.
+
+Auth user to family membership.
+
+Family to membership.
+
+Membership role and status.
+
+Family settings and correlation marker.
+
+For every assertion, identify the evidence source:
+
+Dashboard screenshot.
+
+Repository report.
+
+Source-code inspection.
+
+Sanitized machine-readable artifact.
+
+Unverified narrative statement.
+
+Important
+
+A screenshot of a row is not equivalent to proof of all related foreign-key constraints.
+
+Do not claim complete relational isolation based only on screenshots of selected tables.
+
+If database relationship constraints cannot be independently verified using read-only evidence, mark them as report-supported rather than independently verified.
+
+Do not query or expose unrelated production user information.
+
+6. Timeline and Timestamp Reconciliation
+
+The Phase 3.7 reports contain several timestamps that need reconciliation.
+
+Reported values include:
+
+Event
+
+Reported time
+
+Phase 3.7 report header
+
+2026-11-20T15:18:50+05:30
+
+Auth user creation
+
+2026-11-20T15:25:31+05:30
+
+Family creation
+
+2026-11-20T10:11:09Z
+
+Membership creation
+
+2026-11-20T10:16:39Z
+
+Provisioning report timestamp
+
+2026-11-20T15:48:00+05:30
+
+Export request
+
+2026-11-20T10:20:45Z
+
+Retention request
+
+2026-11-20T10:20:46Z
+
+Cross-tenant probes
+
+Approximately 2026-11-20T10:20:47Z
+
+Convert timestamps to IST (+05:30) and UTC.
+
+Build a chronological event table containing:
+
+Event.
+
+Original timestamp.
+
+Normalized UTC.
+
+Normalized IST.
+
+Evidence source.
+
+Confidence.
+
+Consistency status.
+
+Determine whether the report header timestamp represents phase start, report generation, or another event.
+
+Identify impossible or ambiguous sequences.
+
+Do not silently rewrite historical timestamps.
+
+If the original timestamp cannot be established, mark it UNRESOLVED.
+
+7. Gate 2 Machine-Readable Evidence Validation
+
+Inspect:
+
+gate2_results.json
+
+Validate:
+
+JSON syntax.
+
+Correlation ID.
+
+Project ref.
+
+Report timestamp.
+
+Authentication result.
+
+Test user ID.
+
+Export HTTP status.
+
+Export family ID.
+
+Export owner ID.
+
+Export family count.
+
+Export child-table counts.
+
+Retention report HTTP status.
+
+Retention family ID.
+
+Retention windows.
+
+Older-event counts.
+
+Unauthenticated rejection status.
+
+Tampered-token rejection status.
+
+Invalid-action rejection status.
+
+Compare every value with Reports 06, 07, 08, and 12.
+
+Produce a field-by-field reconciliation table:
+
+Field
+
+JSON value
+
+Report value
+
+Match
+
+Evidence
+
+Payload safety
+
+Do not expose:
+
+JWTs.
+
+Passwords.
+
+Authorization headers.
+
+Device secrets.
+
+Service-role keys.
+
+Unnecessary personal information.
+
+Complete production export payloads.
+
+If the JSON artifact contains credentials or sensitive values, do not copy them into the new reports. Record the finding and recommend secure handling.
+
+A sanitized JSON summary is evidence of recorded telemetry; it is not independently proof that the HTTP requests were actually sent.
+
+Where possible, correlate it with existing non-sensitive Dashboard invocation records or screenshots already captured during Phase 3.7.
+
+Do not create new invocations.
+
+8. Cross-Tenant Isolation Gap Analysis
+
+This is the most important technical section.
+
+The Phase 3.7 report claims:
+
+100% STRICT ISOLATION
+
+However, the documented live probes include:
+
+Unauthenticated request — HTTP 401.
+
+Tampered JWT — HTTP 401.
+
+Invalid action — HTTP 400.
+
+Export response inspection — HTTP 200 with one family.
+
+Retention response inspection — HTTP 200 with one family.
+
+These results do not necessarily prove rejection of a valid authenticated user attempting to access another tenant.
+
+8.1 Separate the security properties
+
+Evaluate these independently:
+
+A. Authentication
+
+Missing authorization rejected.
+
+Forged token rejected.
+
+Valid ephemeral token accepted.
+
+B. Authorization
+
+Identity derives from verified JWT.
+
+Request-supplied IDs cannot override caller identity.
+
+Active membership is required where appropriate.
+
+C. Tenant isolation
+
+Queries use caller-derived family IDs.
+
+Cross-tenant family IDs cannot expand query scope.
+
+Child-device ownership cannot cross family boundaries.
+
+No unauthorized family records are returned.
+
+D. Data isolation under populated conditions
+
+Does the test contain any synthetic child records?
+
+Are there synthetic device records?
+
+Are there location events?
+
+Are there usage records?
+
+Are there safety alerts?
+
+Are there audit records?
+
+The Phase 3.7 export reports zero records in all child tables. This means isolation under populated child-data conditions was not established by that response.
+
+8.2 Evidence classification
+
+Classify every security claim:
+
+LIVE VERIFIED
+
+SOURCE VERIFIED
+
+OFFLINE TEST VERIFIED
+
+INFERRED
+
+NOT TESTED
+
+Do not combine these into a single percentage.
+
+8.3 Service-role boundary review
+
+Revisit the 19-operation inventory from Report 02.
+
+Verify:
+
+Caller identity comes from validated GoTrue JWT claims.
+
+Service-role operations use explicit ownership filters.
+
+Empty ID collections fail closed.
+
+Request body IDs do not override ownership.
+
+All export table queries are constrained to authorized family IDs.
+
+Retention-report queries use verified membership and permitted device ownership.
+
+No hidden unbounded query path exists.
+
+Record each database operation individually.
+
+Do not change source code.
+
+Do not invoke production endpoints.
+
+8.4 Cross-tenant conclusion
+
+Choose one:
+
+VERIFIED FOR AUTHENTICATION AND OBSERVED RESPONSE SCOPE
+
+SOURCE-LEVEL ISOLATION VERIFIED; LIVE ADVERSARIAL TEST NOT PERFORMED
+
+POPULATED-DATA ISOLATION NOT VERIFIED
+
+CROSS-TENANT ISOLATION DEFECT IDENTIFIED
+
+INSUFFICIENT EVIDENCE
+
+Do not use 100% STRICT ISOLATION unless the complete scope has actually been proven.
+
+9. Correlation ID Coverage Audit
+
+Existing correlation ID:
+
+run-20261120-e7f1
+
+Review how the marker is represented across:
+
+Auth user metadata, if applicable.
+
+Profile.
+
+Family settings.
+
+Family membership.
+
+Synthetic device records, if any.
+
+Audit logs, if any.
+
+Test result artifacts.
+
+Documentation reports.
+
+Determine whether the statement "every synthetic record carries an immutable correlation marker" is actually supported.
+
+Important distinction:
+
+A correlation marker in family settings does not automatically prove that all child records and audit records are tagged.
+
+A UUID or email containing the run ID does not automatically establish a complete cleanup relationship.
+
+ON DELETE SET NULL may leave audit records without family or actor references.
+
+Produce a coverage matrix:
+
+Record category
+
+Correlation marker present
+
+Evidence
+
+Future cleanup traceability
+
+Auth user
+
+
+
+
+
+
+
+Profile
+
+
+
+
+
+
+
+Family
+
+
+
+
+
+
+
+Family membership
+
+
+
+
+
+
+
+Device
+
+
+
+
+
+
+
+Location events
+
+
+
+
+
+
+
+Usage records
+
+
+
+
+
+
+
+Safety alerts
+
+
+
+
+
+
+
+Audit logs
+
+
+
+
+
+
+
+Do not create, update, or delete markers.
+
+Do not execute cleanup.
+
+10. Current Ephemeral Tenant State
+
+Reconcile Report 10.
+
+Expected reported entities:
+
+One synthetic parent user.
+
+One profile.
+
+One ephemeral family.
+
+One active membership.
+
+Zero synthetic child devices.
+
+Zero populated child-data records in the export response.
+
+Determine whether available evidence proves the current tenant still exists.
+
+Do not assume that an earlier screenshot proves present-day existence.
+
+If current state cannot be verified without performing a prohibited operation, mark it:
+
+LAST REPORTED STATE — CURRENT STATE NOT RECONFIRMED
+
+Do not authenticate as the synthetic identity.
+
+Do not request or retrieve its credentials.
+
+Do not modify the test user's status.
+
+TTL handling
+
+The report states a 24-hour TTL.
+
+Treat this strictly as an expiration expectation, not an automatic deletion instruction.
+
+Do not delete, disable, suspend, or clean up the tenant.
+
+Record that Gate 3 authorization is required before any lifecycle mutation.
+
+11. Production Health Claims
+
+Inspect Report 09.
+
+Reconcile:
+
+Ten active Edge Functions.
+
+Reported 100% success rate.
+
+Zero 500-series errors.
+
+Invocation count increase.
+
+Database CPU.
+
+Database RAM.
+
+Database connections.
+
+For every metric, record:
+
+Measurement time.
+
+Dashboard evidence.
+
+Measurement window.
+
+Whether it represents all project traffic or only the tested function.
+
+Do not repeat the claim "100% production success rate" if the measurement window or denominator is unknown.
+
+Use:
+
+REPORTED — METRIC WINDOW NOT INDEPENDENTLY VERIFIED
+
+where appropriate.
+
+Do not change production settings or monitoring configuration.
+
+12. Final Security and Evidence Scorecard
+
+Generate a consolidated scorecard.
+
+Security/Evidence Area
+
+Required Result
+
+Classification
+
+Gate 1 authorization
+
+Explicit written approval
+
+
+
+Gate 2 authorization
+
+Explicit written approval
+
+
+
+Auth user provisioning
+
+Evidence-backed
+
+
+
+Profile and role
+
+Evidence-backed
+
+
+
+Family ownership
+
+Evidence-backed
+
+
+
+Membership integrity
+
+Evidence-backed
+
+
+
+Timestamp consistency
+
+Reconciled
+
+
+
+Export response
+
+Machine-readable evidence reconciled
+
+
+
+Retention report
+
+Machine-readable evidence reconciled
+
+
+
+Authentication rejection
+
+Evidence-backed
+
+
+
+Cross-tenant adversarial rejection
+
+Actual evidence required
+
+
+
+Populated-data isolation
+
+Actual evidence required
+
+
+
+Service-role query boundaries
+
+Source-level verification
+
+
+
+Correlation coverage
+
+Complete or limitations documented
+
+
+
+Current tenant state
+
+Evidence-backed or explicitly unknown
+
+
+
+Production health metrics
+
+Measurement window verified
+
+
+
+Do not calculate a misleading overall security percentage.
+
+13. Future Gate Recommendations
+
+Phase 3.7.1 does not authorize future testing.
+
+Produce a recommendation for each proposed future gate.
+
+Gate 3 — Controlled Account Deletion and Teardown
+
+Still requires separate written authorization.
+
+Before recommending execution, verify:
+
+Exact deletion request schema.
+
+Email confirmation requirement.
+
+Existing deletion blocker behavior.
+
+Retry semantics.
+
+account_deletion_requested sequencing.
+
+account_deleted success-only sequencing.
+
+Audit-log orphan handling.
+
+Exact synthetic-user and family ownership.
+
+A fail-closed cleanup target allowlist.
+
+Protection of all operational accounts.
+
+No deletion or cleanup in this phase.
+
+Gate 4 — Retention Sweeper Qualification
+
+Still requires separate written authorization.
+
+Before recommending execution, verify:
+
+Synthetic expired records can be isolated.
+
+The sweeper can be restricted to the test tenant.
+
+No production-wide retention sweep is triggered.
+
+Audit events remain traceable.
+
+No global cron path is invoked accidentally.
+
+No retention sweep in this phase.
+
+Gate 5 — Flutter Client Integration
+
+May be planned separately as a non-production client integration task.
+
+Do not connect a client to production or modify app code in this evidence-reconciliation phase.
+
+14. Required Documentation Deliverables
+
+Create:
+
+docs/testing/phase_3_7_1_evidence_reconciliation/
+
+Produce these reports:
+
+01_evidence_inventory_and_git_integrity.md
+
+Git history.
+
+Evidence inventory.
+
+Artifact integrity.
+
+02_owner_authorization_reconciliation.md
+
+Gate 1 approval.
+
+Gate 2 approval.
+
+Evidence limitations.
+
+03_provisioning_evidence_reconciliation.md
+
+Auth user.
+
+Profile.
+
+Family.
+
+Membership.
+
+Screenshot evidence mapping.
+
+04_timeline_and_timestamp_reconciliation.md
+
+UTC/IST normalization.
+
+Chronological consistency.
+
+Unresolved timestamps.
+
+05_gate2_json_reconciliation.md
+
+Field-by-field comparison.
+
+Sanitization validation.
+
+Evidence provenance.
+
+06_cross_tenant_isolation_gap_analysis.md
+
+Authentication.
+
+Authorization.
+
+Tenant isolation.
+
+Populated-data gap.
+
+07_service_role_query_boundary_revalidation.md
+
+Individual database operation inventory.
+
+Ownership filters.
+
+Fail-closed behavior.
+
+08_correlation_id_coverage_audit.md
+
+Record coverage.
+
+Audit log traceability.
+
+Cleanup limitations.
+
+09_ephemeral_tenant_current_state.md
+
+Last verified state.
+
+Current-state confidence.
+
+TTL.
+
+No cleanup performed.
+
+10_production_health_claim_reconciliation.md
+
+Dashboard metric evidence.
+
+Measurement windows.
+
+Confidence classification.
+
+11_future_gate_readiness_assessment.md
+
+Gate 3 readiness.
+
+Gate 4 readiness.
+
+Gate 5 planning boundaries.
+
+12_final_phase_3_7_1_verdict.md
+
+Consolidated findings.
+
+Remaining risks.
+
+Final recommendation.
+
+Include an evidence matrix with source filenames and precise screenshot references.
+
+Do not duplicate credentials or sensitive payloads.
+
+15. Git Rules
+
+Application source changes are prohibited.
+
+Supabase function changes are prohibited.
+
+Test changes are prohibited.
+
+Migration changes are prohibited.
+
+Database changes are prohibited.
+
+Only the 12 approved documentation reports may be created.
+
+Preserve unrelated working-tree changes.
+
+Review the complete diff before committing.
+
+Commit only the new Phase 3.7.1 documentation directory.
+
+Suggested commit:
+
+docs: complete phase 3.7.1 evidence reconciliation
+
+If unrelated changes exist, do not include them.
+
+Do not amend or rewrite the Phase 3.7 commit.
+
+16. Final Verdict
+
+Choose exactly one.
+
+A. EVIDENCE RECONCILED — PHASE 3.7 READ-ONLY RESULTS SUBSTANTIATED
+
+Use only if the approval, provisioning, endpoint telemetry, timeline, and relevant evidence are sufficiently consistent and supported.
+
+This does not automatically certify every possible cross-tenant scenario.
+
+B. PARTIALLY SUBSTANTIATED — CROSS-TENANT TEST GAP REMAINS
+
+Use if provisioning and read-only actions are supported but adversarial cross-tenant or populated-data isolation is not established.
+
+C. PARTIALLY SUBSTANTIATED — DOCUMENTATION OR TIMELINE GAPS REMAIN
+
+Use if execution is plausible but important evidence or timestamps cannot be reconciled.
+
+D. INSUFFICIENT EVIDENCE — PHASE 3.7 CLAIMS NOT FULLY VERIFIABLE
+
+Use if the core execution claims cannot be adequately supported.
+
+E. SECURITY DEFECT IDENTIFIED
+
+Use if the audit discovers an actual ownership bypass, data exposure, unsafe service-role query, or other material security defect.
+
+Do not perform remediation without separate authorization.
+
+17. Final Execution Instructions
+
+Proceed with repository and existing evidence inspection only.
+
+Use read-only Dashboard inspection only when required and permitted.
+
+Do not create new evidence by invoking production endpoints.
+
+Do not perform any operation that changes the state of parent-control-prod.
+
+Do not modify the existing synthetic tenant.
+
+Do not delete or clean up any records.
+
+Do not interpret an expired TTL as permission to delete.
+
+Do not authorize Gate 3 or Gate 4.
+
+At completion, report:
+
+Exact Git baseline and commit.
+
+Gate 1 and Gate 2 authorization evidence.
+
+Provisioning evidence quality.
+
+Timestamp reconciliation.
+
+gate2_results.json consistency.
+
+Service-role query audit results.
+
+Actual cross-tenant test coverage.
+
+Correlation ID coverage.
+
+Current ephemeral tenant state confidence.
+
+Production health evidence quality.
+
+Remaining risks.
+
+Final verdict.
+
+Documentation commit.
+
+Core success criterion: establish exactly what Phase 3.7 proved, what it only suggested, and what remains untested—without making any new production changes.
+</USER_REQUEST>
+<ADDITIONAL_METADATA>
+The current local time is: 2026-11-20T16:03:46+05:30.
+
+The user's current state is as follows:
+Active Document: d:\parentcontrol_app\docs\testing\phase_3_7_ephemeral_tenant_provisioning\gate2_results.json (LANGUAGE_UNSPECIFIED)
+Cursor is on line: 1
+</ADDITIONAL_METADATA>
