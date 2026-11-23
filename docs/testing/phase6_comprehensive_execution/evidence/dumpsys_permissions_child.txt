@@ -1,0 +1,37 @@
+﻿    requested permissions:
+      android.permission.INTERNET
+      android.permission.ACCESS_NETWORK_STATE
+      android.permission.ACCESS_COARSE_LOCATION
+      android.permission.ACCESS_FINE_LOCATION
+      android.permission.ACCESS_BACKGROUND_LOCATION
+      android.permission.CAMERA
+      android.permission.RECORD_AUDIO
+      android.permission.POST_NOTIFICATIONS
+      android.permission.FOREGROUND_SERVICE
+      android.permission.FOREGROUND_SERVICE_DATA_SYNC
+      android.permission.FOREGROUND_SERVICE_LOCATION
+      android.permission.FOREGROUND_SERVICE_MICROPHONE
+      android.permission.WAKE_LOCK
+      android.permission.RECEIVE_BOOT_COMPLETED
+      android.permission.PACKAGE_USAGE_STATS
+      android.permission.QUERY_ALL_PACKAGES
+      com.parentcontrol.parent_control.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION
+      android.permission.MODIFY_AUDIO_SETTINGS
+    install permissions:
+      com.parentcontrol.parent_control.DYNAMIC_RECEIVER_NOT_EXPORTED_PERMISSION: granted=true
+      android.permission.MODIFY_AUDIO_SETTINGS: granted=true
+      android.permission.FOREGROUND_SERVICE: granted=true
+      android.permission.RECEIVE_BOOT_COMPLETED: granted=true
+      android.permission.INTERNET: granted=true
+      android.permission.ACCESS_NETWORK_STATE: granted=true
+      android.permission.QUERY_ALL_PACKAGES: granted=true
+      android.permission.WAKE_LOCK: granted=true
+    User 0: ceDataInode=2777289 installed=true hidden=false suspended=false distractionFlags=0 stopped=false notLaunched=false enabled=0 ofs=0 pdm=false instant=false virtual=false
+      overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+        /data/resource-cache/com.android.systemui-neutral-Q6mq.frro
+        /data/resource-cache/com.android.systemui-accent-l5Wn.frro
+      legacy overlay paths:
+        /product/overlay/NavigationBarModeGestural/NavigationBarModeGesturalOverlay.apk
+      gids=[3003]
+GET_USAGE_STATS: allow; time=+10m0s605ms ago
