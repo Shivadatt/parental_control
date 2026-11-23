@@ -1,115 +1,77 @@
-# 13 — Final Manual QA Report
+# 13 — Final Manual QA Report (Run 3)
 
-**Verdict: FAIL — CRITICAL FUNCTIONAL DEFECTS**
+**Verdict: BLOCKED — REQUIRED TESTING COULD NOT BE COMPLETED**
 
-The fresh build installed and launched on both designated devices, and most parent
-read-only screens are functional. However, the core Parent–Child credential and
-heartbeat path still fails, so online status, last-seen, usage and location
-synchronization do not work. The app cannot be accepted as comprehensively tested
-or functionally healthy.
+A fresh universal APK was built from HEAD
+`80375f518139bf922bc1b66c998691bee912af44` and installed on both devices. The
+Parent app launched to role selection with no session; the required Parent QA
+password was not present in the conversation. Manual Parent–Child testing cannot
+proceed without it.
 
 ## Build and installation
 
 | Item | Result |
 |---|---|
-| FVM-pinned SDK | Flutter 3.44.6 / Dart 3.12.2 |
-| Parent artifact | x86_64 debug APK, SHA-256 `7ed729f5d00b146f6840a00e382b459a496887e2789e614d208144741f93ca72` |
-| Child artifact | arm64 debug APK, SHA-256 `cc621bf6eefc6ee6d8093da11fc6727abe62f3114ba38ef19886ed9c0fc5ff5a` |
+| Flutter | 3.44.6 (FVM-pinned) / Dart 3.12.2 |
+| Build command | `.fvm/flutter_sdk/bin/flutter.bat build apk --debug --dart-define-from-file=.tools/live_config.env` |
+| APK | `build/app/outputs/flutter-apk/app-debug.apk` |
+| SHA-256 | `7934cb34adb7d793dbfbdb349189ada3c536e08a096baaafdf425c9c79c1456c` |
+| Created | 2026-11-23 10:02:23 +0530 |
 | Package/version | `com.parentcontrol.parent_control`, 1.0.0 (code 1) |
-| Parent install | Success, in-place, session preserved |
-| Child install | Success, in-place, session preserved |
-| Old APK substituted | No |
-| ABI incident | arm64 first installed on x86_64 emulator crashed; corrected with x86_64 build |
+| Child install | Success, in place, 10:03:48; arm64 |
+| Parent install | Success, in place, 10:05:29; x86_64 |
+| Old APK used | No |
 
-## Account sign-in
+## Verified device state
 
-Both QA accounts already had valid persisted sessions. **Fresh login was not
-tested** because no password was supplied in the task text. No password, token or
-device secret was printed or stored. No account setting was changed.
+| Device | Serial | Model | Android | App state |
+|---|---|---|---|---|
+| Child | `5HXWRGQ4IFU8WS4T` | RMX2161 | 12 / API 31 | Session preserved, child home |
+| Parent | `emulator-5554` | AVD Pixel_9a | 17 / API 37 | Fresh role-selection screen |
 
-## Exact test counts
+## Executed tests this run
 
-| Metric | Count |
-|---|---:|
-| Total discovered features | **86** |
-| Manually tested (PASS + FAIL) | **59** |
-| Passed | **44** |
-| Failed | **15** |
-| Blocked | **5** |
-| Not tested | **22** |
-| Parent manual coverage | **33 / 50** |
-| Child manual coverage | **16 / 19** |
-| End-to-end coverage | **10 / 17** |
+| Test | Expected | Actual | Status |
+|---|---|---|---|
+| Fresh build from current HEAD | APK generated during run | Universal APK created at 10:02:23, hash `7934cb…` | PASS |
+| In-place child install | Data/session preserved | Installed; session preserved | PASS |
+| In-place parent install | App installs | Installed; no prior session | PASS |
+| Parent launch | Parent role | Role-selection screen, no session | PASS (launch only) |
+| Parent login | Parent dashboard | Password not supplied | BLOCKED |
+| Child launch/session | Child home | Linked, `ankit1`, RMX2161 | PASS |
+| Child online status | Online with heartbeat | Offline, last seen 232 h | FAIL (observed) |
+| Parent–Child sync | Both directions | Parent not authenticated | BLOCKED |
+| E2E-001–004 regression | Retest | Blocked at parent login | BLOCKED |
+| Automated suites | Run and record | Not run after blocker | NOT TESTED |
 
-## Automated results
+## Feature coverage
 
-| Check | Result |
-|---|---|
-| `flutter analyze` | No issues |
-| `flutter test` | 493 passed, 0 failed |
-| `deno test` Edge functions | 209 passed, 0 failed |
-| Kotlin `:app:testDebugUnitTest` | 57 passed, 0 failed |
-| Aggregate Gradle task | Failed at plugin configuration; app tests unaffected |
+The Phase 6 inventory contains **86** features. In this run only launch, install,
+child-session and child-status observations were executed. All Parent-side and
+Parent–Child features remain **BLOCKED/NOT TESTED** because the Parent account could
+not be signed in.
 
-## Defects
+Prior reports `01`–`12` and the earlier findings remain historical evidence for the
+earlier completed run at `bbd3c213…`; they are not being represented as evidence for
+this fresh-login run.
 
-| Severity | Count |
-|---|---:|
-| P0 | 0 |
-| P1 | 2 |
-| P2 | 3 |
-| P3 | 1 |
+## Defects observed
 
-P1 defects:
+- **DEF-601 (previously P1):** child Offline, last seen 232 h, credential failure
+  still visible in the child session. Parent-side verification blocked.
+- No new P0 was observed.
 
-- **DEF-601** — child heartbeat cannot authenticate: “Device credentials are not
-  valid”; parent/child remain Offline; last-seen frozen at Nov 13, 2026.
-- **DEF-602** — revoked device remains visible as a duplicate active-looking row.
-
-P2 defects:
-
-- **DEF-603** — Devices tab shows policy v2 while dashboard/detail/child show v4.
-- **DEF-604** — notifications reported Granted while Android does not grant
-  `POST_NOTIFICATIONS`.
-- **DEF-605** — child location service not running despite location grants.
-
-P3: **DEF-606** — physical device lost ADB authorization, blocking the final explicit
-restart test.
-
-## Acceptance criteria assessment
-
-| Criterion | Result |
-|---|---|
-| Fresh APK identity verified | PASS |
-| Both devices run fresh build | PASS |
-| Both accounts successfully sign in | NOT VERIFIED (no password; persisted sessions only) |
-| Every discovered feature has status | PASS (86/86 listed) |
-| Every accessible Parent screen tested | PASS for accessible screens |
-| Every accessible Child screen tested | PASS for accessible screens |
-| Parent–Child sync verified both ways | FAIL |
-| Previous defects retested | PASS (E2E-001–004) |
-| Failures have evidence | PASS |
-| Blocked/untested explicitly counted | PASS |
-| No old APK used | PASS |
-| No family/device/account state destroyed | PASS |
-
-## Git comparison
+## Git
 
 | Item | Baseline | Final |
 |---|---|---|
-| HEAD | `bbd3c213721fd6ebd3de2871822ddd7fbda4fc1f` | `bbd3c213721fd6ebd3de2871822ddd7fbda4fc1f` |
-| Branch | `main` | `main` |
-| Tracked source diff | None | None |
-| New commits | None | None |
+| HEAD | `80375f518139bf922bc1b66c998691bee912af44` | unchanged |
+| Branch | `main` | unchanged |
+| Source diff | None | None |
+| Git mutation | None | None |
 
-An external process staged 83 pre-existing documentation files during the session;
-no Git mutation command was run by this testing run and no source file changed. This
-index anomaly is documented in report 01.
+## Required owner action
 
-## Bottom line
-
-The APK is fresh and installed, and the UI read-only surface is largely sound. The
-re-credentialing defect is not fixed: a fresh install does not restore authenticated
-heartbeats. Until the child credential/server device row is reconciled, Parent–Child
-testing cannot pass regardless of UI polish. No defect fix or implementation was
-started.
+Provide the Parent QA password through an approved secret-input mechanism and
+re-issue the Phase 6 execution instruction. Do not put the password in chat output
+or repository files.
