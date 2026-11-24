@@ -1,0 +1,48 @@
+# Phase 1.5: Cross-Phase Traceability Matrix
+
+**Document ID:** `HAVEN-AUD-009-PHASE1.5`  
+**Phase:** Phase 1.5 — Independent Final Consistency & Security Closure Review  
+**Workspace:** `D:\parentcontrol_app`  
+**Baseline HEAD:** `0101c16d161824fd726018f1188e1a2b17c653d3`  
+**Audit Standard:** Comprehensive Lifecycle Traceability Audit  
+
+---
+
+## 1. Executive Summary
+
+This document establishes the master end-to-end traceability matrix for the HAVEN Parent Control remediation lifecycle. It tracks every original QA defect (`HAVEN-QA-001` through `HAVEN-QA-006`), every independent review finding (`REV-001` through `REV-013`), every architectural gate, and every design assumption across Phase 1.0 (Remediation Planning), Phase 1.1 (Independent Review), Phase 1.2 (Corrections), Phase 1.3 (Closure Verification), Phase 1.4 (Security Clarification), and Phase 1.5 (Final Consistency Review).
+
+---
+
+## 2. Master Traceability Matrix
+
+| Original ID | Finding / Requirement Summary | Phase of Origin | Current Resolution Strategy | Evidence Type | Source Reference | Remaining Risk | Required Next Action | Owner Approval Required? | Final Status |
+|---|---|---|---|---|---|---|---|---|---|
+| **QA-001** | Role Selection button text clipped ("Create acc...") | Phase 6 QA | Add `FittedBox` label scaling and responsive padding in `AppButton` / `RoleSelectionPage`. | Verified by source inspection | `09_defect_register.md:26`<br/>`role_selection_page.dart:180` | Layout regression on exotic screen ratios | Flutter widget tests across 320–480dp widths | **YES (Gate 2)** | **READY FOR OWNER APPROVAL** |
+| **QA-002** | Password input exposes plaintext / lacks input hardening (SEC-001) | Phase 6 QA | Suppress suggestions/autocorrect, decouple `isPassword` from `obscureText`, enforce password accessibility semantics. | Verified by source inspection | `09_defect_register.md:52`<br/>`app_text_field.dart:41` | Password visibility leakage via toggle state | Unit tests for 3 authentic callers | **YES (Gate 2)** | **READY FOR OWNER APPROVAL** |
+| **QA-003** | Device re-credentialing breaks telemetry & heartbeat (DEF-601) | Phase 6 QA | Implement Phase 4 Gate A Option C protocol: Crockford Base32 token, KeyStore 7-state machine, idempotent verify endpoint. | Supported by design only | `09_defect_register.md:78`<br/>`phase_4_device_recredentialing_design/` | Concurrency race, crash during rotation | Multi-gate staging implementation (Gates 3–6) | **YES (Gates 3–6)** | **SPLIT: GATE 3 READY / GATES 4–8 BLOCKED** |
+| **QA-004** | Notification permission reports false-positive "Granted" (DEF-604) | Phase 6 QA | Replace naive SDK check with `NotificationManagerCompat.from(context).areNotificationsEnabled()`; decouple dimensions. | Verified by source inspection | `09_defect_register.md:16`<br/>`NativePermissions.kt:29-32` | Android 13+ runtime permission prompt rejection | Native Android tests on API 31 & API 34 | **YES (Gate 2)** | **READY FOR OWNER APPROVAL** |
+| **QA-005** | Revoked devices duplicated in Parent dashboard (DEF-602) | Phase 6 QA | Add explicit repository methods (`fetchActiveDevices()`, `fetchDeviceHistory()`, `fetchPendingDevices()`). | Verified by source inspection | `09_defect_register.md:15`<br/>`core.sql:91-92` | Query filter desync between tabs | Unit tests for `DeviceRepository` | **YES (Gate 2)** | **READY FOR OWNER APPROVAL** |
+| **QA-006** | Policy version inconsistency between Dashboard and Devices tab (DEF-603) | Phase 6 QA | Harmonize presentation layer to evaluate desired vs reported version and canonical `'enforced'` status. | Verified by source inspection | `09_defect_register.md:17`<br/>`core.sql:185-186` | Misleading status during active policy sync | Presentation model unit tests | **YES (Gate 2)** | **READY FOR OWNER APPROVAL** |
+| **REV-001** | Transaction semantics & attempt counter durability | Phase 1.1 | Structured JSONB return without `RAISE EXCEPTION`; row-level lock ordering (Challenge then Device). | Supported by design only | `phase1_2_corrections/02_rev001...`<br/>`core.sql:15-88` | Deadlock under high concurrency | Staging pgTAP transaction stress test | **YES (Gate 3/4)** | **DESIGN CLOSED (GATE 3 REVIEW)** |
+| **REV-002** | KeyStore 2-phase recovery & lost-response protocol | Phase 1.1 | 7-state machine in `SecureStore.kt`; atomic staging commit; idempotent `verify_device_rotation` endpoint. | Supported by design only | `phase1_2_corrections/03_rev002...`<br/>`SecureStore.kt:71-105` | Process kill during network transition | Robolectric fault-injection crash testing | **YES (Gate 2/6)** | **DESIGN CLOSED (GATE 2 READY)** |
+| **REV-003** | Decouple obscureText from isPassword | Phase 1.1 | Purged non-existent `role_selection_page.dart` PIN caller; decoupled `obscureText` toggle across 3 callers. | Verified by source inspection | `phase1_2_corrections/04_rev003...`<br/>`auth_form_fields.dart` | Input state leakage | Flutter widget tests for `AppTextField` | **YES (Gate 2)** | **DESIGN CLOSED (GATE 2 READY)** |
+| **REV-004** | Dynamic text scaling & button layout clipping | Phase 1.1 | Modern `TextScaler` API check; 420dp screen breakpoint; wrap buttons in Column; strict `AppButton` quarantine. | Verified by source inspection | `phase1_2_corrections/05_rev004...`<br/>`QuickActionsCard` | RenderFlex overflow on small screens | Golden widget tests at 1.0x–2.0x scale | **YES (Gate 2)** | **DESIGN CLOSED (GATE 2 READY)** |
+| **REV-005** | Forward-only recovery & asymmetric kill-switch | Phase 1.1 | Down-migration strictly prohibited; asymmetric flag leaves `verify_device_rotation` active when disabled. | Supported by design only | `phase1_2_corrections/06_rev005...` | Stranded devices during deployment skew | Staging feature flag toggle test | **YES (Gate 3/5)** | **DESIGN CLOSED (GATE 3 REVIEW)** |
+| **REV-006** | Multi-status device repository queries | Phase 1.1 | Explicit repository methods replace boolean flags; ternary domain model maps `active`, `revoked`, `pending`. | Verified by source inspection | `phase1_2_corrections/07_rev006...`<br/>`core.sql:91-92` | Query filter desync | Dart repository unit tests | **YES (Gate 2)** | **DESIGN CLOSED (GATE 2 READY)** |
+| **REV-007** | Canonical policy status & sync health | Phase 1.1 | Canonical DB status fixed as strictly `'enforced'`; decoupled 4-layer model (Device, Policy, Command, Version). | Verified by source inspection | `phase1_2_corrections/07_rev006...`<br/>`core.sql:185-186` | Confusing UI status labels | UI presentation widget tests | **YES (Gate 2)** | **DESIGN CLOSED (GATE 2 READY)** |
+| **REV-008** | Native notification channel typed diagnostics | Phase 1.1 | Canonical channel ID `"guardian_status"`; decoupled 3-dimensional diagnostic model (Permission, Channel, Service). | Verified by source inspection | `phase1_2_corrections/08_rev008...`<br/>`GuardianService.kt:36` | Android 12 false-positive permissions | Android native unit tests on API 31 & 34 | **YES (Gate 2)** | **DESIGN CLOSED (GATE 2 READY)** |
+| **REV-009** | Crockford Base32 entropy & timing resistance | Phase 1.1 | 6-char Base32 ($2^{30}$ states, 30.0 bits); classified PL/pgSQL comparison as `NOT VERIFIED — REQUIRES PROVEN PRIMITIVE`. | Supported by design only | `phase1_4_security.../03_crypto...` | Microsecond timing variation in PL/pgSQL | Benchmark / native crypto primitive | **YES (Gate 3/4)** | **DESIGN CLOSED WITH CONDITIONS** |
+| **REV-010** | Database attempt counter integrity | Phase 1.1 | Attempt counter increments committed to WAL; lockout enforced at attempt 5; attempt 6 short-circuits. | Supported by design only | `phase1_2_corrections/09_rev010...` | Counter reset under DB restart | pgTAP counter persistence test | **YES (Gate 3/4)** | **DESIGN CLOSED (GATE 3 REVIEW)** |
+| **REV-011** | AppButton blast radius quarantine | Phase 1.1 | Strict quarantine on `AppButton` (88 call sites, 27 files; 0 edits); all layout responsive logic in `QuickActionsCard`. | Verified by source inspection | `phase1_2_corrections/05_rev004...` | Accidental regression across app forms | Source diff inspection (verify 0 edits to AppButton) | **YES (Gate 2)** | **DESIGN CLOSED (GATE 2 READY)** |
+| **REV-012** | Domain model ternary device status | Phase 1.1 | `Device.fromJson` explicitly parses `'active'`, `'revoked'`, `'pending'` without fallback loss. | Verified by source inspection | `phase1_2_corrections/09_rev010...`<br/>`core.sql:91-92` | Dropped devices during parsing | JSON serialization unit tests | **YES (Gate 2)** | **DESIGN CLOSED (GATE 2 READY)** |
+| **REV-013** | Distributed rate limiting & abuse prevention | Phase 1.1 | Persistent DB queries (10/parent/hr, 3/device/hr); partial unique index `idx_device_recovery_single_active`. | Supported by design only | `phase1_4_security.../03_crypto...` | Edge isolate cold-restart bypass | Load test submitting rapid requests | **YES (Gate 3/5)** | **DESIGN CLOSED WITH CONDITIONS** |
+
+---
+
+## 3. Governance Cross-Check & Traceability Invariants
+
+1. **Defect Preservation**: All six original QA defects (`HAVEN-QA-001` through `HAVEN-QA-006`) retain their exact historical IDs, severities, and descriptions.
+2. **Finding Preservation**: All 13 independent review findings (`REV-001` through `REV-013`) remain traceable and active. Zero findings have been dropped.
+3. **Approval Decoupling**: Phase 4 Gate A Option C design approval is strictly recognized as **baseline architecture approval only**. Zero implementation, migration, deployment, or hardware execution authorization is inferred.
+4. **Epistemological Honesty**: No theoretical design proof is represented as runtime verified. Runtime verified tests remain strictly at **0**.

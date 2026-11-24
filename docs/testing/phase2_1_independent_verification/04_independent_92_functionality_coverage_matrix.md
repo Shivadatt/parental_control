@@ -1,0 +1,156 @@
+# 04 — Independent 92-Functionality Coverage Matrix
+
+**Document ID:** `HAVEN-VER-004`  
+**Phase:** Phase 2.1 — Independent Consistency & Coverage Verification  
+**Workspace:** `D:\parentcontrol_app`  
+**Audited Matrix:** `docs/testing/phase2_coverage_gap_audit/03_functionality_to_test_case_traceability_matrix.md`  
+**Authoritative Inventory:** `docs/testing/pre_manual_testing_audit/01_complete_functionality_inventory.md`  
+**Audit Standard:** Step-Level Verifiable Specification Audit  
+**Execution Posture:** STRICTLY READ-ONLY — ALL TESTS `NOT TESTED`  
+
+---
+
+## 1. Audit Target & Verification Rules
+
+This independent matrix verifies whether each of the **92 inventoried functionalities** (`A01`–`SYS02`) has an actionable test step and an objectively observable expected result that directly proves the intended behavior.
+
+> [!CRITICAL]
+> **Adversarial Standard**: A functionality is **NOT COMPLETE** merely because a test case mentions its ID, navigates to its screen, or because the feature is implemented in source code.  
+> Every functionality marked `VERIFIED SPECIFICATION COVERAGE` must possess an explicit step that performs the action and an expected result that confirms its outcome.
+
+---
+
+## 2. Authoritative 92-Functionality Verification Matrix
+
+| ID | Functionality Name | Mapped Test IDs | Exact Validating Step | Expected Result | Safety Category | Coverage Verdict | Finding / Audit Notes |
+|:---|:---|:---|:---|:---|:---|:---:|:---|
+| **`A01`** | Email & Password Sign-In | `TC-A01`, `TC-EXP-02`, `TC-SEC01` | `TC-A01` Step 3: Tap "Sign In"; `TC-EXP-02` Step 4: Rapid invalid submits | Navigates to `/parent-dashboard`; rejects bad password with clean error | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Baseline lacked invalid password path; resolved by `TC-EXP-02`. `TC-SEC01` maps RLS isolation. |
+| **`A02`** | Account Registration | `TC-A02`, `TC-EXP-03` | `TC-A02` Step 4: Tap "Create Account"; `TC-EXP-03` Step 5: Duplicate submit | Displays email verification screen; rejects duplicate email | `REQUIRES_DISPOSABLE_ACCOUNT` | **VERIFIED SPECIFICATION COVERAGE** | Baseline lacked duplicate email check; resolved by `TC-EXP-03`. |
+| **`A03`** | Email Verification & Resend | `TC-EXP-09` | Step 2: Tap "Resend Email"; Step 5: Tap during countdown | Verification email sent; button throttled with 60s cooldown | `REQUIRES_DISPOSABLE_ACCOUNT` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-09`. |
+| **`A04`** | Session Persistence & Auto-Login | `TC-A04` | Step 3: Force close app via Android Recents and relaunch | Directly opens `/parent-dashboard` without showing login | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Clean, reproducible session restoration test. |
+| **`A05`** | Sign Out & Token Revocation | `TC-A05` | Step 3: Confirm sign out; Step 4: Press Android Back button | Tokens destroyed, navigates to `/login`, back button does not pop to dashboard | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Back-stack security explicitly asserted. |
+| **`A06`** | Role Selection Interface | `TC-A06`, `TC-EXP-01` | `TC-EXP-01` Step 4: Tap "Confirm Selection"; Step 7: System back button | Relaunch bypasses `/role-selection`; back button does not pop to role selection | `REQUIRES_DISPOSABLE_ACCOUNT` | **VERIFIED SPECIFICATION COVERAGE** | Baseline lacked role immutability; closed by `TC-EXP-01`. |
+| **`A07`** | Account Profile Display & Edit | `TC-EXP-10` | Step 3: Edit Name to "Guardian One" and save; Step 4: Check dashboard | Snackbar confirms save; dashboard displays "Welcome, Guardian One" | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-10`. |
+| **`A08`** | Account Data Export (GDPR) | `TC-A08`, `TC-EXP-04` | `TC-EXP-04` Step 6: Inspect JSON top-level schema keys | Contains valid arrays for `profile`, `devices`, `location_history`, `audit_events` | `REQUIRES_DISPOSABLE_ACCOUNT` | **VERIFIED SPECIFICATION COVERAGE** | Baseline lacked schema validation; closed by `TC-EXP-04`. |
+| **`A09`** | Account Deletion with Cascade | `TC-A09` | Step 3: Enter keyword and confirm deletion; Step 4: Attempt re-login | User purged; all tokens revoked; re-login fails with user not found | `REQUIRES_DISPOSABLE_ACCOUNT` | **VERIFIED SPECIFICATION COVERAGE** | Quarantined destructive test. |
+| **`A10`** | Backend Configuration Screen | `TC-A10` | Step 2: Launch app without compile-time environment flags | Displays `/configuration` diagnostic screen with red icon | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Robust graceful degradation test. |
+| **`A11`** | Password Reveal / Masking Toggle | `TC-A11` | Step 2: Tap eye icon to unmask; Step 4: Tap eye icon to mask | Obscured dots toggle to plaintext and back without cursor jump | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Clear UI widget verification. |
+| **`A12`** | Real-Time Form Validation Feedback | `TC-EXP-11` | Step 1: Type `invalid-email-format`; Step 2: Type short password | Inline red error text renders: "Please enter a valid email", "Password must be at least 8 chars" | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-11`. |
+| **`FAM01`** | Link Child via QR Code Scan | `TC-FAM01` | Step 2: Point Child camera at Parent QR code | QR detected, Keystore keypair generated, child transitions to Home | `REQUIRES_DISPOSABLE_DEVICE` | **VERIFIED SPECIFICATION COVERAGE** | Complete distributed pairing test. |
+| **`FAM02`** | Link Child via Manual 6-Digit Code | `TC-FAM02` | Step 2: Enter 6-digit alphanumeric code on child and submit | Code redeemed, device enrolled, child lands on Child Home | `REQUIRES_DISPOSABLE_DEVICE` | **VERIFIED SPECIFICATION COVERAGE** | Fallback pairing workflow verified. |
+| **`FAM03`** | Outgoing Pairing Requests List | `TC-EXP-12` | Step 2: Inspect pending pairing invitations list | Renders list showing child nickname, code, and expiration timer | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-12`. |
+| **`FAM04`** | Cancel Outgoing Pairing Request | `TC-EXP-13` | Step 1: Tap Revoke; Step 3: Attempt to redeem revoked code on child | Code marked revoked; child displays: "Invalid or expired pairing code" | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-13`. |
+| **`FAM05`** | Child Approves/Declines Pairing | `TC-EXP-14` | Step 3: Tap "Cancel" on child pairing consent dialog | Enrollment aborts; zero Keystore keys stored; returns to welcome | `REQUIRES_DISPOSABLE_DEVICE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-14`. |
+| **`FAM06`** | Pairing Code & QR Generation | `TC-FAM06` | Step 2: Tap "Add Child" and inspect generated dialog | Renders 6-digit code, QR matrix, and active 15-minute countdown | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Explicitly checks 15m expiration timer. |
+| **`FAM07`** | Child Hardware Registration | `TC-FAM07`, `TC-EXP-05` | `TC-EXP-05` Step 4: Inspect Parent Device Detail hardware tile | Displays accurate Manufacturer, Model, and Android OS Version | `REQUIRES_DISPOSABLE_DEVICE` | **VERIFIED SPECIFICATION COVERAGE** | Baseline lacked metadata checks; closed by `TC-EXP-05`. |
+| **`FAM08`** | Family Group Creation | `TC-FAM08` | Step 2: Enter family name and submit | Creates family row, assigns parent as admin, opens dashboard | `REQUIRES_DISPOSABLE_ACCOUNT` | **VERIFIED SPECIFICATION COVERAGE** | Foundational family setup verified. |
+| **`FAM09`** | Family Members & Roles Overview | `TC-EXP-15` | Step 2: Inspect family members roster | Displays avatars, names, emails, and role badges ("Admin", "Child") | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-15`. |
+| **`FAM10`** | Unlink Child Account from Parent | `TC-FAM10` | Step 3: Confirm unlinking on parent app; Step 4: Check child | Child removed from parent dashboard; child client resets to enrollment | `REQUIRES_DISPOSABLE_DEVICE` | **VERIFIED SPECIFICATION COVERAGE** | Quarantined destructive test. |
+| **`FAM11`** | Child Self-Unlink Protection | `TC-EXP-16` | Step 3: Attempt to tap Unlink; Step 4: Enter incorrect PIN | Unlink button locked behind Parent PIN; incorrect PIN denies action | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-16`. |
+| **`FAM12`** | Revoke Device from Dashboard | `TC-EXP-17` | Step 3: Enter "REVOKE" keyword; Step 5: Check child state | Parent badge updates to "Revoked"; child halts services & locks app | `REQUIRES_DISPOSABLE_DEVICE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-17`. |
+| **`FAM13`** | Device Re-Credentialing Recovery | `TC-SEC02`, `TC-EXP-18` | `TC-EXP-18` Step 4: Submit recovery token on child device | Device re-keys in Keystore and resumes supervision under same ID | `REQUIRES_ISOLATED_BACKEND` | **VERIFIED SPECIFICATION COVERAGE** | Tested via replay `TC-SEC02` and UI recovery `TC-EXP-18`. |
+| **`FAM14`** | Family Settings Update API | `TC-EXP-19` | Step 1: Call `updateSettings()`; Step 2: Query DB JSONB column | `families.settings` JSONB updates with new timezone / prefs | `REQUIRES_ISOLATED_BACKEND` | **VERIFIED SPECIFICATION COVERAGE** | Backend-only API integration test; closed by `TC-EXP-19`. |
+| **`MON01`** | Parent Dashboard Summary Cards | `TC-MON01` | Step 2: Inspect 4 summary cards on dashboard | Active Devices, Screen Time, Active Alerts, Quick Actions render non-null | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Visual UI inspection test. |
+| **`MON02`** | Connected Devices List & Cards | `TC-EXP-20` | Step 2: Open Devices tab and inspect multiple device cards | Distinct cards render per child showing model, battery, and last seen | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-20`. |
+| **`MON03`** | Device Detail Technical Telemetry | `TC-MON03` | Step 2: Inspect telemetry cards on device detail page | Battery %, relative last seen timestamp, and sync badge render | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Detailed telemetry presentation test. |
+| **`MON04`** | Background Heartbeat Transmission | `TC-MON04` | Step 2: Verify periodic 5m heartbeat dispatched to backend | Supabase `devices.last_seen` timestamp updates within 5m interval | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Background presence verified via DB/ADB logcat. |
+| **`MON05`** | Child Permissions Diagnostics Remote | `TC-EXP-21` | Step 2: Inspect Permission Diagnostics tab in Device Detail | Renders individual status badges for Device Admin, Usage, Location | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-21`. |
+| **`MON06`** | Command Delivery History Inspector | `TC-EXP-22` | Step 2: Inspect chronological command log | Lists commands with Dispatch Time, ACK Time, and Status Badge | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-22`. |
+| **`MON07`** | Installed Apps Snapshot Upload | `TC-EXP-23` | Step 3: Compare parent app list with child installed apps | All third-party apps on child phone appear in parent restrictions list | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-23`. |
+| **`MON08`** | Dashboard Pull-to-Refresh | `TC-EXP-24` | Step 1: Swipe down on dashboard; Step 2: Observe spinner | Pull spinner appears, refreshes metrics, and smoothly dismisses | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-24`. |
+| **`MON09`** | Unified Policy Status & Sync Badge | `TC-EXP-25` | Step 3: Check badge immediately; Step 5: Check after 10s | Transitions from Amber "Sync Pending" to Green "In Sync" on ACK | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-25`. |
+| **`MON10`** | Active vs Revoked Device Filter Toggle| `TC-EXP-26` | Step 2: Tap "Revoked" chip; Step 4: Tap "Active" chip | "Revoked" filter shows only retired devices; "Active" shows active | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-26`. |
+| **`USE01`** | Daily Screen Time 7-Day Chart | `TC-USE01` | Step 2: Inspect 7-day bar chart; Step 3: Tap individual bars | 7 bars render with weekday labels; tapping bar updates daily breakdown | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Chart interactivity verified. |
+| **`USE02`** | Per-Application Usage Breakdown | `TC-USE02` | Step 2: Inspect app usage list below chart | Renders app names, icons, duration in hours/mins, and % of total | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | App list sorting and duration display verified. |
+| **`USE03`** | Usage Access Guidance Banner | `TC-EXP-27` | Step 3: Tap "Enable Usage Access" button on warning banner | Directly opens Android OS Usage Access settings screen | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-27`. |
+| **`USE04`** | Child Usage Collection & Upload | `TC-EXP-28` | Step 2: Use app for 5m; Step 3: Query `app_usage_events` | Record inserted for package with `duration_seconds >= 300` | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-28`. |
+| **`USE05`** | Daily Screen Time Quota Limit | `TC-USE05` | Step 2: Set daily quota to 2 hours and tap Save | Snackbar confirms save; child receives policy and updates limit | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Round-trip limit update verified. |
+| **`USE06`** | Bedtime Schedule Configuration | `TC-EXP-29` | Step 2: Set bedtime window; Step 5: Use device at bedtime | Full-screen Bedtime lock overlay appears; only emergency call open | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-29`. |
+| **`USE07`** | Remaining Screen Time Display | `TC-EXP-30` | Step 2: Inspect Screen Time card on Child Home | Displays "1h 15m remaining today" with circular progress bar | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-30`. |
+| **`USE08`** | Daily Screen Time Quota Lock Screen | `TC-EXP-31` | Step 3: Observe lock on quota exhaustion; Step 4: Press Home | Full-screen lock overlay intercepts Home and Back buttons | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-31`. |
+| **`APP01`** | Blocking Individual Target App | `TC-APP01` | Step 2: Toggle target app to Blocked and save | Policy saved; opening app on child triggers Haven block overlay | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Individual app blocking verified. |
+| **`APP02`** | Whitelist Mode | `TC-APP02`, `TC-EXP-06` | `TC-EXP-06` Step 4: Open native phone dialer in whitelist mode | Blocked apps show overlay; native Phone dialer opens without block | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Emergency bypass checked by `TC-EXP-06`. |
+| **`APP03`** | Allowed-App Whitelist Management | `TC-EXP-32` | Step 2: Filter by category; Step 3: Select Duolingo & save | Selected apps save to policy; whitelist counter updates | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-32`. |
+| **`APP04`** | Per-App Allowed Schedule Windows | `TC-APP04` | Step 3: Test launch inside window; Step 4: Test launch outside | App blocked outside scheduled hours; opens during allowed hours | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Time-window enforcement verified. |
+| **`APP05`** | Policy Delivery & ACK Loop | `TC-APP05` | Step 2: Issue policy change; Step 3: Check ACK timing | Parent updates status badge from "Pending" to "Applied" < 10s | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Realtime WebSocket sync verified. |
+| **`APP06`** | Manual Policy Force-Sync Command | `TC-EXP-33` | Step 2: Tap "Sync Policies Now" on parent app | Child immediately fetches latest policy JSON and dispatches ACK | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-33`. |
+| **`APP07`** | Native OS App Suspension Under DO | `TC-APP07` | Step 2: Block app via parent; Step 3: Inspect child launcher | Target app icon grayed out with suspension badge at OS level | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Device Owner MDM ceiling verified. |
+| **`APP08`** | App Restrictions Search & Filter | `TC-EXP-34` | Step 2: Type "You" in search bar; Step 4: Clear search | List filters dynamically to YouTube; clearing restores full list | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-34`. |
+| **`LOC01`** | Child Real-Time Map Location Display | `TC-LOC01` | Step 2: Inspect map marker and address bottom card | Pin renders at GPS coordinates; reverse-geocoded address shown | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Geospatial map presentation verified. |
+| **`LOC02`** | 24-Hour Location History Route | `TC-EXP-35` | Step 3: Select "Past 24 Hours"; Step 4: Tap route pin | Renders polyline; tapping pin opens card with Time, Speed, Address | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-35`. |
+| **`LOC03`** | Child Location Sharing Master Toggle | `TC-EXP-36` | Step 3: Attempt to disable location sharing toggle on child | Toggle locked with padlock ("Required by Parent") | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-36`. |
+| **`LOC04`** | Continuous Background GPS Tracking | `TC-EXP-37` | Step 1: Lock phone for 10m; Step 2: Query `location_events` | New location rows inserted with timestamps while device was locked | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-37`. |
+| **`LOC05`** | Safe Zone Geofence Creation | `TC-LOC05` | Step 3: Drag radius slider to 200m and tap Save | Safe zone saved in DB; circular boundary rendered on map | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Geofence creation verified. |
+| **`LOC06`** | Geofence Exit Alerts Dispatch | `TC-EXP-38` | Step 1: Inject GPS outside safe zone; Step 3: Check Parent | Parent receives push & alert: "Child has left safe zone Home" | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-38`. |
+| **`LOC07`** | Low-Battery Alert Dispatch | `TC-EXP-39` | Step 1: Transmit telemetry with battery <= 15% | Parent Alerts inbox logs: "Child Device Low Battery: 12%" | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-39`. |
+| **`LOC08`** | Offline Device Detection Alert | `TC-EXP-40` | Step 1: Disconnect child network 20m; Step 2: Check Parent | Parent Alerts logs: "Child device has been offline > 15m" | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-40`. |
+| **`LOC09`** | Permission Degradation Alert | `TC-EXP-41` | Step 1: Revoke Usage Access on child; Step 3: Check Parent | Critical red alert: "Tamper Warning: Usage Access disabled" | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-41`. |
+| **`LOC10`** | Safety Alerts Inbox & Acknowledgment | `TC-LOC10` | Step 2: Tap "Mark as Read" on alert card | Unread badge decrements; card updates to read status | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Inbox interaction verified. |
+| **`LOC11`** | Safe Zone Radius Live Preview Slider | `TC-EXP-42` | Step 2: Drag slider from 100m to 500m on map | Circular shaded map overlay smoothly resizes in sync with slider | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-42`. |
+| **`REM01`** | Initiate Remote Assistance Call | `TC-REM01` | Step 1: Tap "Start Remote Session" on child card | Parent enters calling state; Edge Function creates session row | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Initiation verified. |
+| **`REM02`** | Child Accepts/Declines Remote Call | `TC-EXP-07` | Step 3: Inspect incoming dialog; Step 4: Tap "Decline" | Dialog renders with Accept/Decline; Decline notifies parent | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-07`. |
+| **`REM03`** | WebRTC Live Audio/Video Streaming | `TC-EXP-08` | Step 3: Handshake; Step 4: Inspect video; Step 6: Test audio | Live two-way video streams render smoothly; audio audible both ways | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-08`. |
+| **`REM04`** | Remote Assistance Session History | `TC-EXP-43` | Step 2: Inspect remote assistance session list | Displays call date, time, duration (e.g. "3m 42s"), and outcome badge | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-43`. |
+| **`REM05`** | End Session & Media Cleanup | `TC-EXP-44` | Step 1: Tap "End Call"; Step 4: Open native Camera app | WebRTC closes; native Camera opens without "Camera in use" error | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Hardware release verified; closed by `TC-EXP-44`. |
+| **`REM06`** | In-Call Media Controls | `TC-EXP-45` | Step 1: Tap Mute; Step 3: Tap Flip Camera | Audio mutes; video switches from front to rear camera | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-45`. |
+| **`AUD01`** | Administrative Audit Log Viewer | `TC-AUD01` | Step 2: Filter audit log by category | Renders chronological event log with timestamp, actor, action | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Audit log viewer verified. |
+| **`AUD02`** | Audit Retention Policy Configuration | `TC-EXP-46` | Step 2: Select "60 Days" radio option and save | Policy persists; confirmation dialog confirms updated retention | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-46`. |
+| **`AUD03`** | On-Demand Historical Audit Log Purge | `TC-EXP-47` | Step 2: Enter "PURGE" keyword and confirm | Backend purges logs older than threshold; recent logs preserved | `REQUIRES_ISOLATED_BACKEND` | **VERIFIED SPECIFICATION COVERAGE** | Quarantined destructive test; closed by `TC-EXP-47`. |
+| **`AUD04`** | Scheduled Retention Sweep Function | `TC-EXP-48` | Step 1: Run `SELECT execute_retention_sweep();` | Expired records deleted; active records preserved; returns JSON | `REQUIRES_ISOLATED_BACKEND` | **VERIFIED SPECIFICATION COVERAGE** | Backend SQL RPC verification; closed by `TC-EXP-48`. |
+| **`SET01`** | Local Notification Preferences Toggle| `TC-EXP-49` | Step 1: Toggle switches; Step 3: Relaunch app | Toggle states persist across app restarts | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-49`. |
+| **`SET02`** | Location Reminder Frequency | `TC-EXP-50` | Step 2: Select "15 Minutes" from dropdown and relaunch | Dropdown selection persists as "15 Minutes" | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-50`. |
+| **`SET03`** | App Version & Build Information | `TC-EXP-51` | Step 2: Inspect version footer in Settings | Displays semantic version and build number matching manifest | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-51`. |
+| **`SET04`** | Runtime Permission Launcher Bridge | `TC-EXP-52` | Step 2: Trigger diagnostic; Step 3: Grant system prompt | System dialog prompts; granting fulfills MethodChannel callback | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Native MethodChannel bridge test; closed by `TC-EXP-52`. |
+| **`SET05`** | Android Device Admin Activation | `TC-SET05` | Step 2: Confirm Android Device Admin activation prompt | Launches system Device Admin screen; activation turns tile green | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | System prompt and admin binding verified. |
+| **`SET06`** | Background Location Launcher Bridge | `TC-EXP-53` | Step 2: Tap "Grant Background Location" in app | Launches Android "Allow all the time" location settings screen | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Native bridge test; closed by `TC-EXP-53`. |
+| **`SET07`** | Native Permission Diagnostic Status Tile| `TC-EXP-54` | Step 1: Check granted tile; Step 2: Check missing tile | Granted tile shows green check; missing tile shows red alert & button | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-54`. |
+| **`SET08`** | Device Admin Revocation Warning UI | `TC-EXP-55` | Step 2: Tap "Deactivate admin" in Android Settings | Warning dialog prompts informing user of tamper alert | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-55`. |
+| **`CHD01`** | Child Home Protection Status Shield | `TC-CHD01` | Step 2: Inspect Child Home shield icon and text | Green shield renders: "Protected by Haven"; remaining time shown | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Visual UI protection status verified. |
+| **`CHD02`** | Child Rules & Policy Oversight View | `TC-CHD02` | Step 2: Inspect active restrictions on Child Rules tab | Transparently displays rules, allowed schedules, and bedtime | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Transparent rule visibility verified. |
+| **`CHD03`** | Child Requests Inbox & Modal | `TC-CHD03` | Step 2: Inspect request history; Step 3: Tap "+" | Request history displayed with status badges; new modal opens | `SAFE_REVERSIBLE` | **VERIFIED SPECIFICATION COVERAGE** | Two-way request flow verified. |
+| **`CHD04`** | Guardian Foreground Persistent Notif | `TC-CHD04` | Step 1: Pull notification shade; Step 2: Swipe notif | Ongoing notification displayed; cannot be dismissed by swiping | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Android daemon persistence verified. |
+| **`CHD05`** | Camera & Microphone Hardware Self-Test| `TC-CHD05` | Step 2: Tap "Run Self-Test"; Step 3: Speak into mic | Camera shows live preview; mic VU meter reacts to voice | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Hardware prerequisite self-test verified. |
+| **`CHD06`** | Native App Suspension Verification | `TC-APP07` | Step 3: Inspect app icon on child launcher | Suspended package cannot be launched from Android launcher | `SPECIALIST_TEST` | **VERIFIED SPECIFICATION COVERAGE** | Verified via `TC-APP07`. |
+| **`CHD07`** | Background Sync Retry & Reconnect | `TC-EXP-56` | Step 1: Disconnect Wi-Fi 3m; Step 4: Reconnect Wi-Fi | Daemon backs off gracefully; immediately flushes queued events | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-56`. |
+| **`CHD08`** | Child Rules Real-Time Manual Refresh | `TC-EXP-57` | Step 1: Swipe down on Child Rules tab | Rules tab refreshes immediately with latest parental allowances | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-57`. |
+| **`CHD09`** | Emergency Parent Quick-Call Action | `TC-CHD09` | Step 1: Tap red "Call Parent" button on Child Home | Launches native Android phone dialer with parent number pre-filled | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Safety critical bypass verified. |
+| **`SYS01`** | Offline Mode Warning Banner | `TC-SYS01` | Step 2: Enable Airplane mode; Step 4: Disable Airplane | Red offline banner slides in; auto-dismisses upon reconnect | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | State-driven banner verified. |
+| **`SYS02`** | Periodic Background Polling Check-In | `TC-EXP-58` | Step 1: Disconnect WebSocket; Step 3: Observe 65s later | Dashboard updates via REST polling timer despite dropped socket | `SAFE` | **VERIFIED SPECIFICATION COVERAGE** | Completely uncovered in baseline; closed by `TC-EXP-58`. |
+
+---
+
+## 3. Absent Capabilities Verification (`M01`–`M10`)
+
+All 10 absent capabilities from `docs/testing/pre_manual_testing_audit/01_complete_functionality_inventory.md` are verified to be completely absent from the codebase and are therefore appropriately classified as **NOT APPLICABLE** (or **BLOCKED**):
+
+| ID | Absent Capability Name | Physical Implementation Status | Classification | Audit Verification |
+|:---|:---|:---|:---:|:---|
+| **`M01`** | Real-Time Screen Mirroring | No screen capture WebRTC API in codebase | **NOT APPLICABLE** | Verified: Only two-way camera streaming (`REM03`) exists. |
+| **`M02`** | Remote Keylogger / Keystrokes | No AccessibilityService key listener | **NOT APPLICABLE** | Verified: Prohibited by Google Play policies. |
+| **`M03`** | SMS & Call Log Snooping | No Telephony content provider queries | **NOT APPLICABLE** | Verified: No SMS/call snooping permissions or code. |
+| **`M04`** | Ambient Audio Eavesdropping | No headless background mic recording service | **NOT APPLICABLE** | Verified: Microphone only active during interactive call (`REM03`). |
+| **`M05`** | Remote Camera Snapshots (Silent)| No headless Camera2 capture service | **NOT APPLICABLE** | Verified: Camera requires visible interactive preview. |
+| **`M06`** | Remote Device Factory Reset Wipe| `wipeData()` not bound in JNI | **NOT APPLICABLE** | Verified: High-liability wipe intentionally omitted. |
+| **`M07`** | In-App Purchase Billing Client | No `in_app_purchase` or StoreKit plugin | **NOT APPLICABLE** | Verified: All features unlocked; no subscription paywall. |
+| **`M08`** | Multi-Language Localization (i18n)| Hardcoded English strings in Flutter widgets | **NOT APPLICABLE** | Verified: No `.arb` localization bundles. |
+| **`M09`** | Biometric App Lock | No `local_auth` dependency in `pubspec.yaml`| **NOT APPLICABLE** | Verified: App unlocks via token persistence. |
+| **`M10`** | Scheduled Bedtime Auto Lockdown | Native AlarmManager scheduler hook incomplete | **BLOCKED** | Verified: Tracked in `USE06`; requires native alarm hook. |
+
+---
+
+## 4. Bidirectional Traceability Verification
+
+1. **Forward Direction (Functionality -> Test Cases)**:
+   - All 92 functionalities map to at least one valid test case.
+   - 0 functionalities have NO SPECIFICATION COVERAGE.
+   - 0 functionalities have PARTIAL SPECIFICATION COVERAGE in the consolidated suite.
+2. **Reverse Direction (Test Cases -> Functionalities)**:
+   - All 99 unique test cases map to valid functionality IDs or core system functions.
+   - Zero test cases reference stale, deleted, or fabricated functionality IDs.
+   - Note: In Phase 2's matrix table, `TC-SEC01` was omitted from row `A01`'s text cell; this independent matrix restores the explicit mapping for `TC-SEC01`.
+
+---
+
+## 5. Coverage Verdict
+
+**Every single one of the 92 inventoried functionalities has VERIFIED SPECIFICATION COVERAGE in the consolidated manual test suite.**
