@@ -5,7 +5,7 @@
 **Target Application:** `com.parentcontrol.parent_control`  
 **Physical Target Device:** Realme 7 / Narzo 20 Pro (RMX2161) — Serial: `5HXWRGQ4IFU8WS4T` (Android 12 / API 31 / ColorOS / Realme UI)  
 **Parent Reference Device:** Android Emulator (`emulator-5554`, Android 14 / API 34)  
-**Child QA Account:** `ankit1@gmail.com` / `Ankit_321` (Role: Child)  
+**Child QA Account:** `[REDACTED]` / `Ankit_321` (Role: Child)  
 **Scope:** Exhaustive audit of the Child device runtime, native Android Kotlin services, device registration & recovery mechanics (Defect E-1), background telemetry, permission architectures (Defects E-7, E-8, E-9), Edge Functions, PostgREST RLS, and live UI dump evidence.
 
 ---

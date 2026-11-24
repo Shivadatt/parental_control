@@ -1,0 +1,28 @@
+{
+  "timestamp_utc": "2026-11-24T11:44:49.907876+00:00",
+  "working_directory": "D:\\parentcontrol_app",
+  "exit_code": 0,
+  "counts": {
+    "markdown_credential_rows": 37,
+    "xml_decimal_values": 5,
+    "map_images_redacted": 6
+  },
+  "files_changed_count": 9,
+  "files_changed": [
+    "AGENT1_RECOVERY_FLOW_SPEC.md",
+    "AGENT2_WEBRTC_MEDIA_DIAGNOSIS.md",
+    "AGENT3_AUTOMATED_VERIFICATION.md",
+    "SUBAGENT1_PARENT_RESULTS.md",
+    "SUBAGENT3_WEBRTC_MEDIA_REPORT.md",
+    "SUBAGENT4_AUTOMATED_AND_MATRIX.md",
+    "parent\\p52_radius_invalid.xml",
+    "parent\\tmp_f2.xml",
+    "parent\\tmp_f3.xml"
+  ],
+  "residual_pattern_counts": {
+    "emails": 0,
+    "jwt_like": 0,
+    "password_code_spans": 0,
+    "decimal_coordinate_like": 0
+  }
+}

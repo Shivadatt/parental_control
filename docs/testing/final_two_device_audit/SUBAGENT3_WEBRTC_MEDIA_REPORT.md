@@ -2,7 +2,7 @@
 
 **Author:** Subagent 3 — WebRTC Media Diagnostics Expert  
 **Target Application:** `com.parentcontrol.parent_control`  
-**Test Accounts:** Parent `ankit@gmail.com`, Child `ankit1@gmail.com`  
+**Test Accounts:** Parent `[REDACTED]`, Child `[REDACTED]`  
 **Target Devices:** Parent on Android Emulator (`emulator-5554`), Child on physical device (`realme RMX2161`, serial `5HXWRGQ4IFU8WS4T`)  
 **Date:** November 13, 2026  
 **Status:** Complete Forensic Investigation & Runtime Verification
@@ -96,10 +96,7 @@ This investigation provides a comprehensive forensic analysis of **Section J (Re
   7. **Heartbeat Watchdog (`CAPTURE_HEARTBEAT_TIMEOUT_MS = 45000L`):**
      Dart sends a capture confirmation every 10 seconds via `NativeBridge.noteCaptureHeartbeat()`. If confirmations lapse for 45 seconds, the service terminates automatically with reason `capture_lost` to guarantee the microphone notification never outlives actual capture.
   8. **Session Status Watchdog (`SESSION_WATCHDOG_INTERVAL_MS = 15000L`):**
-     The native service independently polls `remote-session` action `session_state` every 15 seconds using device HTTP credentials (`x-device-id`, `x-device-secret`). When the parent ends the session, the watchdog stops the service immediately (`session_ended_by_parent`).
-
-### 2.4 Server Audit Log Entries
-The audit logging is strictly verified from `supabase/functions/remote-session/index.ts` and `lib/data/models/audit.dart`:
+[REDACTED CREDENTIAL ROW]
 
 | Database `event_type` | UI Display Label (`AuditLogEntry.actionLabel`) | Triggering Actor & Action |
 |---|---|---|
@@ -396,17 +393,13 @@ To resolve Defect E-2 (media connectivity) and Defect E-12 (stranded sessions) i
 
 ### Track 1: Provision Coturn Relay & Configure Supabase Secrets (Fixes E-2)
 1. Deploy a standard `coturn` server on a public cloud VM (e.g. Ubuntu LTS on AWS/GCP/DigitalOcean) with public static IP.
-2. Configure coturn with long-term credential mechanism (`use-auth-secret`) and static HMAC secret (`static-auth-secret`).
-3. Set the required Edge Function secrets in the Supabase Dashboard (`Project Settings -> Edge Functions -> Secrets`):
+[REDACTED CREDENTIAL ROW]
    ```bash
    TURN_URL="turn:turn.yourdomain.com:3478?transport=udp,turn:turn.yourdomain.com:3478?transport=tcp"
    TURN_SECRET="<your-generated-32-byte-hex-secret>"
    TURN_TTL_SECONDS="3600"
    ```
-4. Verify via `remote-session` action `ice` that response includes `turn_configured: true` with ephemeral credentials. Both peers will then gather `typ relay` candidates, allowing ICE to connect through carrier CGNAT and emulator NAT.
-
-### Track 2: Apply Database Sweep Migration & Deploy Edge Functions (Fixes E-12)
-1. Apply unapplied migration `supabase/migrations/20261030000100_abandoned_session_sweep.sql` to create `public.expire_abandoned_sessions()` and the `remote_sessions_abandoned_idx` index.
+[REDACTED CREDENTIAL ROW]
 2. Deploy the latest version of Edge Function `remote-session`:
    ```bash
    supabase functions deploy remote-session

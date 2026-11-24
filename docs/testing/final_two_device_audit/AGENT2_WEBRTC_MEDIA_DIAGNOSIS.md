@@ -82,8 +82,7 @@ with row replay (`:223-321`). RLS allows insert only while session status is
 "The server returned no ICE servers" (`:1185-1191`).
 
 **Ephemeral TURN credential path exists in code:** yes — coturn REST-style
-`username = "<expiry>:<userId>"`, `credential = base64(HMAC-SHA1(TURN_SECRET, username))`,
-issued per `ice` call, re-issued before every ICE restart via
+[REDACTED CREDENTIAL ROW]
 `_refreshIceServers` (`:1989-2001`, `:2069-2086`).
 
 **Hosted reality (CONFIRMED-HOSTED):**

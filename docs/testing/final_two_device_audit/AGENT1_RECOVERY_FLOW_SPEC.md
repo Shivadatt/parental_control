@@ -5,15 +5,7 @@ was modified except this report. Targets: Parent `emulator-5554`, Child (RMX2161
 Bundle: `com.parentcontrol.parent_control`.
 
 Question under test: the child app was reinstalled; `GuardianService` runs but every upload is
-rejected with `Last error | Location upload failed: Device credentials are not valid.` (E-1 / C-08).
-Does the documented "Start device recovery" flow fix it, and is recovery even required?
-
----
-
-## 0. Answer to the decisive question (Q3) first
-
-**No. The child re-registering its phone cannot restore the credential while the family link and
-the old `active` device row still exist. `device-register` heals a credential only when the
+[REDACTED CREDENTIAL ROW]
 installation identity is UNCHANGED — and a reinstall changes it by construction. Recovery (or any
 unlink) plus a fresh child-approved pairing is the only path that works, and it is the only path
 the child UI actually exposes.**
@@ -48,8 +40,7 @@ Three independent blockers, all in source:
    `supabase/functions/device-register/index.ts:143-152` looks up an existing row by
    `(family_id, installation_id)`. The new installation id matches nothing, so the **only**
    self-healing branch — the update at `index.ts:166-195`, which writes a new `secret_hash`,
-   `credential_issued_at = now`, `credential_revoked_at = null`, `status = 'active'` and audits
-   `device_recredentialed` — is unreachable. Execution falls to `index.ts:197-210`:
+[REDACTED CREDENTIAL ROW]
    ```ts
    const activeDevice = await db.from("devices").select("id")
      .eq("child_user_id", auth.user.id).eq("status", "active").maybeSingle();
@@ -76,9 +67,7 @@ and hands it to `configureBackgroundSync` (`:599-605` →
 The native uploader then authenticates with `x-device-id` + `x-device-secret`, and
 `requireDevice` (`supabase/functions/_shared/auth.ts:281-337`) resolves the row **by device id**
 (`:302-308`) and compares `sha256(secret)` against `secret_hash` (`:312, 322-328`). Mismatch →
-`401 invalid_device_credentials / "Device credentials are not valid."` (`auth.ts:323-327`).
-GuardianService prefixes it verbatim into the stored last error:
-`GuardianService.kt:622` (`Location upload failed:`), `:553` (`App list upload failed:`),
+[REDACTED CREDENTIAL ROW]
 `:525` (`Heartbeat failed:`), written by `SecureStore.setLastError` (`SecureStore.kt:149-156`) and
 rendered at `lib/features/child/tabs/child_settings_tab.dart:287-294`.
 
@@ -89,8 +78,7 @@ re-armed continuously — the failure is self-perpetuating, not transient.
 
 `assertReenrollmentAllowed` (`device-register/index.ts:53-102`) fires on the insert path (`:212`)
 and demands a `pairing_requests` row with `status = 'approved'` and `responded_at >` the old
-`credential_revoked_at`, via `requiresRelink`
-(`supabase/functions/_shared/enrollment.ts:3-13`). Otherwise 403
+[REDACTED CREDENTIAL ROW]
 `device_revoked` / "This child's device was revoked. A parent must remove and re-link this child
 before another device can be enrolled." A plain revoke therefore still requires a fresh approved
 pairing — and `private.revoke_device` cancels any `pending_child` request for that child anyway
@@ -119,8 +107,7 @@ pairing — and `private.revoke_device` cancels any `pending_child` request for 
 | Object | Statement | Effect |
 |---|---|---|
 | `family_members` | `:375-377` | `status='removed', removed_at=now()` — **UPDATE, not DELETE**; the row id survives |
-| `devices` | `:379-385` | every row with `family_id = p_family_id and child_user_id = p_child_user_id and status <> 'revoked'` → `status='revoked', secret_hash=null, credential_revoked_at=now()`. **Rows are never deleted** |
-| `remote_sessions` | `:388-396` | open sessions (`requested`/`accepted`/`active`) → `ended`, `ended_reason='member_unlinked'` |
+[REDACTED CREDENTIAL ROW]
 | `device_pairing_tokens` | `:398-401` | every `active` token for that child → `revoked` |
 | `pairing_requests` | `:403-406` | every `pending_child` request for that child → `cancelled, responded_at=now()` |
 | `audit_logs` | `:408-416` | `member_removed` |
@@ -134,8 +121,7 @@ Note the `devices_revoked_consistency` check `status <> 'revoked' or secret_hash
 
 ### 1.3 Answering the question literally
 
-* **Revoke the device credential?** Yes — `secret_hash` set to NULL, `status='revoked'`,
-  `credential_revoked_at=now()`. Unrecoverable for that credential: nothing stores the old hash.
+[REDACTED CREDENTIAL ROW]
 * **Delete the `devices` row?** **No.** The row survives with its `id` and `installation_id`
   (`devices_family_installation_key`, `core.sql:111`), keeping the old device permanently listed on
   the parent Devices tab and keeping its history joins intact.
@@ -290,8 +276,7 @@ label, not the route.
 | V1 | Home card `Family linked — finish this phone` + `Finish phone setup` (not `Link this phone`) | `child_home_tab.dart:212, 228` | pairing approved, device row not yet created |
 | V2 | Done banner `Family linked. Finish registering this phone below.` | `child_enrollment_controller.dart:252` | `respond_pairing_request` returned `approved` |
 | V3 | Done banner `This phone is registered. Open My phone…` + card `This phone is set up` + chip `Registered` | `child_enrollment_controller.dart:315-317`; `child_enrollment_page.dart:141-146` | EF returned the new device row; `_session.setActiveDevice`/`setDeviceIdentity` applied (`:310-314`) |
-| V4 | In `Background protection`, the banner containing `Location upload failed: Device credentials are not valid.` is **gone**, and `Last command check` stops reading `No check yet` | `child_settings_tab.dart:281-294`; `SecureStore.setLastError` clears on blank (`SecureStore.kt:149-156`) | the last error is **cleared on success**, not merely overwritten — its absence is positive proof of an accepted device-authenticated call |
-| V5 | `This phone` card on Home → `Last seen` row reads `synced just now` / `synced N min ago` | `child_home_tab.dart:303-309`; `device.dart:418-426` | heartbeat accepted and `last_seen_at` written |
+[REDACTED CREDENTIAL ROW]
 
 ### 3.2 Parent-side, in order
 
@@ -332,10 +317,8 @@ label, not the route.
 
 * **Server rule:** after `unlink_child`, the old row has `status='revoked'` **and**
   `secret_hash IS NULL` (`20260101000100_functions.sql:379-385`). `requireDevice` therefore fails at
-  `auth.ts:313-321` with `401 invalid_device_credentials` ("still run a comparison so unknown ids
-  and wrong secrets are similar", `:314`), and any row with `status <> 'active'` or a non-null
-  `credential_revoked_at` fails at `auth.ts:329-335` with
-  `403 device_revoked / "This device credential was revoked. Link the device again."`
+[REDACTED CREDENTIAL ROW]
+[REDACTED CREDENTIAL ROW]
 * **Observable without touching either device:** the parent's old device detail page shows banner
   `Device revoked` with message "This device credential is revoked and it can no longer report or
   receive policies. The child must link the device again." (`device_detail_page.dart:83-90`) and the
@@ -462,8 +445,7 @@ UNCHANGED                          families, profiles, auth.users, child_contact
 ```
 
 Ordering matters: `pairing_requests.responded_at` must be **later** than the old
-`devices.credential_revoked_at`, because `requiresRelink` compares exactly those two timestamps
-(`_shared/enrollment.ts:3-13`) and `assertReenrollmentAllowed` runs on the insert path
+[REDACTED CREDENTIAL ROW]
 (`device-register/index.ts:212`). Approval-before-registration is therefore mandatory, not advisory.
 
 ---
@@ -480,10 +462,8 @@ approved**, since `unlink_child` removed the active membership. Payload rules: `
 
 Two outcomes, decided by whether `(family_id, installation_id)` already exists (`:143-152`):
 
-* **Update / re-credential** (`:166-195`) — same child owns the row, and if `status==='revoked'`
-  it must clear `assertReenrollmentAllowed`. Writes `secret_hash`, `credential_issued_at = now`,
-  `credential_revoked_at = null`, `status = 'active'`, display name, platform, versions; audits
-  `device_recredentialed`; returns the row with `secret_hash` and `installation_id` stripped
+[REDACTED CREDENTIAL ROW]
+[REDACTED CREDENTIAL ROW]
   (`publicDevice`, `:44-49`). *This is the self-healing branch — unreachable after a reinstall,
   because the installation id is new.*
 * **Insert** (`:197-245`) — refuses a second active device (`device_already_registered`, 409),
@@ -493,11 +473,9 @@ Two outcomes, decided by whether `(family_id, installation_id)` already exists (
 
 Uniqueness surfaces, all live in `core.sql`: `devices_family_installation_key`
 `(family_id, installation_id)` unique `:111`; `devices_one_active_per_child` partial unique
-`:117-119`; `devices_revoked_credential_consistency` check `:112-113`;
-`family_members_one_active_child_family` `:69-71`; `pairing_requests.token_id` unique `:154`.
+[REDACTED CREDENTIAL ROW]
 
-`device_recredentialed` has no entry in `AuditLogEntry.readableEvent`
-(`lib/data/models/audit.dart:28-75`), so if you ever do land on that branch the audit list shows the
+[REDACTED CREDENTIAL ROW]
 raw fallback "device credentialed" — a cheap way to tell the two registration outcomes apart from
 the parent UI alone.
 
@@ -559,8 +537,7 @@ pairing exists, and you cannot create one because the child is still `active` in
 (`child_shell_controller.dart:1012-1069`) → `pairing` action `unlink` (`index.ts:945-984`), which
 permits the child as actor (`:950-952`) → **the same `private.unlink_child` RPC**, so identical
 server-side destruction to Path A. It additionally stops media capture, `_stopNativeServices`,
-`clearBackgroundSync()` (which drops the credential keys, `SecureStore.kt:133-142`) and wipes local
-preferences (`:1034-1052`), destroying on-device state you may still want as E-1 evidence, and it
+[REDACTED CREDENTIAL ROW]
 puts recovery authority on the controlled handset — the opposite of the threat model
 (`device-register/index.ts:51-52`: "the child cannot self-clear it"). **No advantage; avoid.** If
 you want the child-initiated unlink as a *separate test case*, run it after Path A is proven.
@@ -604,8 +581,7 @@ defect you introduced.
 Tap **Start device recovery** on the parent (Devices tab → `Open device` → card *Lost or reinstalled
 phone*), confirm with **Start recovery**, and expect the banner **Recovery started on the server**.
 That single press runs `family-admin/recover_device` → `request_device_recovery` → `unlink_child`,
-which revokes every credential that child owns (`secret_hash = null`), flips the family link to
-`removed`, ends open sessions and cancels pending pairing — deleting nothing. Ignore the banner's
+[REDACTED CREDENTIAL ROW]
 "create a new linking code" wording; the child app cannot do that. Instead open
 **Set up linking** on the child (**Home** tab) to read the permanent **Your Child ID**
 (`PC-XXXXXXXX`) / **Show QR**, then on the parent use **Settings → Family details → Link a child →

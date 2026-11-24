@@ -5,8 +5,8 @@
 **Target Application:** `com.parentcontrol.parent_control` (Dual-Role APK, Version 1.0.0, Build 1)  
 **Primary Execution Device:** Android Emulator (`emulator-5554`, Google Pixel 9a, Android 17 / API 37 / `sdk_gphone64_x86_64`)  
 **Paired Physical Child Device:** Realme 7 / Narzo 20 Pro (`5HXWRGQ4IFU8WS4T`, Android 12 / API 31 / ColorOS)  
-**Parent QA Account:** `ankit@gmail.com` / `Ankit_321` (Role: Parent / Family Owner)  
-**Target Child Account:** `ankit1@gmail.com` / `Ankit_321` (Role: Child / Family Member)  
+**Parent QA Account:** `[REDACTED]` / `Ankit_321` (Role: Parent / Family Owner)  
+**Target Child Account:** `[REDACTED]` / `Ankit_321` (Role: Child / Family Member)  
 **Output Deliverable:** `docs/testing/final_two_device_audit/SUBAGENT1_PARENT_RESULTS.md`  
 
 ---
@@ -19,8 +19,7 @@ This audit report provides an exhaustive, evidence-backed evaluation of all Pare
 
 | # | Functional Area | Live UI Evidence | Architectural Finding / Verdict | Defect Correlation |
 |---|---|---|---|---|
-| 1 | **Authentication** | `login_page.dart:44-51`, `Validators.email`, `Validators.password` | **PASS / CONFIRMED:** Validates empty/malformed inputs inline; enforces email verification; authenticates via Supabase Auth; maps profile to `parent` and family membership to `owner`. | — |
-| 2 | **Dashboard & Devices** | `p02_dash.xml`, `p04_devices.xml`, `p05_devdetail.xml`, `A04_detail.xml` | **PASS WITH DEFECT E-3:** Displays family `demo`, child `ankit1`, device `realme RMX2161`, battery 100% (charging), last seen, enforcement mode "Device admin only". Permissions snapshot is frozen from historical heartbeats. | **Defect E-3** |
+[REDACTED CREDENTIAL ROW]
 | 2b| **Device Recovery Flow** | `p08_recovery_card.xml`, `p09_recovery_dialog.xml`, `p10_recovery_done.xml` | **CONFIRMED ARCHITECTURAL DESIGN:** Revocation dialog successfully invokes `family-admin` `recover_device` (`request_device_recovery` RPC), revoking credential, unlinking child, and requiring fresh re-pairing. | **Defect E-1** |
 | 3 | **App Restrictions & Policies** | `p26_apprestr.xml`, `p27_applist.xml`, `p30_screentime.xml`, `p37_bedtime_set.xml`, `p39_saved.xml` | **PARTIAL PASS / DEFECTS E-6, E-7, E-11:** App snapshot displays correctly when child uploads; quota policy saves; Bedtime/Curfew is completely ignored by native `PolicyApplier.kt` (E-6); status conflation masks lack of usage access (E-7); policy ack can stall indefinitely (E-11). | **Defect E-6, E-7, E-11** |
 | 4 | **Safe Zones & Geofencing** | `p50_zones.xml`, `p51_zonedlg.xml`, `p52_radius_invalid.xml`, `p53_zone_created.xml`, `p56_updated.xml`, `p58_toggle.xml`, `p60_deleted.xml` | **PASS ON CREATE & VALIDATE; FAIL ON UPDATE & DELETE:** Radius validator correctly blocks <50m (10m rejected); creation succeeds; **Edit & Toggle fail with RLS 42501 (`permission denied for table safe_zones`)**; **Delete fails with HTTP 400 (`Unsupported action`)** because hosted `family-admin` v6 predates `delete_zone`. | **New Hosted Defect** |
@@ -36,18 +35,15 @@ This audit report provides an exhaustive, evidence-backed evaluation of all Pare
 - **Target Page:** `lib/features/auth/login_page.dart`
 - **Controller & Repository:** `LoginController` (`lib/features/auth/controllers/login_controller.dart`), `SupabaseAuthRepository` (`lib/data/repositories/supabase_auth_repository.dart:75-121`).
 - **QA Account Credentials:**
-  - Email: `ankit@gmail.com`
-  - Password: `Ankit_321`
-- **Authentication Lifecycle:**
-  1. `LoginPage` initializes `LoginController.prepare()` with optional route parameters.
+  - Email: `[REDACTED]`
+[REDACTED CREDENTIAL ROW]
   2. Input submission triggers `_submit()` (`login_page.dart:44-51`):
      ```dart
      if (!(_formKey.currentState?.validate() ?? false)) return;
      FocusScope.of(context).unfocus();
-     await _controller.signIn(email: _email.text, password: _password.text);
+     await _controller.signIn(email: _email.text, password: [REDACTED];
      ```
-  3. `SupabaseAuthRepository.signIn()` delegates to Supabase GoTrue `signInWithPassword()`.
-  4. Upon session establishment, `AuthController.handleAuthChange()` reads the authenticated user's row from `public.profiles`:
+[REDACTED CREDENTIAL ROW]
      - Schema reference: `supabase/migrations/20260101000000_core.sql:43-57`
      - Role assertion: `profile.role == 'parent'`
   5. The controller resolves family membership from `public.family_members`:
@@ -57,28 +53,22 @@ This audit report provides an exhaustive, evidence-backed evaluation of all Pare
 ### 2.2 Client-Side Form Validation Verification
 - **Empty Credentials:**
   - Empty Email triggers `Validators.email` (`lib/core/utils/validators.dart:21-28`): returns `'Enter an email address.'`
-  - Empty Password triggers `Validators.password` (`lib/core/utils/validators.dart:30-36`): returns `'Enter a password.'`
-  - Form validation halts execution before any network request or Supabase API call is dispatched.
-- **Malformed Email Formats:**
-  - Inputting strings without `@` or standard top-level domain (e.g. `ankit`, `ankit@`, `ankit@gmail`) immediately surfaces `'Enter a valid email address.'`
+[REDACTED CREDENTIAL ROW]
 - **Password Length Enforcement:**
-  - Passwords shorter than 8 characters return `'Password must be at least 8 characters.'`
-- **Invalid Server Credentials:**
-  - Submitting incorrect passwords (e.g. `ankit@gmail.com` with `WrongPass123!`) triggers a catch block mapping PostgREST / GoTrue `AuthException` (`Invalid login credentials`) to `AppException` with code `invalid_credentials`.
+[REDACTED CREDENTIAL ROW]
   - The UI renders this error in an `InfoBanner` styled with `BannerTone.danger`:
     - Header: `"Could not sign in"`
-    - Message: `"Invalid login credentials"`
-    - Action: Dismiss button clearing `_controller.error`.
+[REDACTED CREDENTIAL ROW]
 
 ### 2.3 Session Persistence & Token Storage
 - **Token Management:**
   - Auth tokens are managed through the Flutter Supabase SDK backed by encrypted key-value storage.
-  - The JWT contains user UUID `339f3ff2-d1e5-4eb5-82a6-8f4ed8028c32` (or current test account), role `authenticated`, and email `ankit@gmail.com`.
+  - The JWT contains user UUID `339f3ff2-d1e5-4eb5-82a6-8f4ed8028c32` (or current test account), role `authenticated`, and email `[REDACTED]`.
   - Edge Function calls pass this JWT as an HTTP `Authorization: Bearer <JWT>` header, validated server-side by `_shared/auth.ts:requireUser()`.
 - **Logout Flow:**
   - Settings -> Account -> Logout executes `AuthController.signOut()`.
   - The Supabase auth session is cleared, local cache dropped, and the navigator redirects to `AppRoutes.login`.
-  - Re-authentication with `ankit@gmail.com` cleanly restores the parent session and fetches fresh active family data.
+  - Re-authentication with `[REDACTED]` cleanly restores the parent session and fetches fresh active family data.
 
 ---
 
@@ -136,12 +126,10 @@ This audit report provides an exhaustive, evidence-backed evaluation of all Pare
 - **Step-by-Step Flow Execution:**
   1. **Entry Point (`p08_recovery_card.xml`):**
      - Card Title: `"Lost or reinstalled phone"`
-     - Card Description: `"Use recovery when the child reinstalled Parent Control or the phone lost its device credential. The server revokes the old credential and removes the family link, so the old phone stops reporting. A new device is only linked after a fresh one-time pairing code and the child approves it."`
-     - Action Button: `"Start device recovery"`
+[REDACTED CREDENTIAL ROW]
   2. **Confirmation Dialog (`p09_recovery_dialog.xml`):**
      - Title: `"Start device recovery?"`
-     - Content: `"This revokes the current credential and removes the child from the family. The child must sign in, create a new linking code and approve the new pairing before this phone can report again. Only start recovery for a phone you still control or that was reinstalled."`
-     - Actions: `"Cancel"`, `"Start recovery"`
+[REDACTED CREDENTIAL ROW]
   3. **Server Execution & RPC Delegation:**
      - Tapping `"Start recovery"` triggers `family-admin` Edge Function action `recover_device` (`supabase/functions/family-admin/index.ts:92-122`).
      - `family-admin` calls PostgreSQL RPC `public.request_device_recovery(p_device_id, p_actor_user_id)` (`supabase/migrations/20260101000400_device_recovery.sql:15-71`).
@@ -151,8 +139,7 @@ This audit report provides an exhaustive, evidence-backed evaluation of all Pare
        - Cancels all pending pairing requests.
        - Records audit log entry: `device_recovery_started` and `member_removed`.
   4. **Post-Recovery Feedback (`p10_recovery_done.xml`):**
-     - Green Confirmation Banner: `"Recovery started on the server | The old credential is revoked and the family link is removed. On the child phone, sign in, create a new linking code, then open Link a child here, redeem the code and have the child approve the request. Recovery is not complete until that approval."`
-     - Command list resets to `"No commands have been sent to this device yet"`.
+[REDACTED CREDENTIAL ROW]
 
 ---
 
@@ -429,7 +416,7 @@ Cross-referencing with `AGENT4_ALERTS_POLICY_ANALYSIS.md` §A:
 - **Account Deletion UI Validation:**
   - Even with the backend endpoint missing, the frontend enforces strict safety guards:
     - Requires two separate confirmation dialogs.
-    - Requires typing `DELETE` and entering the exact account email (`ankit@gmail.com`).
+    - Requires typing `DELETE` and entering the exact account email (`[REDACTED]`).
     - If active family members or linked devices exist, deletion is rejected.
 
 ---

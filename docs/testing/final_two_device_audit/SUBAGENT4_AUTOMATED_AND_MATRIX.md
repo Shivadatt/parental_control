@@ -117,12 +117,9 @@ All automated unit, widget, Kotlin JVM, and Deno Edge Function suites were thoro
 
 ### Defect E-1: Invalid Child Device Credential (Reinstall Breaks Secret Hash)
 - **Classification:** **CONFIRMED DEFECT / ARCHITECTURAL TRAP**
-- **User-Facing Symptom:** After reinstalling the child application on a previously paired device, `GuardianService` runs in the foreground, but every telemetry, location, and heartbeat upload fails. Child Settings displays: `"Last error | Location upload failed: Device credentials are not valid."` The parent UI shows the device permanently "Offline" with frozen timestamps.
-- **Root Cause & Code Citations:**
-  1. *Local State Deletion:* `SecureStore.kt:86-105` stores `installationId` (UUID) and `deviceSecret` (32-byte secure random) in `EncryptedSharedPreferences` (`parent_control_secure`). Reinstalling the app obliterates this storage, generating a fresh `installationId` and `deviceSecret`.
+[REDACTED CREDENTIAL ROW]
   2. *Mismatched Identity Binding:* `ChildShellController._ensureIdentityAndSync()` (`lib/features/child/controllers/child_shell_controller.dart:570-615`) queries `fetchMyDevice()`, finds the pre-reinstall active row, and configures the native service with `deviceId: loadedDevice.id` (old server ID) paired with `deviceSecret: identity.secret` (new local secret).
-  3. *Server Rejection:* `GuardianService.kt:622` sends `x-device-id` and `x-device-secret`. In `supabase/functions/_shared/auth.ts:281-337`, `requireDevice()` looks up the row by ID and compares `sha256(x-device-secret)` against `devices.secret_hash`. Because the hash does not match, it returns HTTP 401 `invalid_device_credentials`.
-  4. *Self-Healing Blocked:* In `device-register/index.ts:143-210`, the re-credentialing branch matches on `(family_id, installation_id)`. Because `installation_id` changed, it falls into the insert branch, which is blocked by `devices_one_active_per_child` unique constraint (HTTP 409 `device_already_registered`).
+[REDACTED CREDENTIAL ROW]
 - **Remediation:** "Start device recovery" on the parent device (`device_detail_page.dart:176-184`), which calls `private.unlink_child()` to revoke the old row, followed by Child ID invite, approval, and fresh registration.
 
 ---
@@ -150,10 +147,8 @@ All automated unit, widget, Kotlin JVM, and Deno Edge Function suites were thoro
 
 ### Defect E-4: Extra QA Accounts Rejected (Non-Existent Hosted Accounts)
 - **Classification:** **CONFIRMED CONFIGURATION / TEST ENVIRONMENT DEFECT**
-- **User-Facing Symptom:** Attempting to log into child test accounts `CHILD_B` (`qa.6child.b.20261@example.com`) or `CHILD_C` from `.tools/qa_accounts.env` fails immediately with `"Could not sign in — The email or password is incorrect."`
-- **Root Cause & Code Citations:**
-  1. `lib/features/auth/controllers/auth_controller.dart` routes authentication through `supabase_auth_repository.dart:75-121`.
-  2. In the hosted Supabase instance (`hhqgreaoqulmfwfwarhc`), only `ankit@gmail.com` (parent) and `ankit1@gmail.com` (child) were seeded. The extra accounts declared in `.tools/qa_accounts.env` were never created in `auth.users`, leaving only one functional child account and preventing parallel multi-device onboarding tests.
+[REDACTED CREDENTIAL ROW]
+  2. In the hosted Supabase instance (`hhqgreaoqulmfwfwarhc`), only `[REDACTED]` (parent) and `[REDACTED]` (child) were seeded. The extra accounts declared in `.tools/qa_accounts.env` were never created in `auth.users`, leaving only one functional child account and preventing parallel multi-device onboarding tests.
 
 ---
 
@@ -288,8 +283,8 @@ Classification taxonomy:
 |---|---|---|---|
 | B-01 | Parent Mode Sign-In (Real Backend) | **PASS** | Authenticates against live Supabase auth; verified email, role `parent`, family `demo`. |
 | B-02 | Token Storage & Session Persistence | **PASS** | Secure storage token backend survives app restarts; PKCE token refresh works. |
-| B-03 | Empty Input Validation on Auth Forms | **PASS** | Verifies "Email is required" and "Password is required" on login/registration forms. |
-| B-04 | Invalid Credential Error Handling | **PASS** | Submitting invalid credentials shows "Could not sign in — The email or password is incorrect." |
+[REDACTED CREDENTIAL ROW]
+[REDACTED CREDENTIAL ROW]
 | B-05 | Parent / Child Role Selection Bootstrap | **PASS** | `/role-selection` branches based on verified server profile (`auth-bootstrap` EF). |
 | B-06 | Child Mode Sign-Out Clean Teardown | **PASS** | Child sign-out dialog stops `GuardianService` (0 active service records confirmed via dumpsys). |
 
