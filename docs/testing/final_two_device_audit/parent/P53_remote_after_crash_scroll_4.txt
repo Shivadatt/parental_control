@@ -1,0 +1,5 @@
+End the session and leave?
+Leaving ends this session for both of you. The child device stops sending audio and camera, and you stop receiving it. Nothing is recorded.
+Stay
+End and leave
+Dismiss

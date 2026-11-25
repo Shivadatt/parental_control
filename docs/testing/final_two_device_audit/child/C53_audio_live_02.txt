@@ -1,0 +1,6 @@
+Back
+Assistance
+Refresh status
+Audio assistance Active From [ACCOUNT] Requested Nov 25, 2026 3:52 PM · 1 min ago Session duration Until your guardian ends the session Elapsed 50s Consent Recorded Accepted Nov 25, 2026 3:53 PM
+Relay not configured No TURN relay is configured. Audio/video may fail to connect on networks with strict firewalls or carrier NAT.
+Microphone is live Media connected Microphone live Stop sharing turns off camera and microphone on this phone.

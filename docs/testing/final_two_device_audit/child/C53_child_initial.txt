@@ -1,0 +1,10 @@
+demo
+Refresh this phone
+demo This account is linked as a child Linked Signed in as [ACCOUNT] Email [REDACTED EMAIL] Device setup Registered
+This phone Online Name realme RMX2161 Last seen synced 1 min ago · Nov 25, 2026 3:51 PM Battery 100% (charging) Android control Device admin only — app blocking is not available Policy version v3
+View rules and permissions
+App blocking is not enforced on this phone This phone is not set up as a managed Device Owner device. A normal app install cannot suspend other apps. A guardian can provision it through Android managed-device or Device Owner setup.
+Home Tab 1 of 4
+Rules Tab 2 of 4
+Requests Tab 3 of 4
+Settings Tab 4 of 4

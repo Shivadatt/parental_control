@@ -1,0 +1,10 @@
+Back
+Assistance session
+Refresh status
+End
+Audio assistance Active Device realme RMX2161 Child [ACCOUNT] Requested Nov 25, 2026 3:52 PM · 1 min ago Session duration Until you end the session Elapsed 1m Child consent Recorded Accepted Nov 25, 2026 3:53 PM
+Relay not configured No TURN relay is configured. Audio/video may fail to connect on networks with strict firewalls or carrier NAT.
+One-way audio live Listening to the child device (loudspeaker enabled).
+Media connected Audio live Ending stops audio listening.
+End session
+This app does not record audio or video, take screenshots, or capture the screen. Ending or leaving stops the media tracks immediately.

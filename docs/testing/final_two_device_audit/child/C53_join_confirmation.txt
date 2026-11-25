@@ -1,0 +1,5 @@
+Start the live session?
+Your microphone will be used until you end the session. The parent requested this session and you already accepted. Nothing is recorded.
+Cancel
+Join now
+Dismiss
