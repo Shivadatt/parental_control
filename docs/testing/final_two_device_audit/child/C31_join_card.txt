@@ -1,0 +1,6 @@
+Back
+Refresh status
+Video assistance Accepted From [ACCOUNT] Requested Nov 25, 2026 11:58 AM · Just now Session duration Until your guardian ends the session Elapsed 6s Consent Recorded Accepted Nov 25, 2026 11:58 AM
+Relay not configured No TURN relay is configured. Audio/video may fail to connect on networks with strict firewalls or carrier NAT.
+Ready when you are You accepted this request. Tapping Join turns on your camera and microphone and starts the live session.
+Join with camera and microphone

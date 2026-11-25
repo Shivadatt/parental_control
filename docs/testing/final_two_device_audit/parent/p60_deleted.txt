@@ -1,0 +1,9 @@
+Back
+Safe zones
+Refresh
+Action failed | Unsupported action.
+QA Test Zone | Active | Centre | [REDACTED COORDINATE] | Radius | 150 m
+Active | Inactive zones stay saved but are not evaluated by the device.
+Edit
+Delete
+Create a safe zone

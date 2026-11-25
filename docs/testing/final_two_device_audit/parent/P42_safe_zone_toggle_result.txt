@@ -1,0 +1,7 @@
+Back
+Safe zones
+Refresh
+Active Inactive zones stay saved but are not evaluated by the device.
+Edit
+Delete
+Create a safe zone

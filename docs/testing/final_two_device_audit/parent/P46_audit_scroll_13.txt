@@ -1,0 +1,8 @@
+Back
+Audit & retention
+Refresh
+Device acknowledged command | Actor: [REDACTED] | Device: [REDACTED] | Target: device_command
+Restriction policy updated | Actor: [REDACTED] | Device: [REDACTED] | Target: [REDACTED TARGET TYPE]
+Device enrolled | Actor: [REDACTED] | Device: [REDACTED] | Target: device
+Pairing approved | Actor: [REDACTED] | Device: [REDACTED] | Target: [REDACTED TARGET TYPE]
+Load more

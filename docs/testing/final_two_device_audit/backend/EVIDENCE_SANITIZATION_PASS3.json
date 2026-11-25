@@ -1,0 +1,20 @@
+{
+  "timestamp_utc": "2026-11-25T04:17:16.118376+00:00",
+  "working_directory": "D:\\parentcontrol_app",
+  "exit_code": 0,
+  "coordinate_tokens_redacted": 1521,
+  "audit_files_changed_count": 10,
+  "audit_files_changed": [
+    "SUBAGENT1_PARENT_RESULTS.md",
+    "backend\\EVIDENCE_SANITIZATION.json",
+    "backend\\EVIDENCE_SANITIZATION_PASS2.json",
+    "integration\\D02_parent_location_current.log",
+    "parent\\P08_location_current_device.xml",
+    "parent\\P34_location_current.xml",
+    "parent\\p53_zone_created.xml",
+    "parent\\p57_zones_back.xml",
+    "parent\\p58_toggle.xml",
+    "parent\\p60_deleted.xml"
+  ],
+  "tool_output_copy_redacted": true
+}

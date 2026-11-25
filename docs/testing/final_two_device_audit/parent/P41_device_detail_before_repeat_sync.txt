@@ -1,0 +1,10 @@
+Back
+realme RMX2161
+Refresh device
+Policy Saved policy version and the device acknowledgement Enforced on device Version 3 Enforcement status Enforced on device Acknowledged Nov 25, 2026 10:23â€¯AM
+Device permissions Reported by the child device. Unknown means it has not reported. Usage access Required for screen-time reports Granted Location Granted Background location Granted Camera Granted Microphone Granted Notifications Granted
+Recent commands Delivery is confirmed by the device, not by this screen.
+Sync policy Succeeded Â· Just now
+Apply policy Succeeded Â· 7 min ago
+Apply policy Succeeded Â· 7 min ago
+Apply policy Succeeded Â· 11 min ago

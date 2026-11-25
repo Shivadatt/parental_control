@@ -1,0 +1,8 @@
+Back
+Audit & retention
+Refresh
+Alert acknowledged | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 3:57 PM | Target: [REDACTED TARGET TYPE]
+Device acknowledged command | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 3:30 PM | Target: device_command
+Restriction policy updated | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 3:30 PM | Target: device_policy
+Assistance session started | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 2:22 PM | Target: remote_session
+Assistance accepted | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 1:59 PM | Target: remote_session

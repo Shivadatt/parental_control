@@ -1,0 +1,4 @@
+End assistance session?
+This stops audio playback and ends the session for both participants.
+Cancel
+End session

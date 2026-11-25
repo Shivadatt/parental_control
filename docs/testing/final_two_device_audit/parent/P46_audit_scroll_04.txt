@@ -1,0 +1,6 @@
+Back
+Audit & retention
+Refresh
+Assistance requested | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
+Device acknowledged command | Actor: [REDACTED] | Device: [REDACTED] | Target: device_command
+Device acknowledged command | Actor: [REDACTED] | Device: [REDACTED] | Target: device_command

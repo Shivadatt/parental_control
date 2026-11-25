@@ -1,0 +1,7 @@
+Back
+Audit & retention
+Refresh
+Assistance requested | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
+Device enrolled | Actor: [REDACTED] | Device: [REDACTED] | Target: device
+Pairing approved | Actor: [REDACTED] | Device: [REDACTED] | Target: [REDACTED TARGET TYPE]
+Child account unlinked | Actor: [REDACTED] | Device: [REDACTED] | Target: family_member

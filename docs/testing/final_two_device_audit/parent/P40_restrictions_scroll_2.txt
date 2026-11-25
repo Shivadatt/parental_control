@@ -1,0 +1,6 @@
+Back
+App restrictions
+Refresh restrictions
+Blocked apps A selection is not enforcement. Apps become restricted only after the device acknowledges. No apps selected for blocking.
+Save restrictions
+Request device sync

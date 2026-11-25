@@ -1,0 +1,5 @@
+Back
+App restrictions
+Installed apps
+No app snapshot reported
+The device has not reported its installed apps. This screen cannot list installed apps until the child device uploads a snapshot; it does not mean the phone has no apps.

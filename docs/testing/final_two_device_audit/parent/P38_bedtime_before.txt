@@ -1,0 +1,8 @@
+Back
+Screen time
+Screen-time policy Daily limit, bedtime and device acknowledgement Enforced on device Policy v1 acknowledged by the device. Enforcement depends on the guardian service running on the child phone. The device acknowledged this policy version. It must keep Usage Access and the guardian service running for limits to be enforced. Daily screen-time limit 1h Time remaining today 0 min Limit reached Reached Enforcement mode Device admin only Bedtime No bedtime window set. Policy v1 acknowledged by the device. Enforcement depends on the guardian service running on the child phone.
+Decrease limit
+Increase limit
+Remove limit
+Set start
+Set end

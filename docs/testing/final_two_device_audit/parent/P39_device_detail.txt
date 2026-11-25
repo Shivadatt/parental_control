@@ -1,0 +1,11 @@
+Back
+realme RMX2161
+Refresh device
+Policy | Saved policy version and the device acknowledgement | Version | 0 | Enforcement status | No policy acknowledgement reported | Acknowledged | Not yet acknowledged
+Refresh policy state
+Device permissions | Reported by the child device. Unknown means it has not reported. | Usage access | Required for screen-time reports | Granted | Location | Granted | Background location | Granted | Camera | Granted | Microphone | Granted | Notifications | Granted
+Recent commands | Delivery is confirmed by the device, not by this screen. | No commands have been sent to this device yet.
+Manage
+App restrictions
+Screen time
+Location

@@ -1,0 +1,8 @@
+Back
+Audit & retention
+Refresh
+Assistance accepted | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
+Assistance requested | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
+Alert acknowledged | Actor: [REDACTED] | Device: [REDACTED] | Target: [REDACTED TARGET TYPE]
+Device acknowledged command | Actor: [REDACTED] | Device: [REDACTED] | Target: device_command
+Restriction policy updated | Actor: [REDACTED] | Device: [REDACTED] | Target: [REDACTED TARGET TYPE]

@@ -1,0 +1,13 @@
+{
+  "timestamp_utc": "2026-11-25T04:18:27.338435+00:00",
+  "working_directory": "D:\\parentcontrol_app",
+  "exit_code": 0,
+  "email_values_redacted": 4,
+  "iso_timestamp_fragments_normalized": 0,
+  "files_changed": [
+    "parent\\P30_parent_settings_top.xml",
+    "parent\\P31_notification_switch_off.xml",
+    "parent\\P31_notification_switch_restored.xml",
+    "parent\\P31_switches_visible.xml"
+  ]
+}

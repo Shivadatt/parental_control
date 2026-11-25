@@ -1,0 +1,11 @@
+Back
+Link a child
+Scan the child’s QR code
+The child device shows a QR code containing their permanent Child ID. Both parentcontrol://pair?id=…&v=2 and the older parentcontrol://pair?code=…&v=1 are accepted; other QR content is ignored.
+Point the camera at the child’s QR code
+Android may ask for camera permission the first time. The camera stream is only used to read the pairing code.
+Or enter the Child ID or linking code
+Dashes and spaces are ignored. Older child builds may still show a short-lived 8-character code.
+Send pairing request
+The child must approve
+Sending the request notifies the child account. The child sees the family and parent name and approves on their own device. Knowing the Child ID alone does not grant access to the child’s device or data, and nothing is shared before the child approves. This screen never approves on the child’s behalf.

@@ -218,12 +218,12 @@ This audit report provides an exhaustive, evidence-backed evaluation of all Pare
       `"Radius must be between 50 and 5000 metres"`
     - Submission is blocked.
 - **Successful Creation:**
-  - Entering Name = `"QA Test Zone"`, Lat = `37.42200`, Lng = `-122.08400`, Radius = `150` (`p53_zone_created.xml`):
+  - Entering Name = `"QA Test Zone"`, Lat = `[REDACTED COORDINATE]`, Lng = `[REDACTED COORDINATE]`, Radius = `150` (`p53_zone_created.xml`):
   - Form submits cleanly.
   - Card renders on list:
     - Title: `"QA Test Zone"`
     - Chip: `"Active"`
-    - Centre: `37.42200, -122.08400`
+    - Centre: `[REDACTED COORDINATE]`
     - Radius: `150 m`
     - Actions: `Active` toggle switch, `"Edit"`, `"Delete"`
 

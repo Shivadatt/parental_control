@@ -1,0 +1,7 @@
+Back
+Audit & retention
+Refresh
+Restriction policy updated | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 25, 2026 10:23 AM | Target: device_policy
+Device acknowledged command | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 25, 2026 10:19 AM | Target: device_command
+Restriction policy updated | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 25, 2026 10:19 AM | Target: device_policy
+Settings updated | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 24, 2026 5:30 PM | Target: family

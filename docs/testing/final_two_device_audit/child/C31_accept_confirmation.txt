@@ -1,0 +1,3 @@
+Accept assistance from [ACCOUNT]?
+Cancel
+Accept request

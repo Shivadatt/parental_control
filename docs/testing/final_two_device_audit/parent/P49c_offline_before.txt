@@ -1,0 +1,13 @@
+demo
+Refresh dashboard
+[ACCOUNT] realme RMX2161 Revoked Last seen last seen 292 h ago · Nov 13, 2026 10:18 AM Battery 100% (charging) Enforcement Device admin only Policy No policy applied yet [ACCOUNT] realme RMX2161 Revoked Last seen last seen 285 h ago · Nov 13, 2026 5:23 PM Battery 100% (charging) Enforcement Not enforced Policy Policy v4 · Waiting for device [ACCOUNT] realme RMX2161 Online Last seen synced just now · Nov 25, 2026 2:43 PM Battery 100% (charging) Enforcement Device admin only Policy Policy v3 · Enforced on device
+Open device
+Quick links
+Family Members, devices and linking codes
+Pair a device Redeem the linking code shown on your child's phone
+Alerts Review safety alerts for this family
+Updated Just now
+Dashboard Tab 1 of 4
+Devices Tab 2 of 4
+Alerts Tab 3 of 4
+Settings Tab 4 of 4

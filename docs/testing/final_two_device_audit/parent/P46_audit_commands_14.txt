@@ -1,0 +1,8 @@
+Back
+Audit & retention
+Refresh
+Device acknowledged command | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 1:11 PM | Target: device_command
+Restriction policy updated | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 1:11 PM | Target: device_policy
+Device enrolled | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 12:58 PM | Target: device
+Pairing approved | Actor: [REDACTED] | Device: [REDACTED] | Time: Nov 13, 2026 12:58 PM | Target: [REDACTED TARGET TYPE]
+Load more

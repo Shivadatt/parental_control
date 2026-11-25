@@ -1,0 +1,15 @@
+Back
+Screen time
+Refresh screen time
+Usage | From usage_daily rows uploaded by the device | Today | 5h 57m | Last 7 days | 35h 30m | Last 7 days · 35h 30m total | Parent Control | 17h 51m | Last used 16 h ago | System Launcher | 12h 10m | Last used 44 min ago | Browser | 3h 6m | Last used 2 d ago | RandoChat | 54m | Last used 11 h ago | YouTube | 42m | Last used 18 h ago | System UI | 29m | Last used 22 h ago | Cricbuzz | 8m | Last used 18 h ago | Telegram | 5m | Last used 11 h ago | Google Play Store | 1m | Last used 11 h ago | Lakshyam | 49s | Last used 21 h ago | Screen Lock | 1s | Last used 11 h ago
+5
+4
+3
+1
+1
+0
+0
+0
+Screen-time policy | Daily limit, bedtime and device acknowledgement | No policy has been saved for this device yet. | Daily screen-time limit | No daily limit | Time remaining today | No daily limit set | Limit reached | No limit to reach | Enforcement mode | Device admin only | Bedtime | No bedtime window set.
+Decrease limit
+Increase limit

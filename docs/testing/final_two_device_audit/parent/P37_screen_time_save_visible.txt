@@ -1,0 +1,11 @@
+Back
+Screen time
+Refresh screen time
+Screen-time policy Daily limit, bedtime and device acknowledgement No policy has been saved for this device yet. Daily screen-time limit 1h Time remaining today 0 min Limit reached Reached Enforcement mode Device admin only Bedtime No bedtime window set.
+Decrease limit
+Increase limit
+Remove limit
+Set start
+Set end
+Refresh policy state
+Save screen-time policy

@@ -1,0 +1,7 @@
+Back
+Audit & retention
+Refresh
+Child account unlinked | Actor: [REDACTED] | Device: [REDACTED] | Target: family_member
+Restriction policy updated | Actor: [REDACTED] | Device: [REDACTED] | Target: [REDACTED TARGET TYPE]
+Restriction policy updated | Actor: [REDACTED] | Device: [REDACTED] | Target: [REDACTED TARGET TYPE]
+Assistance session ended | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session

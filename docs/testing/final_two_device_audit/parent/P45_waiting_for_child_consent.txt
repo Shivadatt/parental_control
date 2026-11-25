@@ -1,0 +1,8 @@
+Back
+Assistance session
+Refresh status
+Cancel
+Video assistance Waiting for consent Device realme RMX2161 Child [ACCOUNT] Requested Nov 25, 2026 11:58 AM · in a few seconds Expires Waiting for consent (10m left) Child consent Not recorded
+Waiting for consent The child must accept this request. Camera and microphone are off. This request expires shortly; you can cancel it below.
+Cancel request
+This app does not record audio or video, take screenshots, or capture the screen. Ending or leaving stops the media tracks immediately.

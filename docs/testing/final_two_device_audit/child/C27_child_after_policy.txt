@@ -1,0 +1,6 @@
+Background protection A visible Android notification appears while this runs. Running Service Running with a visible notification Last command check 43 min ago Last error App list upload failed: apps[14].package_name is not a valid Android package name.
+Location sharing Your choice. The parent app can only request a location while this is on. Turning this off stops the Android location service. No location is recorded by this app itself; uploads are short-lived fixes.
+Rules and permissions What is enforced and what this phone can verify
+Home Tab 1 of 4
+Rules Tab 2 of 4
+Settings Tab 4 of 4

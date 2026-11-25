@@ -1,0 +1,7 @@
+Edit safe zone
+QA_Test_Zone_Live
+[REDACTED COORDINATE]
+[REDACTED COORDINATE]
+Active
+Cancel
+Save

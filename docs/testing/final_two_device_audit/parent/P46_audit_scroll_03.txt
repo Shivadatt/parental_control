@@ -1,0 +1,8 @@
+Back
+Audit & retention
+Refresh
+Assistance requested | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
+Assistance session ended | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
+Assistance session started | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
+Assistance accepted | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
+Assistance requested | Actor: [REDACTED] | Device: [REDACTED] | Target: remote_session
