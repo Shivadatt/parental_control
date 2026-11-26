@@ -1,0 +1,27 @@
+{
+  "start": "2026-11-26T12:22:51+05:30",
+  "end": "2026-11-26T12:22:51+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys deviceidle",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 434,
+  "selected_stdout_lines": 1,
+  "include": [
+    "com\\.parentcontrol\\.parent_control",
+    "mState=",
+    "mLightState=",
+    "mWhitelist",
+    "mTempWhitelist",
+    "mAppIdleEnabled"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "51f4220fe24a1a524e2bf12ea6ff14df0e7a286d5634f46a2855567d23d8a6fb",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG_ENV_child_deviceidle.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

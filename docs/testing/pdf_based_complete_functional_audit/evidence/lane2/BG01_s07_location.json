@@ -1,0 +1,27 @@
+{
+  "start": "2026-11-26T12:30:47+05:30",
+  "end": "2026-11-26T12:30:47+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys location",
+  "exit": 0,
+  "duration_seconds": 0.05,
+  "raw_stdout_lines": 342,
+  "selected_stdout_lines": 216,
+  "include": [
+    "com\\.parentcontrol\\.parent_control",
+    "Location Manager State",
+    "mEnabledProviders",
+    "mDisabledProviders",
+    "gps",
+    "network"
+  ],
+  "exclude": [
+    "last location",
+    "latitude",
+    "longitude",
+    "mLastLocation"
+  ],
+  "sha256_sanitized_output": "719dbbacb5a6e259f1289108a5a6540190a6f3218f8c5824416c8ed4945f1e9e",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG01_s07_location.txt"
+}

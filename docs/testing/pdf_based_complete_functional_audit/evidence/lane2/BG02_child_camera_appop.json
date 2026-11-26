@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T13:39:33+05:30",
+  "end": "2026-11-26T13:39:34+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell cmd appops get com.parentcontrol.parent_control CAMERA",
+  "exit": 0,
+  "duration_seconds": 0.076,
+  "stdout_lines": 2,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 94,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "274c47b34f9e3920a9b295ffba73fe9380d1e003d4eb2d6d976a4d0391dd658f",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG02_child_camera_appop.txt"
+}

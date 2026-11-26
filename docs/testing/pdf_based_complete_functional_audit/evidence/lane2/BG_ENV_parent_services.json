@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:22:48+05:30",
+  "end": "2026-11-26T12:22:48+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell dumpsys activity services com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": null,
+  "stdout_lines": 2,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 68,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "b3ea8a24f8bd872f0aef9b8c73e104d0b8bcd4fa3d333dd6686c5d0873d016a5",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG_ENV_parent_services.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

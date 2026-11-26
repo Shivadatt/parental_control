@@ -1,5 +1,6 @@
 {
-  "timestamp_utc": "2026-11-24T11:44:[REDACTED COORDINATE]+00:00",
+  "timestamp_utc": "2026-11-24T11:44:00Z",
+  "timestamp_precision": "minute; the original seconds were corrupted by an earlier coordinate-redaction pass",
   "working_directory": "D:\\parentcontrol_app",
   "exit_code": 0,
   "counts": {

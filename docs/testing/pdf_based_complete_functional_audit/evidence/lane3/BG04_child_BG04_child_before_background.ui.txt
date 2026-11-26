@@ -1,0 +1,11 @@
+test_id=BG04
+label=BG04_child_before_background
+start=2026-11-26T11:23:04+05:30
+end=2026-11-26T11:23:07+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=37
+retention=whitelisted visible labels and bounds only; raw XML not retained
+19|label=Refresh|class=android.widget.ImageView|clickable=false|bounds=[308,719][341,752]

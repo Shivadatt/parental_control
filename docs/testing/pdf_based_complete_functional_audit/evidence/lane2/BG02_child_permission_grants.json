@@ -1,0 +1,19 @@
+{
+  "start": "2026-11-26T13:39:22+05:30",
+  "end": "2026-11-26T13:39:22+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys package com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": 0.226,
+  "raw_stdout_lines": 320,
+  "selected_stdout_lines": 12,
+  "include": [
+    "CAMERA|RECORD_AUDIO|ACCESS_FINE_LOCATION|ACCESS_COARSE_LOCATION|ACCESS_BACKGROUND_LOCATION|POST_NOTIFICATIONS"
+  ],
+  "exclude": [
+    "userId=|firstInstallTime|lastUpdateTime|installerPackageName|signatures|packageName=|codePath|resourcePath|legacyNativeLibraryDir|primaryCpuAbi"
+  ],
+  "sha256_sanitized_output": "93821885a2c1769b8303c37da5ad781e9c5af1cf0ba79de1a338accf75ada3e2",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG02_child_permission_grants.txt"
+}

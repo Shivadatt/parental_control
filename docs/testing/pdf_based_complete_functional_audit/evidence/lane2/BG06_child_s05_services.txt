@@ -1,0 +1,38 @@
+start=2026-11-26T13:03:58+05:30
+end=2026-11-26T13:03:58+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys activity services com.parentcontrol.parent_control
+exit=0
+duration_seconds=0.077
+raw_stdout_lines=37
+selected_stdout_lines=24
+include=["com\\.parentcontrol\\.parent_control", "ServiceRecord", "isForeground", "foregroundId", "startRequested", "crashCount", "lastActivity"]
+exclude=[]
+--- selected stdout ---
+  * ServiceRecord{28ce8b u0 com.parentcontrol.parent_control/.GuardianService}
+    intent={cmp=com.parentcontrol.parent_control/.GuardianService}
+    packageName=com.parentcontrol.parent_control
+    processName=com.parentcontrol.parent_control
+    baseDir=/data/app/~~tgdU3jmQ-74_E7b47ZRY9Q==/com.parentcontrol.parent_control-mzlJDz7elNYRbGGr5xQo7A==/base.apk
+    dataDir=/data/user/0/com.parentcontrol.parent_control
+    app=ProcessRecord{d16c23a 6990:com.parentcontrol.parent_control/u0a1324}
+    recentCallingPackage=com.parentcontrol.parent_control
+    infoAllowStartForeground=[callingPackage: com.parentcontrol.parent_control; callingUid: 11324; uidState: TOP ; intent: Intent { cmp=com.parentcontrol.parent_control/.GuardianService }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null]
+    isForeground=true foregroundId=4101 foregroundNoti=Notification(channel=guardian_status shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 vis=PRIVATE)
+    lastActivity=-1h0m54s935ms restartTime=-7h33m18s208ms createdFromFg=true
+    startRequested=true delayedStop=false stopIfKilled=false callStart=true lastStartId=2
+  * ServiceRecord{9db3c12 u0 com.parentcontrol.parent_control/.LocationTrackingService}
+    intent={cmp=com.parentcontrol.parent_control/.LocationTrackingService}
+    packageName=com.parentcontrol.parent_control
+    processName=com.parentcontrol.parent_control
+    baseDir=/data/app/~~tgdU3jmQ-74_E7b47ZRY9Q==/com.parentcontrol.parent_control-mzlJDz7elNYRbGGr5xQo7A==/base.apk
+    dataDir=/data/user/0/com.parentcontrol.parent_control
+    app=ProcessRecord{d16c23a 6990:com.parentcontrol.parent_control/u0a1324}
+    recentCallingPackage=com.parentcontrol.parent_control
+    infoAllowStartForeground=[callingPackage: com.parentcontrol.parent_control; callingUid: 11324; uidState: TOP ; intent: Intent { cmp=com.parentcontrol.parent_control/.LocationTrackingService (has extras) }; code:PROC_STATE_TOP; tempAllowListReason:<null>; targetSdkVersion:36; callerTargetSdkVersion:36; startForegroundCount:0; bindFromPackage:null]
+    isForeground=true foregroundId=4202 foregroundNoti=Notification(channel=location_sharing shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 vis=PRIVATE)
+    lastActivity=-7h33m18s190ms restartTime=-7h33m18s190ms createdFromFg=true
+    startRequested=true delayedStop=false stopIfKilled=false callStart=true lastStartId=1
+--- stderr ---
+

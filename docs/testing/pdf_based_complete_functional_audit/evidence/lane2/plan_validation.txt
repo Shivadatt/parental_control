@@ -1,0 +1,14 @@
+timestamp=2026-11-26T11:34:18+05:30
+duration_seconds=not_measured
+cwd=D:\parentcontrol_app
+command=python -c "from pathlib import Path; import re; root=Path('docs/testing/pdf_based_complete_functional_audit'); inv=(root/'01_PDF_FEATURE_REQUIREMENTS_INVENTORY.md').read_text(encoding='utf-8'); mp=(root/'02_HAVEN_FEATURE_TO_PDF_MAPPING.md').read_text(encoding='utf-8'); tests=(root/'03_COMPLETE_RUNTIME_TEST_CASES.md').read_text(encoding='utf-8'); req=re.findall(r'^\| (PDF-R\d{3}) \|',inv,re.M); mapped=re.findall(r'^\| (PDF-R\d{3}) \|',mp,re.M); ids=re.findall(r'^\| ((?:ENV|DASH|USG|APP|POL|LOC|CAM|AUD|MIR|NTF|SOC|IMG|CALL|WEB|ALT|BG|PRV|FIN)-\d{2}) \|',tests,re.M); print({'requirements':len(req),'unique_requirements':len(set(req)),'mapped':len(mapped),'unique_mapped':len(set(mapped)),'missing_mapping':sorted(set(req)-set(mapped)),'tests':len(ids),'unique_tests':len(set(ids)),'duplicate_tests':sorted({x for x in ids if ids.count(x)>1})})"
+exit=0
+requirements=104
+unique_requirements=104
+mapped=104
+unique_mapped=104
+missing_mapping=[]
+tests=112
+unique_tests=112
+duplicate_tests=[]
+result=PASS

@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:48:43+05:30",
+  "end": "2026-11-26T12:48:44+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input swipe 540 2000 540 300 500",
+  "exit": 0,
+  "duration_seconds": null,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "b870c298491ba8ca7ed976a68233bc9e0ed183ec702e299bc739bf3d0a546582",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG02_scroll_zones_retry2.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T12:22:46+05:30",
+  "end": "2026-11-26T12:22:46+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell getprop 'ro.product.model;' getprop 'ro.product.manufacturer;' getprop 'ro.build.version.release;' getprop 'ro.build.version.sdk;' getprop 'ro.build.version.security_patch;' getprop ro.build.fingerprint",
+  "exit": 0,
+  "duration_seconds": 0.09,
+  "stdout_lines": 6,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 134,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "f0f306672d9d0f53875b84038d057baa16f0f96420d18cf8058ed14e8f3b6f97",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG_ENV_parent_identity.txt"
+}

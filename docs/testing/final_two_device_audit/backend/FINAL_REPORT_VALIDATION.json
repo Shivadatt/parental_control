@@ -1,0 +1,37 @@
+{
+  "timestamp_utc": "2026-11-26T04:48:48Z",
+  "command": "python docs/testing/final_two_device_audit/backend/validate_final_report.py",
+  "working_directory": "D:\\parentcontrol_app",
+  "duration_s": 0.749,
+  "passed": true,
+  "feature_count": 92,
+  "status_counts": {
+    "PASS": 57,
+    "NOT TESTED": 12,
+    "FAIL": 6,
+    "BLOCKED": 7,
+    "PARTIAL": 10
+  },
+  "category_counts": {
+    "A Lifecycle and navigation": 7,
+    "B Authentication, family, and pairing": 8,
+    "C Child shell and controls": 5,
+    "D Dashboard, family, and location": 8,
+    "E Telemetry and synchronization": 8,
+    "F Policy and enforcement": 7,
+    "G Alerts and safe zones": 6,
+    "H Remote assistance and notifications": 10,
+    "I Settings and privacy": 8,
+    "J Backend and RLS": 8,
+    "K UI and navigation": 8,
+    "L Build, release, and security": 9
+  },
+  "report_link_count": 159,
+  "changed_path_count": 106,
+  "changed_paths_outside_docs_testing": [],
+  "scan_file_count": 751,
+  "residual_scan_counts": {},
+  "residual_scan_files": {},
+  "errors": [],
+  "warnings": []
+}

@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T14:41:45+05:30",
+  "end": "2026-11-26T14:41:45+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 273 236",
+  "exit": 0,
+  "duration_seconds": 0.054,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "1319e78f31d86b631e93be2e9fd68fad161a93252f78568a33e4d1b1e5a73c82",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_015_alerts_info_tap.txt"
+}

@@ -1,0 +1,11 @@
+test_id=BG04
+label=BG04_request_not_waiting
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command_exit=0
+raw_stdout_lines=4135
+retained_stdout_lines=3
+retention=sanitized matching lines only
+11-26 11:23:01.470 I/adbd    (  538): adbd service requested 'shell,v2,TERM=xterm-256color,raw:uiautomator dump /data/local/tmp/haven_lane3_BG04_BG04_remote_assistance.xml'
+11-26 11:23:03.613 I/adbd    (  538): adbd service requested 'exec:cat '/data/local/tmp/haven_lane3_BG04_BG04_remote_assistance.xml''
+11-26 11:23:03.653 I/adbd    (  538): adbd service requested 'shell,v2,TERM=xterm-256color,raw:rm -f /data/local/tmp/haven_lane3_BG04_BG04_remote_assistance.xml'

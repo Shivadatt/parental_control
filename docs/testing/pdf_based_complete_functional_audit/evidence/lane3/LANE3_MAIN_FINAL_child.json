@@ -1,0 +1,29 @@
+{
+  "start": "2026-11-26T12:08:35+05:30",
+  "end": "2026-11-26T12:08:36+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "foreground_activity_lines": [
+    "mResumedActivity: ActivityRecord{e19029b u0 com.android.launcher/.Launcher t293}",
+    "mFocusedApp=ActivityRecord{e19029b u0 com.android.launcher/.Launcher t293}"
+  ],
+  "screen_lines": [
+    "mWakefulness=Awake",
+    "mHoldingDisplaySuspendBlocker=true",
+    "Display Power: com.android.server.power.PowerManagerService$1@30f78dd"
+  ],
+  "services": [
+    "GuardianService",
+    "LocationTrackingService"
+  ],
+  "camera_open": false,
+  "camera_package_in_active_clients": false,
+  "open_camera_devices": [],
+  "recording_active": false,
+  "playback_active": false,
+  "camera_op": "CAMERA: allow",
+  "microphone_op": "RECORD_AUDIO: allow",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane3\\LANE3_MAIN_FINAL_child.txt",
+  "sha256": "[REDACTED_HEX]"
+}

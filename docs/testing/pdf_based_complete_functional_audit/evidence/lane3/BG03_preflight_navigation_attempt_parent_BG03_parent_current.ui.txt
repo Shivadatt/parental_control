@@ -1,0 +1,11 @@
+test_id=BG03
+label=BG03_parent_current
+start=2026-11-26T11:07:12+05:30
+end=2026-11-26T11:07:14+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=22
+retention=whitelisted visible labels and bounds only; raw XML not retained
+21|label=Settings Tab 4 of 4|class=android.widget.Button|clickable=true|bounds=[810,2151][1080,2361]

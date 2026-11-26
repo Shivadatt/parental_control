@@ -2,13 +2,14 @@
   "command": "adb -s 5HXWRGQ4IFU8WS4T shell pm list packages",
   "working_directory": "D:\\parentcontrol_app",
   "exit_code": 0,
-  "duration_s": null,
+  "duration_s": 0.054,
   "installed_package_count": 343,
+  "valid_package_count": 341,
   "invalid_package_count": 2,
   "invalid_package_names": [
     "android",
     "oplus"
   ],
   "validation_regex": "^[A-Za-z][A-Za-z0-9_]*(\\.[A-Za-z][A-Za-z0-9_]*)+$",
-  "privacy_note": "Only invalid package names are retained; the full personal app inventory is not saved."
+  "privacy_note": "Only counts and invalid package names are retained; the full personal app inventory is not saved."
 }

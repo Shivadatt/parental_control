@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:30:47+05:30",
+  "end": "2026-11-26T12:30:47+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell pidof com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": null,
+  "stdout_lines": 1,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 6,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "9ce281140f76b5cabb09d90b0c34101e4d6cfbd97fbff0ce673b9aa620d2620c",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG01_s07_pid.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

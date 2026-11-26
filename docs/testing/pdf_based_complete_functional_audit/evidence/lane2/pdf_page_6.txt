@@ -1,0 +1,58 @@
+Note: Ye feature-to-permission mapping Android ke normal permission model aur AirDroid ke documented functions ko samjhaane ke
+liye hai; AirDroid ki exact internal implementation har feature ke liye public nahi hai. Isliye table ko reverse-engineered implementation
+claim na samjhein.
+
+11. Background access ki limitations -- kya guarantee nahi
+hai
+
+ · Phone power off, AirDroid Kids uninstall/force-stop, no internet, airplane mode, severe battery restriction ya OEM task
+    killer se updates/live connection ruk sakta hai.
+
+ · Permission revoke hone par related feature fail ya partial ho sakta hai.
+ · Background execution Android version, manufacturer policy, battery state, network state aur app update ke baad
+
+    change ho sakti hai.
+ · Camera/mic/screen capture ko OS privacy controls aur foreground/session requirements constrain karte hain. App
+
+    developer in controls ko legitimately bypass nahi kar sakta.
+ · GPS indoors, low battery, weak signal ya location setting off hone par stale/inaccurate ho sakta hai.
+AirDroid official support explicitly notes: background tasks device resources consume karte hain; Android/OEM
+memory management app ko stop kar sakta hai; permanent background survival guarantee nahi hoti.
+
+12. Setup checklist (parent + child)
+
+ · Parent phone par AirDroid Parental Control install karein, account sign-in karein.
+ · Child Android phone par AirDroid Kids install karein aur parent app ke binding code se pair karein.
+ · Child/guardian ko clearly batayein kaunse monitoring functions enable honge aur kis purpose se.
+ · Setup wizard mein required permissions grant karein; feature-wise permission status review karein.
+ · Battery optimization, autostart, background run, data saver aur OEM cleanup settings verify karein.
+ · Test: app usage update, notification sync, location refresh, geofence alert, downtime/app block, aur live features
+
+    individually.
+ · Parent dashboard mein missing-permission/update warnings check karte rahein; OS/app updates ke baad retest
+
+    karein.
+
+13. Privacy, consent aur safe-use notes
+
+Parental controls powerful personal-data access dete hain. Child ki age aur applicable law ke mutabik transparent
+notice, guardian authority, proportional monitoring, data minimization aur secure account access zaroori hain.
+Camera/microphone/screen features ko emergency/safety context mein, clearly disclosed aur lawful manner mein use
+karein. Recordings aur notification content ko unnecessary store/share na karein.
+
+ · Parent account par strong unique password aur available multi-factor security use karein.
+ · Child device par visible app identity aur understandable monitoring notice maintain karein.
+ · Live audio/video ko continuous hidden surveillance samajhkar design na karein; clear session state, access logs aur
+
+    stop controls prefer karein.
+ · Data retention/deletion, encryption, server region, subscription terms aur family member access ko product privacy
+
+    policy se verify karein.
+
+14. Feature availability snapshot
+
+Feature group        Android child device           Important condition
+App usage & reports  Listed                         Usage access + device reporting
+
+AirDroid Parental Control · Hinglish Feature Guide                                   Page 6
+

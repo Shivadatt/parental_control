@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T14:32:04+05:30",
+  "end": "2026-11-26T14:32:05+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 2009",
+  "exit": 0,
+  "duration_seconds": 0.05,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "3c971ce037b4218bcf1bdc87d617f61c3c2dd41108b7fee2de0541c1bba33011",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_008_app_restrictions_tap.txt"
+}

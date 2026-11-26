@@ -1,0 +1,18 @@
+test_id=MAINRECOVERY_REFRESH
+label=child_before_retry
+start=2026-11-26T12:03:00+05:30
+end=2026-11-26T12:03:03+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=27
+retention=whitelisted visible labels and bounds only; raw XML not retained
+10|label=Refresh settings|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+13|label=Background protection Running Service Running with a visible notification Last command check 20 h ago App list upload failed: apps[14].package_name is not a valid Android package name.|class=android.view.View|clickable=false|bounds=[48,275][1032,1221]
+14|label=Retry background protection|class=android.widget.Button|clickable=true|bounds=[99,1020][981,1170]
+20|label=This app never records audio or video, takes screenshots, reads messages, or captures passwords. Camera and microphone are used only during an assistance session you accept and start, and a visible notification stays on while background services run.|class=android.view.View|clickable=false|bounds=[48,2040][1032,2112]
+22|label=Home Tab 1 of 4|class=android.widget.Button|clickable=true|bounds=[0,2112][270,2245]
+23|label=Rules Tab 2 of 4|class=android.widget.Button|clickable=true|bounds=[270,2112][540,2245]
+24|label=Requests Tab 3 of 4|class=android.widget.Button|clickable=true|bounds=[540,2112][810,2245]
+25|label=Settings Tab 4 of 4|class=android.widget.Button|clickable=true|bounds=[810,2112][1080,2245]

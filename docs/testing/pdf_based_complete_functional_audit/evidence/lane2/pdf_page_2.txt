@@ -1,0 +1,59 @@
+1. Product ka basic structure
+
+AirDroid Parental Control parent-side app hai. Child ke Android phone par companion app AirDroid Kids install aur
+bind hoti hai. Parent app aur child app account/binding process ke through connect hote hain. Features kaam karne ke
+liye child phone online, AirDroid Kids installed, updated aur required permissions ke saath available hona chahiye.
+
+ · Parent App: reports dekhna, rules banana, location dekhna, alerts/requests receive karna aur supported
+    live-monitoring sessions start karna.
+
+ · AirDroid Kids: child device par app usage, notifications, location aur explicitly enabled monitoring functions ke liye
+    Android permissions/services use karta hai.
+
+ · Binding: setup mein parent app se binding code lekar child device par enter kiya jata hai. AirDroid ke terms ke
+    mutabik ek account par maximum 10 child devices bind kiye ja sakte hain; actual limits plan/product terms se verify
+    karein.
+
+Important: Ye guide AirDroid Parental Control par focused hai, AirDroid Personal file-transfer/remote-device product
+par nahi. Android aur iOS child devices ke feature sets alag hain; neeche Android child phone ko main scope maana
+gaya hai.
+
+2. Dashboard, activity aur reports
+
+Today's Event / Daily & Weekly Activity
+
+ · Daily/weekly app usage: kaunsa app kitni der use hua, usage pattern aur activity summary.
+ · Notification count aur supported app notifications ki activity summary.
+ · Per-app mobile data usage jaise device statistics, jahan supported ho.
+ · Most-used apps aur app list dekhkar parent ko usage pattern samajhne mein help.
+Reports monitoring ka overview dete hain; inhe har app ke andar ke complete private messages ya har screen action
+ka full transcript na samjhein. Report depth OS, app, permission aur product version par depend karti hai.
+
+3. App management aur screen-time control
+
+App List / Installed Apps
+
+ · Child phone par installed apps ki list review karna.
+ · App-wise limits ya selected apps/categories par restrictions set karna.
+ · Newly installed apps ke alerts aur supported Android builds par new apps ko automatically block karne ka option.
+ · Parent selected app ko block/unblock kar sakta hai; child ki restricted-app request ko review kar sakta hai.
+
+App Limits ke common modes
+
+ · Total/shared time limit: selected apps ka combined usage ek shared daily allowance se count hota hai. Limit khatam
+    hone par selected group block ho sakta hai.
+
+ · Individual app limit: har selected app ka apna alag time budget.
+ · Downtime / schedule: fixed hours mein selected apps ko restrict karna, jaise study time ya bedtime.
+ · Always Allowed: selected essential apps ko restriction ke dauran available rakhna. Kaunse apps allowed hain, parent
+
+    decide karta hai.
+
+Instant Block
+
+Parent supported controls ke through turant apps restrict kar sakta hai, usually Always Allowed list ko exception
+rakhkar. Duration options product UI mein mil sakte hain, jaise fixed period, midnight tak ya manually off karne tak.
+Exact choices app version par depend karti hain.
+
+AirDroid Parental Control · Hinglish Feature Guide  Page 2
+

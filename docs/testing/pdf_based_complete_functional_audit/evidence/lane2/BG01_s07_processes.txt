@@ -1,0 +1,32 @@
+start=2026-11-26T12:30:47+05:30
+end=2026-11-26T12:30:47+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys activity processes
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=7165
+selected_stdout_lines=18
+include=["com\\.parentcontrol\\.parent_control"]
+exclude=[]
+--- selected stdout ---
+  *APP* UID 11324 ProcessRecord{d16c23a 6990:com.parentcontrol.parent_control/u0a1324}
+    dir=/data/app/~~tgdU3jmQ-74_E7b47ZRY9Q==/com.parentcontrol.parent_control-mzlJDz7elNYRbGGr5xQo7A==/base.apk publicDir=/data/app/~~tgdU3jmQ-74_E7b47ZRY9Q==/com.parentcontrol.parent_control-mzlJDz7elNYRbGGr5xQo7A==/base.apk data=/data/user/0/com.parentcontrol.parent_control
+    packageList={com.parentcontrol.parent_control}
+      - ServiceRecord{28ce8b u0 com.parentcontrol.parent_control/.GuardianService}
+      - ServiceRecord{9db3c12 u0 com.parentcontrol.parent_control/.LocationTrackingService}
+        -> ContentProviderRecord{b9efa83 u0 com.parentcontrol.parent_control/androidx.startup.InitializationProvider}
+        -> ContentProviderRecord{756c400 u0 com.parentcontrol.parent_control/[REDACTED_PACKAGE]}
+      - 353a9ae/[REDACTED_PACKAGE]/.SettingsProvider->6990:com.parentcontrol.parent_control/u0a1324 s1/1 u0/0 +20h33m23s250ms
+      - ActivityRecord{e0cbbcf u0 com.parentcontrol.parent_control/.MainActivity t582}
+      - Task{a6155df #574 type=standard I=com.parentcontrol.parent_control/.MainActivity U=0 visible=false mode=fullscreen translucent=true sz=0}
+      - Task{dbf395c #582 type=standard I=com.parentcontrol.parent_control/.MainActivity U=0 visible=false mode=fullscreen translucent=true sz=1}
+    Proc # 4: prcp   F/S/FGS  L--N  t: 0 6990:com.parentcontrol.parent_control/u0a1324 (fg-service)
+  mPreviousProcess: ProcessRecord{d16c23a 6990:com.parentcontrol.parent_control/u0a1324}
+      proc=ProcessRecord{d16c23a 6990:com.parentcontrol.parent_control/u0a1324}
+    #69: prcp   FGS  L--N 6990:com.parentcontrol.parent_control/u0a1324 act:activities|recents
+    Proc # 4: prcp   F/S/FGS  L--N  t: 0 6990:com.parentcontrol.parent_control/u0a1324 (fg-service)
+    PID #6990: ProcessRecord{d16c23a 6990:com.parentcontrol.parent_control/u0a1324}
+  mPreviousProcess: ProcessRecord{d16c23a 6990:com.parentcontrol.parent_control/u0a1324}
+--- stderr ---
+

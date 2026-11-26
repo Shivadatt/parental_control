@@ -1,0 +1,15 @@
+test_id=MAINRECOVERY_REFRESH
+label=parent_before_refresh
+start=2026-11-26T12:02:49+05:30
+end=2026-11-26T12:02:51+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=28
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+11|label=Refresh device|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+14|label=Device permissions Reported by the child device. Unknown means it has not reported. Usage access Required for screen-time reports Granted Location Granted Background location Granted Camera Granted Microphone Granted Notifications Granted|class=android.view.View|clickable=false|bounds=[42,289][1038,891]
+23|label=Safety alerts|class=android.widget.Button|clickable=true|bounds=[87,1970][993,2117]
+24|label=Remote assistance|class=android.widget.Button|clickable=true|bounds=[87,2117][993,2264]

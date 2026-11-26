@@ -1,0 +1,99 @@
+start=2026-11-26T12:43:36+05:30
+end=2026-11-26T12:43:36+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+package=com.parentcontrol.parent_control
+mode=read-only native-state snapshot
+activities_start=2026-11-26T12:43:36+05:30 command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys activity activities cwd=D:\parentcontrol_app exit=0 duration_seconds=[REDACTED_COORD] stdout_lines=503
+services_start=2026-11-26T12:43:36+05:30 command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys activity services com.parentcontrol.parent_control cwd=D:\parentcontrol_app exit=0 duration_seconds=[REDACTED_COORD] stdout_lines=37
+camera_start=2026-11-26T12:43:36+05:30 command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys media.camera cwd=D:\parentcontrol_app exit=0 duration_seconds=[REDACTED_COORD] stdout_lines=17872
+audio_start=2026-11-26T12:43:36+05:30 command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys audio cwd=D:\parentcontrol_app exit=0 duration_seconds=[REDACTED_COORD] stdout_lines=622
+camera_op_start=2026-11-26T12:43:36+05:30 command=adb -s 5HXWRGQ4IFU8WS4T shell cmd appops get com.parentcontrol.parent_control CAMERA cwd=D:\parentcontrol_app exit=0 duration_seconds=[REDACTED_COORD] stdout_lines=2
+microphone_op_start=2026-11-26T12:43:36+05:30 command=adb -s 5HXWRGQ4IFU8WS4T shell cmd appops get com.parentcontrol.parent_control RECORD_AUDIO cwd=D:\parentcontrol_app exit=0 duration_seconds=[REDACTED_COORD] stdout_lines=2
+power_start=2026-11-26T12:43:36+05:30 command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys power cwd=D:\parentcontrol_app exit=0 duration_seconds=[REDACTED_COORD] stdout_lines=2641
+--- summary ---
+{
+  "start": "2026-11-26T12:43:36+05:30",
+  "end": "2026-11-26T12:43:36+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "foreground_activity_lines": [
+    "mResumedActivity: ActivityRecord{e19029b u0 [REDACTED_PACKAGE]/.Launcher t293}",
+    "mFocusedApp=ActivityRecord{e19029b u0 [REDACTED_PACKAGE]/.Launcher t293}"
+  ],
+  "screen_lines": [
+    "mWakefulness=Awake",
+    "mHoldingDisplaySuspendBlocker=true",
+    "Display Power: [REDACTED_PACKAGE]$1@30f78dd"
+  ],
+  "services": [
+    "GuardianService",
+    "LocationTrackingService"
+  ],
+  "camera_open": false,
+  "camera_package_in_active_clients": false,
+  "open_camera_devices": [],
+  "recording_active": false,
+  "playback_active": false,
+  "camera_op": "CAMERA: allow",
+  "microphone_op": "RECORD_AUDIO: allow"
+}
+--- foreground activity ---
+    mResumedActivity: ActivityRecord{e19029b u0 [REDACTED_PACKAGE]/.Launcher t293}
+  mFocusedApp=ActivityRecord{e19029b u0 [REDACTED_PACKAGE]/.Launcher t293}
+--- screen power ---
+  mWakefulness=Awake
+  mHoldingDisplaySuspendBlocker=true
+Display Power: [REDACTED_PACKAGE]$1@30f78dd
+--- services ---
+  * ServiceRecord{28ce8b u0 com.parentcontrol.parent_control/.GuardianService}
+    isForeground=true foregroundId=4101 foregroundNoti=Notification(channel=guardian_status shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 vis=PRIVATE)
+    lastActivity=-40m32s928ms restartTime=-7h12m56s201ms createdFromFg=true
+    startRequested=true delayedStop=false stopIfKilled=false callStart=true lastStartId=2
+  * ServiceRecord{9db3c12 u0 com.parentcontrol.parent_control/.LocationTrackingService}
+    isForeground=true foregroundId=4202 foregroundNoti=Notification(channel=location_sharing shortcut=null contentView=null vibrate=null sound=null defaults=0x0 flags=0x6a color=0x00000000 vis=PRIVATE)
+    lastActivity=-7h12m56s183ms restartTime=-7h12m56s183ms createdFromFg=true
+    startRequested=true delayedStop=false stopIfKilled=false callStart=true lastStartId=1
+--- active camera ---
+Active Camera Clients:
+  11-25 12:00:11 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:58:45 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:39:15 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:37:44 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:17:38 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:16:25 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 09:41:05 : DISCONNECT device 0 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 09:40:33 : CONNECT device 0 client for package com.parentcontrol.parent_control (PID 13967)
+  Device 0 is closed, no client instance
+  Device 1 is closed, no client instance
+  Device 2 is closed, no client instance
+  Device 3 is closed, no client instance
+  Device 4 is closed, no client instance
+  Device 5 is closed, no client instance
+  Device 6 is closed, no client instance
+--- audio package state ---
+11-13 11:46:25:763 rec update riid:1815 uid:11320 session:2617 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-13 11:47:20:582 rec stop riid:1815 uid:11320 session:2617 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-13 11:48:01:737 rec update riid:1823 uid:11320 session:2625 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-13 11:49:03:332 rec stop riid:1823 uid:11320 session:2625 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-13 16:28:39:004 rec update riid:2119 uid:11320 session:2961 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-13 16:31:41:968 rec stop riid:2119 uid:11320 session:2961 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-24 17:06:31:353 rec update riid:14927 uid:11324 session:17193 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-24 17:12:10:970 rec stop riid:14927 uid:11324 session:17193 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-25 11:16:27:361 rec update riid:15615 uid:11324 session:18009 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-25 11:17:38:696 rec stop riid:15615 uid:11324 session:18009 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-25 11:37:46:330 rec update riid:15631 uid:11324 session:18025 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-25 11:39:15:617 rec stop riid:15631 uid:11324 session:18025 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-25 11:58:47:924 rec update riid:15647 uid:11324 session:18049 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-25 12:00:11:542 rec stop riid:15647 uid:11324 session:18049 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-25 15:53:27:544 rec update riid:15903 uid:11324 session:18337 src:VOICE_COMMUNICATION not silenced pack:com.parentcontrol.parent_control
+11-25 15:54:19:133 rec update riid:15903 uid:11324 session:18337 src:VOICE_COMMUNICATION silenced pack:com.parentcontrol.parent_control
+--- camera app-op ---
+Uid mode: CAMERA: foreground
+CAMERA: allow; time=+1d0h44m51s212ms ago; duration=+1m26s298ms
+
+--- microphone app-op ---
+Uid mode: RECORD_AUDIO: foreground
+RECORD_AUDIO: allow; time=+20h49m17s612ms ago; duration=+8ms
+

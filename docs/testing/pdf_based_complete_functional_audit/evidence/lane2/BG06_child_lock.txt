@@ -1,0 +1,13 @@
+start=2026-11-26T12:59:33+05:30
+end=2026-11-26T12:59:33+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell input keyevent 26
+exit=0
+duration_seconds=0.063
+stdout_lines=0
+stderr_lines=0
+--- stdout ---
+
+--- stderr ---
+

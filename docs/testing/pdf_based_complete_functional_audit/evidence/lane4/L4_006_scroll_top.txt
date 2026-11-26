@@ -1,0 +1,13 @@
+start=2026-11-26T14:29:47+05:30
+end=2026-11-26T14:29:48+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell input swipe 540 1800 540 350 350
+exit=0
+duration_seconds=0.871
+stdout_lines=0
+stderr_lines=0
+--- stdout ---
+
+--- stderr ---
+

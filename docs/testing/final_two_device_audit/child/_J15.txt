@@ -1,4 +1,4 @@
-Accept assistance from ankit?
+Accept assistance from [ACCOUNT]?
 The next screen lets you start a live audio call. Your microphone stays off until you tap Join there. Nothing is recorded.
 Cancel
 Accept request

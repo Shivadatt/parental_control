@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T12:58:54+05:30",
+  "end": "2026-11-26T12:58:54+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 74 216",
+  "exit": 0,
+  "duration_seconds": 0.05,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "30d9d21a7a581fb9e67908864341614d23318d5b517b480dc05e287fab4cbcc1",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_parent_manage_back_tap.txt"
+}

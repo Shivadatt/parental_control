@@ -1,0 +1,43 @@
+Feature group                      Android child device Important condition
+
+App limits / downtime / instant block Listed        Enforcement depends on permissions/background state
+
+Live location / route / geofence   Listed           Location permission + network + GPS
+
+Remote camera / one-way audio      Listed           Android child only; live session and permissions
+
+Screen mirroring                   Listed           Android child only; OS screen-capture consent/session
+
+Notifications / social keyword     Listed           Supported apps and notification/access configuration
+detection
+
+Image detection / calls-SMS / web  Product-listed   Exact coverage varies by OS, version, region and plan
+filtering
+
+15. Official references
+
+ · AirDroid Parental Control ­ official overview (support article, updated 8 Jun 2026)
+    https://help.airdroid.com/hc/en-us/articles/4677178239131-AirDroid-Parental-Control-Overview
+
+ · AirDroid Parental Control ­ official user guide
+    https://www.airdroid.com/guide/parental-control/
+
+ · What is AirDroid Parental Control and how to start using?
+    https://help.airdroid.com/hc/en-us/articles/4507395498779-What-is-AirDroid-Parental-Control-and-how-to-start-using
+
+ · How to keep AirDroid Kids running in the background on Android devices?
+    https://help.airdroid.com/hc/en-us/articles/4406503673627-How-to-keep-AirDroid-Kids-running-in-the-background-on-
+    Android-devices
+
+ · AirDroid Parental Control product page / compatibility
+    https://www.airdroid.com/parental-control/
+
+ · AirDroid Parental Control Terms of Service
+    https://webparent.airdroid.com/terms.html
+
+Accuracy note: Product features, names, platform support, subscription tiers and Android permissions can change. This document
+summarizes official public material checked for this guide; verify the live app and official support pages before making implementation or
+purchasing decisions.
+
+AirDroid Parental Control · Hinglish Feature Guide                                                         Page 7
+

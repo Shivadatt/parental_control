@@ -1,0 +1,16 @@
+test_id=BG03REVOKED
+label=parent_detail_revoked_5
+start=2026-11-26T11:18:43+05:30
+end=2026-11-26T11:18:45+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=23
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+11|label=Refresh device|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+12|label=Refresh|class=android.view.View|clickable=false|bounds=[476,394][604,523]
+15|label=Device revoked This device credential is revoked and it can no longer report or receive policies. The child must link the device again.|class=android.view.View|clickable=false|bounds=[42,310][1038,586]
+17|label=Device identity Revoked Name realme RMX2161 Platform android Android 12 App version 1.0.0 Last seen last seen 312 h ago · Nov 13, 2026 10:18 AM Battery 100% (charging) Enforcement mode Device admin only|class=android.view.View|clickable=false|bounds=[42,617][1038,1455]
+22|label=Refresh policy state|class=android.widget.Button|clickable=true|bounds=[520,2350][993,2424]

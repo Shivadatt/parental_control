@@ -1,6 +1,6 @@
 Requests
 Refresh requests
-Assistance requests | A parent is asking to speak with you. Camera and microphone stay off until you accept and then start the session. | ankit | Audio assistance · expires in 9 min
+Assistance requests | A parent is asking to speak with you. Camera and microphone stay off until you accept and then start the session. | [ACCOUNT] | Audio assistance · expires in 9 min
 Review and respond
 Requests refreshed 4 min ago
 Home | Tab 1 of 4

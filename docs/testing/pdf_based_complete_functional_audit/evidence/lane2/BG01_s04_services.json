@@ -1,0 +1,23 @@
+{
+  "start": "2026-11-26T12:27:43+05:30",
+  "end": "2026-11-26T12:27:43+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys activity services com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": 0.04,
+  "raw_stdout_lines": 37,
+  "selected_stdout_lines": 24,
+  "include": [
+    "com\\.parentcontrol\\.parent_control",
+    "ServiceRecord",
+    "isForeground",
+    "foregroundId",
+    "startRequested",
+    "crashCount",
+    "lastActivity"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "531a462ff1fc7009f7be9b16d8fca305561c5881964dbb8a44ee8e1c6552d9b1",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG01_s04_services.txt"
+}

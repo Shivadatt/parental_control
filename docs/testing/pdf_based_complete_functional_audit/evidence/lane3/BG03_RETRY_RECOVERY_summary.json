@@ -1,0 +1,8 @@
+{
+  "test_id": "BG03_RETRY_RECOVERY",
+  "start": "2026-11-26T12:04:14+05:30",
+  "predecessor_error": "Parent did not enter Waiting for consent state",
+  "status": "COLLECTION_ERROR",
+  "end": "2026-11-26T12:04:25+05:30",
+  "duration_seconds": 10.54
+}

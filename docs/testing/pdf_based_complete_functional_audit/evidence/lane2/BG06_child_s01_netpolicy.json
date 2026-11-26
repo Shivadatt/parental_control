@@ -1,0 +1,25 @@
+{
+  "start": "2026-11-26T12:59:49+05:30",
+  "end": "2026-11-26T12:59:49+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys netpolicy",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 1426,
+  "selected_stdout_lines": 5,
+  "include": [
+    "\\buid=11324\\b",
+    "mRestrictBackground",
+    "restrictBackground",
+    "mDataSaver"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "54cae0e8bcc571702abf6488658a1c7f603305b4a70b1f4cfb1ac1b278e1563e",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s01_netpolicy.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

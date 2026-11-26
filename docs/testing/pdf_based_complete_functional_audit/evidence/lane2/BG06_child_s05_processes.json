@@ -1,0 +1,17 @@
+{
+  "start": "2026-11-26T13:03:58+05:30",
+  "end": "2026-11-26T13:03:58+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys activity processes",
+  "exit": 0,
+  "duration_seconds": 0.18,
+  "raw_stdout_lines": 7456,
+  "selected_stdout_lines": 18,
+  "include": [
+    "com\\.parentcontrol\\.parent_control"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "ffa9b9ac00c8bf7cda4ba336246125640250d444e585a539e1faabe1362ba28e",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s05_processes.txt"
+}

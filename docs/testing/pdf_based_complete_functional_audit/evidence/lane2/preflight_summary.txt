@@ -1,0 +1,27 @@
+Lane 2 preflight and serialization-gate result
+Timestamp: 2026-11-26T10:58:15+05:30 (Asia/Kolkata)
+Repository cwd: D:\parentcontrol_app
+Branch: main
+HEAD: [REDACTED_HEX]
+Tracked working-tree changes: 102 unstaged files, 0 staged files
+Unstaged tracked diff SHA-256: [REDACTED_HEX]
+Staged diff SHA-256: [REDACTED_HEX]
+
+Benchmark PDF: C:\Users\ASUS\Downloads\AirDroid_Parental_Control_Complete_Feature_Guide_Hinglish.pdf
+Extraction command: pdftotext -f <page> -l <page> -layout <PDF> <lane2>/pdf_page_<page>.txt for pages 1..7
+Extraction exit: 0
+Extraction duration: 0 seconds
+Pages requested/extracted: 7/7
+Total extracted lines: 358
+All seven extracted pages were read in full.
+
+Serialization gate: D:\parentcontrol_app\docs\testing\pdf_based_complete_functional_audit\03_COMPLETE_RUNTIME_TEST_CASES.md
+Wait start: 2026-11-26T10:46:54+05:30
+Gate timeout: 2026-11-26T10:56:58+05:30
+Wait duration: 604 seconds
+Wait command: bounded shell loop, 120 checks, 5-second intervals, test -s <gate>
+Wait exit: 2
+Gate result: absent or empty at timeout
+ADB invocations: 0
+Device interactions: 0
+Outcome: BLOCKED before any device access

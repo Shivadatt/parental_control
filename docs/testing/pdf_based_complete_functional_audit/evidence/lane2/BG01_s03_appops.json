@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:26:42+05:30",
+  "end": "2026-11-26T12:26:42+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell appops get com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": null,
+  "stdout_lines": 17,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 865,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "298d7783d3af6f3fef1a1ed9c92bae53f8beaedf101285f0c94ba0d26e6547ff",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG01_s03_appops.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

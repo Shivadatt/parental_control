@@ -1,0 +1,18 @@
+start=2026-11-26T12:22:49+05:30
+end=2026-11-26T12:22:49+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell getprop 'ro.product.model;' getprop 'ro.product.manufacturer;' getprop 'ro.build.version.release;' getprop 'ro.build.version.sdk;' getprop 'ro.build.version.security_patch;' getprop ro.build.fingerprint
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=6
+stderr_lines=0
+--- stdout ---
+RMX2161
+realme
+12
+31
+2023-01-05
+realme/RMX2161/RMX2161L1:12/SP1A.210812.016/Q.d5ef75_5f7:user/release-keys
+--- stderr ---
+

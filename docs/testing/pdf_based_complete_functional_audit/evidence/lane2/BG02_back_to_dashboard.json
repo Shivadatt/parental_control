@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:46:09+05:30",
+  "end": "2026-11-26T12:46:09+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input keyevent 4",
+  "exit": 0,
+  "duration_seconds": null,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "89b1db42769fe2156bd60f272a38079b2e96e7275dc86ad40b5fd1bc52a897c2",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG02_back_to_dashboard.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

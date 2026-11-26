@@ -1,0 +1,14 @@
+start=2026-11-26T12:22:48+05:30
+end=2026-11-26T12:22:48+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys activity services com.parentcontrol.parent_control
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=2
+stderr_lines=0
+--- stdout ---
+ACTIVITY MANAGER SERVICES (dumpsys activity services)
+  (nothing)
+--- stderr ---
+

@@ -1,0 +1,151 @@
+{
+  "test_id": "LANE3FINAL",
+  "start": "2026-11-26T11:27:11+05:30",
+  "baseline": {
+    "parent_device": {
+      "role": "parent",
+      "serial": "emulator-5554",
+      "model": "sdk_gphone64_x86_64",
+      "android_release": "17",
+      "sdk": "37",
+      "security_patch": "2026-08-05",
+      "timezone": "Asia/Calcutta",
+      "device_time": "2026-11-26T11:27:10+0530",
+      "version_name": "1.0.0",
+      "version_code": "1",
+      "display_size": "Physical size: 1080x2424",
+      "display_density": "Physical density: 420"
+    },
+    "child_device": {
+      "role": "child",
+      "serial": "5HXWRGQ4IFU8WS4T",
+      "model": "RMX2161",
+      "android_release": "12",
+      "sdk": "31",
+      "security_patch": "2023-01-05",
+      "timezone": "Asia/Kolkata",
+      "device_time": "2026-11-26T11:27:12+0530",
+      "version_name": "1.0.0",
+      "version_code": "1",
+      "display_size": "Physical size: 1080x2400",
+      "display_density": "Physical density: 480"
+    },
+    "parent_activity": {
+      "foreground": true,
+      "components": [
+        "com.parentcontrol.parent_control/.MainActivity"
+      ],
+      "exit": 0
+    },
+    "child_activity": {
+      "foreground": false,
+      "components": [
+        "com.android.launcher/.Launcher"
+      ],
+      "exit": 0
+    },
+    "parent_native": {
+      "services": [],
+      "foreground_ids": [],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "none",
+      "microphone_mode": "unknown",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=108;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "child_native": {
+      "services": [
+        "GuardianService",
+        "LocationTrackingService"
+      ],
+      "foreground_ids": [
+        "4101",
+        "4202"
+      ],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "update",
+      "microphone_mode": "RECORD_AUDIO: allow",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=146;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "parent_open_or_terminal_markers": [],
+  "child_foreground_final": false,
+  "native_clean": {
+    "parent": true,
+    "child": true
+  },
+  "notifications": {
+    "parent": {
+      "exit": 0,
+      "package_mentions": 5,
+      "audio_service_id_4303_present": false
+    },
+    "child": {
+      "exit": 0,
+      "package_mentions": 35,
+      "audio_service_id_4303_present": false
+    }
+  },
+  "media_projection": {
+    "parent": {
+      "exit": 0,
+      "service_available": false,
+      "stderr": "Can't find service: media.projection",
+      "package_mentions": 0,
+      "raw_stdout_lines": 0
+    },
+    "child": {
+      "exit": 0,
+      "service_available": false,
+      "stderr": "Can't find service: media.projection",
+      "package_mentions": 0,
+      "raw_stdout_lines": 0
+    }
+  },
+  "git": {
+    "branch": {
+      "exit": 0,
+      "retained": "main"
+    },
+    "head": {
+      "exit": 0,
+      "retained": "c7b475eb6f0c818a14d298ce4823e69b0d1a55e9"
+    },
+    "status": {
+      "exit": 0,
+      "retained": "M docs/testing/FINAL_COMPLETE_FUNCTIONAL_AUDIT.md\n M docs/testing/final_two_device_audit/AGENT1_RECOVERY_FLOW_SPEC.md\n M docs/testing/final_two_device_audit/SUBAGENT1_PARENT_RESULTS.md\n M docs/testing/final_two_device_audit/SUBAGENT3_WEBRTC_MEDIA_REPORT.md\n M docs/testing/final_two_device_audit/SUBAGENT4_AUTOMATED_AND_MATRIX.md\n M docs/testing/final_two_device_audit/backend/APP_INVENTORY_PACKAGE_VALIDATION.json\n M docs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION.json\n M docs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION_PASS2.json\n M docs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION_PASS3.json\n M docs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION_PASS4.json\n M docs/testing/final_two_device_audit/child/07_home.xml\n M docs/testing/final_two_device_audit/child/08_settings.xml\n M docs/testing/final_two_device_audit/child/C07_audio_request_received.xml\n M docs/testing/final_two_device_audit/child/C08_audio_review.xml\n M docs/testing/final_two_device_audit/child/C09_audio_accepted.xml\n M docs/testing/final_two_device_audit/child/C10_audio_join_ready.xml\n M docs/testing/final_two_device_audit/child/C12_audio_live.xml\n M docs/testing/final_two_device_audit/child/C14_audio_ended.xml\n M docs/testing/final_two_device_audit/child/C15_after_end.xml\n M docs/testing/final_two_device_audit/child/J13_child_req.xml\n M docs/testing/final_two_device_audit/child/J13b.xml\n M docs/testing/final_two_device_audit/child/J14_child_detail.xml\n M docs/testing/final_two_device_audit/child/J14b.xml\n M docs/testing/final_two_device_audit/child/J15_child_accepted.xml\n M docs/testing/final_two_device_audit/child/J15b.xml\n M docs/testing/final_two_device_audit/child/J16_child_session.xml\n M docs/testing/final_two_device_audit/child/J16b.xml\n M docs/testing/final_two_device_audit/child/R08_child_check.xml\n M docs/testing/final_two_device_audit/child/_J13.txt\n M docs/testing/final_two_device_audit/child/_J14.txt\n M docs/testing/final_two_device_audit/child/_J15.txt\n M docs/testing/final_two_device_audit/child/_J16.txt\n M docs/testing/final_two_device_audit/child/c11_home_after_recovery.xml\n M docs/testing/final_two_device_audit/child/c13_enrollment.xml\n M docs/testing/final_two_device_audit/child/c14_check_requests.xml\n M docs/testing/final_two_device_audit/child/c15_qr.xml\n M docs/testing/final_two_device_audit/child/c16_approve.xml\n M docs/testing/final_two_device_audit/child/c24_perms.xml\n M docs/testing/final_two_device_audit/parent/A02_relaunch2.xml\n M docs/testing/final_two_device_audit/parent/J03_remote_page.xml\n M docs/testing/final_two_device_audit/parent/J03b.xml\n M docs/testing/final_two_device_audit/parent/J06_sent.xml\n M docs/testing/final_two_device_audit/parent/J10_ra_fresh.xml\n M docs/testing/final_two_device_audit/parent/J11_after_send.xml\n M docs/testing/final_two_device_audit/parent/P10_remote_current.xml\n M docs/testing/final_two_device_audit/parent/P12_audio_requested.xml\n M docs/testing/final_two_device_audit/parent/P13_after_child_join.xml\n M docs/testing/final_two_device_audit/parent/P14_end_session_tapped.xml\n M docs/testing/final_two_device_audit/parent/P15_audio_ended.xml\n M docs/testing/final_two_device_audit/parent/P16_after_end.xml\n M docs/testing/final_two_device_audit/parent/P16_shell.xml\n M docs/testing/final_two_device_audit/parent/P19_dashboard_current.xml\n M docs/testing/final_two_device_audit/parent/P20_family_current.xml\n M docs/testing/final_two_device_audit/parent/P26_pairing_after_scroll_top.xml\n M docs/testing/final_two_device_audit/parent/P27_pairing_requests_current.xml\n M docs/testing/final_two_device_audit/parent/P28_audit_scrolled_current.xml\n M docs/testing/final_two_device_audit/parent/P29_current_after_interruption.xml\n M docs/testing/final_two_device_audit/parent/P29_retention_invalid.xml\n M docs/testing/final_two_device_audit/parent/P29_retention_invalid_submitted.xml\n M docs/testing/final_two_device_audit/parent/P29_retention_restore.xml\n M docs/testing/final_two_device_audit/parent/P29_retention_restored.xml\n M docs/testing/final_two_device_audit/parent/P29_retention_top.xml\n M docs/testing/final_two_device_audit/parent/P29_retention_valid_changed.xml\n M docs/testing/final_two_device_audit/parent/P29_retention_valid_saved.xml\n M docs/testing/final_two_device_audit/parent/P30_parent_settings_top.xml\n M docs/testing/final_two_device_audit/parent/P31_notification_switch_off.xml\n M docs/testing/final_two_device_audit/parent/P31_notification_switch_restored.xml\n M docs/testing/final_two_device_audit/parent/P31_switches_visible.xml\n M docs/testing/final_two_device_audit/parent/P34_location_current.xml\n M docs/testing/final_two_device_audit/parent/P37_screen_time_ack_01.txt\n M docs/testing/final_two_device_audit/parent/P37_screen_time_ack_02.txt\n M docs/testing/final_two_device_audit/parent/P37_screen_time_ack_03.txt\n M docs/testing/final_two_device_audit/parent/P38_bedtime_ack_01.txt\n M docs/testing/final_two_device_audit/parent/P38_bedtime_ack_02.txt\n M docs/testing/final_two_device_audit/parent/P38_bedtime_ack_03.txt\n M docs/testing/final_two_device_audit/parent/P38_bedtime_set.txt\n M docs/testing/final_two_device_audit/parent/P38_restored_ack_01.txt\n M docs/testing/final_two_device_audit/parent/P38_restored_ack_02.txt\n M docs/testing/final_two_device_audit/parent/P38_restored_ack_03.txt\n M docs/testing/final_two_device_audit/parent/P38_scroll_Save_screen-time_policy_1.txt\n M docs/testing/final_two_device_audit/parent/P40_device_detail_commands.txt\n M docs/testing/final_two_device_audit/parent/P40_restrictions_before_sync.txt\n M docs/testing/final_two_device_audit/parent/P40_restrictions_scroll_1.txt\n M docs/testing/final_two_device_audit/parent/P41_detail_commands_top.txt\n M docs/testing/final_two_device_audit/parent/P41_device_detail_before_repeat_sync.txt\n M docs/testing/final_two_device_audit/parent/P41_restrictions_after_repeat_sync.txt\n M docs/testing/final_two_device_audit/parent/P41_restrictions_before_repeat_sync.txt\n M docs/testing/final_two_device_audit/parent/P41_restrictions_refreshed.txt\n M docs/testing/final_two_device_audit/parent/P41_restrictions_scroll_1.txt\n M docs/testing/final_two_device_audit/parent/_J03.txt\n M docs/testing/final_two_device_audit/parent/_J06.txt\n M docs/testing/final_two_device_audit/parent/_J11.txt\n M docs/testing/final_two_device_audit/parent/p03_dash.xml\n M docs/testing/final_two_device_audit/parent/p12_family.xml\n M docs/testing/final_two_device_audit/parent/p13_family_scroll.xml\n M docs/testing/final_two_device_audit/parent/p14_family_top.xml\n M docs/testing/final_two_device_audit/parent/p18_devices_after.xml\n M docs/testing/final_two_device_audit/parent/p19_devices_new.xml\n M docs/testing/final_two_device_audit/parent/p20_navcheck.xml\n M docs/testing/final_two_device_audit/parent/p21_shell.xml\n M docs/testing/final_two_device_audit/parent/state_now.xml\n M docs/testing/final_two_device_audit/parent/tmp_q2.xml\n?? docs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION_PASS5.json\n?? docs/testing/final_two_device_audit/backend/FINAL_FEATURE_MATRIX.json\n?? docs/testing/final_two_device_audit/backend/FINAL_REPORT_VALIDATION.json\n?? docs/testing/final_two_device_audit/backend/validate_final_report.py\n?? docs/testing/pdf_based_complete_functional_audit/"
+    },
+    "unstaged_names": {
+      "exit": 0,
+      "retained": "docs/testing/FINAL_COMPLETE_FUNCTIONAL_AUDIT.md\ndocs/testing/final_two_device_audit/AGENT1_RECOVERY_FLOW_SPEC.md\ndocs/testing/final_two_device_audit/SUBAGENT1_PARENT_RESULTS.md\ndocs/testing/final_two_device_audit/SUBAGENT3_WEBRTC_MEDIA_REPORT.md\ndocs/testing/final_two_device_audit/SUBAGENT4_AUTOMATED_AND_MATRIX.md\ndocs/testing/final_two_device_audit/backend/APP_INVENTORY_PACKAGE_VALIDATION.json\ndocs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION.json\ndocs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION_PASS2.json\ndocs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION_PASS3.json\ndocs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION_PASS4.json\ndocs/testing/final_two_device_audit/child/07_home.xml\ndocs/testing/final_two_device_audit/child/08_settings.xml\ndocs/testing/final_two_device_audit/child/C07_audio_request_received.xml\ndocs/testing/final_two_device_audit/child/C08_audio_review.xml\ndocs/testing/final_two_device_audit/child/C09_audio_accepted.xml\ndocs/testing/final_two_device_audit/child/C10_audio_join_ready.xml\ndocs/testing/final_two_device_audit/child/C12_audio_live.xml\ndocs/testing/final_two_device_audit/child/C14_audio_ended.xml\ndocs/testing/final_two_device_audit/child/C15_after_end.xml\ndocs/testing/final_two_device_audit/child/J13_child_req.xml\ndocs/testing/final_two_device_audit/child/J13b.xml\ndocs/testing/final_two_device_audit/child/J14_child_detail.xml\ndocs/testing/final_two_device_audit/child/J14b.xml\ndocs/testing/final_two_device_audit/child/J15_child_accepted.xml\ndocs/testing/final_two_device_audit/child/J15b.xml\ndocs/testing/final_two_device_audit/child/J16_child_session.xml\ndocs/testing/final_two_device_audit/child/J16b.xml\ndocs/testing/final_two_device_audit/child/R08_child_check.xml\ndocs/testing/final_two_device_audit/child/_J13.txt\ndocs/testing/final_two_device_audit/child/_J14.txt\ndocs/testing/final_two_device_audit/child/_J15.txt\ndocs/testing/final_two_device_audit/child/_J16.txt\ndocs/testing/final_two_device_audit/child/c11_home_after_recovery.xml\ndocs/testing/final_two_device_audit/child/c13_enrollment.xml\ndocs/testing/final_two_device_audit/child/c14_check_requests.xml\ndocs/testing/final_two_device_audit/child/c15_qr.xml\ndocs/testing/final_two_device_audit/child/c16_approve.xml\ndocs/testing/final_two_device_audit/child/c24_perms.xml\ndocs/testing/final_two_device_audit/parent/A02_relaunch2.xml\ndocs/testing/final_two_device_audit/parent/J03_remote_page.xml\ndocs/testing/final_two_device_audit/parent/J03b.xml\ndocs/testing/final_two_device_audit/parent/J06_sent.xml\ndocs/testing/final_two_device_audit/parent/J10_ra_fresh.xml\ndocs/testing/final_two_device_audit/parent/J11_after_send.xml\ndocs/testing/final_two_device_audit/parent/P10_remote_current.xml\ndocs/testing/final_two_device_audit/parent/P12_audio_requested.xml\ndocs/testing/final_two_device_audit/parent/P13_after_child_join.xml\ndocs/testing/final_two_device_audit/parent/P14_end_session_tapped.xml\ndocs/testing/final_two_device_audit/parent/P15_audio_ended.xml\ndocs/testing/final_two_device_audit/parent/P16_after_end.xml\ndocs/testing/final_two_device_audit/parent/P16_shell.xml\ndocs/testing/final_two_device_audit/parent/P19_dashboard_current.xml\ndocs/testing/final_two_device_audit/parent/P20_family_current.xml\ndocs/testing/final_two_device_audit/parent/P26_pairing_after_scroll_top.xml\ndocs/testing/final_two_device_audit/parent/P27_pairing_requests_current.xml\ndocs/testing/final_two_device_audit/parent/P28_audit_scrolled_current.xml\ndocs/testing/final_two_device_audit/parent/P29_current_after_interruption.xml\ndocs/testing/final_two_device_audit/parent/P29_retention_invalid.xml\ndocs/testing/final_two_device_audit/parent/P29_retention_invalid_submitted.xml\ndocs/testing/final_two_device_audit/parent/P29_retention_restore.xml\ndocs/testing/final_two_device_audit/parent/P29_retention_restored.xml\ndocs/testing/final_two_device_audit/parent/P29_retention_top.xml\ndocs/testing/final_two_device_audit/parent/P29_retention_valid_changed.xml\ndocs/testing/final_two_device_audit/parent/P29_retention_valid_saved.xml\ndocs/testing/final_two_device_audit/parent/P30_parent_settings_top.xml\ndocs/testing/final_two_device_audit/parent/P31_notification_switch_off.xml\ndocs/testing/final_two_device_audit/parent/P31_notification_switch_restored.xml\ndocs/testing/final_two_device_audit/parent/P31_switches_visible.xml\ndocs/testing/final_two_device_audit/parent/P34_location_current.xml\ndocs/testing/final_two_device_audit/parent/P37_screen_time_ack_01.txt\ndocs/testing/final_two_device_audit/parent/P37_screen_time_ack_02.txt\ndocs/testing/final_two_device_audit/parent/P37_screen_time_ack_03.txt\ndocs/testing/final_two_device_audit/parent/P38_bedtime_ack_01.txt\ndocs/testing/final_two_device_audit/parent/P38_bedtime_ack_02.txt\ndocs/testing/final_two_device_audit/parent/P38_bedtime_ack_03.txt\ndocs/testing/final_two_device_audit/parent/P38_bedtime_set.txt\ndocs/testing/final_two_device_audit/parent/P38_restored_ack_01.txt\ndocs/testing/final_two_device_audit/parent/P38_restored_ack_02.txt\ndocs/testing/final_two_device_audit/parent/P38_restored_ack_03.txt\ndocs/testing/final_two_device_audit/parent/P38_scroll_Save_screen-time_policy_1.txt\ndocs/testing/final_two_device_audit/parent/P40_device_detail_commands.txt\ndocs/testing/final_two_device_audit/parent/P40_restrictions_before_sync.txt\ndocs/testing/final_two_device_audit/parent/P40_restrictions_scroll_1.txt\ndocs/testing/final_two_device_audit/parent/P41_detail_commands_top.txt\ndocs/testing/final_two_device_audit/parent/P41_device_detail_before_repeat_sync.txt\ndocs/testing/final_two_device_audit/parent/P41_restrictions_after_repeat_sync.txt\ndocs/testing/final_two_device_audit/parent/P41_restrictions_before_repeat_sync.txt\ndocs/testing/final_two_device_audit/parent/P41_restrictions_refreshed.txt\ndocs/testing/final_two_device_audit/parent/P41_restrictions_scroll_1.txt\ndocs/testing/final_two_device_audit/parent/_J03.txt\ndocs/testing/final_two_device_audit/parent/_J06.txt\ndocs/testing/final_two_device_audit/parent/_J11.txt\ndocs/testing/final_two_device_audit/parent/p03_dash.xml\ndocs/testing/final_two_device_audit/parent/p12_family.xml\ndocs/testing/final_two_device_audit/parent/p13_family_scroll.xml\ndocs/testing/final_two_device_audit/parent/p14_family_top.xml\ndocs/testing/final_two_device_audit/parent/p18_devices_after.xml\ndocs/testing/final_two_device_audit/parent/p19_devices_new.xml\ndocs/testing/final_two_device_audit/parent/p20_navcheck.xml\ndocs/testing/final_two_device_audit/parent/p21_shell.xml\ndocs/testing/final_two_device_audit/parent/state_now.xml\ndocs/testing/final_two_device_audit/parent/tmp_q2.xml"
+    },
+    "staged_names": {
+      "exit": 0,
+      "retained": ""
+    }
+  },
+  "status": "COLLECTED",
+  "end": "2026-11-26T11:27:19+05:30",
+  "duration_seconds": 7.566
+}

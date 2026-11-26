@@ -1,0 +1,60 @@
+Ye 24/7 continuous recording/history nahi hai: Remote camera, screen mirroring aur one-way audio on-demand
+live features hain. Session start karne ke liye child device responsive/online hona, required permissions aur Android
+OS approval/availability zaroori hai. Secure, transparent parental use karein; hidden surveillance ya consent bypass
+ko assume na karein.
+
+6. Notifications, social content aur image detection
+
+Notification Sync
+
+ · Supported apps ke incoming notifications parent dashboard par dikh sakte hain.
+ · App-wise notification selection/mute controls available ho sakte hain.
+ · Notifications mein message previews ho sakte hain, lekin end-to-end encrypted apps, hidden previews, app
+
+    restrictions ya OS behavior ki wajah se content incomplete ho sakta hai.
+
+Social Content Detection
+
+ · Android overview ke mutabik selected supported social apps ke incoming messages mein parent-defined keywords
+    detect hone par alert aa sakta hai.
+
+ · Parent ko pehle App Detection Management mein supported apps enable karne aur Keyword Management mein
+    keywords set karne hote hain.
+
+ · Ye universal chat-reading feature nahi hai; supported apps, versions, language, notification/message access aur
+    permissions par dependent hai.
+
+Inappropriate Image Detection
+
+Feature enable hone par AirDroid Kids child phone ki internal storage/Gallery mein save hone wali images ko
+detect/scan karne ka feature describe karta hai. Iska matlab har disappearing image, encrypted chat media, cloud-only
+image ya live camera feed automatically scan hona nahi hai.
+
+Calls & SMS / Web Safe Search / AI Chat Monitoring
+
+AirDroid ki current product pages calls/SMS monitoring, call filtering, web safe search aur AI chat monitoring jaise
+capabilities advertise karti hain. Exact supported apps, countries, Android versions, account/plan requirements aur
+rollout status alag ho sakte hain. Inhe universal access ya every-app coverage na samjhein; live app UI aur official
+compatibility list check karein.
+
+7. Website & browsing restrictions
+
+ · Website restrictions: supported browsers/web access par blacklist/whitelist style controls.
+ · Browsing history: supported browser activity/URLs review karna aur blocked attempts dekhna.
+ · Blocked-site alerts: child restricted website open karne ki koshish kare to alert mil sakta hai.
+ · Website limits: product guide mein website/time controls kuch platforms/modes ke liye listed hain; Android aur iOS
+
+    feature parity same nahi hoti.
+Browser filtering ki coverage browser, VPN/private DNS, alternate browsers, in-app webviews, encrypted DNS aur
+Android network configuration ke hisaab se vary kar sakti hai. 'Website filter' ka matlab har app ke andar ka content
+filter hona nahi hai.
+
+8. Alerts, requests, family tools
+
+ · Requests: child blocked app ke liye extra time/access request bhej sakta hai; parent approve/refuse kar sakta hai.
+ · Alerts: geofence entry/exit, blocked app attempts, newly installed apps, low battery ya device offline jaise events
+
+    (supported configuration).
+
+AirDroid Parental Control · Hinglish Feature Guide  Page 4
+

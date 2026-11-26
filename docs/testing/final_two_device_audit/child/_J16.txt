@@ -1,7 +1,7 @@
 Back
 Assistance
 Refresh status
-Audio assistance | Accepted | From | ankit | Requested | Nov 13, 2026 1:57 PM · 1 min ago | Session duration | Until your guardian ends the session | Elapsed | 7s | Consent | Recorded | Accepted | Nov 13, 2026 1:59 PM
+Audio assistance | Accepted | From | [ACCOUNT] | Requested | Nov 13, 2026 1:57 PM · 1 min ago | Session duration | Until your guardian ends the session | Elapsed | 7s | Consent | Recorded | Accepted | Nov 13, 2026 1:59 PM
 Relay not configured | No TURN relay is configured. Audio/video may fail to connect on networks with strict firewalls or carrier NAT.
 Ready when you are | You accepted this request. Tapping Join turns on your microphone and starts the live audio session.
 Join with microphone

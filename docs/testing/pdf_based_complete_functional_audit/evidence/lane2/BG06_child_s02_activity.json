@@ -1,0 +1,25 @@
+{
+  "start": "2026-11-26T13:00:50+05:30",
+  "end": "2026-11-26T13:00:50+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys activity activities",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 501,
+  "selected_stdout_lines": 19,
+  "include": [
+    "mResumedActivity",
+    "topResumedActivity",
+    "mFocusedApp",
+    "com\\.parentcontrol\\.parent_control"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "3e90fde7393bc61ba2c7607ab932da2876563cae7546fce4994b734c5d76abae",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s02_activity.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

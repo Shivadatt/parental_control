@@ -1,0 +1,13 @@
+start=2026-11-26T12:22:47+05:30
+end=2026-11-26T12:22:47+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell settings get secure enabled_notification_listeners
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=1
+stderr_lines=0
+--- stdout ---
+[REDACTED_PACKAGE]/[REDACTED_PACKAGE]:[REDACTED_PACKAGE]/[REDACTED_PACKAGE]
+--- stderr ---
+

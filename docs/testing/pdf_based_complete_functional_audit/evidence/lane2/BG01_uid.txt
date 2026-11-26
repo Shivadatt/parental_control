@@ -1,0 +1,13 @@
+start=2026-11-26T12:24:39+05:30
+end=2026-11-26T12:24:39+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell cmd package list packages -U com.parentcontrol.parent_control
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=1
+stderr_lines=0
+--- stdout ---
+package:com.parentcontrol.parent_control uid:11324
+--- stderr ---
+

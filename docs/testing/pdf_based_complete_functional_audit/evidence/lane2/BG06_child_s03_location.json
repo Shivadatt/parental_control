@@ -1,0 +1,32 @@
+{
+  "start": "2026-11-26T13:01:54+05:30",
+  "end": "2026-11-26T13:01:54+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys location",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 342,
+  "selected_stdout_lines": 216,
+  "include": [
+    "com\\.parentcontrol\\.parent_control",
+    "Location Manager State",
+    "mEnabledProviders",
+    "mDisabledProviders",
+    "gps",
+    "network"
+  ],
+  "exclude": [
+    "last location",
+    "latitude",
+    "longitude",
+    "mLastLocation"
+  ],
+  "sha256_sanitized_output": "aae6447b9b1e3dd02ddd5c45d53b29974ce6956b9bbccac7aec1cba617d1e75b",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s03_location.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

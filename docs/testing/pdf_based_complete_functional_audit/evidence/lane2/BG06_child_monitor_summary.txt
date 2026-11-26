@@ -1,0 +1,13 @@
+start=2026-11-26T12:59:47+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+package=com.parentcontrol.parent_control
+samples_requested=5
+interval_seconds=60
+mode=read-only ADB diagnostics; no force-stop, permission, network, or data changes
+sample=1 start=2026-11-26T12:59:48+05:30 end=2026-11-26T12:59:50+05:30 uid=11324 commands=12 evidence_prefix=BG06_child_s01
+sample=2 start=2026-11-26T13:00:50+05:30 end=2026-11-26T13:00:52+05:30 uid=11324 commands=12 evidence_prefix=BG06_child_s02
+sample=3 start=2026-11-26T13:01:52+05:30 end=2026-11-26T13:01:55+05:30 uid=11324 commands=12 evidence_prefix=BG06_child_s03
+sample=4 start=2026-11-26T13:02:55+05:30 end=2026-11-26T13:02:57+05:30 uid=11324 commands=12 evidence_prefix=BG06_child_s04
+sample=5 start=2026-11-26T13:03:57+05:30 end=2026-11-26T13:04:00+05:30 uid=11324 commands=12 evidence_prefix=BG06_child_s05
+end=2026-11-26T13:04:00+05:30 samples_completed=5 commands_total=61

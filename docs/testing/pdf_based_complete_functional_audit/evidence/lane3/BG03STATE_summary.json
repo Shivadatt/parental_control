@@ -1,0 +1,14 @@
+{
+  "test_id": "BG03STATE",
+  "start": "2026-11-26T11:17:47+05:30",
+  "child_background_after_inspection": {
+    "foreground": false,
+    "components": [
+      "com.android.launcher/.Launcher"
+    ],
+    "exit": 0
+  },
+  "status": "COLLECTED",
+  "end": "2026-11-26T11:18:00+05:30",
+  "duration_seconds": 12.874
+}

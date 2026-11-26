@@ -6,5 +6,5 @@ Request audio
 Request video
 Audio and video come from the child device only, after the child accepts and joins. This phone's camera and microphone are never opened, so audio assistance is listen-only.
 Recent sessions | 9
-Video assistance | Ended | Device | realme RMX2161 | Child | ankit1 | Media | No media is open | Requested | Nov 13, 2026 11:47 AM · 2 h ago | Tap to open the session screen
-Audio assistance | Ended | Device | realme RMX2161 | Child | ankit1 | Media | No media is open | Requested | Nov 13, 2026 11:46 AM · 2 h ago | Tap to open the session screen
+Video assistance | Ended | Device | realme RMX2161 | Child | [ACCOUNT] | Media | No media is open | Requested | Nov 13, 2026 11:47 AM · 2 h ago | Tap to open the session screen
+Audio assistance | Ended | Device | realme RMX2161 | Child | [ACCOUNT] | Media | No media is open | Requested | Nov 13, 2026 11:46 AM · 2 h ago | Tap to open the session screen

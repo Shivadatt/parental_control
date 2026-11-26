@@ -1,0 +1,20 @@
+start=2026-11-26T12:22:49+05:30
+end=2026-11-26T12:22:49+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys package com.parentcontrol.parent_control
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=320
+selected_stdout_lines=6
+include=["versionName=", "versionCode=", "firstInstallTime=", "lastUpdateTime=", "userId=", "pkgFlags="]
+exclude=[]
+--- selected stdout ---
+    userId=11324
+    versionCode=1 minSdk=24 targetSdk=36
+    versionName=1.0.0
+    firstInstallTime=2026-11-17 12:44:28
+    lastUpdateTime=2026-11-24 16:02:14
+    pkgFlags=[ HAS_CODE ALLOW_CLEAR_USER_DATA ]
+--- stderr ---
+

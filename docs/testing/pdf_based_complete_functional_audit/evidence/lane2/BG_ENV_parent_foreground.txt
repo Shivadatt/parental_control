@@ -1,0 +1,53 @@
+start=2026-11-26T12:23:43+05:30
+end=2026-11-26T12:23:43+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys activity activities
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=472
+selected_stdout_lines=39
+include=["com\\.parentcontrol\\.parent_control", "com\\.android\\.launcher/\\.Launcher"]
+exclude=[]
+--- selected stdout ---
+  * Task{3731120 #47 type=standard I=com.parentcontrol.parent_control/.MainActivity U=0 visible=true visibleRequested=true mode=fullscreen translucent=false sz=1}
+    topResumedActivity=ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}
+    * Hist  #0: ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}
+      packageName=com.parentcontrol.parent_control processName=com.parentcontrol.parent_control
+      app=ProcessRecord{492c37f 16968:com.parentcontrol.parent_control/u0a238}
+      Intent { act=android.intent.action.MAIN cat=[android.intent.category.LAUNCHER] flg=0x10200000 cmp=com.parentcontrol.parent_control/.MainActivity }
+      rootOfTask=true task=Task{3731120 #47 type=standard I=com.parentcontrol.parent_control/.MainActivity}
+      mActivityComponent=com.parentcontrol.parent_control/.MainActivity
+      baseDir=/data/app/~~DpleAdiQ0NkziY6nLQtv-A==/com.parentcontrol.parent_control-2s_bM1a4rMOJO3dg5rmxrg==/base.apk
+      dataDir=/data/user/0/com.parentcontrol.parent_control
+      taskDescription: label="Parent Control" icon=null iconResource=com.parentcontrol.parent_control/0 iconFilename=null primaryColor=ff2f5bea
+      windows=[Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}]
+    Resumed: ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}
+  ResumedActivity: ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}
+  topDisplayFocusedRootTask=Task{3731120 #47 type=standard I=com.parentcontrol.parent_control/.MainActivity}
+  deepestLastOrientationSource=ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}
+  mImeLayeringTarget=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+  mImeInputTarget=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+  mImeControlTarget=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+  mImeParent=ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}
+  mCurrentFocus=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+  mFocusedApp=ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}
+      mPreferredTopFocusableRootTask=Task{3731120 #47 type=standard I=com.parentcontrol.parent_control/.MainActivity}
+      mLastFocusedRootTask=Task{3731120 #47 type=standard I=com.parentcontrol.parent_control/.MainActivity}
+      * Task{3731120 #47 type=standard I=com.parentcontrol.parent_control/.MainActivity U=0 visible=true visibleRequested=true mode=fullscreen translucent=false sz=1}
+        * ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}
+    mFocusedWindow=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+    mTopFullscreenOpaqueWindowState=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+    mSystemUiControllingWindow=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+    mSystemBarColorApps={ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}}
+    mNavBarColorWindowCandidate=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+    mNavBarBackgroundWindowCandidate=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+      Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+      Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}:
+        mControlTarget=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+        mControlTarget=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+        mControlTarget=Window{7046c6c u0 com.parentcontrol.parent_control/com.parentcontrol.parent_control.MainActivity}
+        (fullscreen) Task{3731120 #47 type=standard I=com.parentcontrol.parent_control/.MainActivity}
+  VisibleActivityProcess:[ ProcessRecord{492c37f 16968:com.parentcontrol.parent_control/u0a238}]
+--- stderr ---
+

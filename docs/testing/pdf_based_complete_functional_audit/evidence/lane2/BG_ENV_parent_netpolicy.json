@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:22:48+05:30",
+  "end": "2026-11-26T12:22:48+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell dumpsys netpolicy",
+  "exit": 0,
+  "duration_seconds": 0.06,
+  "raw_stdout_lines": 1377,
+  "selected_stdout_lines": 327,
+  "include": [
+    "mRestrictBackground",
+    "restrictBackground",
+    "mDataSaver",
+    "uid="
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "d8ffea620cc343532046883162e0ea9b055b074bf6927823e66037d0f1a04d45",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG_ENV_parent_netpolicy.txt"
+}

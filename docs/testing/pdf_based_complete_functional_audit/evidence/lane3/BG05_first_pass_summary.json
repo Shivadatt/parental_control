@@ -1,0 +1,110 @@
+{
+  "test_id": "BG05",
+  "start": "2026-11-26T11:23:50+05:30",
+  "baseline": {
+    "parent_device": {
+      "role": "parent",
+      "serial": "emulator-5554",
+      "model": "sdk_gphone64_x86_64",
+      "android_release": "17",
+      "sdk": "37",
+      "security_patch": "2026-08-05",
+      "timezone": "Asia/Calcutta",
+      "device_time": "2026-11-26T11:23:49+0530",
+      "version_name": "1.0.0",
+      "version_code": "1",
+      "display_size": "Physical size: 1080x2424",
+      "display_density": "Physical density: 420"
+    },
+    "child_device": {
+      "role": "child",
+      "serial": "5HXWRGQ4IFU8WS4T",
+      "model": "RMX2161",
+      "android_release": "12",
+      "sdk": "31",
+      "security_patch": "2023-01-05",
+      "timezone": "Asia/Kolkata",
+      "device_time": "2026-11-26T11:23:51+0530",
+      "version_name": "1.0.0",
+      "version_code": "1",
+      "display_size": "Physical size: 1080x2400",
+      "display_density": "Physical density: 480"
+    },
+    "parent_activity": {
+      "foreground": true,
+      "components": [
+        "com.parentcontrol.parent_control/.MainActivity"
+      ],
+      "exit": 0
+    },
+    "child_activity": {
+      "foreground": false,
+      "components": [
+        "com.android.launcher/.Launcher"
+      ],
+      "exit": 0
+    },
+    "parent_native": {
+      "services": [],
+      "foreground_ids": [],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "none",
+      "microphone_mode": "unknown",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=108;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "child_native": {
+      "services": [
+        "GuardianService",
+        "LocationTrackingService"
+      ],
+      "foreground_ids": [
+        "4101",
+        "4202"
+      ],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "update",
+      "microphone_mode": "RECORD_AUDIO: allow",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=146;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "parent_remote_controls": [
+    "Request audio",
+    "Request video"
+  ],
+  "screen_control_labels": [
+    "Audio assistance Ended Device realme RMX2161 Child [REDACTED_NAME] Media No media is open Requested Nov 25, 2026 3:52 PM · 19 h ago Tap to open the session screen"
+  ],
+  "child_background_before_check": true,
+  "source_scan_counts": {
+    "MediaProjection": 0,
+    "VIRTUAL_DISPLAY": 0,
+    "FOREGROUND_SERVICE_MEDIA_PROJECTION": 0,
+    "screen mirror/cast/share": 1
+  },
+  "source_scan_path": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane3\\BG05_source_scan.txt",
+  "status": "COLLECTED",
+  "end": "2026-11-26T11:24:27+05:30",
+  "duration_seconds": 36.719
+}

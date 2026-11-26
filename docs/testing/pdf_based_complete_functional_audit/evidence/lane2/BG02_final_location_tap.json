@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T13:38:04+05:30",
+  "end": "2026-11-26T13:38:04+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 857",
+  "exit": 0,
+  "duration_seconds": 0.067,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "3642f5e4857c1365b9c3d9161a60040eb6e3f756a3e7cce43df42ab47bfac9a2",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG02_final_location_tap.txt"
+}

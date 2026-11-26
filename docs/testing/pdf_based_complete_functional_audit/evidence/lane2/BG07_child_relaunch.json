@@ -1,0 +1,15 @@
+{
+  "start": "__HAVEN_TIMESTAMP_2__",
+  "end": "__HAVEN_TIMESTAMP_3__",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell monkey -p com.parentcontrol.parent_control -c android.intent.category.LAUNCHER 1",
+  "exit": 0,
+  "duration_seconds": 1.189,
+  "stdout_lines": 7,
+  "stderr_lines": 8,
+  "stdout_bytes_sanitized": 239,
+  "stderr_bytes_sanitized": 288,
+  "sha256_sanitized_output": "d5bd4f4d55df657a0a419981f6de54f858ceb5387bdf23ea271ad5fcddd7b3c0",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG07_child_relaunch.txt"
+}

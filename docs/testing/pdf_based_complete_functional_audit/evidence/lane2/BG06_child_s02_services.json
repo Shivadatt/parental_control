@@ -1,0 +1,28 @@
+{
+  "start": "2026-11-26T13:00:50+05:30",
+  "end": "2026-11-26T13:00:50+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys activity services com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 37,
+  "selected_stdout_lines": 24,
+  "include": [
+    "com\\.parentcontrol\\.parent_control",
+    "ServiceRecord",
+    "isForeground",
+    "foregroundId",
+    "startRequested",
+    "crashCount",
+    "lastActivity"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "6d03dfec40911423cce012c09c3442e900f38907d4527e72b4aa52ff1ce7a131",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s02_services.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

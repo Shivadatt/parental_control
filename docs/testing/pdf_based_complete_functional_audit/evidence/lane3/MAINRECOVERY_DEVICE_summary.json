@@ -1,0 +1,55 @@
+{
+  "test_id": "MAINRECOVERY_DEVICE",
+  "start": "2026-11-26T12:01:59+05:30",
+  "parent_initial_labels": [
+    "Back",
+    "Remote assistance",
+    "Refresh",
+    "Assistance with explicit consent A request is delivered to the child account. Nothing opens until the child accepts it and then taps Join on their own session screen; you join from the session screen on this phone. This phone's camera and microphone are never opened by the app. Nothing is recorded, and no screenshots or screen capture are taken. A pending request expires if it is not answered; once accepted, the session stays open until the guardian ends it. The status on each card is the server's session status, not a media indicator.",
+    "Request failed The device is not active.",
+    "Request audio",
+    "Request video",
+    "Audio and video come from the child device only, after the child accepts and joins. This phone's camera and microphone are never opened, so audio assistance is listen-only.",
+    "Recent sessions 16",
+    "Audio assistance Ended Device realme RMX2161 Child [REDACTED_NAME] Media No media is open Requested Nov 25, 2026 3:52 PM · 19 h ago Tap to open the session screen"
+  ],
+  "parent_after_back_labels": [
+    "Back",
+    "realme RMX2161",
+    "Refresh device",
+    "Device permissions Reported by the child device. Unknown means it has not reported. Usage access Required for screen-time reports Granted Location Granted Background location Granted Camera Granted Microphone Granted Notifications Granted",
+    "Recent commands Delivery is confirmed by the device, not by this screen. No commands have been sent to this device yet.",
+    "Manage",
+    "App restrictions",
+    "Screen time",
+    "Location",
+    "Safe zones",
+    "Safety alerts",
+    "Remote assistance",
+    "Revoke device"
+  ],
+  "child_current_labels": [
+    "This phone settings",
+    "Refresh settings",
+    "Background protection Running Service Running with a visible notification Last command check 20 h ago App list upload failed: apps[14].package_name is not a valid Android package name.",
+    "Retry background protection",
+    "Account actions Unlinking stops background protection and location sharing on this phone. Your guardian can no longer see this device.",
+    "Unlink this phone from the family",
+    "Sign out",
+    "This app never records audio or video, takes screenshots, reads messages, or captures passwords. Camera and microphone are used only during an assistance session you accept and start, and a visible notification stays on while background services run.",
+    "Home Tab 1 of 4",
+    "Rules Tab 2 of 4",
+    "Requests Tab 3 of 4",
+    "Settings Tab 4 of 4"
+  ],
+  "child_background_restored": {
+    "foreground": false,
+    "components": [
+      "com.android.launcher/.Launcher"
+    ],
+    "exit": 0
+  },
+  "status": "COLLECTED",
+  "end": "2026-11-26T12:02:11+05:30",
+  "duration_seconds": 12.392
+}

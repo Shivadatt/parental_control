@@ -1,0 +1,18 @@
+start=2026-11-26T12:22:48+05:30
+end=2026-11-26T12:22:48+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys power
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=987
+selected_stdout_lines=4
+include=["mWakefulness=", "Display Power", "mScreenOn", "mLowPowerModeEnabled", "mDeviceIdleMode"]
+exclude=[]
+--- selected stdout ---
+  mWakefulness=Awake
+  mDeviceIdleMode=false
+Display Power: [REDACTED_PACKAGE]$1@e6f164f
+mWakefulness=1
+--- stderr ---
+

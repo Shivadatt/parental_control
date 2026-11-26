@@ -1,0 +1,17 @@
+{
+  "start": "2026-11-26T12:59:49+05:30",
+  "end": "2026-11-26T12:59:49+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys audio",
+  "exit": 0,
+  "duration_seconds": 0.1,
+  "raw_stdout_lines": 622,
+  "selected_stdout_lines": 33,
+  "include": [
+    "com\\.parentcontrol\\.parent_control"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "5afc7c26e8a1cb8b2e8bbcd760d6ebbd07c16ecc7f34800221110cc0dca51ad9",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s01_audio_capture.txt"
+}

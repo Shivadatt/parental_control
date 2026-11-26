@@ -78,8 +78,8 @@ This audit report provides an exhaustive, evidence-backed evaluation of all Pare
 - **UI Dump Evidence:** `p02_dash.xml`, `p04_devices.xml`, `p05_devdetail.xml`, `A03_devlist.xml`, `A04_detail.xml`
 - **Screenshot Evidence:** `p02_dash.png`, `p04_devices.png`, `p05_devdetail.png`, `A04_detail.png`
 - **Overview Entities Rendered:**
-  - **Family Name:** `demo` (Created Oct 29, 2026; Family Owner: `ankit (you)`)
-  - **Child Card:** `ankit1` (Role: Child; Joined Oct 29, 2026 11:17 AM)
+  - **Family Name:** `demo` (Created Oct 29, 2026; Family Owner: `[ACCOUNT] (you)`)
+  - **Child Card:** `[ACCOUNT]` (Role: Child; Joined Oct 29, 2026 11:17 AM)
   - **Device Card:** `realme RMX2161`
     - Battery: `100% (charging)`
     - Network / Sync Status: Swaps between `Online` (`synced 1 min ago · Nov 13, 2026 1:54 PM` in `A04_detail.xml`) and `Offline` (`last seen 2 h ago · Nov 13, 2026 10:18 AM` in `p05_devdetail.xml`).
@@ -335,7 +335,7 @@ Cross-referencing with `AGENT4_ALERTS_POLICY_ANALYSIS.md` §A:
 ### 7.2 Forensic Analysis: "Media: No media is open" & Defect E-2
 - **UI String Origin:**
   - Across all 9 sessions in the list (`J03_remote_page.xml`, `J10_ra_fresh.xml`), each card displays:
-    `"Video assistance | Ended | Device: realme RMX2161 | Child: ankit1 | Media: No media is open | Requested: Nov 13, 2026 11:47 AM"`
+    `"Video assistance | Ended | Device: realme RMX2161 | Child: [ACCOUNT] | Media: No media is open | Requested: Nov 13, 2026 11:47 AM"`
   - **Forensic Finding:** In `lib/data/models/remote_session.dart:156-171`:
     ```dart
     String get mediaNote {
@@ -392,11 +392,11 @@ Cross-referencing with `AGENT4_ALERTS_POLICY_ANALYSIS.md` §A:
 - **Screenshot Evidence:** `p12_family.png`, `p13_family_scroll.png`
 - **Family Metadata Displayed:**
   - Family Name: `demo`
-  - Owner: `ankit (you)`
+  - Owner: `[ACCOUNT] (you)`
   - Created Date: `Oct 29, 2026`
   - **Location Retention:** `30 days`
   - **Usage Retention:** `90 days`
-  - Guardians: `ankit (you)` (`Family owner · Active`)
+  - Guardians: `[ACCOUNT] (you)` (`Family owner · Active`)
   - Children: `Family member · Role: Child · Joined Oct 29, 2026 11:17 AM`
   - Linked Devices: `realme RMX2161`
 

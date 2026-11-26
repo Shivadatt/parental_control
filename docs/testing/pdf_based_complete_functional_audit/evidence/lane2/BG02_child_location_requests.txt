@@ -1,0 +1,48 @@
+start=2026-11-26T12:43:36+05:30
+end=2026-11-26T12:43:37+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys location
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=342
+selected_stdout_lines=34
+include=["com\\.parentcontrol\\.parent_control"]
+exclude=["last location", "latitude", "longitude", "mLastLocation"]
+--- selected stdout ---
+      service: ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+        11324/com.parentcontrol.parent_control/A066D467 Request[@+1m0s0ms HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+      service: ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+        11324/com.parentcontrol.parent_control/A066D467 Request[@+1m0s0ms LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+      11320/com.parentcontrol.parent_control: min/max interval = 60s/60s, total/active/foreground duration = +4h14m49s141ms/+4h14m49s129ms/+4h14m49s132ms, locations = 217
+      11324/com.parentcontrol.parent_control: min/max interval = 60s/60s, total/active/foreground duration = +3d19h48m49s254ms/+3d19h48m49s138ms/+3d19h48m48s782ms, locations = 2758
+      11320/com.parentcontrol.parent_control: min/max interval = 60s/60s, total/active/foreground duration = +4h14m49s133ms/+4h14m49s127ms/+4h14m49s131ms, locations = 195
+      11324/com.parentcontrol.parent_control: min/max interval = 60s/60s, total/active/foreground duration = +3d19h48m49s369ms/+3d19h48m44s459ms/+3d19h48m48s770ms, locations = 2812
+    11-26 09:14:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:15:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:16:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:17:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:18:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:19:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:19:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:20:[REDACTED_COORD]: gps provider stationary/idle unthrottled, request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:20:[REDACTED_COORD]: network provider stationary/idle unthrottled, request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:20:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:21:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:22:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:23:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:24:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:25:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:25:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:26:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:27:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:28:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:30:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:31:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:32:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:34:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:34:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:35:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 11:02:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+--- stderr ---
+

@@ -1,0 +1,14 @@
+{
+  "start": "__HAVEN_TIMESTAMP_1__",
+  "end": "__HAVEN_TIMESTAMP_2__",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml",
+  "device_temp_file": "/data/local/tmp/haven_lane2_ui.xml",
+  "device_temp_file_removed": true,
+  "exit": 0,
+  "node_count": 53,
+  "omitted_notification_nodes": 28,
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG07_child_after_unlock.ui.txt",
+  "sha256": "795a968f0a62dc0162dba166549592e114fa01797f80371ecab66a1cc6717eb8"
+}

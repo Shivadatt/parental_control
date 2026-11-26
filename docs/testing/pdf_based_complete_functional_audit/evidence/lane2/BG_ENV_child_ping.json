@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:22:49+05:30",
+  "end": "2026-11-26T12:22:51+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell ping -c 2 -W 3 1.1.1.1",
+  "exit": 0,
+  "duration_seconds": null,
+  "stdout_lines": 7,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 310,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "ec50deb5c9db4f0ed5cd023398292a2a5493e704e81b55f31ab9578e817f6e87",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG_ENV_child_ping.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T13:39:34+05:30",
+  "end": "2026-11-26T13:39:34+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell cmd appops get com.parentcontrol.parent_control RECORD_AUDIO",
+  "exit": 0,
+  "duration_seconds": 0.079,
+  "stdout_lines": 2,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 98,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "d31d36dd3eca569544dc80940a2b0a513bfb7dbd617bc483fbbc1c27734829cb",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG02_child_microphone_appop.txt"
+}

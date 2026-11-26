@@ -1,0 +1,1271 @@
+{
+  "root": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2",
+  "json_files_seen": 252,
+  "invalid_before": 0,
+  "files_rewritten": 0,
+  "unrepaired": 0,
+  "hashes_recomputed": 246,
+  "hash_files_changed": 246,
+  "records": [
+    {
+      "file": "BG01_parent_back.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_parent_dashboard_back.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_parent_dashboard_baseline_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_parent_dashboard_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s01_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s02_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s03_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s04_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s05_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s06_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_s07_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG01_uid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_active_device_again_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_active_device_again_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_back_to_dashboard.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_back_to_device.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_child_after_refresh.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_child_location_requests.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_device_detail_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_device_manage_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_device_manage_zones_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_devices_tab_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_devices_tab_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_edit_zone_inspect_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_edit_zone_inspect_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_history_7d_settled_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_history_7d_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_history_7d_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_location_after_refresh_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_location_before_refresh_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_active_device_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_active_device_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_location_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_location_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_safe_zones_final_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_safe_zones_final_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_safe_zones_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_settings_final_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_settings_final_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_settings_retry_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_open_settings_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_parent_settings_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_refresh_location_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_refresh_location_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_safe_zones_after_cancel_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_safe_zones_loaded_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_safe_zones_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_scroll_manage.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_scroll_zones.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_scroll_zones_retry1.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_scroll_zones_retry2.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_zone_editor_cancel_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_zone_editor_cancel_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG02_zone_editor_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_lock.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_locked.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_prelock.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s01_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s02_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s03_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s04_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_activity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_audio_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_camera_capture.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_location.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_netstats.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_pid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_processes.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_s05_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_uid.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_wake.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_woke.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_child_woke_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_dashboard_before_lock_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_device_for_dashboard_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_manage_back_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_manage_back_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_open_dashboard_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_open_dashboard_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_prelock.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_s01_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_s02_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_s03_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_s04_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_s05_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_safe_zones_back_tap.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG06_parent_safe_zones_back_ui.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_accessibility_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_connectivity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_device_policy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_foreground.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_identity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_network_settings.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_notification_listeners.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_package.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_ping.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_runtime_permissions.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_child_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_accessibility_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_appops.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_connectivity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_device_policy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_deviceidle.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_foreground.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_identity.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_netpolicy.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_network_settings.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_notification_listeners.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_package.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_ping.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_power.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_runtime_permissions.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "BG_ENV_parent_services.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "evidence_manifest.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "POST_BG06_child.json",
+      "repaired": false,
+      "original_json_valid": true
+    },
+    {
+      "file": "POST_BG06_parent.json",
+      "repaired": false,
+      "original_json_valid": true
+    }
+  ]
+}

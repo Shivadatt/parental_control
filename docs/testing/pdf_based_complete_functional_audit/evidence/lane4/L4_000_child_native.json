@@ -1,0 +1,29 @@
+{
+  "start": "2026-11-26T14:17:54+05:30",
+  "end": "2026-11-26T14:17:55+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "foreground_activity_lines": [
+    "mResumedActivity: ActivityRecord{e0cbbcf u0 com.parentcontrol.parent_control/.MainActivity t582}",
+    "mFocusedApp=ActivityRecord{e0cbbcf u0 com.parentcontrol.parent_control/.MainActivity t582}"
+  ],
+  "screen_lines": [
+    "mWakefulness=Awake",
+    "mHoldingDisplaySuspendBlocker=true",
+    "Display Power: [REDACTED_PACKAGE]$1@30f78dd"
+  ],
+  "services": [
+    "GuardianService",
+    "LocationTrackingService"
+  ],
+  "camera_open": false,
+  "camera_package_in_active_clients": false,
+  "open_camera_devices": [],
+  "recording_active": false,
+  "playback_active": false,
+  "camera_op": "CAMERA: allow",
+  "microphone_op": "RECORD_AUDIO: allow",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_000_child_native.txt",
+  "sha256": "9a7633cb02cafaa196293a4ccd297b73cfa9f9a00a7828915e847768ebbcf55e"
+}

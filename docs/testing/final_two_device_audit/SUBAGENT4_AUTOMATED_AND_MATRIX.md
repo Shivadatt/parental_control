@@ -308,7 +308,7 @@ Classification taxonomy:
 | Test ID | Feature Name / Capability | Classification | Verification Summary & Evidence |
 |---|---|---|---|
 | D-01 | Child Shell 4-Tab Architecture | **PASS** | Home, Rules, Requests, and Settings tabs render properly in child mode (`child_shell_page.dart`). |
-| D-02 | Child Permanent ID & QR Generation | **PASS** | Generates canonical Child ID (`PC-XXXXXXXX`) and renders `parentcontrol://pair?id=...&v=2` QR code. |
+| D-02 | Child Permanent ID & QR Generation | **PASS** | Generates canonical Child ID (`[REDACTED CHILD ID]`) and renders `[REDACTED PAIRING URI] QR code. |
 | D-03 | Child Self-Reported Enforcement State | **PASS** | Accurately reports "Not managed — app blocking is not available" and "No rules downloaded". |
 | D-04 | Child Device Registration | **PARTIAL** | Functional on clean install; completely blocked after app reinstall without recovery (Defect E-1). |
 

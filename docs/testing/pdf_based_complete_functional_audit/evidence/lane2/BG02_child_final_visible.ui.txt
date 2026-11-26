@@ -1,0 +1,58 @@
+start=2026-11-26T14:03:40+05:30
+end=2026-11-26T14:03:43+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+ui_command=adb -s 5HXWRGQ4IFU8WS4T shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=25
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2245]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,275]
+9|text=|desc=[REDACTED_ACCOUNT]|id=|class=android.view.View|clickable=false|bounds=[48,157][200,226]
+10|text=|desc=Refresh this phone|id=|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+11|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,275][1080,2112]
+12|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,275][1080,2112]
+13|text=|desc=Done
+Background protection started. Android shows a persistent notification while it runs.|id=|class=android.view.View|clickable=false|bounds=[48,299][1032,683]
+14|text=|desc=Dismiss|id=|class=android.widget.Button|clickable=true|bounds=[183,542][335,638]
+15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[48,683][1032,719]
+16|text=|desc=[REDACTED_ACCOUNT]
+This account is linked as a child
+Linked
+Signed in as
+[REDACTED_ACCOUNT]
+Email
+[REDACTED_EMAIL]
+Device setup
+Registered|id=|class=android.view.View|clickable=false|bounds=[48,719][1032,1283]
+17|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[48,1283][1032,1319]
+18|text=|desc=This phone
+Online
+Name
+realme RMX2161
+Last seen
+synced 2 min ago · Nov 26, 2026 2:01 PM
+Battery
+100% (charging)
+Android control
+Device admin only — app blocking is not available
+Policy version
+v3|id=|class=android.view.View|clickable=false|bounds=[48,1319][1032,2112]
+19|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,2112][1080,2245]
+20|text=|desc=Home
+Tab 1 of 4|id=|class=android.widget.Button|clickable=true|bounds=[0,2112][270,2245]
+21|text=|desc=Rules
+Tab 2 of 4|id=|class=android.widget.Button|clickable=true|bounds=[270,2112][540,2245]
+22|text=|desc=Requests
+Tab 3 of 4|id=|class=android.widget.Button|clickable=true|bounds=[540,2112][810,2245]
+23|text=|desc=Settings
+Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2112][1080,2245]
+24|text=|desc=|id=android:id/navigationBarBackground|class=android.view.View|clickable=false|bounds=[0,0][0,0]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

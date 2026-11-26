@@ -1,0 +1,22 @@
+{
+  "start": "2026-11-26T12:22:46+05:30",
+  "end": "2026-11-26T12:22:47+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell dumpsys package com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 209,
+  "selected_stdout_lines": 13,
+  "include": [
+    "android\\.permission\\.(?:CAMERA|RECORD_AUDIO|ACCESS_FINE_LOCATION|ACCESS_COARSE_LOCATION|ACCESS_BACKGROUND_LOCATION|POST_NOTIFICATIONS|PACKAGE_USAGE_STATS)"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "b56048011ca6c73f10c999cebbb68a030a52a1c1366727c0799e6924d58a5bba",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG_ENV_parent_runtime_permissions.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

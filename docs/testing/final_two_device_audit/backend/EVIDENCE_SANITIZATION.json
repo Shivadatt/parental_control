@@ -1,5 +1,6 @@
 {
-  "timestamp_utc": "2026-11-24T11:44:[REDACTED COORDINATE]+00:00",
+  "timestamp_utc": "2026-11-24T11:44:00Z",
+  "timestamp_precision": "minute; the original seconds were corrupted by an earlier coordinate-redaction pass",
   "working_directory": "D:\\parentcontrol_app",
   "method": "In-memory extraction of supplied QA identifiers from human-input transcript records; exact-value replacement; email/JWT/token redaction; password-field semantics redaction; coordinate redaction; neutral image replacement; git update-index --force-remove for deleted session-created audit artifacts only. No credential values are recorded.",
   "secret_values_matched_count": 2,

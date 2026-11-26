@@ -1,0 +1,15 @@
+{
+  "start": "__HAVEN_TIMESTAMP_2__",
+  "end": "__HAVEN_TIMESTAMP_3__",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell input tap 540 185",
+  "exit": 0,
+  "duration_seconds": 0.092,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "9d86559ddb50621839507bbc35977a4e7721462e56ec65adcf67db0962689c14",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG07_child_unlock_tap.txt"
+}

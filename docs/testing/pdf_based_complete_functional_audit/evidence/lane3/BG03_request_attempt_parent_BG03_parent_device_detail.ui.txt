@@ -1,0 +1,13 @@
+test_id=BG03
+label=BG03_parent_device_detail
+start=2026-11-26T11:12:07+05:30
+end=2026-11-26T11:12:09+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=22
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+11|label=Refresh device|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+21|label=Refresh policy state|class=android.widget.Button|clickable=true|bounds=[520,2350][993,2424]

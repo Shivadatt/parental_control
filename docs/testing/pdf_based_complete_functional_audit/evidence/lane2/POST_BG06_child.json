@@ -1,0 +1,136 @@
+{
+  "start": "2026-11-26T13:16:39+05:30",
+  "end": "2026-11-26T13:16:40+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "mode": "read-only capability probe; unrelated package identities and setting values are not retained",
+  "uid": "11324",
+  "haven_accessibility_enabled": false,
+  "haven_notification_listener_enabled": false,
+  "haven_device_idle_whitelisted": false,
+  "haven_device_admin_enabled": true,
+  "haven_device_owner_enabled": false,
+  "usage_access_appop": "GET_USAGE_STATS: allow; time=+41m33s114ms ago",
+  "low_power_mode": "null",
+  "airplane_mode_on": "0",
+  "wifi_on": "1",
+  "mobile_data": "1",
+  "battery_optimization_mode": "null",
+  "screen_off_timeout_ms": "1800000",
+  "uid_netpolicy_lines": [
+    "UID=11324 state={procState=FGS ,cap=L--N} rules=0 (NONE)"
+  ],
+  "power_markers": [
+    "mWakefulness=Awake",
+    "mDeviceIdleMode=false"
+  ],
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\POST_BG06_child.txt",
+  "sha256": "56a8963ca0041b82c81fffe52d6a9c8a1a40ae7d937ce938be97bd126ba3f610",
+  "commands": [
+    {
+      "key": "accessibility",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell settings get secure enabled_accessibility_services",
+      "exit": 0,
+      "duration_seconds": 0.088,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "notification_listeners",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell settings get secure enabled_notification_listeners",
+      "exit": 0,
+      "duration_seconds": 0.083,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "deviceidle",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys deviceidle whitelist",
+      "exit": 0,
+      "duration_seconds": 0.069,
+      "stdout_lines": 95,
+      "stderr": ""
+    },
+    {
+      "key": "device_policy",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys device_policy",
+      "exit": 0,
+      "duration_seconds": 0.267,
+      "stdout_lines": 296,
+      "stderr": ""
+    },
+    {
+      "key": "power",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys power",
+      "exit": 0,
+      "duration_seconds": 0.166,
+      "stdout_lines": 2982,
+      "stderr": ""
+    },
+    {
+      "key": "netpolicy",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys netpolicy",
+      "exit": 0,
+      "duration_seconds": 0.128,
+      "stdout_lines": 1421,
+      "stderr": ""
+    },
+    {
+      "key": "usage_appop",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell cmd appops get com.parentcontrol.parent_control GET_USAGE_STATS",
+      "exit": 0,
+      "duration_seconds": 0.057,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "low_power",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell settings get global low_power_mode",
+      "exit": 0,
+      "duration_seconds": 0.078,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "airplane",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell settings get global airplane_mode_on",
+      "exit": 0,
+      "duration_seconds": 0.084,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "wifi",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell settings get global wifi_on",
+      "exit": 0,
+      "duration_seconds": 0.073,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "mobile_data",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell settings get global mobile_data",
+      "exit": 0,
+      "duration_seconds": 0.093,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "battery_optimization",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell settings get secure battery_optimization_mode",
+      "exit": 0,
+      "duration_seconds": 0.078,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "screen_timeout",
+      "command": "adb -s 5HXWRGQ4IFU8WS4T shell settings get system screen_off_timeout",
+      "exit": 0,
+      "duration_seconds": 0.08,
+      "stdout_lines": 1,
+      "stderr": ""
+    }
+  ]
+}

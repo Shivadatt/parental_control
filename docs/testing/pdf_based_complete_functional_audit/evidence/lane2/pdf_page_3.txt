@@ -1,0 +1,65 @@
+Location-based downtime
+
+AirDroid overview location/area ke basis par downtime ka zikr karta hai; support article ise Android AirDroid Kids ke
+liye available batata hai. Example: child kisi configured area mein ho aur configured time window active ho to
+non-allowed apps restrict ho sakte hain.
+Enforcement caveat: App limit ko sirf dashboard timer samajhna galat hoga--actual blocking child app/Android
+enforcement par depend karti hai. Battery kill, permission revoke, uninstall, offline state ya OEM restrictions
+enforcement ko interrupt kar sakte hain.
+
+4. Location tracking, route history aur geofence
+
+Live Location
+
+ · Parent child device ki latest/current reported location map par dekh sakta hai.
+ · Refresh action se location update request ki ja sakti hai; result GPS/network availability aur device state par depend
+
+    karega.
+
+Route History
+
+ · Past movement/location points ko timeline/map format mein review karna.
+ · AirDroid support overview route history ke liye past 30 days ka reference deta hai; retention/version/plan conditions
+
+    change ho sakti hain.
+
+Geofence
+
+ · Parent ek named area aur radius define karta hai, jaise school/home.
+ · Child device area enter ya leave kare to parent ko alert mil sakta hai.
+ · Accuracy GPS, Wi-Fi, mobile network, indoor signal, battery saver aur background location permission se affect hoti
+
+    hai.
+
+Driving Detection / Driving Safety
+
+AirDroid guide driving-related trip details, route, speed/duration aur risky events (speeding, hard braking, rapid
+acceleration) ka feature describe karta hai. Availability region, app version, device sensors aur supported plan par
+depend kar sakti hai.
+
+5. Remote monitoring: Camera, microphone, screen
+
+Remote Camera
+
+ · Parent child Android device ka supported camera view remotely request kar sakta hai.
+ · Front/rear camera switch, rotate/full-screen controls; rear camera view ke saath flashlight option supported ho sakta
+
+    hai.
+ · Live session ke waqt microphone se one-way audio bhi available ho sakta hai.
+
+One-Way Audio
+
+ · Child phone ke microphone se aas-paas ki live sound parent device par sunna.
+ · AirDroid support material recording capability bhi describe karta hai; recordings parent-side app mein manage ho sakti
+
+    hain. Recording behavior, consent, local laws aur product settings ko verify karna zaroori hai.
+
+Screen Mirroring
+
+ · Child Android phone ka live screen parent app par mirror hota hai.
+ · Session ke dauran parent screen par visible activity dekh sakta hai; supported mode mein one-way audio bhi sun
+
+    sakta hai.
+
+AirDroid Parental Control · Hinglish Feature Guide  Page 3
+

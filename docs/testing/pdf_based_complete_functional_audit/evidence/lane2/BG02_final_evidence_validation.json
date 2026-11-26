@@ -1,0 +1,30 @@
+{
+  "root": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2",
+  "generated_at": "2026-11-26T14:07:53+05:30",
+  "json_files_checked": 291,
+  "invalid_json": [],
+  "missing_outputs": [],
+  "hash_checks": 288,
+  "hash_mismatches": [],
+  "timestamp_placeholder_files": [
+    "BG07_child_after_unlock.json",
+    "BG07_child_after_unlock.txt",
+    "BG07_child_after_unlock_ui.json",
+    "BG07_child_relaunch.json",
+    "BG07_child_relaunched.json",
+    "BG07_child_relaunched.txt",
+    "BG07_child_relaunched_ui.json",
+    "BG07_child_swipe_unlock.json",
+    "BG07_child_unlock_tap.json",
+    "BG07_child_unlock_ui.json",
+    "BG07_child_unlocked.json",
+    "BG07_child_unlocked.txt",
+    "BG07_child_unlocked_ui_ui.json",
+    "BG07_parent_s01_ui.json",
+    "BG07_parent_s02_ui.json",
+    "BG07_parent_s03_ui.json"
+  ],
+  "timestamp_placeholder_note": "Legacy BG-07 sanitizer placeholders remain where original short log timestamps were not reconstructed; outer capture timestamps and monitor summaries are retained.",
+  "notification_shade_redaction_issues": [],
+  "status": "PASS"
+}

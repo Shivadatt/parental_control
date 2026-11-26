@@ -1,0 +1,57 @@
+start=2026-11-26T14:27:40+05:30
+end=2026-11-26T14:27:42+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+ui_command=adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=21
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2424]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,289]
+9|text=|desc=Back|id=|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|text=|desc=realme RMX2161|id=|class=android.view.View|clickable=false|bounds=[189,185][599,246]
+11|text=|desc=Refresh device|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
+13|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+14|text=|desc=Device revoked
+This device credential is revoked and it can no longer report or receive policies. The child must link the device again.|id=|class=android.view.View|clickable=false|bounds=[42,310][1038,586]
+15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,586][1038,617]
+16|text=|desc=Device identity
+Revoked
+Name
+realme RMX2161
+Platform
+android
+Android
+12
+App version
+1.0.0
+Last seen
+last seen 309 h ago · Nov 13, 2026 5:23 PM
+Battery
+100% (charging)
+Enforcement mode
+Not enforced|id=|class=android.view.View|clickable=false|bounds=[42,617][1038,1455]
+17|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1455][1038,1486]
+18|text=|desc=App suspension is not supported here
+This device is not a fully managed Device Owner device. Parent Control cannot suspend or block apps until the phone is provisioned as fully managed. A policy flag on its own does not block an app.|id=|class=android.view.View|clickable=false|bounds=[42,1486][1038,1806]
+19|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1806][1038,1838]
+20|text=|desc=Policy
+Saved policy version and the device acknowledgement
+Waiting for device
+Version
+4
+Enforcement status
+Waiting for device
+Acknowledged
+Not yet acknowledged
+Pending device acknowledgement
+The policy is saved on the server but this device has not confirmed applying it yet. No restriction is active until the device acknowledges.|id=|class=android.view.View|clickable=false|bounds=[42,1838][1038,2424]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

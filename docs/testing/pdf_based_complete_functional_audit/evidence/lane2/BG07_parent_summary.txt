@@ -1,0 +1,117 @@
+start=2026-11-26T13:19:46+05:30
+serial=emulator-5554
+samples_requested=3
+interval_seconds=60
+mode=read-only Parent UI sampling
+sample=1 start=2026-11-26T13:19:46+05:30 end=2026-11-26T13:19:48+05:30 exit=0 node_count=21 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG07_parent_s01.ui.txt
+sample=1_marker=Refresh dashboard
+sample=1_marker=ankit1
+realme RMX2161
+Revoked
+Last seen
+last seen 315 h ago · Nov 13, 2026 10:18 AM
+Battery
+100% (charging)
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+ankit1
+realme RMX2161
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Battery
+100% (charging)
+Enforcement
+Not enforced
+Policy
+Policy v4 · Waiting for device
+ankit1
+realme RMX2161
+Online
+Last seen
+synced 3 min ago · Nov 26, 2026 1:15 PM
+Battery
+100% (charging)
+Enforcement
+Device admin only
+Policy
+Policy v3 · Enforced on device
+sample=1_marker=Dashboard
+Tab 1 of 4
+sample=2 start=2026-11-26T13:20:48+05:30 end=2026-11-26T13:20:51+05:30 exit=0 node_count=21 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG07_parent_s02.ui.txt
+sample=2_marker=Refresh dashboard
+sample=2_marker=ankit1
+realme RMX2161
+Revoked
+Last seen
+last seen 315 h ago · Nov 13, 2026 10:18 AM
+Battery
+100% (charging)
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+ankit1
+realme RMX2161
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Battery
+100% (charging)
+Enforcement
+Not enforced
+Policy
+Policy v4 · Waiting for device
+ankit1
+realme RMX2161
+Online
+Last seen
+synced 4 min ago · Nov 26, 2026 1:15 PM
+Battery
+100% (charging)
+Enforcement
+Device admin only
+Policy
+Policy v3 · Enforced on device
+sample=2_marker=Dashboard
+Tab 1 of 4
+sample=3 start=2026-11-26T13:21:51+05:30 end=2026-11-26T13:21:53+05:30 exit=0 node_count=21 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG07_parent_s03.ui.txt
+sample=3_marker=Refresh dashboard
+sample=3_marker=ankit1
+realme RMX2161
+Revoked
+Last seen
+last seen 315 h ago · Nov 13, 2026 10:18 AM
+Battery
+100% (charging)
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+ankit1
+realme RMX2161
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Battery
+100% (charging)
+Enforcement
+Not enforced
+Policy
+Policy v4 · Waiting for device
+ankit1
+realme RMX2161
+Online
+Last seen
+synced just now · Nov 26, 2026 1:20 PM
+Battery
+100% (charging)
+Enforcement
+Device admin only
+Policy
+Policy v3 · Enforced on device
+sample=3_marker=Dashboard
+Tab 1 of 4
+end=2026-11-26T13:21:53+05:30 samples_completed=3

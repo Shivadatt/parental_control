@@ -1,0 +1,22 @@
+{
+  "start": "2026-11-26T13:03:59+05:30",
+  "end": "2026-11-26T13:04:00+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys media.camera",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 17872,
+  "selected_stdout_lines": 8,
+  "include": [
+    "com\\.parentcontrol\\.parent_control"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "ff123531e8972ef10034987b3faebaf0cb7c77f93bb2012db7804a7602e3030c",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s05_camera_capture.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

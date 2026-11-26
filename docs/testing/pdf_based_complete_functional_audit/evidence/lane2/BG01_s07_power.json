@@ -1,0 +1,21 @@
+{
+  "start": "2026-11-26T12:30:47+05:30",
+  "end": "2026-11-26T12:30:47+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys power",
+  "exit": 0,
+  "duration_seconds": 0.15,
+  "raw_stdout_lines": 2611,
+  "selected_stdout_lines": 4,
+  "include": [
+    "mWakefulness=",
+    "Display Power",
+    "mScreenOn",
+    "mHoldingDisplaySuspendBlocker",
+    "mHoldingWakeLockSuspendBlocker"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "1a6b6a2f31a7eacdc3104fa27552f9083278f8af270bff0b58d8f81bd8dc46db",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG01_s07_power.txt"
+}

@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T12:58:45+05:30",
+  "end": "2026-11-26T12:58:45+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 74 216",
+  "exit": 0,
+  "duration_seconds": 0.05,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "dbd8243cbbe9647dd1f0c7b7afaf554e46dbd4324d14eec6f6edb69bc6cba269",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_parent_safe_zones_back_tap.txt"
+}

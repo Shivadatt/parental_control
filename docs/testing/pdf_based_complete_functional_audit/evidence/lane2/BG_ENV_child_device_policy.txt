@@ -1,0 +1,16 @@
+start=2026-11-26T12:22:49+05:30
+end=2026-11-26T12:22:49+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys device_policy
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=296
+selected_stdout_lines=2
+include=["com\\.parentcontrol\\.parent_control", "Device Owner", "Device Admin", "mAdminMap", "mOwnerComponent"]
+exclude=[]
+--- selected stdout ---
+  Enabled Device Admins (User 0, provisioningState: 0):
+    com.parentcontrol.parent_control/.ParentControlDeviceAdminReceiver:
+--- stderr ---
+

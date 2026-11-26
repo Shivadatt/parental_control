@@ -1,6 +1,6 @@
 Back
 Screen time
-Screen-time policy Daily limit, bedtime and device acknowledgement Waiting for device Policy v3 saved. Pending device acknowledgement â€” the limit and bedtime are not active on the child device yet. Pending device acknowledgement This version is saved on the server but the child device has not applied it. The limit and bedtime are not active yet. Daily screen-time limit No daily limit Time remaining today No daily limit set Limit reached No limit to reach Enforcement mode Device admin only Bedtime No bedtime window set. Policy v3 saved. Pending device acknowledgement â€” the limit and bedtime are not active on the child device yet.
+Screen-time policy Daily limit, bedtime and device acknowledgement Waiting for device Policy v3 saved. Pending device acknowledgement — the limit and bedtime are not active on the child device yet. Pending device acknowledgement This version is saved on the server but the child device has not applied it. The limit and bedtime are not active yet. Daily screen-time limit No daily limit Time remaining today No daily limit set Limit reached No limit to reach Enforcement mode Device admin only Bedtime No bedtime window set. Policy v3 saved. Pending device acknowledgement — the limit and bedtime are not active on the child device yet.
 Decrease limit
 Increase limit
 Set start

@@ -1,0 +1,19 @@
+start=2026-11-26T12:22:47+05:30
+end=2026-11-26T12:22:48+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell ping -c 2 -W 3 1.1.1.1
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=7
+stderr_lines=0
+--- stdout ---
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=255 time=149 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=255 time=192 ms
+
+--- 1.1.1.1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1002ms
+rtt min/avg/max/mdev = [REDACTED_COORD]/[REDACTED_COORD]/[REDACTED_COORD]/[REDACTED_COORD] ms
+--- stderr ---
+

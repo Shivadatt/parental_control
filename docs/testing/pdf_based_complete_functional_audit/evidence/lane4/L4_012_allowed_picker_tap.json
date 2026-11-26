@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T14:35:47+05:30",
+  "end": "2026-11-26T14:35:47+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 784 1812",
+  "exit": 0,
+  "duration_seconds": 0.051,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "3d2c0627cd3cc71fefd64719fee2ef484bb490a0eb425436f6d8ebc3575b8d39",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_012_allowed_picker_tap.txt"
+}

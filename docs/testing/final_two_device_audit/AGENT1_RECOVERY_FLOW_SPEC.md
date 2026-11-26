@@ -194,7 +194,7 @@ label, not the route.
    `Refresh setup state` (`:50`).
 9. Card **`Your Child ID`** (`:185`) with trailing chip **`Not linked`** (`:187`), status line
    **`Status: Not linked to a parent`** (`:182`), and the large selectable ID
-   (form `PC-XXXXXXXX`, `:223-232`). Buttons **`Copy ID`** (`:248`) and **`Show QR`** (`:262`); QR
+   (form `[REDACTED CHILD ID]`, `:223-232`). Buttons **`Copy ID`** (`:248`) and **`Show QR`** (`:262`); QR
    content is `parentcontrol://pair?id=<canonical>&v=2`
    (`supabase/functions/pairing/index.ts:270`). Caption `:290`.
 10. Optional: **`Check for requests`** (`:301`) refreshes the inbox.
@@ -214,7 +214,7 @@ label, not the route.
       `parentcontrol://pair?id=…&v=2` and `…?code=…&v=1` (`:144-147`). Camera-denied panel offers
       **`Start camera`** (`:536`).
     * **`Or enter the Child ID or linking code`** (`:175`) — field label
-      **`Child ID or linking code`**, hint **`PC-7K4M2QRX or 4K9M2QRT`** (`:184-185`) → button
+      **`Child ID or linking code`**, hint **`[REDACTED CHILD ID] or 4K9M2QRT`** (`:184-185`) → button
       **`Send pairing request`** (`:193`). **This is the reliable one for the emulator.**
 13. Result: card **`Server response`** (`:270`) with rows `Child`, `Family`, `Status`, `Requested`,
     `Expires` (`:274-291`), plus banner **`Waiting for child approval`** (`:241`). While pending the
@@ -381,7 +381,7 @@ label, not the route.
   calling `ensureContactId` (`:231-264`) which inserts into `child_contact_ids` once and is
   idempotent under the 23505 race.
 * Format: `PC` + 8 unambiguous chars (`validation.ts:20-22, 283-285`), canonical
-  `PCXXXXXXXX`, displayed `PC-XXXXXXXX` via `formatChildContactId` (`:255-259`). Client regex
+  `PCXXXXXXXX`, displayed `[REDACTED CHILD ID]` via `formatChildContactId` (`:255-259`). Client regex
   matches exactly (`lib/core/utils/validators.dart:7-8`), normalizer at `:61-62`.
 * QR payload: `parentcontrol://pair?id=<canonical>&v=2` (`index.ts:266-273`), rendered by
   `QrImageView(data: contact.qrPayload)` (`child_enrollment_page.dart:280-284`). The parent scanner
@@ -584,7 +584,7 @@ That single press runs `family-admin/recover_device` → `request_device_recover
 [REDACTED CREDENTIAL ROW]
 "create a new linking code" wording; the child app cannot do that. Instead open
 **Set up linking** on the child (**Home** tab) to read the permanent **Your Child ID**
-(`PC-XXXXXXXX`) / **Show QR**, then on the parent use **Settings → Family details → Link a child →
+(`[REDACTED CHILD ID]`) / **Show QR**, then on the parent use **Settings → Family details → Link a child →
 Send pairing request**. Back on the child, tap **Approve** in *Waiting for your approval*, then
 **Register this phone** in the *Register this phone* card — this is the step that mints the new
 `installation_id`/`secret_hash` pair and inserts the fresh `active` device row — and finish with

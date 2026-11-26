@@ -1,0 +1,19 @@
+start=2026-11-26T12:27:44+05:30
+end=2026-11-26T12:27:44+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys netpolicy
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=1426
+selected_stdout_lines=5
+include=["\\buid=11324\\b", "mRestrictBackground", "restrictBackground", "mDataSaver"]
+exclude=[]
+--- selected stdout ---
+mRestrictBackgroundLowPowerMode: false
+mRestrictBackgroundBeforeBsm: false
+mLoadedRestrictBackground: false
+mRestrictBackgroundChangedInBsm: false
+  UID=11324 state={procState=FGS ,cap=L--N} rules=0 (NONE)
+--- stderr ---
+

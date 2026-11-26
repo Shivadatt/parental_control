@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T14:38:46+05:30",
+  "end": "2026-11-26T14:38:46+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell input tap 135 2178",
+  "exit": 0,
+  "duration_seconds": 0.087,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "ace0ef06931ffd8196c24ec1f0e65723205bba9c17b29e7a9b15897c870f08f7",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_013_child_home_tap.txt"
+}

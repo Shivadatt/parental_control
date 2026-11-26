@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:49:19+05:30",
+  "end": "2026-11-26T12:49:19+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 951",
+  "exit": 0,
+  "duration_seconds": null,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "ab35470d296978dcc194aefebbe497adcc0289ae10b3512f9a9cc51a6541b96d",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG02_open_safe_zones_final_tap.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

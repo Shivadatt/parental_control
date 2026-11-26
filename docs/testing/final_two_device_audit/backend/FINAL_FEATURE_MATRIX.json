@@ -1,0 +1,1000 @@
+{
+  "schema_version": 1,
+  "report_date": "2026-11-26",
+  "runtime_date_utc": "2026-11-25",
+  "source_commit": "c7b475eb6f0c818a14d298ce4823e69b0d1a55e9",
+  "status_taxonomy": [
+    "PASS",
+    "PARTIAL",
+    "FAIL",
+    "BLOCKED",
+    "NOT TESTED",
+    "DEMO ONLY",
+    "NOT IMPLEMENTED"
+  ],
+  "features": [
+    {
+      "id": "A01",
+      "category": "A Lifecycle and navigation",
+      "feature": "Parent launch and session persistence",
+      "status": "PASS",
+      "result": "After the emulator restart, launching the installed app returned directly to the authenticated Parent dashboard and Settings role surface without a login prompt.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log",
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log"
+      ]
+    },
+    {
+      "id": "A02",
+      "category": "A Lifecycle and navigation",
+      "feature": "Child relaunch and home shell",
+      "status": "PASS",
+      "result": "The Child relaunched to its linked-child Home surface with Registered device setup and Online status.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/child/C54_child_relaunched.txt"
+      ]
+    },
+    {
+      "id": "A03",
+      "category": "A Lifecycle and navigation",
+      "feature": "Parent tab navigation",
+      "status": "PASS",
+      "result": "Dashboard, Devices, Alerts, and Settings tabs were reachable and the selected tab state was visible.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log",
+        "docs/testing/final_two_device_audit/integration/A01_current_shells.log"
+      ]
+    },
+    {
+      "id": "A04",
+      "category": "A Lifecycle and navigation",
+      "feature": "Child tab navigation",
+      "status": "PASS",
+      "result": "Child Home, Rules, and Settings surfaces were reachable during the current run.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/A01_current_shells.log",
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log"
+      ]
+    },
+    {
+      "id": "A05",
+      "category": "A Lifecycle and navigation",
+      "feature": "Back navigation",
+      "status": "PASS",
+      "result": "Back navigation returned from Location to device detail and from device detail to Devices during the targeted active-device check.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "A06",
+      "category": "A Lifecycle and navigation",
+      "feature": "Logout and re-authentication",
+      "status": "NOT TESTED",
+      "result": "Sign out was visible but not executed; no credential re-entry was required in this continuation.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log"
+      ],
+      "limitation": "A safe logout/login cycle was not completed."
+    },
+    {
+      "id": "A07",
+      "category": "A Lifecycle and navigation",
+      "feature": "Prolonged background and OEM process survival",
+      "status": "NOT TESTED",
+      "result": "No prolonged screen-off, OEM battery-killer, or multi-hour process-survival test was performed.",
+      "evidence": []
+    },
+    {
+      "id": "B01",
+      "category": "B Authentication, family, and pairing",
+      "feature": "Parent server-assigned account role",
+      "status": "PASS",
+      "result": "Settings explicitly displayed Role Parent, Email verification Verified, and family role Owner.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "B02",
+      "category": "B Authentication, family, and pairing",
+      "feature": "Child server-assigned account role",
+      "status": "PASS",
+      "result": "The Child explicitly displayed This account is linked as a child.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/child/C54_child_relaunched.txt"
+      ]
+    },
+    {
+      "id": "B03",
+      "category": "B Authentication, family, and pairing",
+      "feature": "Family details and pairing navigation",
+      "status": "PASS",
+      "result": "Family details, pairing navigation, and the Owner family surface were reachable.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/B01_family_pairing_navigation.log",
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "B04",
+      "category": "B Authentication, family, and pairing",
+      "feature": "Manual pairing empty and invalid validation",
+      "status": "FAIL",
+      "result": "Empty submission showed a generic accepted-code message; invalid BAD produced no detected request and no specific invalid-format feedback.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/B01_pairing_validation.log"
+      ]
+    },
+    {
+      "id": "B05",
+      "category": "B Authentication, family, and pairing",
+      "feature": "QR scanner runtime decode",
+      "status": "BLOCKED",
+      "result": "No verified QR decode occurred. The prior PASS was a heuristic false positive and is explicitly invalidated.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H02_qr_scanner_diagnosis_corrected.log",
+        "docs/testing/final_two_device_audit/parent/P50_parent_scan_result.txt"
+      ],
+      "limitation": "Physical Parent scanner remains untested; internal device 10 is the back virtualscene camera, not the front camera."
+    },
+    {
+      "id": "B06",
+      "category": "B Authentication, family, and pairing",
+      "feature": "Pairing request history and audit surface",
+      "status": "PASS",
+      "result": "Approved request history and append-only audit content rendered.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/B02_pairing_requests_audit.log"
+      ]
+    },
+    {
+      "id": "B07",
+      "category": "B Authentication, family, and pairing",
+      "feature": "New pairing request and Child consent",
+      "status": "NOT TESTED",
+      "result": "The current run used the existing approved link; no new pairing/consent transaction was created.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/B02_pairing_requests_audit.log"
+      ]
+    },
+    {
+      "id": "B08",
+      "category": "B Authentication, family, and pairing",
+      "feature": "Unlink safety flow",
+      "status": "NOT TESTED",
+      "result": "Unlink was visible but not executed because it invalidates the active device credential.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log"
+      ]
+    },
+    {
+      "id": "C01",
+      "category": "C Child shell and controls",
+      "feature": "Child Home, Rules, and Settings controls",
+      "status": "PASS",
+      "result": "All three Child surfaces rendered with current policy, service, and account state.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log",
+        "docs/testing/final_two_device_audit/child/C54_child_relaunched.txt"
+      ]
+    },
+    {
+      "id": "C02",
+      "category": "C Child shell and controls",
+      "feature": "Location-sharing switch lifecycle",
+      "status": "PASS",
+      "result": "Location off stopped LocationTrackingService while GuardianService remained; restoring the switch restarted location service.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/D01_location_switch_service_lifecycle.log"
+      ]
+    },
+    {
+      "id": "C03",
+      "category": "C Child shell and controls",
+      "feature": "Background command polling and retry",
+      "status": "PARTIAL",
+      "result": "The Child continued polling and surfaced the app-list upload error, but the snapshot command never completed successfully.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/F03_app_snapshot_sync_failure_continued.log",
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log"
+      ]
+    },
+    {
+      "id": "C04",
+      "category": "C Child shell and controls",
+      "feature": "Child camera and microphone self-test",
+      "status": "NOT TESTED",
+      "result": "No standalone Child media self-test was identified and executed.",
+      "evidence": []
+    },
+    {
+      "id": "C05",
+      "category": "C Child shell and controls",
+      "feature": "Child sign-out safety",
+      "status": "NOT TESTED",
+      "result": "Sign out was visible but not executed.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log"
+      ]
+    },
+    {
+      "id": "D01",
+      "category": "D Dashboard, family, and location",
+      "feature": "Device list and status rendering",
+      "status": "PASS",
+      "result": "The Devices list rendered revoked and active devices with distinct Policy v2, Policy v3, and no-policy states.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log",
+        "docs/testing/final_two_device_audit/parent/P53_navigation_start.txt"
+      ]
+    },
+    {
+      "id": "D02",
+      "category": "D Dashboard, family, and location",
+      "feature": "Enforcement status truthfulness",
+      "status": "FAIL",
+      "result": "Dashboard/card text said Policy v3 Enforced on device while the active detail said Device admin only and Chrome remained usable after quota.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/parent/P53_navigation_start.txt",
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log",
+        "docs/testing/final_two_device_audit/integration/F02_quota_enforcement_probe.log",
+        "docs/testing/final_two_device_audit/child/C54_child_relaunched.txt"
+      ]
+    },
+    {
+      "id": "D03",
+      "category": "D Dashboard, family, and location",
+      "feature": "Child location foreground service",
+      "status": "PASS",
+      "result": "LocationTrackingService was foreground with notification 4202 at final state and responded to the Child switch.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/D01_location_switch_service_lifecycle.log",
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log"
+      ]
+    },
+    {
+      "id": "D04",
+      "category": "D Dashboard, family, and location",
+      "feature": "Parent active-device location and history",
+      "status": "PASS",
+      "result": "The active Policy v3 device showed a recent network fix, accuracy, source, and 24-hour history; coordinates were redacted from retained evidence.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "D05",
+      "category": "D Dashboard, family, and location",
+      "feature": "Safe-zone management navigation and state",
+      "status": "PASS",
+      "result": "Safe-zone Active/Inactive state, Edit, Delete, and Create controls rendered.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/G01_safe_zones_and_alerts.log",
+        "docs/testing/final_two_device_audit/integration/G01_safe_zones_and_alerts_continued.log"
+      ]
+    },
+    {
+      "id": "D06",
+      "category": "D Dashboard, family, and location",
+      "feature": "Safe-zone delete confirmation and cancel",
+      "status": "PASS",
+      "result": "Delete confirmation opened and was cancelled; no zone was deleted.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/G01_alerts_finished.log"
+      ]
+    },
+    {
+      "id": "D07",
+      "category": "D Dashboard, family, and location",
+      "feature": "Geofence entry and exit transitions",
+      "status": "NOT TESTED",
+      "result": "No physical boundary crossing was performed.",
+      "evidence": []
+    },
+    {
+      "id": "D08",
+      "category": "D Dashboard, family, and location",
+      "feature": "Audit log rendering",
+      "status": "PASS",
+      "result": "Append-only audit history rendered with server-written event descriptions.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/B02_pairing_requests_audit.log",
+        "docs/testing/final_two_device_audit/integration/H02_snapshot_audit_gap_closure_continued8.log"
+      ]
+    },
+    {
+      "id": "E01",
+      "category": "E Telemetry and synchronization",
+      "feature": "Heartbeat and online synchronization",
+      "status": "PASS",
+      "result": "The active Child reported Online with a recent sync time on both Parent and Child surfaces.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log",
+        "docs/testing/final_two_device_audit/child/C54_child_relaunched.txt"
+      ]
+    },
+    {
+      "id": "E02",
+      "category": "E Telemetry and synchronization",
+      "feature": "Installed-app inventory upload",
+      "status": "FAIL",
+      "result": "Child upload failed with apps[14].package_name is not a valid Android package name despite repeated sync_policy commands.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log",
+        "docs/testing/final_two_device_audit/integration/F03_app_snapshot_sync_failure_continued.log"
+      ]
+    },
+    {
+      "id": "E03",
+      "category": "E Telemetry and synchronization",
+      "feature": "App snapshot empty-state truthfulness",
+      "status": "PASS",
+      "result": "Parent displayed No app snapshot reported and explained that absence does not mean the phone has no apps.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H02_app_snapshot_small_steps_continued2.log",
+        "docs/testing/final_two_device_audit/parent/P48_app_snapshot_current.txt"
+      ]
+    },
+    {
+      "id": "E04",
+      "category": "E Telemetry and synchronization",
+      "feature": "Policy acknowledgement display",
+      "status": "PASS",
+      "result": "Current Policy v3 showed Enforced on device with an acknowledgement timestamp; screen-time and bedtime changes also acknowledged.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log",
+        "docs/testing/final_two_device_audit/integration/F02_screen_time_policy_ack.log",
+        "docs/testing/final_two_device_audit/integration/F02_bedtime_policy_ack.log"
+      ]
+    },
+    {
+      "id": "E05",
+      "category": "E Telemetry and synchronization",
+      "feature": "Usage telemetry rendering",
+      "status": "PASS",
+      "result": "Screen-time usage rendered daily and 7-day views with usage access reported granted.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/F01_restrictions_screen_time_navigation.log"
+      ]
+    },
+    {
+      "id": "E06",
+      "category": "E Telemetry and synchronization",
+      "feature": "Permission snapshot freshness",
+      "status": "PARTIAL",
+      "result": "The active detail showed current reported permissions as Granted, but no permission was revoked and re-reported to measure snapshot freshness.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "E07",
+      "category": "E Telemetry and synchronization",
+      "feature": "Offline dashboard refresh feedback",
+      "status": "FAIL",
+      "result": "With both radios disabled and ping failing, Dashboard retained cached Online state and showed no offline/error banner after refresh.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H02_offline_resume_all_radios_verified.log",
+        "docs/testing/final_two_device_audit/parent/P49c_offline_refresh_result.txt"
+      ]
+    },
+    {
+      "id": "E08",
+      "category": "E Telemetry and synchronization",
+      "feature": "Device credential recovery after reinstall/loss",
+      "status": "PARTIAL",
+      "result": "Recovery artifacts show the approved recovery flow and subsequent linked state; destructive reinstall was not repeated.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/parent/P02_recovery_started.png",
+        "docs/testing/final_two_device_audit/parent/P03_devices_after_recovery.png",
+        "docs/testing/final_two_device_audit/child/c11_home_after_recovery.xml"
+      ],
+      "limitation": "No fresh reinstall was performed in this continuation."
+    },
+    {
+      "id": "F01",
+      "category": "F Policy and enforcement",
+      "feature": "Screen-time policy save and acknowledgement",
+      "status": "PASS",
+      "result": "A 60-minute daily limit saved and the Child acknowledgement was observed while normal services remained foreground.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/F02_screen_time_policy_ack.log"
+      ]
+    },
+    {
+      "id": "F02",
+      "category": "F Policy and enforcement",
+      "feature": "Daily quota enforcement",
+      "status": "BLOCKED",
+      "result": "After the Parent reported the 60-minute quota, Chrome launched and remained foreground; Device Owner is unavailable.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/F02_quota_enforcement_probe.log",
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log"
+      ]
+    },
+    {
+      "id": "F03",
+      "category": "F Policy and enforcement",
+      "feature": "Bedtime policy save and acknowledgement",
+      "status": "PASS",
+      "result": "Bedtime-only 21:00-07:00 saved and acknowledged, then cleared and acknowledged again.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/F02_bedtime_policy_ack.log"
+      ]
+    },
+    {
+      "id": "F04",
+      "category": "F Policy and enforcement",
+      "feature": "Bedtime enforcement",
+      "status": "BLOCKED",
+      "result": "Bedtime storage and acknowledgement worked, but actual device enforcement was unavailable/unproven without Device Owner.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/F02_bedtime_policy_ack.log",
+        "docs/testing/final_two_device_audit/child/C54_child_relaunched.txt"
+      ]
+    },
+    {
+      "id": "F05",
+      "category": "F Policy and enforcement",
+      "feature": "App suspension",
+      "status": "BLOCKED",
+      "result": "The Child and Parent detail both state app suspension is unsupported without fully managed Device Owner.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log",
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "F06",
+      "category": "F Policy and enforcement",
+      "feature": "Pending policy and lost-ack retry",
+      "status": "PARTIAL",
+      "result": "Current policies acknowledged; the historical lost-ack/TTL/indefinite-pending condition was not reproduced.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/F02_screen_time_policy_ack.log",
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "F07",
+      "category": "F Policy and enforcement",
+      "feature": "Policy cleanup and restoration",
+      "status": "PASS",
+      "result": "The daily-limit and bedtime test changes were cleared/restored and acknowledged; final Child state was Policy v3 with no active test restriction.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/F02_bedtime_policy_ack.log",
+        "docs/testing/final_two_device_audit/child/C54_child_relaunched.txt"
+      ]
+    },
+    {
+      "id": "G01",
+      "category": "G Alerts and safe zones",
+      "feature": "Safety alert list and filters",
+      "status": "PASS",
+      "result": "Info, Warning, Critical, and All filters were exercised.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/G01_alerts_finished.log"
+      ]
+    },
+    {
+      "id": "G02",
+      "category": "G Alerts and safe zones",
+      "feature": "Safety alert acknowledgement",
+      "status": "PASS",
+      "result": "An alert acknowledgement was exercised and the updated list rendered.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/G01_alerts_finished.log"
+      ]
+    },
+    {
+      "id": "G03",
+      "category": "G Alerts and safe zones",
+      "feature": "Safe-zone creation",
+      "status": "PASS",
+      "result": "QA_Test_Zone_Live was created with a 150 m radius and remained as residual test data.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/parent/p53_zone_created.txt"
+      ]
+    },
+    {
+      "id": "G04",
+      "category": "G Alerts and safe zones",
+      "feature": "Safe-zone toggle and edit",
+      "status": "PASS",
+      "result": "The active switch was toggled and restored; an existing zone was edited and saved unchanged.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/G01_safe_zones_and_alerts.log",
+        "docs/testing/final_two_device_audit/integration/G01_safe_zones_and_alerts_continued.log"
+      ]
+    },
+    {
+      "id": "G05",
+      "category": "G Alerts and safe zones",
+      "feature": "Safe-zone delete cancel",
+      "status": "PASS",
+      "result": "Delete confirmation was opened and cancelled without deletion.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/G01_alerts_finished.log"
+      ]
+    },
+    {
+      "id": "G06",
+      "category": "G Alerts and safe zones",
+      "feature": "Geofence entry/exit alert delivery",
+      "status": "NOT TESTED",
+      "result": "No boundary crossing or corresponding alert was measured.",
+      "evidence": []
+    },
+    {
+      "id": "H01",
+      "category": "H Remote assistance and notifications",
+      "feature": "Explicit Child consent gate",
+      "status": "PASS",
+      "result": "Child camera and recording remained off before acceptance and before Join; capture started only after explicit acceptance and Join.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H01_video_assistance_flow_verified.log"
+      ]
+    },
+    {
+      "id": "H02",
+      "category": "H Remote assistance and notifications",
+      "feature": "Video media on tested topology",
+      "status": "PASS",
+      "result": "Parent and Child live UI passed 3/3; Child camera/recording passed 3/3; Parent nonblack changing frames passed 3/3.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H01_video_assistance_flow_verified.log"
+      ],
+      "limitation": "No separate video-RTP counter was measured; Video live is driven by audio-only RTP filtering. Strict-NAT/TURN robustness remains unverified."
+    },
+    {
+      "id": "H03",
+      "category": "H Remote assistance and notifications",
+      "feature": "Audio media on tested topology",
+      "status": "PASS",
+      "result": "Parent media/audio-live and Child microphone/recording passed 4/4 stability samples.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/E02_audio_flow_stability.log"
+      ],
+      "limitation": "No TURN relay was configured; strict-NAT robustness remains unverified."
+    },
+    {
+      "id": "H04",
+      "category": "H Remote assistance and notifications",
+      "feature": "Parent receive-only privacy",
+      "status": "PASS",
+      "result": "Parent camera and active recording were 0/3 in video samples and 0/4 in audio samples.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H01_video_assistance_flow_verified.log",
+        "docs/testing/final_two_device_audit/integration/E02_audio_flow_stability.log"
+      ]
+    },
+    {
+      "id": "H05",
+      "category": "H Remote assistance and notifications",
+      "feature": "Child capture privacy and consent",
+      "status": "PASS",
+      "result": "No Child camera/recording occurred before consent; live capture and AudioAssistanceService were present only during accepted sessions.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H01_video_assistance_flow_verified.log"
+      ]
+    },
+    {
+      "id": "H06",
+      "category": "H Remote assistance and notifications",
+      "feature": "Session teardown",
+      "status": "PASS",
+      "result": "Audio and video sessions ended on both devices; Child capture/service stopped and normal services returned.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/E02_audio_teardown.log",
+        "docs/testing/final_two_device_audit/integration/H01_video_assistance_flow_verified.log",
+        "docs/testing/final_two_device_audit/parent/P54_after_final_end.txt"
+      ]
+    },
+    {
+      "id": "H07",
+      "category": "H Remote assistance and notifications",
+      "feature": "E-12 abrupt Child crash cleanup",
+      "status": "PASS",
+      "result": "Force-stop stopped capture; stale Parent live state cleared by 35 seconds; final cleanup left no camera, recording, or audio service and restored normal services.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H03_audio_crash_cleanup_final.log",
+        "docs/testing/final_two_device_audit/integration/H03_audio_crash_cleanup_completed.log"
+      ],
+      "limitation": "Server sweep deployment was not verified."
+    },
+    {
+      "id": "H08",
+      "category": "H Remote assistance and notifications",
+      "feature": "Duplicate request while session active",
+      "status": "BLOCKED",
+      "result": "The Parent leave confirmation prevented a duplicate request from being sent; server-side duplicate-request conflict was not exercised.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H03_audio_crash_cleanup_completed.log"
+      ]
+    },
+    {
+      "id": "H09",
+      "category": "H Remote assistance and notifications",
+      "feature": "Push notification delivery",
+      "status": "NOT TESTED",
+      "result": "Local notification switches worked, but no FCM/push delivery was proven.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J02_settings_toggles_export.log"
+      ]
+    },
+    {
+      "id": "H10",
+      "category": "H Remote assistance and notifications",
+      "feature": "Offline remote assistance",
+      "status": "NOT TESTED",
+      "result": "No assistance session was attempted with either endpoint offline.",
+      "evidence": []
+    },
+    {
+      "id": "I01",
+      "category": "I Settings and privacy",
+      "feature": "Local notification and reminder switches",
+      "status": "PASS",
+      "result": "Switches toggled and restored; UI correctly states they are local to the phone.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J02_settings_toggles_export.log",
+        "docs/testing/final_two_device_audit/integration/J02_notification_switch_delete_cancel.log"
+      ]
+    },
+    {
+      "id": "I02",
+      "category": "I Settings and privacy",
+      "feature": "Family data export",
+      "status": "PASS",
+      "result": "Export completed with 728342 bytes across location_events, usage_daily, safety_alerts, and audit_logs; JSON was not retained.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J02_settings_toggles_export.log"
+      ]
+    },
+    {
+      "id": "I03",
+      "category": "I Settings and privacy",
+      "feature": "Retention save and restore",
+      "status": "PASS",
+      "result": "Invalid input showed 1 to 365 days; valid 31/91 values saved and original 30/90 values were restored.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J01_retention_and_purge_validation.log"
+      ]
+    },
+    {
+      "id": "I04",
+      "category": "I Settings and privacy",
+      "feature": "Purge validation and cancel",
+      "status": "PASS",
+      "result": "Irreversible purge explanation opened and the operation was cancelled; no purge executed.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J01_retention_and_purge_validation.log"
+      ]
+    },
+    {
+      "id": "I05",
+      "category": "I Settings and privacy",
+      "feature": "Account-deletion validation and cancel",
+      "status": "PASS",
+      "result": "Permanent-deletion warning opened and was cancelled; no deletion executed.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J02_notification_switch_delete_cancel.log"
+      ]
+    },
+    {
+      "id": "I06",
+      "category": "I Settings and privacy",
+      "feature": "Privacy and data explanatory copy",
+      "status": "PASS",
+      "result": "Settings explained local-only switches, family export scope, retention, purge, and two-step deletion requirements.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "I07",
+      "category": "I Settings and privacy",
+      "feature": "Permission status UI",
+      "status": "PASS",
+      "result": "Active device detail showed usage, location, background location, camera, microphone, and notifications as Granted.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "I08",
+      "category": "I Settings and privacy",
+      "feature": "Battery optimization exemption",
+      "status": "NOT TESTED",
+      "result": "No battery-optimization exemption flow or prolonged screen-off survival test was completed.",
+      "evidence": []
+    },
+    {
+      "id": "J01",
+      "category": "J Backend and RLS",
+      "feature": "Deno backend automated tests",
+      "status": "PASS",
+      "result": "209 Deno tests passed with 0 failures.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/AUTOMATED_VERIFICATION_TIMED.log"
+      ]
+    },
+    {
+      "id": "J02",
+      "category": "J Backend and RLS",
+      "feature": "Server retention and export runtime",
+      "status": "PASS",
+      "result": "Server-backed retention saved/restored and export completed through the Parent UI.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J01_retention_and_purge_validation.log",
+        "docs/testing/final_two_device_audit/integration/J02_settings_toggles_export.log"
+      ]
+    },
+    {
+      "id": "J03",
+      "category": "J Backend and RLS",
+      "feature": "Family-scoped export authorization",
+      "status": "PARTIAL",
+      "result": "Export and explanatory scope copy worked; a second account/tenant scope comparison was not performed.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J02_settings_toggles_export.log",
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "J04",
+      "category": "J Backend and RLS",
+      "feature": "Append-only audit UI",
+      "status": "PASS",
+      "result": "Audit history rendered and stated that events are server-written and cannot be edited/deleted from the app.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/B02_pairing_requests_audit.log"
+      ]
+    },
+    {
+      "id": "J05",
+      "category": "J Backend and RLS",
+      "feature": "Cross-tenant RLS negative probes",
+      "status": "BLOCKED",
+      "result": "Only the two supplied accounts were permitted; no third tenant or live cross-tenant read/write probe was attempted.",
+      "evidence": []
+    },
+    {
+      "id": "J06",
+      "category": "J Backend and RLS",
+      "feature": "Service-role and device-credential boundaries",
+      "status": "PARTIAL",
+      "result": "Automated backend tests passed, but no live service-role abuse or device-credential boundary probe was performed.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/AUTOMATED_VERIFICATION_TIMED.log"
+      ]
+    },
+    {
+      "id": "J07",
+      "category": "J Backend and RLS",
+      "feature": "Server role assignment visibility",
+      "status": "PASS",
+      "result": "Parent and Child roles were explicitly displayed by the server-authorized account surfaces.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log",
+        "docs/testing/final_two_device_audit/child/C54_child_relaunched.txt"
+      ]
+    },
+    {
+      "id": "J08",
+      "category": "J Backend and RLS",
+      "feature": "No schema, RLS, function, or deployment changes",
+      "status": "PASS",
+      "result": "Git status during final normalization showed only audit documentation/evidence changes; no backend deployment was performed.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log"
+      ]
+    },
+    {
+      "id": "K01",
+      "category": "K UI and navigation",
+      "feature": "Parent bottom navigation",
+      "status": "PASS",
+      "result": "All four Parent tabs rendered and navigated.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "K02",
+      "category": "K UI and navigation",
+      "feature": "Child bottom navigation",
+      "status": "PASS",
+      "result": "Child shell navigation was exercised across Home, Rules, and Settings.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/A01_current_shells.log",
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log"
+      ]
+    },
+    {
+      "id": "K03",
+      "category": "K UI and navigation",
+      "feature": "Invalid-input feedback",
+      "status": "PARTIAL",
+      "result": "Retention validation was specific, but empty pairing submission used generic accepted-code copy.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/J01_retention_and_purge_validation.log",
+        "docs/testing/final_two_device_audit/integration/B01_pairing_validation.log"
+      ]
+    },
+    {
+      "id": "K04",
+      "category": "K UI and navigation",
+      "feature": "Scanner viewfinder and decode",
+      "status": "BLOCKED",
+      "result": "The scanner instructions rendered, but no verified QR decode was observed on the emulator.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/H02_qr_scanner_diagnosis_corrected.log"
+      ]
+    },
+    {
+      "id": "K05",
+      "category": "K UI and navigation",
+      "feature": "List scrolling and load-more",
+      "status": "PARTIAL",
+      "result": "Scrolling worked, but large swipes skipped cards and no explicit load-more behavior was proven.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log",
+        "docs/testing/final_two_device_audit/integration/H02_snapshot_audit_gap_closure_continued8.log"
+      ]
+    },
+    {
+      "id": "K06",
+      "category": "K UI and navigation",
+      "feature": "Error visibility",
+      "status": "PARTIAL",
+      "result": "Child app-upload error was visible; Parent offline refresh produced no visible error/offline state.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/C01_child_rules_settings.log",
+        "docs/testing/final_two_device_audit/integration/H02_offline_resume_all_radios_verified.log"
+      ]
+    },
+    {
+      "id": "K07",
+      "category": "K UI and navigation",
+      "feature": "Rotation and multi-size layouts",
+      "status": "NOT TESTED",
+      "result": "No rotation, font-scale, or multi-window layout test was performed.",
+      "evidence": []
+    },
+    {
+      "id": "K08",
+      "category": "K UI and navigation",
+      "feature": "Readability and accessibility semantics",
+      "status": "PARTIAL",
+      "result": "Visual controls were usable, but Flutter accessibility trees merged whole cards and omitted some visible buttons; no screen-reader session was performed.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/integration/P55_parent_role_location_targeted.log"
+      ]
+    },
+    {
+      "id": "L01",
+      "category": "L Build, release, and security",
+      "feature": "FVM release build and two-device install",
+      "status": "PASS",
+      "result": "Flutter 3.44.6 built the release APK and the same package/version was installed on both audit devices.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/fvm_build_live_config.log",
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log"
+      ]
+    },
+    {
+      "id": "L02",
+      "category": "L Build, release, and security",
+      "feature": "Flutter analyzer",
+      "status": "PASS",
+      "result": "No analyzer issues found.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/AUTOMATED_VERIFICATION_TIMED.log"
+      ]
+    },
+    {
+      "id": "L03",
+      "category": "L Build, release, and security",
+      "feature": "Flutter automated tests",
+      "status": "PASS",
+      "result": "493 Flutter tests passed.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/AUTOMATED_VERIFICATION_TIMED.log"
+      ]
+    },
+    {
+      "id": "L04",
+      "category": "L Build, release, and security",
+      "feature": "Kotlin automated tests",
+      "status": "PASS",
+      "result": "57 Kotlin tests passed with 0 failures, errors, or skipped tests.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/AUTOMATED_VERIFICATION_TIMED.log"
+      ]
+    },
+    {
+      "id": "L05",
+      "category": "L Build, release, and security",
+      "feature": "Release signing",
+      "status": "FAIL",
+      "result": "The release APK is signed with CN=Android Debug and is not production-shippable.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log"
+      ]
+    },
+    {
+      "id": "L06",
+      "category": "L Build, release, and security",
+      "feature": "Installed package identity",
+      "status": "PASS",
+      "result": "Both devices reported com.parentcontrol.parent_control versionName 1.0.0, versionCode 1, targetSdk 36.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log"
+      ]
+    },
+    {
+      "id": "L07",
+      "category": "L Build, release, and security",
+      "feature": "Application and backend source unchanged",
+      "status": "PASS",
+      "result": "No Dart, Kotlin, manifest, Gradle, dependency, schema, RLS, or Edge Function change was made; Git status showed audit artifacts only.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log"
+      ]
+    },
+    {
+      "id": "L08",
+      "category": "L Build, release, and security",
+      "feature": "Evidence sanitization",
+      "status": "PASS",
+      "result": "Credentials, tokens, account labels, pairing IDs, and retained coordinates were redacted; final validation is recorded separately.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/EVIDENCE_SANITIZATION_PASS5.json"
+      ]
+    },
+    {
+      "id": "L09",
+      "category": "L Build, release, and security",
+      "feature": "Production readiness",
+      "status": "FAIL",
+      "result": "Debug signing, absent Device Owner enforcement, app-snapshot failure, misleading enforcement labels, and offline-state ambiguity block production readiness.",
+      "evidence": [
+        "docs/testing/final_two_device_audit/backend/FINAL_ENVIRONMENT_AND_ARTIFACT.log",
+        "docs/testing/final_two_device_audit/integration/F02_quota_enforcement_probe.log",
+        "docs/testing/final_two_device_audit/integration/F03_app_snapshot_sync_failure_continued.log",
+        "docs/testing/final_two_device_audit/integration/H02_offline_resume_all_radios_verified.log"
+      ]
+    }
+  ],
+  "status_counts": {
+    "PASS": 57,
+    "PARTIAL": 10,
+    "FAIL": 6,
+    "BLOCKED": 7,
+    "NOT TESTED": 12,
+    "DEMO ONLY": 0,
+    "NOT IMPLEMENTED": 0
+  },
+  "category_counts": {
+    "A Lifecycle and navigation": 7,
+    "B Authentication, family, and pairing": 8,
+    "C Child shell and controls": 5,
+    "D Dashboard, family, and location": 8,
+    "E Telemetry and synchronization": 8,
+    "F Policy and enforcement": 7,
+    "G Alerts and safe zones": 6,
+    "H Remote assistance and notifications": 10,
+    "I Settings and privacy": 8,
+    "J Backend and RLS": 8,
+    "K UI and navigation": 8,
+    "L Build, release, and security": 9
+  },
+  "feature_count": 92,
+  "validation": {
+    "feature_ids_unique": true,
+    "evidence_paths_exist": true,
+    "errors": []
+  }
+}

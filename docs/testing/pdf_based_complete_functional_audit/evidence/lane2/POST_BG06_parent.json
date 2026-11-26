@@ -1,0 +1,137 @@
+{
+  "start": "2026-11-26T13:16:38+05:30",
+  "end": "2026-11-26T13:16:38+05:30",
+  "serial": "emulator-5554",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "mode": "read-only capability probe; unrelated package identities and setting values are not retained",
+  "uid": "10238",
+  "haven_accessibility_enabled": false,
+  "haven_notification_listener_enabled": false,
+  "haven_device_idle_whitelisted": false,
+  "haven_device_admin_enabled": false,
+  "haven_device_owner_enabled": false,
+  "usage_access_appop": "unknown",
+  "low_power_mode": "null",
+  "airplane_mode_on": "0",
+  "wifi_on": "1",
+  "mobile_data": "1",
+  "battery_optimization_mode": "null",
+  "screen_off_timeout_ms": "2147483647",
+  "uid_netpolicy_lines": [
+    "UID=10238 state={procState=TOP ,seq=67344,cap=LCMNFUATI} blocked_state={blocked=APP_BACKGROUND,allowed=FOREGROUND|TOP|NOT_IN_BACKGROUND|METERED_FOREGROUND,effective=NONE}"
+  ],
+  "power_markers": [
+    "mWakefulness=Awake",
+    "mDeviceIdleMode=false",
+    "mWakefulness=1"
+  ],
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\POST_BG06_parent.txt",
+  "sha256": "89bfa556cef762b4e90af23bfb48fe841e38e536926ba661ab021307c93881bb",
+  "commands": [
+    {
+      "key": "accessibility",
+      "command": "adb -s emulator-5554 shell settings get secure enabled_accessibility_services",
+      "exit": 0,
+      "duration_seconds": 0.062,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "notification_listeners",
+      "command": "adb -s emulator-5554 shell settings get secure enabled_notification_listeners",
+      "exit": 0,
+      "duration_seconds": 0.058,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "deviceidle",
+      "command": "adb -s emulator-5554 shell dumpsys deviceidle whitelist",
+      "exit": 0,
+      "duration_seconds": 0.054,
+      "stdout_lines": 24,
+      "stderr": ""
+    },
+    {
+      "key": "device_policy",
+      "command": "adb -s emulator-5554 shell dumpsys device_policy",
+      "exit": 0,
+      "duration_seconds": 0.057,
+      "stdout_lines": 242,
+      "stderr": ""
+    },
+    {
+      "key": "power",
+      "command": "adb -s emulator-5554 shell dumpsys power",
+      "exit": 0,
+      "duration_seconds": 0.05,
+      "stdout_lines": 983,
+      "stderr": ""
+    },
+    {
+      "key": "netpolicy",
+      "command": "adb -s emulator-5554 shell dumpsys netpolicy",
+      "exit": 0,
+      "duration_seconds": 0.057,
+      "stdout_lines": 1377,
+      "stderr": ""
+    },
+    {
+      "key": "usage_appop",
+      "command": "adb -s emulator-5554 shell cmd appops get com.parentcontrol.parent_control GET_USAGE_STATS",
+      "exit": 0,
+      "duration_seconds": 0.045,
+      "stdout_lines": 2,
+      "stderr": ""
+    },
+    {
+      "key": "low_power",
+      "command": "adb -s emulator-5554 shell settings get global low_power_mode",
+      "exit": 0,
+      "duration_seconds": 0.046,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "airplane",
+      "command": "adb -s emulator-5554 shell settings get global airplane_mode_on",
+      "exit": 0,
+      "duration_seconds": 0.056,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "wifi",
+      "command": "adb -s emulator-5554 shell settings get global wifi_on",
+      "exit": 0,
+      "duration_seconds": 0.05,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "mobile_data",
+      "command": "adb -s emulator-5554 shell settings get global mobile_data",
+      "exit": 0,
+      "duration_seconds": 0.05,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "battery_optimization",
+      "command": "adb -s emulator-5554 shell settings get secure battery_optimization_mode",
+      "exit": 0,
+      "duration_seconds": 0.049,
+      "stdout_lines": 1,
+      "stderr": ""
+    },
+    {
+      "key": "screen_timeout",
+      "command": "adb -s emulator-5554 shell settings get system screen_off_timeout",
+      "exit": 0,
+      "duration_seconds": 0.048,
+      "stdout_lines": 1,
+      "stderr": ""
+    }
+  ]
+}

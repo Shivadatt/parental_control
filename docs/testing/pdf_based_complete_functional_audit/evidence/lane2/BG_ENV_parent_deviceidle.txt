@@ -1,0 +1,15 @@
+start=2026-11-26T12:22:48+05:30
+end=2026-11-26T12:22:48+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys deviceidle
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=110
+selected_stdout_lines=1
+include=["com\\.parentcontrol\\.parent_control", "mState=", "mLightState=", "mWhitelist", "mTempWhitelist", "mAppIdleEnabled"]
+exclude=[]
+--- selected stdout ---
+  mState=ACTIVE mLightState=ACTIVE
+--- stderr ---
+

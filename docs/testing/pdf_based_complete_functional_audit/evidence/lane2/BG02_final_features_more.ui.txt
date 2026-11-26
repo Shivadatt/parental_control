@@ -1,0 +1,42 @@
+start=2026-11-26T13:37:46+05:30
+end=2026-11-26T13:37:48+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+ui_command=adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=31
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2424]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,289]
+9|text=|desc=Back|id=|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|text=|desc=realme RMX2161|id=|class=android.view.View|clickable=false|bounds=[189,185][599,246]
+11|text=|desc=Refresh device|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
+13|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+14|text=|desc=Recent commands
+Delivery is confirmed by the device, not by this screen.|id=|class=android.view.View|clickable=false|bounds=[42,289][1038,314]
+15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,314][1038,346]
+16|text=|desc=Manage|id=|class=android.view.View|clickable=false|bounds=[42,346][1038,1417]
+17|text=|desc=App restrictions|id=|class=android.widget.Button|clickable=true|bounds=[87,490][993,637]
+18|text=|desc=Screen time|id=|class=android.widget.Button|clickable=true|bounds=[87,637][993,784]
+19|text=|desc=Location|id=|class=android.widget.Button|clickable=true|bounds=[87,784][993,931]
+20|text=|desc=Safe zones|id=|class=android.widget.Button|clickable=true|bounds=[87,931][993,1078]
+21|text=|desc=Safety alerts|id=|class=android.widget.Button|clickable=true|bounds=[87,1078][993,1225]
+22|text=|desc=Remote assistance|id=|class=android.widget.Button|clickable=true|bounds=[87,1225][993,1372]
+23|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1417][1038,1469]
+24|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1469][1038,1600]
+25|text=|desc=Revoke device|id=|class=android.widget.Button|clickable=true|bounds=[42,1469][1038,1600]
+26|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1600][1038,1621]
+27|text=|desc=Revoking invalidates the device credential and stops reports. Linking the phone again is required.|id=|class=android.view.View|clickable=false|bounds=[42,1621][1038,1705]
+28|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1705][1038,1747]
+29|text=|desc=Lost or reinstalled phone
+Use recovery when the child reinstalled Parent Control or the phone lost its device credential. The server revokes the old credential and removes the family link, so the old phone stops reporting. A new device is only linked after a fresh one-time pairing code and the child approves it.|id=|class=android.view.View|clickable=false|bounds=[42,1747][1038,2414]
+30|text=|desc=Start device recovery|id=|class=android.widget.Button|clickable=true|bounds=[87,2238][993,2370]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

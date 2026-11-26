@@ -1,0 +1,15 @@
+{
+  "start": "__HAVEN_TIMESTAMP_2__",
+  "end": "__HAVEN_TIMESTAMP_3__",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell input swipe 540 2000 540 600 300",
+  "exit": 0,
+  "duration_seconds": 0.409,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "89fce07c74d7cd15025db4fc4c7fc31a569774fda9246a00417aa101513834e4",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG07_child_swipe_unlock.txt"
+}

@@ -1,0 +1,18 @@
+start=2026-11-26T13:02:56+05:30
+end=2026-11-26T13:02:56+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys power
+exit=0
+duration_seconds=0.182
+raw_stdout_lines=2727
+selected_stdout_lines=4
+include=["mWakefulness=", "Display Power", "mScreenOn", "mHoldingDisplaySuspendBlocker", "mHoldingWakeLockSuspendBlocker"]
+exclude=[]
+--- selected stdout ---
+  mWakefulness=Asleep
+  mHoldingWakeLockSuspendBlocker=false
+  mHoldingDisplaySuspendBlocker=false
+Display Power: [REDACTED_PACKAGE]$1@30f78dd
+--- stderr ---
+

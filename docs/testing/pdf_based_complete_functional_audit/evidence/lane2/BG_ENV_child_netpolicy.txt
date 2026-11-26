@@ -1,0 +1,200 @@
+start=2026-11-26T12:22:51+05:30
+end=2026-11-26T12:22:51+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys netpolicy
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=1423
+selected_stdout_lines=186
+include=["mRestrictBackground", "restrictBackground", "mDataSaver", "uid="]
+exclude=[]
+--- selected stdout ---
+mRestrictBackgroundLowPowerMode: false
+mRestrictBackgroundBeforeBsm: false
+mLoadedRestrictBackground: false
+mRestrictBackgroundChangedInBsm: false
+  UID=10049 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=10080 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=10109 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=99910049 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=99910080 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=99910109 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=1000: true
+  UID=1001: true
+  UID=1002: true
+  UID=2000: true
+  UID=10048: true
+  UID=10049: true
+  UID=10050: true
+  UID=10051: true
+  UID=10052: true
+  UID=10054: true
+  UID=10056: true
+  UID=10057: true
+  UID=10063: true
+  UID=10071: true
+  UID=10080: true
+  UID=10082: true
+  UID=10086: true
+  UID=10087: true
+  UID=10088: true
+  UID=10091: true
+  UID=10093: true
+  UID=10097: true
+  UID=10099: true
+  UID=10107: true
+  UID=10109: true
+  UID=10119: true
+  UID=10123: true
+  UID=10125: true
+  UID=10126: true
+  UID=10129: true
+  UID=10131: true
+  UID=10132: true
+  UID=10135: true
+  UID=10136: true
+  UID=10141: true
+  UID=10144: true
+  UID=10166: true
+  UID=10174: true
+  UID=10184: true
+  UID=10185: true
+  UID=10188: true
+  UID=10189: true
+  UID=10190: true
+  UID=10195: true
+  UID=10203: true
+  UID=10204: true
+  UID=10205: true
+  UID=10209: true
+  UID=10213: true
+  UID=10214: true
+  UID=10217: true
+  UID=10220: true
+  UID=10223: true
+  UID=10224: true
+  UID=10229: true
+  UID=10236: true
+  UID=10245: true
+  UID=10248: true
+  UID=10250: true
+  UID=10252: true
+  UID=10882: true
+  UID=11316: true
+  UID=1000: true
+  UID=1001: true
+  UID=1002: true
+  UID=2000: true
+  UID=10048: true
+  UID=10049: true
+  UID=10050: true
+  UID=10051: true
+  UID=10052: true
+  UID=10054: true
+  UID=10056: true
+  UID=10057: true
+  UID=10063: true
+  UID=10071: true
+  UID=10080: true
+  UID=10082: true
+  UID=10086: true
+  UID=10087: true
+  UID=10088: true
+  UID=10091: true
+  UID=10093: true
+  UID=10097: true
+  UID=10099: true
+  UID=10107: true
+  UID=10109: true
+  UID=10123: true
+  UID=10125: true
+  UID=10126: true
+  UID=10129: true
+  UID=10131: true
+  UID=10132: true
+  UID=10135: true
+  UID=10136: true
+  UID=10141: true
+  UID=10144: true
+  UID=10166: true
+  UID=10174: true
+  UID=10184: true
+  UID=10185: true
+  UID=10188: true
+  UID=10189: true
+  UID=10190: true
+  UID=10195: true
+  UID=10203: true
+  UID=10204: true
+  UID=10205: true
+  UID=10209: true
+  UID=10213: true
+  UID=10214: true
+  UID=10217: true
+  UID=10220: true
+  UID=10223: true
+  UID=10224: true
+  UID=10229: true
+  UID=10236: true
+  UID=10245: true
+  UID=10248: true
+  UID=10250: true
+  UID=10252: true
+  UID=10882: true
+  UID=11316: true
+  UID=10049
+  UID=10080
+  UID=10109
+  UID=1000 state={procState=PER ,cap=LCMN} rules=0 (NONE)
+  UID=1001 state={procState=PER ,cap=LCMN} rules=0 (NONE)
+  UID=1002 state={procState=PER ,cap=LCMN} rules=0 (NONE)
+  UID=1068 state={procState=PER ,cap=LCMN} rules=0 (NONE)
+  UID=1073 state={procState=PER ,cap=LCMN} rules=0 (NONE)
+  UID=10048 state={procState=LAST,cap=----} rules=0 (NONE)
+  UID=10091 state={procState=LAST,cap=----} rules=0 (NONE)
+  UID=10093 state={procState=CEM ,cap=----} rules=0 (NONE)
+  UID=10094 state={procState=TRNB,cap=----} rules=0 (NONE)
+  UID=10096 state={procState=LAST,cap=----} rules=0 (NONE)
+  UID=10098 state={procState=TRNB,cap=----} rules=0 (NONE)
+  UID=10101 state={procState=IMPF,cap=----} rules=0 (NONE)
+  UID=10104 state={procState=SVC ,cap=----} rules=0 (NONE)
+  UID=10106 state={procState=SVC ,cap=----} rules=0 (NONE)
+  UID=10107 state={procState=BFGS,cap=LCMN} rules=0 (NONE)
+  UID=10109 state={procState=BFGS,cap=LCMN} rules=1 (ALLOW_METERED)
+  UID=10118 state={procState=TRNB,cap=----} rules=0 (NONE)
+  UID=10122 state={procState=PER ,cap=LCMN} rules=0 (NONE)
+  UID=10124 state={procState=BFGS,cap=---N} rules=0 (NONE)
+  UID=10125 state={procState=SVC ,cap=----} rules=0 (NONE)
+  UID=10138 state={procState=TRNB,cap=----} rules=0 (NONE)
+  UID=10140 state={procState=IMPF,cap=----} rules=0 (NONE)
+  UID=10144 state={procState=RCVR,cap=----} rules=0 (NONE)
+  UID=10154 state={procState=IMPB,cap=----} rules=0 (NONE)
+  UID=10159 state={procState=SVC ,cap=----} rules=0 (NONE)
+  UID=10166 state={procState=RCVR,cap=----} rules=0 (NONE)
+  UID=10169 state={procState=IMPF,cap=----} rules=0 (NONE)
+  UID=10175 state={procState=BTOP,cap=---N} rules=0 (NONE)
+  UID=10181 state={procState=TOP ,cap=LCMN} rules=0 (NONE)
+  UID=10185 state={procState=PERU,cap=LCMN} rules=0 (NONE)
+  UID=10190 state={procState=SVC ,cap=----} rules=0 (NONE)
+  UID=10191 state={procState=CEM ,cap=----} rules=0 (NONE)
+  UID=10193 state={procState=SVC ,cap=----} rules=0 (NONE)
+  UID=10194 state={procState=IMPF,cap=----} rules=0 (NONE)
+  UID=10201 state={procState=PER ,cap=LCMN} rules=0 (NONE)
+  UID=10204 state={procState=TRNB,cap=----} rules=0 (NONE)
+  UID=10217 state={procState=CEM ,cap=----} rules=0 (NONE)
+  UID=10218 state={procState=IMPF,cap=----} rules=0 (NONE)
+  UID=10223 state={procState=IMPB,cap=----} rules=0 (NONE)
+  UID=10226 state={procState=BFGS,cap=LCMN} rules=0 (NONE)
+  UID=10230 state={procState=PER ,cap=LCMN} rules=0 (NONE)
+  UID=10266 state={procState=LAST,cap=----} rules=0 (NONE)
+  UID=10280 state={procState=TRNB,cap=----} rules=0 (NONE)
+  UID=10283 state={procState=TRNB,cap=----} rules=0 (NONE)
+  UID=10882 state={procState=RCVR,cap=----} rules=0 (NONE)
+  UID=11316 state={procState=FGS ,cap=LCMN} rules=0 (NONE)
+  UID=11324 state={procState=FGS ,cap=L--N} rules=0 (NONE)
+  UID=99460 state={procState=IMPF,cap=----} rules=0 (NONE)
+  UID=99475 state={procState=BFGS,cap=---N} rules=0 (NONE)
+  UID=10109 rules=1 (ALLOW_METERED)
+--- stderr ---
+

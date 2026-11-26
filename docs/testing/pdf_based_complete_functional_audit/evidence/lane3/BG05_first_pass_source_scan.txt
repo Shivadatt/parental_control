@@ -1,0 +1,9 @@
+test_id=BG05
+cwd=D:\parentcontrol_app
+scanned_files=186
+scope=lib/**/*.dart,android/**/*.kt,android/**/*.xml
+pattern=MediaProjection count=0
+pattern=VIRTUAL_DISPLAY count=0
+pattern=FOREGROUND_SERVICE_MEDIA_PROJECTION count=0
+pattern=screen mirror/cast/share count=1
+match=D:\parentcontrol_app\lib\features\remote_assistance\remote_assistance_page.dart:91:'screen capture are taken. A pending request expires if it '

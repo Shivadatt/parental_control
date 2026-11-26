@@ -1,0 +1,20 @@
+{
+  "start": "2026-11-26T12:22:47+05:30",
+  "end": "2026-11-26T12:22:47+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell settings get secure enabled_accessibility_services",
+  "exit": 0,
+  "duration_seconds": null,
+  "stdout_lines": 1,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 6,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "c4d16d43cd7424b864e4c59df685b8db58071158715cfb0a7fa73d007e133bc7",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG_ENV_parent_accessibility_services.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

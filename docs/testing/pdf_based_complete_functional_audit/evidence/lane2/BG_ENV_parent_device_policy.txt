@@ -1,0 +1,17 @@
+start=2026-11-26T12:22:47+05:30
+end=2026-11-26T12:22:47+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys device_policy
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=242
+selected_stdout_lines=3
+include=["com\\.parentcontrol\\.parent_control", "Device Owner", "Device Admin", "mAdminMap", "mOwnerComponent"]
+exclude=[]
+--- selected stdout ---
+  Enabled Device Admins (User 0, provisioningState: 0):
+  Device Owner Type: -1
+    2: com.parentcontrol.parent_control
+--- stderr ---
+

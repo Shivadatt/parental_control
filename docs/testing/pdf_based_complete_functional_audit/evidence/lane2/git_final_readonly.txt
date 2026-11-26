@@ -1,0 +1,10 @@
+timestamp=2026-11-26T10:58:15+05:30
+cwd=/d/parentcontrol_app
+branch=main
+head=[REDACTED_HEX]
+status_entries=107
+unstaged_tracked_files=102
+staged_tracked_files=0
+untracked_entries=17
+unstaged_diff_sha256=[REDACTED_HEX] *-
+staged_diff_sha256=[REDACTED_HEX] *-

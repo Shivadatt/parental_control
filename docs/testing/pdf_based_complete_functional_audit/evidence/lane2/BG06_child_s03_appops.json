@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T13:01:53+05:30",
+  "end": "2026-11-26T13:01:54+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell appops get com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": 0.1,
+  "stdout_lines": 17,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 852,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "9c1d3d6c7f550e74278f2d520f7026fe189898ec00f639d05b60475dfc2efe0c",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s03_appops.txt"
+}

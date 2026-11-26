@@ -1,0 +1,27 @@
+{
+  "start": "2026-11-26T14:17:54+05:30",
+  "end": "2026-11-26T14:17:54+05:30",
+  "serial": "emulator-5554",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "foreground_activity_lines": [
+    "topResumedActivity=ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}",
+    "mFocusedApp=ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}"
+  ],
+  "screen_lines": [
+    "mWakefulness=Awake",
+    "mHoldingDisplaySuspendBlocker=true",
+    "Display Power: [REDACTED_PACKAGE]$1@e6f164f",
+    "mWakefulness=1"
+  ],
+  "services": [],
+  "camera_open": false,
+  "camera_package_in_active_clients": false,
+  "open_camera_devices": [],
+  "recording_active": false,
+  "playback_active": false,
+  "camera_op": "CAMERA: allow",
+  "microphone_op": "unknown",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_000_parent_native.txt",
+  "sha256": "ec65c8f2a575c7e29fa03ccaad4ed0fbd7de3b752a76b09a20f7e010c1a8e7ee"
+}

@@ -1,0 +1,19 @@
+{
+  "start": "2026-11-26T12:29:46+05:30",
+  "end": "2026-11-26T12:29:46+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys deviceidle whitelist",
+  "exit": 0,
+  "duration_seconds": 0.04,
+  "raw_stdout_lines": 95,
+  "selected_stdout_lines": 0,
+  "include": [
+    "com\\.parentcontrol\\.parent_control",
+    "User Whitelist",
+    "System Whitelist"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "1be1aafffa56cc523fbfe0920c65aa52923a1627aa34acccdf754914c21fa4ec",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG01_s06_deviceidle.txt"
+}

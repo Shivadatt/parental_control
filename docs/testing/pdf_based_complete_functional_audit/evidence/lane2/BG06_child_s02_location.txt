@@ -1,0 +1,230 @@
+start=2026-11-26T13:00:51+05:30
+end=2026-11-26T13:00:51+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys location
+exit=0
+duration_seconds=0.090
+raw_stdout_lines=342
+selected_stdout_lines=216
+include=["com\\.parentcontrol\\.parent_control", "Location Manager State", "mEnabledProviders", "mDisabledProviders", "gps", "network"]
+exclude=["last location", "latitude", "longitude", "mLastLocation"]
+--- selected stdout ---
+Location Manager State:
+        10109/[REDACTED_PACKAGE][network_location_provider]/E50DD2B4 Request[PASSIVE, minUpdateInterval=0, hiddenFromAppOps, WorkSource{10109 [REDACTED_PACKAGE]}]
+      extra attribution tags={awareness_provider, activity_recognition_provider, network_location_provider, gnss_location_provider, network_location_calibration, current_semantic_location, fused_location_provider, wearable_flp_shim, geofencer_provider}
+    gps provider:
+      service: ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+        11324/com.parentcontrol.parent_control/A066D467 Request[@+1m0s0ms HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+        Used-in-fix constellation types: GPS GLONASS QZSS BEIDOU GALILEO 
+    network provider:
+      service: ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+        11324/com.parentcontrol.parent_control/A066D467 Request[@+1m0s0ms LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+      identity=10109/[REDACTED_PACKAGE][network_location_provider]
+      extra attribution tags={awareness_provider, activity_recognition_provider, network_location_provider, gnss_location_provider, network_location_calibration, current_semantic_location, fused_location_provider, wearable_flp_shim, geofencer_provider}
+      properties=ProviderProperties[powerUsage=Medium, accuracy=Fine, requires=network, supports=[altitude]]
+      target service=10109/[REDACTED_PACKAGE]/[REDACTED_PACKAGE]@2
+      10109/[REDACTED_PACKAGE][network_location_provider]: min/max interval = passive/passive, total/active/foreground duration = +16d23h11m20s629ms/+16d23h11m20s585ms/+16d23h11m19s651ms, locations = 19993
+    gps:
+      11320/com.parentcontrol.parent_control: min/max interval = 60s/60s, total/active/foreground duration = +4h14m49s141ms/+4h14m49s129ms/+4h14m49s132ms, locations = 217
+      11324/com.parentcontrol.parent_control: min/max interval = 60s/60s, total/active/foreground duration = +3d20h6m4s57ms/+3d20h6m3s941ms/+3d20h6m3s585ms, locations = 2758
+    network:
+      11320/com.parentcontrol.parent_control: min/max interval = 60s/60s, total/active/foreground duration = +4h14m49s133ms/+4h14m49s127ms/+4h14m49s131ms, locations = 195
+      11324/com.parentcontrol.parent_control: min/max interval = 60s/60s, total/active/foreground duration = +3d20h6m4s171ms/+3d20h5m59s261ms/+3d20h6m3s572ms, locations = 2813
+        10109/[REDACTED_PACKAGE][network_location_provider]/3D44B1DF
+    11-26 09:14:[REDACTED_COORD]: gps provider -registration 10109/[REDACTED_PACKAGE][fused_location_provider]/CB5D6345
+    11-26 09:14:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:14:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:15:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:15:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:15:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:15:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:15:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:15:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:15:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:16:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:16:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:16:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:16:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:16:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:16:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:16:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:17:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:17:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:17:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:17:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:17:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:17:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:18:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:18:[REDACTED_COORD]: gps provider +registration 10109/[REDACTED_PACKAGE][fused_location_provider]/F7C96E69 -> Request[@0 HIGH_ACCURACY, hiddenFromAppOps, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:18:[REDACTED_COORD]: gps provider request = ProviderRequest[@0, HIGH_ACCURACY, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:18:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:18:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:18:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:18:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:18:[REDACTED_COORD]: gps provider -registration 10109/[REDACTED_PACKAGE][fused_location_provider]/F7C96E69
+    11-26 09:18:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:18:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:19:[REDACTED_COORD]: gps provider +registration 10109/[REDACTED_PACKAGE][fused_location_provider]/FA0DF40B -> Request[@0 HIGH_ACCURACY, hiddenFromAppOps, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:19:[REDACTED_COORD]: gps provider request = ProviderRequest[@0, HIGH_ACCURACY, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:19:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:19:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:19:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:19:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:19:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:19:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:19:[REDACTED_COORD]: gps provider -registration 10109/[REDACTED_PACKAGE][fused_location_provider]/FA0DF40B
+    11-26 09:19:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:19:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:19:[REDACTED_COORD]: network provider stationary/idle throttled, request = ProviderRequest[OFF]
+    11-26 09:19:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:19:[REDACTED_COORD]: gps provider stationary/idle throttled, request = ProviderRequest[OFF]
+    11-26 09:20:[REDACTED_COORD]: gps provider stationary/idle unthrottled, request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:20:[REDACTED_COORD]: network provider stationary/idle unthrottled, request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:20:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:20:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:20:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:20:[REDACTED_COORD]: gps provider +registration 10109/[REDACTED_PACKAGE][fused_location_provider]/6BD37194 -> Request[@0 HIGH_ACCURACY, hiddenFromAppOps, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:20:[REDACTED_COORD]: gps provider request = ProviderRequest[@0, HIGH_ACCURACY, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:20:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:20:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:20:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:20:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:20:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:20:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:21:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:21:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:21:[REDACTED_COORD]: gps provider -registration 10109/[REDACTED_PACKAGE][fused_location_provider]/6BD37194
+    11-26 09:21:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:21:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:22:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:22:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:22:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:22:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:22:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:22:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:22:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:23:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:23:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:23:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:23:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:23:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:23:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:23:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:24:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:24:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:24:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:24:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:24:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:24:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:24:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:24:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:25:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:25:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:25:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:25:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:25:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:25:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:25:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:25:[REDACTED_COORD]: gps provider +registration 10109/[REDACTED_PACKAGE][fused_location_provider]/972D19B2 -> Request[@0 HIGH_ACCURACY, hiddenFromAppOps, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:25:[REDACTED_COORD]: gps provider request = ProviderRequest[@0, HIGH_ACCURACY, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:25:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:25:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:25:[REDACTED_COORD]: gps provider -registration 10109/[REDACTED_PACKAGE][fused_location_provider]/972D19B2
+    11-26 09:25:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:25:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:26:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:26:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:26:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:26:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:26:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:26:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:26:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:27:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:27:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:27:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:27:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:27:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:27:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:27:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:28:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:28:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:28:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:28:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:28:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:28:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:29:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:30:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:30:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:30:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:30:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:30:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:30:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:30:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:31:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:31:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:31:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:31:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:31:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:31:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:31:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:31:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:32:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:32:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:32:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:32:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:32:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:32:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:33:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:34:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:34:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:34:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:34:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:34:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:34:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:34:[REDACTED_COORD]: gps provider +registration 10109/[REDACTED_PACKAGE][fused_location_provider]/2E3710FA -> Request[@0 HIGH_ACCURACY, hiddenFromAppOps, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:34:[REDACTED_COORD]: gps provider request = ProviderRequest[@0, HIGH_ACCURACY, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 09:34:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:34:[REDACTED_COORD]: gps provider -registration 10109/[REDACTED_PACKAGE][fused_location_provider]/2E3710FA
+    11-26 09:34:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:34:[REDACTED_COORD]: gps provider received location[1]
+    11-26 09:35:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:35:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 09:35:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 09:35:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:35:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 09:35:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 09:35:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:36:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:37:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:38:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:39:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:40:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:41:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:42:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:43:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:44:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:45:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:46:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:47:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:48:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:49:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:50:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:51:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:52:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:53:[REDACTED_COORD]: network provider received location[1]
+    11-26 09:54:[REDACTED_COORD]: network provider received location[1]
+    11-26 11:02:[REDACTED_COORD]: network provider +registration 1000/android[GnssService]/C0F65BF9 -> Request[@+1s0ms LOW_POWER, duration=+10s0ms, maxUpdates=1, WorkSource{1000 android}]
+    11-26 11:02:[REDACTED_COORD]: network provider request = ProviderRequest[@+1s0ms, LOW_POWER, WorkSource{1000 android}]
+    11-26 11:02:[REDACTED_COORD]: network provider received location[1]
+    11-26 11:02:[REDACTED_COORD]: network provider -registration 1000/android[GnssService]/C0F65BF9
+    11-26 11:02:[REDACTED_COORD]: network provider request = ProviderRequest[@+1m0s0ms, LOW_POWER, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 11:02:[REDACTED_COORD]: network provider received location[1]
+    11-26 13:00:[REDACTED_COORD]: gps provider +registration 10109/[REDACTED_PACKAGE][fused_location_provider]/F91CA844 -> Request[@0 HIGH_ACCURACY, hiddenFromAppOps, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 13:00:[REDACTED_COORD]: gps provider request = ProviderRequest[@0, HIGH_ACCURACY, WorkSource{11316 [REDACTED_PACKAGE]}]
+    11-26 13:00:[REDACTED_COORD]: gps provider -registration 10109/[REDACTED_PACKAGE][fused_location_provider]/F91CA844
+    11-26 13:00:[REDACTED_COORD]: gps provider request = ProviderRequest[@+1m0s0ms, HIGH_ACCURACY, WorkSource{11324 com.parentcontrol.parent_control}]
+    11-26 13:00:[REDACTED_COORD]: network provider received location[1]
+  ASSISTED_GPS_ENABLED:
+--- stderr ---
+

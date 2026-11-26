@@ -1,0 +1,14 @@
+start=2026-11-26T13:39:33+05:30
+end=2026-11-26T13:39:34+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell cmd appops get com.parentcontrol.parent_control CAMERA
+exit=0
+duration_seconds=0.076
+stdout_lines=2
+stderr_lines=0
+--- stdout ---
+Uid mode: CAMERA: foreground
+CAMERA: allow; time=+1d1h40m48s687ms ago; duration=+1m26s298ms
+--- stderr ---
+

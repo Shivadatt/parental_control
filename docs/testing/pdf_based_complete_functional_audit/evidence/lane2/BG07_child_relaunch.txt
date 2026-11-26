@@ -1,0 +1,26 @@
+start=2026-11-26T13:19:33+05:30
+end=2026-11-26T13:19:34+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell monkey -p com.parentcontrol.parent_control -c android.intent.category.LAUNCHER 1
+exit=0
+duration_seconds=1.189
+stdout_lines=7
+stderr_lines=8
+--- stdout ---
+  bash arg: -p
+  bash arg: com.parentcontrol.parent_control
+  bash arg: -c
+  bash arg: android.intent.category.LAUNCHER
+  bash arg: 1
+Events injected: 1
+## Network stats: elapsed time=51ms (0ms mobile, 0ms wifi, 51ms not connected)
+--- stderr ---
+args: [-p, com.parentcontrol.parent_control, -c, android.intent.category.LAUNCHER, 1]
+ arg: "-p"
+ arg: "com.parentcontrol.parent_control"
+ arg: "-c"
+ arg: "android.intent.category.LAUNCHER"
+ arg: "1"
+data="com.parentcontrol.parent_control"
+data="android.intent.category.LAUNCHER"

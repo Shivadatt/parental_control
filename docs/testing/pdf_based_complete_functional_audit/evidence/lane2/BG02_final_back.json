@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T13:35:19+05:30",
+  "end": "2026-11-26T13:35:19+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input keyevent 4",
+  "exit": 0,
+  "duration_seconds": 0.429,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "0ff8e54e515efc71883bf60a04895139f8f6f0ec0655ce5b83112c277ae9696b",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG02_final_back.txt"
+}

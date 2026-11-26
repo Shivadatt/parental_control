@@ -1,0 +1,19 @@
+start=2026-11-26T12:22:49+05:30
+end=2026-11-26T12:22:51+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell ping -c 2 -W 3 1.1.1.1
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=7
+stderr_lines=0
+--- stdout ---
+PING 1.1.1.1 (1.1.1.1) 56(84) bytes of data.
+64 bytes from 1.1.1.1: icmp_seq=1 ttl=49 time=164 ms
+64 bytes from 1.1.1.1: icmp_seq=2 ttl=49 time=180 ms
+
+--- 1.1.1.1 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = [REDACTED_COORD]/[REDACTED_COORD]/[REDACTED_COORD]/[REDACTED_COORD] ms
+--- stderr ---
+

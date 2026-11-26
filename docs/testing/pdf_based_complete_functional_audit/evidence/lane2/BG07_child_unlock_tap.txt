@@ -1,0 +1,13 @@
+start=2026-11-26T13:19:12+05:30
+end=2026-11-26T13:19:12+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell input tap 540 185
+exit=0
+duration_seconds=0.092
+stdout_lines=0
+stderr_lines=0
+--- stdout ---
+
+--- stderr ---
+

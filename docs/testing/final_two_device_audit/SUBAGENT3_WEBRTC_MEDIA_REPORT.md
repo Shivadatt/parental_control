@@ -63,7 +63,7 @@ This investigation provides a comprehensive forensic analysis of **Section J (Re
      - Child sees: `"Audio assistance · expires in 9 min"` (`child/J13_child_req.png`).
      - Tapping "Review and respond" opens the request detail screen (`child/J14_child_detail.png`).
      - Tapping "Accept" displays the first confirmation dialog (`child/J15_child_accepted.png`):
-       - Title: *"Accept assistance from ankit?"*
+       - Title: *"Accept assistance from [ACCOUNT]?"*
        - Body: *"The next screen lets you start a live audio call. Your microphone stays off until you tap Join there. Nothing is recorded."*
        - Actions: `Cancel` | `Accept request`.
      - Tapping "Accept request" calls `remote-session` action `respond` (`body: { session_id, accept: true }`).
@@ -355,7 +355,7 @@ The audit artifacts collected during the two-device test run provide direct empi
 - **`parent/J03_remote_page.png` & `parent/_J03.txt`:**
   Shows the Remote Assistance screen with 9 recent sessions.
   Every card reads:
-  `Audio assistance | Ended | Device realme RMX2161 | Child ankit1 | Media: No media is open`.
+  `Audio assistance | Ended | Device realme RMX2161 | Child [ACCOUNT] | Media: No media is open`.
   Directly corroborates §4.1: all 9 sessions reached `ended` status, so `RemoteSession.mediaNote` produced `"No media is open"`.
 - **`parent/J05_dialog.png` & `parent/J06_sent.png`:**
   Parent taps "Request audio". Dialog confirms:
@@ -368,15 +368,15 @@ The audit artifacts collected during the two-device test run provide direct empi
 ### 6.2 Child Evidence
 - **`child/J12_child.png` & `child/J13_child_req.png` (`child/_J13.txt`):**
   Child receives the pending request in the Requests tab:
-  `Assistance requests | ankit | Audio assistance · expires in 9 min`.
+  `Assistance requests | [ACCOUNT] | Audio assistance · expires in 9 min`.
 - **`child/J14_child_detail.png` & `child/J15_child_accepted.png` (`child/_J15.txt`):**
   Child taps Accept. Shows confirmation dialog:
-  `"Accept assistance from ankit? The next screen lets you start a live audio call. Your microphone stays off until you tap Join there. Nothing is recorded."`
+  `"Accept assistance from [ACCOUNT]? The next screen lets you start a live audio call. Your microphone stays off until you tap Join there. Nothing is recorded."`
 - **`child/J16_child_session.png` & `child/J17_child_joined.png` (`child/_J16.txt`):**
   Child accepts and navigates to `ChildSessionPage`.
   Crucial Evidence:
   1. Status card displays:
-     `Audio assistance | Accepted | From ankit | Consent: Recorded`.
+     `Audio assistance | Accepted | From [ACCOUNT] | Consent: Recorded`.
   2. Diagnostic Warning Banner is displayed:
      **`"Relay not configured | No TURN relay is configured. Audio/video may fail to connect on networks with strict firewalls or carrier NAT."`**
   3. Action Button: `"Join with microphone"`.

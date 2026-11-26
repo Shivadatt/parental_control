@@ -1,0 +1,341 @@
+start=2026-11-26T12:22:48+05:30
+end=2026-11-26T12:22:48+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys netpolicy
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=1377
+selected_stdout_lines=327
+include=["mRestrictBackground", "restrictBackground", "mDataSaver", "uid="]
+exclude=[]
+--- selected stdout ---
+mRestrictBackgroundLowPowerMode: false
+mRestrictBackgroundBeforeBsm: false
+mLoadedRestrictBackground: false
+mRestrictBackgroundChangedInBsm: false
+  UID=10114 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=10205 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=10213 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=10233 policy=4 (ALLOW_METERED_BACKGROUND)
+  UID=2000: true
+  UID=10106: true
+  UID=10108: true
+  UID=10109: true
+  UID=10114: true
+  UID=10123: true
+  UID=10153: true
+  UID=10157: true
+  UID=10161: true
+  UID=10204: true
+  UID=10205: true
+  UID=10213: true
+  UID=10217: true
+  UID=10233: true
+  UID=2000: true
+  UID=10108: true
+  UID=10109: true
+  UID=10114: true
+  UID=10161: true
+  UID=10204: true
+  UID=10205: true
+  UID=10213: true
+  UID=10217: true
+  UID=10233: true
+  UID=10114
+  UID=10205
+  UID=10213
+  UID=10233
+  UID=-1 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=1000 state={procState=TOP ,seq=23047,cap=LCMNFUATI} blocked_state={blocked=NONE,allowed=RESTRICTED_MODE_PERMISSIONS,effective=NONE} 
+    callback_info={uid=1000,proc_state=TOP ,seq=44035,cap=LCMNFUATI,pending=false} 
+  UID=1001 state={procState=PER ,seq=67,cap=LCMNFUATI} blocked_state={blocked=NONE,allowed=RESTRICTED_MODE_PERMISSIONS,effective=NONE} 
+    callback_info={uid=1001,proc_state=PER ,seq=67,cap=LCMNFUATI,pending=false} 
+  UID=1002 state={procState=PER ,seq=67061,cap=LCMNFUATI} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=1002,proc_state=PER ,seq=67061,cap=LCMNFUATI,pending=false} 
+  UID=1027 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=1068 state={procState=PER ,seq=10,cap=LCMNFUATI} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=1068,proc_state=PER ,seq=10,cap=LCMNFUATI,pending=false} 
+  UID=1073 state={procState=PER ,seq=5,cap=LCMNFUATI} blocked_state={blocked=NONE,allowed=RESTRICTED_MODE_PERMISSIONS,effective=NONE} 
+    callback_info={uid=1073,proc_state=PER ,seq=5,cap=LCMNFUATI,pending=false} 
+  UID=2000 state={procState=CEM ,seq=1064,cap=-------T-} blocked_state={blocked=NONE,allowed=RESTRICTED_MODE_PERMISSIONS,effective=NONE} 
+    callback_info={uid=2000,proc_state=CEM ,seq=1064,cap=-------T-,pending=false} 
+  UID=10000 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10001 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10002 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10003 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10004 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10005 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10006 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10007 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10008 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10009 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10010 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10011 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10012 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10013 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10014 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10015 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10016 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10017 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10018 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10019 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10020 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10021 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10022 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10023 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10024 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10025 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10026 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10027 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10028 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10029 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10030 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10031 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10032 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10033 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10034 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10035 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10036 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10037 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10038 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10039 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10040 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10041 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10042 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10043 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10044 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10045 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10046 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10047 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10048 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10049 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10050 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10051 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10052 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10053 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10054 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10055 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10056 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10057 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10058 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10059 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10060 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10061 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10062 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10063 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10064 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10065 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10066 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10067 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10068 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10069 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10070 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10071 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10072 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10073 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10074 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10075 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10076 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10077 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10078 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10079 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10080 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10081 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10082 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10083 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10084 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10085 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10086 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10087 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10088 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10089 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10090 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10091 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10092 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10093 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10094 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10095 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10096 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10097 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10098 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10099 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10100 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10101 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10102 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10103 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10104 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10105 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10106 state={procState=LAST,seq=66890,cap=--------I} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10106,proc_state=LAST,seq=66890,cap=--------I,pending=false} 
+  UID=10107 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10108 state={procState=CEM ,seq=66173,cap=-------T-} blocked_state={blocked=APP_BACKGROUND,allowed=POWER_SAVE_ALLOWLIST|POWER_SAVE_EXCEPT_IDLE_ALLOWLIST,effective=NONE} 
+    callback_info={uid=10108,proc_state=CEM ,seq=66173,cap=-------T-,pending=false} 
+  UID=10109 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10110 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10111 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10112 state={procState=CEM ,seq=967,cap=-------T-} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10112,proc_state=CEM ,seq=967,cap=-------T-,pending=false} 
+  UID=10113 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10114 state={procState=LAST,seq=52560,cap=--------I} blocked_state={blocked=APP_BACKGROUND,allowed=POWER_SAVE_ALLOWLIST|POWER_SAVE_EXCEPT_IDLE_ALLOWLIST|RESTRICTED_MODE_PERMISSIONS|METERED_USER_EXEMPTED,effective=NONE} 
+    callback_info={uid=10114,proc_state=LAST,seq=52560,cap=--------I,pending=false} 
+  UID=10115 state={procState=CEM ,seq=44420,cap=---------} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10115,proc_state=CEM ,seq=44420,cap=---------,pending=false} 
+  UID=10116 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10117 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10118 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10119 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10120 state={procState=CEM ,seq=1007,cap=-------T-} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10120,proc_state=CEM ,seq=1007,cap=-------T-,pending=false} 
+  UID=10121 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10123 state=null blocked_state={blocked=APP_BACKGROUND,allowed=POWER_SAVE_EXCEPT_IDLE_ALLOWLIST,effective=NONE} 
+  UID=10124 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10125 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10126 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10127 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10128 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10129 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10130 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10131 state=null blocked_state={blocked=APP_BACKGROUND,allowed=RESTRICTED_MODE_PERMISSIONS,effective=APP_BACKGROUND} 
+  UID=10132 state={procState=CEM ,seq=63247,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=RESTRICTED_MODE_PERMISSIONS,effective=APP_BACKGROUND} 
+    callback_info={uid=10132,proc_state=CEM ,seq=63247,cap=---------,pending=false} 
+  UID=10133 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10134 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10135 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10136 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10137 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10138 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10139 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10140 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10141 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10142 state={procState=CEM ,seq=103,cap=---------} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10142,proc_state=CEM ,seq=103,cap=---------,pending=false} 
+  UID=10143 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10144 state={procState=CEM ,seq=519,cap=-------T-} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10144,proc_state=CEM ,seq=519,cap=-------T-,pending=false} 
+  UID=10145 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10146 state={procState=CEM ,seq=2034,cap=-------T-} blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+    callback_info={uid=10146,proc_state=CEM ,seq=2034,cap=-------T-,pending=false} 
+  UID=10147 state={procState=CEM ,seq=52653,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10147,proc_state=CEM ,seq=52653,cap=---------,pending=false} 
+  UID=10148 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10149 state={procState=BFGS,seq=2126,cap=---NFUATI} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10149,proc_state=BFGS,seq=2126,cap=---NFUATI,pending=false} 
+  UID=10150 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10151 state={procState=CEM ,seq=40137,cap=-------T-} blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=RESTRICTED_MODE_PERMISSIONS,effective=APP_STANDBY|APP_BACKGROUND} 
+    callback_info={uid=10151,proc_state=CEM ,seq=40137,cap=-------T-,pending=false} 
+  UID=10152 state={procState=CEM ,seq=52151,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10152,proc_state=CEM ,seq=52151,cap=---------,pending=false} 
+  UID=10153 state={procState=CEM ,seq=1328,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=POWER_SAVE_EXCEPT_IDLE_ALLOWLIST,effective=NONE} 
+    callback_info={uid=10153,proc_state=CEM ,seq=1328,cap=---------,pending=false} 
+  UID=10154 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10155 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10156 state={procState=CEM ,seq=68760,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10156,proc_state=CEM ,seq=68760,cap=---------,pending=false} 
+  UID=10157 state={procState=CEM ,seq=68953,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=POWER_SAVE_EXCEPT_IDLE_ALLOWLIST,effective=NONE} 
+    callback_info={uid=10157,proc_state=CEM ,seq=68953,cap=---------,pending=false} 
+  UID=10158 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=RESTRICTED_MODE_PERMISSIONS,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10159 state={procState=CEM ,seq=66171,cap=-------T-} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10159,proc_state=CEM ,seq=66171,cap=-------T-,pending=false} 
+  UID=10160 state={procState=CEM ,seq=60570,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10160,proc_state=CEM ,seq=60570,cap=---------,pending=false} 
+  UID=10161 state=null blocked_state={blocked=APP_BACKGROUND,allowed=POWER_SAVE_ALLOWLIST|POWER_SAVE_EXCEPT_IDLE_ALLOWLIST,effective=NONE} 
+  UID=10162 state={procState=CEM ,seq=44058,cap=-------TI} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10162,proc_state=CEM ,seq=44058,cap=-------TI,pending=false} 
+  UID=10163 state={procState=BFGS,seq=45368,cap=LCMNFUATI} blocked_state={blocked=APP_BACKGROUND,allowed=FOREGROUND|NOT_IN_BACKGROUND|METERED_FOREGROUND,effective=NONE} 
+    callback_info={uid=10163,proc_state=BFGS,seq=45368,cap=LCMNFUATI,pending=false} 
+  UID=10164 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10165 state={procState=CEM ,seq=66324,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10165,proc_state=CEM ,seq=66324,cap=---------,pending=false} 
+  UID=10166 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10167 state={procState=CEM ,seq=961,cap=-------T-} blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+    callback_info={uid=10167,proc_state=CEM ,seq=961,cap=-------T-,pending=false} 
+  UID=10168 state={procState=CEM ,seq=67655,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10168,proc_state=CEM ,seq=67655,cap=---------,pending=false} 
+  UID=10169 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10170 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10171 state={procState=CEM ,seq=49500,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10171,proc_state=CEM ,seq=49500,cap=---------,pending=false} 
+  UID=10172 state={procState=IMPB,seq=56700,cap=-------TI} blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NOT_IN_BACKGROUND,effective=APP_STANDBY} 
+    callback_info={uid=10172,proc_state=IMPB,seq=56700,cap=-------TI,pending=false} 
+  UID=10173 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10174 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10175 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10176 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10177 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10178 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10179 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10180 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10181 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10182 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10183 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10184 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10185 state={procState=CEM ,seq=62280,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10185,proc_state=CEM ,seq=62280,cap=---------,pending=false} 
+  UID=10186 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10187 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10188 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10189 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10190 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10191 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10192 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10193 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10194 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10195 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10196 state={procState=BFGS,seq=67396,cap=---NFUATI} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10196,proc_state=BFGS,seq=67396,cap=---NFUATI,pending=false} 
+  UID=10197 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10198 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10199 state={procState=PER ,seq=67480,cap=LCMNFUATI} blocked_state={blocked=APP_BACKGROUND,allowed=FOREGROUND|TOP|NOT_IN_BACKGROUND|METERED_FOREGROUND,effective=NONE} 
+    callback_info={uid=10199,proc_state=PER ,seq=67480,cap=LCMNFUATI,pending=false} 
+  UID=10200 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10201 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10202 state={procState=CEM ,seq=68541,cap=---------} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10202,proc_state=CEM ,seq=68541,cap=---------,pending=false} 
+  UID=10203 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10204 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10205 state={procState=BFGS,seq=67526,cap=LCMNFUATI} blocked_state={blocked=APP_BACKGROUND,allowed=FOREGROUND|POWER_SAVE_ALLOWLIST|POWER_SAVE_EXCEPT_IDLE_ALLOWLIST|RESTRICTED_MODE_PERMISSIONS|NOT_IN_BACKGROUND|METERED_USER_EXEMPTED|METERED_FOREGROUND,effective=NONE} 
+    callback_info={uid=10205,proc_state=BFGS,seq=67526,cap=LCMNFUATI,pending=false} 
+  UID=10206 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10207 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10208 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10209 state={procState=BFGS,seq=63,cap=LCMNFUATI} blocked_state={blocked=APP_BACKGROUND,allowed=FOREGROUND|NOT_IN_BACKGROUND|METERED_FOREGROUND,effective=NONE} 
+    callback_info={uid=10209,proc_state=BFGS,seq=63,cap=LCMNFUATI,pending=false} 
+  UID=10210 state=null blocked_state={blocked=APP_STANDBY|APP_BACKGROUND,allowed=NONE,effective=APP_STANDBY|APP_BACKGROUND} 
+  UID=10211 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10212 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10213 state={procState=IMPF,seq=1720,cap=-------TI} blocked_state={blocked=APP_BACKGROUND,allowed=POWER_SAVE_ALLOWLIST|POWER_SAVE_EXCEPT_IDLE_ALLOWLIST|NOT_IN_BACKGROUND|METERED_USER_EXEMPTED,effective=NONE} 
+    callback_info={uid=10213,proc_state=IMPF,seq=1720,cap=-------TI,pending=false} 
+  UID=10214 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10215 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10216 state={procState=CEM ,seq=67777,cap=---------} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10216,proc_state=CEM ,seq=67777,cap=---------,pending=false} 
+  UID=10217 state={procState=CEM ,seq=63850,cap=---------} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10217,proc_state=CEM ,seq=63850,cap=---------,pending=false} 
+  UID=10218 state={procState=BFGS,seq=67525,cap=---NFUATI} blocked_state={blocked=APP_BACKGROUND,allowed=FOREGROUND|NOT_IN_BACKGROUND|METERED_FOREGROUND,effective=NONE} 
+    callback_info={uid=10218,proc_state=BFGS,seq=67525,cap=---NFUATI,pending=false} 
+  UID=10219 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10220 state={procState=CEM ,seq=1967,cap=-------T-} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10220,proc_state=CEM ,seq=1967,cap=-------T-,pending=false} 
+  UID=10221 state={procState=CEM ,seq=1433,cap=-------T-} blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+    callback_info={uid=10221,proc_state=CEM ,seq=1433,cap=-------T-,pending=false} 
+  UID=10222 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10223 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10224 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10225 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10226 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10227 state=null blocked_state={blocked=APP_BACKGROUND,allowed=NONE,effective=APP_BACKGROUND} 
+  UID=10228 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10229 state={procState=CEM ,seq=1915,cap=-------T-} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10229,proc_state=CEM ,seq=1915,cap=-------T-,pending=false} 
+  UID=10230 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10231 state={procState=CEM ,seq=3576,cap=---------} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10231,proc_state=CEM ,seq=3576,cap=---------,pending=false} 
+  UID=10232 state={procState=PER ,seq=168,cap=LCMNFUATI} blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+    callback_info={uid=10232,proc_state=PER ,seq=168,cap=LCMNFUATI,pending=false} 
+  UID=10233 state=null blocked_state={blocked=APP_BACKGROUND,allowed=POWER_SAVE_ALLOWLIST|POWER_SAVE_EXCEPT_IDLE_ALLOWLIST|RESTRICTED_MODE_PERMISSIONS|METERED_USER_EXEMPTED,effective=NONE} 
+  UID=10234 state=null blocked_state={blocked=NONE,allowed=NONE,effective=NONE} 
+  UID=10238 state={procState=TOP ,seq=67344,cap=LCMNFUATI} blocked_state={blocked=APP_BACKGROUND,allowed=FOREGROUND|TOP|NOT_IN_BACKGROUND|METERED_FOREGROUND,effective=NONE} 
+    callback_info={uid=10238,proc_state=TOP ,seq=67349,cap=LCMNFUATI,pending=false} 
+--- stderr ---
+

@@ -1,0 +1,26 @@
+{
+  "test_id": "LANE3_MAIN_FINAL",
+  "start": "2026-11-26T12:08:31+05:30",
+  "parent_remote_labels": [
+    "Back",
+    "Remote assistance",
+    "Refresh",
+    "Assistance with explicit consent A request is delivered to the child account. Nothing opens until the child accepts it and then taps Join on their own session screen; you join from the session screen on this phone. This phone's camera and microphone are never opened by the app. Nothing is recorded, and no screenshots or screen capture are taken. A pending request expires if it is not answered; once accepted, the session stays open until the guardian ends it. The status on each card is the server's session status, not a media indicator.",
+    "Request failed The device is not active.",
+    "Request audio",
+    "Request video",
+    "Audio and video come from the child device only, after the child accepts and joins. This phone's camera and microphone are never opened, so audio assistance is listen-only.",
+    "Recent sessions 16",
+    "Audio assistance Ended Device realme RMX2161 Child [REDACTED_NAME] Media No media is open Requested Nov 25, 2026 3:52 PM · 20 h ago Tap to open the session screen"
+  ],
+  "child_final_background": {
+    "foreground": false,
+    "components": [
+      "com.android.launcher/.Launcher"
+    ],
+    "exit": 0
+  },
+  "status": "COLLECTED",
+  "end": "2026-11-26T12:08:34+05:30",
+  "duration_seconds": 3.577
+}

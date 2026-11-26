@@ -1,0 +1,17 @@
+test_id=BG03_RETRY
+label=BG03_RETRY_parent_devices
+start=2026-11-26T12:03:41+05:30
+end=2026-11-26T12:03:43+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=26
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Devices|class=android.view.View|clickable=false|bounds=[42,185][227,246]
+10|label=Refresh devices|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+14|label=Open device|class=android.widget.Button|clickable=true|bounds=[647,411][993,537]
+16|label=Open device|class=android.widget.Button|clickable=true|bounds=[647,1122][993,1248]
+18|label=Open device|class=android.widget.Button|clickable=true|bounds=[647,1833][993,1959]
+23|label=Devices Tab 2 of 4|class=android.widget.Button|clickable=true|bounds=[270,2151][540,2361]
+25|label=Settings Tab 4 of 4|class=android.widget.Button|clickable=true|bounds=[810,2151][1080,2361]

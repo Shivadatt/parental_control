@@ -1,0 +1,26 @@
+{
+  "start": "2026-11-26T12:22:47+05:30",
+  "end": "2026-11-26T12:22:47+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell dumpsys device_policy",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 242,
+  "selected_stdout_lines": 3,
+  "include": [
+    "com\\.parentcontrol\\.parent_control",
+    "Device Owner",
+    "Device Admin",
+    "mAdminMap",
+    "mOwnerComponent"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "4547f09a0ea07b9b40cdf72e40dc0192324e27fe06b93df05ddb24eb5454770f",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG_ENV_parent_device_policy.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

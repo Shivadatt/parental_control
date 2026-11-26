@@ -1,0 +1,66 @@
+start=2026-11-26T12:22:47+05:30
+end=2026-11-26T12:22:47+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell cmd appops get com.parentcontrol.parent_control
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=54
+stderr_lines=0
+--- stdout ---
+Uid mode: COARSE_LOCATION: ignore
+FINE_LOCATION: ignore
+READ_CONTACTS: ignore
+WRITE_CONTACTS: ignore
+READ_CALL_LOG: ignore
+WRITE_CALL_LOG: ignore
+READ_CALENDAR: ignore
+WRITE_CALENDAR: ignore
+POST_NOTIFICATION: ignore
+CALL_PHONE: ignore
+READ_SMS: ignore
+RECEIVE_SMS: ignore
+RECEIVE_MMS: ignore
+RECEIVE_WAP_PUSH: ignore
+SEND_SMS: ignore
+CAMERA: foreground
+RECORD_AUDIO: ignore
+READ_PHONE_STATE: ignore
+ADD_VOICEMAIL: ignore
+USE_SIP: ignore
+PROCESS_OUTGOING_CALLS: ignore
+BODY_SENSORS: ignore
+READ_CELL_BROADCASTS: ignore
+READ_EXTERNAL_STORAGE: ignore
+WRITE_EXTERNAL_STORAGE: ignore
+GET_ACCOUNTS: ignore
+READ_PHONE_NUMBERS: ignore
+ANSWER_PHONE_CALLS: ignore
+ACCEPT_HANDOVER: ignore
+BLUETOOTH_SCAN: ignore
+ACTIVITY_RECOGNITION: ignore
+READ_MEDIA_AUDIO: ignore
+READ_MEDIA_VIDEO: ignore
+READ_MEDIA_IMAGES: ignore
+ACCESS_MEDIA_LOCATION: ignore
+BLUETOOTH_CONNECT: ignore
+UWB_RANGING: ignore
+BLUETOOTH_ADVERTISE: ignore
+NEARBY_WIFI_DEVICES: ignore
+READ_MEDIA_VISUAL_USER_SELECTED: ignore
+READ_HEART_RATE: ignore
+READ_SKIN_TEMPERATURE: ignore
+RANGING: ignore
+READ_OXYGEN_SATURATION: ignore
+READ_BLOOD_PRESSURE: ignore
+READ_HEART_RATE_VARIABILITY: ignore
+READ_RESPIRATORY_RATE: ignore
+READ_VO2_MAX: ignore
+WRITE_SETTINGS: default; rejectTime=+20h27m16s626ms ago
+CAMERA: allow; time=+21h15m16s832ms ago; duration=+17m2s178ms
+TAKE_AUDIO_FOCUS: foreground; time=+20h29m17s976ms ago
+MUTE_MICROPHONE: allow; time=+20h27m29s671ms ago
+CONTROL_AUDIO: foreground; time=+20h29m18s60ms ago; duration=+1m48s374ms
+CONTROL_AUDIO_PARTIAL: foreground; time=+20h29m18s64ms ago; duration=+1m48s376ms
+--- stderr ---
+

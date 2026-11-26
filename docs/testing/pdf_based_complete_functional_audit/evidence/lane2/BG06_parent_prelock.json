@@ -1,0 +1,27 @@
+{
+  "start": "2026-11-26T12:58:42+05:30",
+  "end": "2026-11-26T12:58:42+05:30",
+  "serial": "emulator-5554",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "foreground_activity_lines": [
+    "topResumedActivity=ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}",
+    "mFocusedApp=ActivityRecord{162908195 u0 com.parentcontrol.parent_control/.MainActivity t47}"
+  ],
+  "screen_lines": [
+    "mWakefulness=Awake",
+    "mHoldingDisplaySuspendBlocker=true",
+    "Display Power: [REDACTED_PACKAGE]$1@e6f164f",
+    "mWakefulness=1"
+  ],
+  "services": [],
+  "camera_open": false,
+  "camera_package_in_active_clients": false,
+  "open_camera_devices": [],
+  "recording_active": false,
+  "playback_active": false,
+  "camera_op": "CAMERA: allow",
+  "microphone_op": "unknown",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_parent_prelock.txt",
+  "sha256": "d91b25e22d15ffdedde7f17b232024b55f2311d4bd08abee3ea9dd665d8e28bc"
+}

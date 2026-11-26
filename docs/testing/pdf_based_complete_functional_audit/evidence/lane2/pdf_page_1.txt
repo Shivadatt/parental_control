@@ -1,0 +1,15 @@
+          AirDroid Parental Control
+
+                                Complete Feature Guide · Hinglish Edition
+                           Android Child Device (AirDroid Kids) + Parent App
+
+Is guide mein kya cover hai?
+App ke monitoring, screen-time controls, app blocking, live location, geofence, route history, remote camera, one-way
+audio, screen mirroring, notifications, social/content detection, web controls, background operation, Android
+permissions, limitations aur privacy safeguards.
+
+Prepared: 26 November 2026
+Purpose: Product understanding and parental-control feature benchmarking
+
+AirDroid Parental Control · Hinglish Feature Guide  Page 1
+

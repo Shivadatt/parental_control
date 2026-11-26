@@ -1,0 +1,29 @@
+start=2026-11-26T12:30:47+05:30
+end=2026-11-26T12:30:47+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell appops get com.parentcontrol.parent_control
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=17
+stderr_lines=0
+--- stdout ---
+Uid mode: CAMERA: foreground
+RECORD_AUDIO: foreground
+AUTO_REVOKE_PERMISSIONS_IF_UNUSED: ignore
+COARSE_LOCATION: allow
+FINE_LOCATION: allow; time=+2h35m51s870ms ago
+GPS: allow; time=+1h28m3s463ms ago; duration=+1m4s530ms
+WRITE_SETTINGS: default; rejectTime=+20h37m20s251ms ago
+SYSTEM_ALERT_WINDOW: default; rejectTime=+1d20h28m29s635ms ago
+CAMERA: allow; time=+1d0h32m2s310ms ago; duration=+1m26s298ms
+RECORD_AUDIO: allow; time=+20h36m28s670ms ago; duration=+8ms
+TAKE_AUDIO_FOCUS: allow; time=+20h37m22s442ms ago
+WAKE_LOCK: allow; time=+20h36m28s670ms ago; duration=+88ms
+MONITOR_LOCATION: allow; time=+22m13s550ms ago (running)
+MONITOR_HIGH_POWER_LOCATION: allow; time=+22m13s550ms ago (running)
+GET_USAGE_STATS: allow; time=+55m42s851ms ago
+MUTE_MICROPHONE: allow; time=+20h37m22s450ms ago
+START_FOREGROUND: allow; time=+22m13s550ms ago (running)
+--- stderr ---
+

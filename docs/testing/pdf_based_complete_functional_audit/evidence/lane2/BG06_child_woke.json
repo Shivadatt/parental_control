@@ -1,0 +1,28 @@
+{
+  "start": "2026-11-26T13:16:19+05:30",
+  "end": "2026-11-26T13:16:20+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "foreground_activity_lines": [
+    "mFocusedApp=ActivityRecord{e19029b u0 [REDACTED_PACKAGE]/.Launcher t293}"
+  ],
+  "screen_lines": [
+    "mWakefulness=Awake",
+    "mHoldingDisplaySuspendBlocker=true",
+    "Display Power: [REDACTED_PACKAGE]$1@30f78dd"
+  ],
+  "services": [
+    "GuardianService",
+    "LocationTrackingService"
+  ],
+  "camera_open": false,
+  "camera_package_in_active_clients": false,
+  "open_camera_devices": [],
+  "recording_active": false,
+  "playback_active": false,
+  "camera_op": "CAMERA: allow",
+  "microphone_op": "RECORD_AUDIO: allow",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_woke.txt",
+  "sha256": "08470fb1f51dc90d70a2db2aacfde8e90ec943fac75982e74b58d40ddc61dba1"
+}

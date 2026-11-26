@@ -1,0 +1,17 @@
+test_id=MAINRECOVERY_REFRESH
+label=child_after_retry
+start=2026-11-26T12:03:08+05:30
+end=2026-11-26T12:03:11+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=27
+retention=whitelisted visible labels and bounds only; raw XML not retained
+10|label=Refresh settings|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+16|label=Background protection Running Service Running with a visible notification Last command check Just now App list upload failed: apps[14].package_name is not a valid Android package name.|class=android.view.View|clickable=false|bounds=[48,939][1032,1899]
+17|label=Retry background protection|class=android.widget.Button|clickable=true|bounds=[99,1698][981,1848]
+22|label=Home Tab 1 of 4|class=android.widget.Button|clickable=true|bounds=[0,2112][270,2245]
+23|label=Rules Tab 2 of 4|class=android.widget.Button|clickable=true|bounds=[270,2112][540,2245]
+24|label=Requests Tab 3 of 4|class=android.widget.Button|clickable=true|bounds=[540,2112][810,2245]
+25|label=Settings Tab 4 of 4|class=android.widget.Button|clickable=true|bounds=[810,2112][1080,2245]

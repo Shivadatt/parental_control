@@ -1,0 +1,216 @@
+start=2026-11-26T12:30:48+05:30
+serial=emulator-5554
+samples_requested=7
+interval_seconds=60
+mode=read-only Parent UI sampling
+sample=1 start=2026-11-26T12:30:48+05:30 end=2026-11-26T12:30:50+05:30 exit=0 node_count=26 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG01_s01.ui.txt
+sample=1_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 314 h ago · Nov 13, 2026 10:18 AM
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+sample=1_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Enforcement
+Not enforced
+Policy
+Policy v2
+sample=1_marker=realme RMX2161
+100% (charging)
+Online
+Last seen
+synced just now · Nov 26, 2026 12:29 PM
+Enforcement
+Device admin only
+Policy
+Policy v3
+sample=1_marker=Dashboard
+Tab 1 of 4
+sample=2 start=2026-11-26T12:31:50+05:30 end=2026-11-26T12:31:53+05:30 exit=0 node_count=26 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG01_s02.ui.txt
+sample=2_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 314 h ago · Nov 13, 2026 10:18 AM
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+sample=2_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Enforcement
+Not enforced
+Policy
+Policy v2
+sample=2_marker=realme RMX2161
+100% (charging)
+Online
+Last seen
+synced 1 min ago · Nov 26, 2026 12:29 PM
+Enforcement
+Device admin only
+Policy
+Policy v3
+sample=2_marker=Dashboard
+Tab 1 of 4
+sample=3 start=2026-11-26T12:32:53+05:30 end=2026-11-26T12:32:55+05:30 exit=0 node_count=26 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG01_s03.ui.txt
+sample=3_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 314 h ago · Nov 13, 2026 10:18 AM
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+sample=3_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Enforcement
+Not enforced
+Policy
+Policy v2
+sample=3_marker=realme RMX2161
+100% (charging)
+Online
+Last seen
+synced 2 min ago · Nov 26, 2026 12:29 PM
+Enforcement
+Device admin only
+Policy
+Policy v3
+sample=3_marker=Dashboard
+Tab 1 of 4
+sample=4 start=2026-11-26T12:33:55+05:30 end=2026-11-26T12:33:57+05:30 exit=0 node_count=26 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG01_s04.ui.txt
+sample=4_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 314 h ago · Nov 13, 2026 10:18 AM
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+sample=4_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Enforcement
+Not enforced
+Policy
+Policy v2
+sample=4_marker=realme RMX2161
+100% (charging)
+Online
+Last seen
+synced 3 min ago · Nov 26, 2026 12:29 PM
+Enforcement
+Device admin only
+Policy
+Policy v3
+sample=4_marker=Dashboard
+Tab 1 of 4
+sample=5 start=2026-11-26T12:34:57+05:30 end=2026-11-26T12:34:59+05:30 exit=0 node_count=26 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG01_s05.ui.txt
+sample=5_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 314 h ago · Nov 13, 2026 10:18 AM
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+sample=5_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Enforcement
+Not enforced
+Policy
+Policy v2
+sample=5_marker=realme RMX2161
+100% (charging)
+Online
+Last seen
+synced 4 min ago · Nov 26, 2026 12:29 PM
+Enforcement
+Device admin only
+Policy
+Policy v3
+sample=5_marker=Dashboard
+Tab 1 of 4
+sample=6 start=2026-11-26T12:35:59+05:30 end=2026-11-26T12:36:01+05:30 exit=0 node_count=26 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG01_s06.ui.txt
+sample=6_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 314 h ago · Nov 13, 2026 10:18 AM
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+sample=6_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Enforcement
+Not enforced
+Policy
+Policy v2
+sample=6_marker=realme RMX2161
+100% (charging)
+Online
+Last seen
+synced just now · Nov 26, 2026 12:34 PM
+Enforcement
+Device admin only
+Policy
+Policy v3
+sample=6_marker=Dashboard
+Tab 1 of 4
+sample=7 start=2026-11-26T12:37:01+05:30 end=2026-11-26T12:37:04+05:30 exit=0 node_count=26 evidence=D:/parentcontrol_app/docs/testing/pdf_based_complete_functional_audit/evidence/lane2/BG01_s07.ui.txt
+sample=7_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 314 h ago · Nov 13, 2026 10:18 AM
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+sample=7_marker=realme RMX2161
+100% (charging)
+Revoked
+Last seen
+last seen 307 h ago · Nov 13, 2026 5:23 PM
+Enforcement
+Not enforced
+Policy
+Policy v2
+sample=7_marker=realme RMX2161
+100% (charging)
+Online
+Last seen
+synced 1 min ago · Nov 26, 2026 12:34 PM
+Enforcement
+Device admin only
+Policy
+Policy v3
+sample=7_marker=Dashboard
+Tab 1 of 4
+end=2026-11-26T12:37:04+05:30 samples_completed=7

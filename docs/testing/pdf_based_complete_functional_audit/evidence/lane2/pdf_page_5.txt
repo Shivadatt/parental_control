@@ -1,0 +1,65 @@
+ · System / permission alerts: required permission disable ho ya app update needed ho to parent ko status/notice mil
+    sakta hai.
+
+ · Family Chat / SOS / Focus Mode: AirDroid feature pages/overview mein family communication, child-triggered SOS
+    aur Focus Mode jaise features bhi listed hain; exact availability/version check karein.
+
+9. Background access: AirDroid Kids ko background mein
+kaise active rakha jata hai
+
+Parental-control features tabhi reliable rehte hain jab child-side service background mein chal sake. Android battery
+management aur phone manufacturer ke task managers apps ko suspend/kill kar sakte hain. AirDroid khud kehta hai
+ki Android background process ko permanently alive rakhne ki guarantee developer nahi de sakta.
+
+Common background/keep-alive settings
+
+ · Autostart / Auto-launch: phone restart ke baad AirDroid Kids ko launch hone ki permission.
+ · Run in background / background activity: OEM app manager mein app ko background restriction se exempt karna.
+ · Battery optimization: Unrestricted / Don't optimize: battery saver se app ki background activity aggressively stop
+
+    na ho.
+ · Power saving mode: aggressive battery saver ko disable ya app-specific exception dena.
+ · Unrestricted background data: mobile data/Wi-Fi background network access allow karna; data saver restrictions
+
+    check karna.
+ · Wi-Fi always on during sleep: kuch devices mein sleep ke waqt Wi-Fi disconnect na ho.
+ · Recent apps lock / cleanup allowlist: kuch OEMs mein app ko cleaner/task killer se protect karna.
+ · AirDroid Kids service & permissions: app updated rahe aur required permissions revoke na hon.
+Settings ke exact names Samsung, Xiaomi/Redmi, Oppo, Vivo, Realme, OnePlus, Motorola aur Android version ke
+hisaab se badalte hain. AirDroid ki official help guide device-specific keep-alive instructions follow karne ko kehti hai.
+
+10. Android permissions: feature-wise map
+
+Permission / OS access         Kis kaam ke liye                              Notes
+
+Usage Access                   App usage duration, foreground app/activity   UsageStats access; user ko Settings mein grant
+                               stats                                         karna hota hai.
+
+Accessibility Service          Kuch app/site restriction aur UI-level        High-privilege permission; transparent disclosure
+                               enforcement/detection                         aur narrow scope zaroori.
+
+Notification Access            Child device notifications ko parent side     Notification listener access; previews app settings
+                               sync/detect karna                             par depend.
+
+Location: precise +            Live location, route points, geofence alerts  Android version ke hisaab se separate background
+                                                                             grant/notification prompt.
+background/Allow all the time
+
+Camera                         Remote camera session                         Android privacy controls/indicators apply; device/OS
+                                                                             can deny.
+
+Microphone                     One-way audio / live ambient audio            Session-based access; Android mic indicator and
+                                                                             privacy toggle apply.
+
+Screen capture                 Live screen mirroring                         Android system consent prompt/session token;
+(MediaProjection)                                                            cannot assume silent permanent capture.
+
+Background execution /         Keep services responsive, scheduled checks OEM-specific allowlist; not a guaranteed always-on
+autostart
+                               and sync                                      service.
+
+Network / background data      Cloud sync, alerts, location updates, live    Internet and server connectivity required.
+                               session transport
+
+AirDroid Parental Control · Hinglish Feature Guide                                                                           Page 5
+

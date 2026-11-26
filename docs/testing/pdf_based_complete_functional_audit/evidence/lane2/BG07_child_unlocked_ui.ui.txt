@@ -1,0 +1,46 @@
+start=2026-11-26T13:20:24+05:30
+end=2026-11-26T13:20:27+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+ui_command=adb -s 5HXWRGQ4IFU8WS4T shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=37
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+1|text=|desc=|id=com.android.systemui:id/backdrop|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+2|text=|desc=|id=com.android.systemui:id/backdrop_back|class=android.widget.ImageView|clickable=false|bounds=[0,0][1080,2245]
+3|text=|desc=|id=com.android.systemui:id/scrim_behind|class=android.view.View|clickable=true|bounds=[0,0][1080,2245]
+4|text=|desc=|id=com.android.systemui:id/scrim_in_front|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+5|text=|desc=|id=com.android.systemui:id/notification_panel|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+6|text=|desc=|id=com.android.systemui:id/keyguard_slider_layout|class=com.android.internal.widget.ViewPager|clickable=false|bounds=[0,0][1080,2245]
+7|text=|desc=|id=com.android.systemui:id/notification_container_parent|class=android.view.ViewGroup|clickable=false|bounds=[0,0][1080,2245]
+8|text=|desc=|id=com.android.systemui:id/qs_frame|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+9|text=|desc=|id=com.android.systemui:id/keyguard_bottom_area|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+10|text=|desc=|id=com.android.systemui:id/overlay_container|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+11|text=|desc=|id=com.android.systemui:id/preview_container|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+12|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+13|text=|desc=|id=com.android.systemui:id/keyguard_host_view|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+14|text=|desc=|id=com.android.systemui:id/keyguard_security_container|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+15|text=|desc=|id=com.android.systemui:id/view_flipper|class=android.widget.ViewAnimator|clickable=false|bounds=[0,0][1080,2245]
+16|text=|desc=|id=com.android.systemui:id/oplusos_kgd_security_pin_six_view|class=android.widget.RelativeLayout|clickable=false|bounds=[0,0][1080,2245]
+17|text=|desc=|id=com.android.systemui:id/kgd_security_switch_widget|class=android.widget.FrameLayout|clickable=false|bounds=[0,366][1080,2245]
+18|text=Swipe up to use face unlock|desc=|id=com.android.systemui:id/keyguardMessageWidget|class=android.widget.TextView|clickable=false|bounds=[166,366][913,546]
+19|text=|desc=|id=com.android.systemui:id/colorSimpleLock|class=android.view.View|clickable=false|bounds=[0,600][1080,780]
+20|text=|desc=Password input area. You have entered 0 digits. You need to enter 6 digits in total.|id=|class=android.view.View|clickable=false|bounds=[0,600][1080,630]
+21|text=|desc=|id=com.android.systemui:id/pinColorNumericKeyboard|class=android.view.View|clickable=false|bounds=[21,1290][1059,2245]
+22|text=|desc=1|id=|class=android.view.View|clickable=true|bounds=[128,1353][328,1553]
+23|text=|desc=2|id=|class=android.view.View|clickable=true|bounds=[440,1353][640,1553]
+24|text=|desc=3|id=|class=android.view.View|clickable=true|bounds=[752,1353][952,1553]
+25|text=|desc=4|id=|class=android.view.View|clickable=true|bounds=[128,1566][328,1766]
+26|text=|desc=5|id=|class=android.view.View|clickable=true|bounds=[440,1566][640,1766]
+27|text=|desc=6|id=|class=android.view.View|clickable=true|bounds=[752,1566][952,1766]
+28|text=|desc=7|id=|class=android.view.View|clickable=true|bounds=[128,1779][328,1979]
+29|text=|desc=8|id=|class=android.view.View|clickable=true|bounds=[440,1779][640,1979]
+30|text=|desc=9|id=|class=android.view.View|clickable=true|bounds=[752,1779][952,1979]
+31|text=|desc=0|id=|class=android.view.View|clickable=true|bounds=[440,1992][640,2192]
+32|text=|desc=Delete|id=|class=android.view.View|clickable=true|bounds=[752,1992][952,2192]
+33|text=|desc=|id=com.android.systemui:id/kgd_normal_navigation_widget|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][0,0]
+34|text=Emergency call|desc=|id=com.android.systemui:id/navigationEmergencyButton|class=android.widget.Button|clickable=true|bounds=[0,0][0,0]
+35|text=|desc=|id=com.android.systemui:id/lock_icon_container|class=android.widget.LinearLayout|clickable=false|bounds=[462,167][618,323]
+36|text=|desc=Unlock|id=com.android.systemui:id/lock_icon|class=android.widget.ImageView|clickable=true|bounds=[462,167][618,323]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

@@ -1,0 +1,14 @@
+{
+  "start": "2026-11-26T14:22:43+05:30",
+  "end": "2026-11-26T14:22:47+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml",
+  "device_temp_file": "/data/local/tmp/haven_lane2_ui.xml",
+  "device_temp_file_removed": true,
+  "exit": 0,
+  "node_count": 25,
+  "omitted_notification_nodes": 0,
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_000_child_start.ui.txt",
+  "sha256": "7cd623f203ae08347888c08315785744c718b1206e04be8381da97c7d5238cd4"
+}

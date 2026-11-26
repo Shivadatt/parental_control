@@ -1,0 +1,52 @@
+start=2026-11-26T12:23:52+05:30
+end=2026-11-26T12:23:54+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+ui_command=adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=28
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2424]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,289]
+9|text=|desc=Back|id=|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|text=|desc=realme RMX2161|id=|class=android.view.View|clickable=false|bounds=[189,185][599,246]
+11|text=|desc=Refresh device|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
+13|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+14|text=|desc=Device permissions
+Reported by the child device. Unknown means it has not reported.
+Usage access
+Required for screen-time reports
+Granted
+Location
+Granted
+Background location
+Granted
+Camera
+Granted
+Microphone
+Granted
+Notifications
+Granted|id=|class=android.view.View|clickable=false|bounds=[42,289][1038,891]
+15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,891][1038,923]
+16|text=|desc=Recent commands
+Delivery is confirmed by the device, not by this screen.
+No commands have been sent to this device yet.|id=|class=android.view.View|clickable=false|bounds=[42,923][1038,1206]
+17|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1206][1038,1238]
+18|text=|desc=Manage|id=|class=android.view.View|clickable=false|bounds=[42,1238][1038,2309]
+19|text=|desc=App restrictions|id=|class=android.widget.Button|clickable=true|bounds=[87,1382][993,1529]
+20|text=|desc=Screen time|id=|class=android.widget.Button|clickable=true|bounds=[87,1529][993,1676]
+21|text=|desc=Location|id=|class=android.widget.Button|clickable=true|bounds=[87,1676][993,1823]
+22|text=|desc=Safe zones|id=|class=android.widget.Button|clickable=true|bounds=[87,1823][993,1970]
+23|text=|desc=Safety alerts|id=|class=android.widget.Button|clickable=true|bounds=[87,1970][993,2117]
+24|text=|desc=Remote assistance|id=|class=android.widget.Button|clickable=true|bounds=[87,2117][993,2264]
+25|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,2309][1038,2361]
+26|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,2361][1038,2424]
+27|text=|desc=Revoke device|id=|class=android.widget.Button|clickable=false|bounds=[42,2361][1038,2424]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

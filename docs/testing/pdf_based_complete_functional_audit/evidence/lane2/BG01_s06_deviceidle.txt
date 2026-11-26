@@ -1,0 +1,15 @@
+start=2026-11-26T12:29:46+05:30
+end=2026-11-26T12:29:46+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys deviceidle whitelist
+exit=0
+duration_seconds=[REDACTED_COORD]
+raw_stdout_lines=95
+selected_stdout_lines=0
+include=["com\\.parentcontrol\\.parent_control", "User Whitelist", "System Whitelist"]
+exclude=[]
+--- selected stdout ---
+
+--- stderr ---
+

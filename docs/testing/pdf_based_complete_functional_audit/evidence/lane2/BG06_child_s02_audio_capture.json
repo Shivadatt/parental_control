@@ -1,0 +1,22 @@
+{
+  "start": "2026-11-26T13:00:51+05:30",
+  "end": "2026-11-26T13:00:51+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys audio",
+  "exit": 0,
+  "duration_seconds": null,
+  "raw_stdout_lines": 622,
+  "selected_stdout_lines": 33,
+  "include": [
+    "com\\.parentcontrol\\.parent_control"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "c71e5952edb69737ded754176a825f9d1a7a948493dc80b1ed12411b1f1fa645",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_s02_audio_capture.txt",
+  "_evidence_repair": {
+    "original_json_valid": false,
+    "bare_redaction_tokens_replaced_with_null": 1,
+    "duration_note": "Legacy coordinate sanitization over-redacted decimal metrics; original values were not reconstructed."
+  }
+}

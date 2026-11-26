@@ -1,0 +1,16 @@
+start=2026-11-26T12:22:47+05:30
+end=2026-11-26T12:22:47+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell settings get global 'wifi_on;' settings get global 'mobile_data;' settings get global 'airplane_mode_on;' settings get global low_power
+exit=0
+duration_seconds=[REDACTED_COORD]
+stdout_lines=4
+stderr_lines=0
+--- stdout ---
+1
+1
+0
+0
+--- stderr ---
+

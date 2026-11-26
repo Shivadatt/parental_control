@@ -1,0 +1,9 @@
+test_id=BG04_RETRY
+label=BG04_RETRY_request_not_waiting
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command_exit=0
+raw_stdout_lines=4046
+retained_stdout_lines=0
+retention=sanitized matching lines only
+

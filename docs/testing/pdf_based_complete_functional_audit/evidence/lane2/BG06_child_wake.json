@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T13:16:12+05:30",
+  "end": "2026-11-26T13:16:12+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell input keyevent 26",
+  "exit": 0,
+  "duration_seconds": 0.129,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "0742fbfbc28e054a20e247358b8ea8500220b7401994a3a1f39e79209c9d7374",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_wake.txt"
+}
