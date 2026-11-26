@@ -1,0 +1,14 @@
+test_id=L4_MEDIA_CAMERA_VERIFIED
+label=L4_MEDIA_CAMERA_VERIFIED_request_confirmation
+start=2026-11-26T16:20:47+05:30
+end=2026-11-26T16:20:49+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=17
+retention=whitelisted visible labels and bounds only; raw XML not retained
+11|label=Request video assistance?|class=android.view.View|clickable=false|bounds=[168,776][912,944]
+13|label=Sending this request notifies the child. The child must accept it, then tap Join on their own phone to start the session. You join from the session screen afterwards. This phone's camera and microphone are never opened; the child's camera and microphone open only after the child accepts and joins. The request expires in 10 minutes.|class=android.view.View|clickable=false|bounds=[168,986][912,1406]
+14|label=Cancel|class=android.widget.Button|clickable=true|bounds=[735,1469][912,1595]
+15|label=Send request|class=android.widget.Button|clickable=true|bounds=[168,1595][912,1727]

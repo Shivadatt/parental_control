@@ -1,0 +1,70 @@
+start=2026-11-26T15:57:27+05:30
+end=2026-11-26T15:57:27+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys media.camera
+exit=0
+duration_seconds=0.237
+raw_stdout_lines=17872
+selected_stdout_lines=56
+include=["^==|^Active Camera Clients|^Number of camera|Client package|Camera device [0-9]+ dynamic|Device state"]
+exclude=[]
+--- selected stdout ---
+== Service global info: ==
+Number of camera devices: 7
+Active Camera Clients:
+== Camera service events log (most recent at top): ==
+== Camera device 0 dynamic info: ==
+== Camera device 1 dynamic info: ==
+== Camera device 2 dynamic info: ==
+== Camera device 3 dynamic info: ==
+== Camera device 4 dynamic info: ==
+== Camera device 5 dynamic info: ==
+== Camera device 6 dynamic info: ==
+== Camera Provider HAL internal/0-0 (v2.6, remote) static info: 7 devices: ==
+== Camera HAL device device@3.6/internal/0 (v3.6) static information: ==
+== Camera HAL device device@3.6/internal/0 (v3.6) dumpState: ==
+== state transition (most recent at bottom): Camera device ==
+== error state (most recent at bottom): App Stream Manager ==
+== warning state (most recent at bottom): App Stream Manager ==
+== debug state (most recent at bottom): App Stream Manager ==
+== Camera HAL device device@3.6/internal/1 (v3.6) static information: ==
+== Camera HAL device device@3.6/internal/1 (v3.6) dumpState: ==
+== state transition (most recent at bottom): Camera device ==
+== error state (most recent at bottom): App Stream Manager ==
+== warning state (most recent at bottom): App Stream Manager ==
+== debug state (most recent at bottom): App Stream Manager ==
+== Camera HAL device device@3.6/internal/2 (v3.6) static information: ==
+== Camera HAL device device@3.6/internal/2 (v3.6) dumpState: ==
+== state transition (most recent at bottom): Camera device ==
+== error state (most recent at bottom): App Stream Manager ==
+== warning state (most recent at bottom): App Stream Manager ==
+== debug state (most recent at bottom): App Stream Manager ==
+== Camera HAL device device@3.6/internal/3 (v3.6) static information: ==
+== Camera HAL device device@3.6/internal/3 (v3.6) dumpState: ==
+== state transition (most recent at bottom): Camera device ==
+== error state (most recent at bottom): App Stream Manager ==
+== warning state (most recent at bottom): App Stream Manager ==
+== debug state (most recent at bottom): App Stream Manager ==
+== Camera HAL device device@3.6/internal/4 (v3.6) static information: ==
+== Camera HAL device device@3.6/internal/4 (v3.6) dumpState: ==
+== state transition (most recent at bottom): Camera device ==
+== error state (most recent at bottom): App Stream Manager ==
+== warning state (most recent at bottom): App Stream Manager ==
+== debug state (most recent at bottom): App Stream Manager ==
+== Camera HAL device device@3.6/internal/5 (v3.6) static information: ==
+== Camera HAL device device@3.6/internal/5 (v3.6) dumpState: ==
+== state transition (most recent at bottom): Camera device ==
+== error state (most recent at bottom): App Stream Manager ==
+== warning state (most recent at bottom): App Stream Manager ==
+== debug state (most recent at bottom): App Stream Manager ==
+== Camera HAL device device@3.6/internal/6 (v3.6) static information: ==
+== Camera HAL device device@3.6/internal/6 (v3.6) dumpState: ==
+== state transition (most recent at bottom): Camera device ==
+== error state (most recent at bottom): App Stream Manager ==
+== warning state (most recent at bottom): App Stream Manager ==
+== debug state (most recent at bottom): App Stream Manager ==
+== Vendor tags: ==
+== Camera error traces (0): ==
+--- stderr ---
+

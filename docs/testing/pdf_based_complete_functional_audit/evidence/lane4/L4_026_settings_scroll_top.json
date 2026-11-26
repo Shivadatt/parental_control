@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:05:19+05:30",
+  "end": "2026-11-26T15:05:20+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input swipe 540 700 540 1900",
+  "exit": 0,
+  "duration_seconds": 0.365,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "b4c0ab28e1f50955cecb6ac6631ad11933f2bc82351aa2e713b342fdfa7996da",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_026_settings_scroll_top.txt"
+}

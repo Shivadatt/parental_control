@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:47:52+05:30",
+  "end": "2026-11-26T15:47:52+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell am force-stop com.parentcontrol.parent_control",
+  "exit": 0,
+  "duration_seconds": 0.104,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "c2a93ecb7111a563ed80d3f638f61e676550fdc77e4c3c6db195aef8c91134ac",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_parent_restart.txt"
+}

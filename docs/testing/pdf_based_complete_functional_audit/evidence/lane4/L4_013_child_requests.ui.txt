@@ -18,13 +18,13 @@ omitted_notification_nodes=0
 9|text=|desc=[REDACTED_HEADER]|id=|class=android.view.View|clickable=false|bounds=[48,157][301,226]
 10|text=|desc=Refresh requests|id=|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
 11|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,275][1080,2112]
-12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,275][1080,2112]
+12|text=|desc=
 13|text=|desc=No pending requests
-Linking requests and assistance requests appear here. Accepting anything is always your choice.|id=|class=android.view.View|clickable=false|bounds=[48,299][1032,1593]
-14|text=|desc=Open requests|id=|class=android.widget.Button|clickable=true|bounds=[132,1123][948,1273]
-15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[48,1593][1032,1641]
-16|text=|desc=Requests refreshed 22 h ago|id=|class=android.view.View|clickable=false|bounds=[48,1641][1032,1689]
-17|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,2112][1080,2245]
+Linking requests and assistance requests appear here. Accepting anything is always your choice.|id=|class=android.view.View|clickable=false|bounds=[48,299][1032,1593]|id=|class=android.view.View|clickable=false|bounds=[0,275][1080,2112]
+13|text=|desc=Open requests|id=|class=android.widget.Button|clickable=true|bounds=[132,1123][948,1273]
+14|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[48,1593][1032,1641]
+15|text=|desc=Requests refreshed 22 h ago|id=|class=android.view.View|clickable=false|bounds=[48,1641][1032,1689]
+16|text=|desc=
 18|text=|desc=Home
 Tab 1 of 4|id=|class=android.widget.Button|clickable=true|bounds=[0,2112][270,2245]
 19|text=|desc=Rules
@@ -32,6 +32,6 @@ Tab 2 of 4|id=|class=android.widget.Button|clickable=true|bounds=[270,2112][540,
 20|text=|desc=Requests
 Tab 3 of 4|id=|class=android.widget.Button|clickable=true|bounds=[540,2112][810,2245]
 21|text=|desc=Settings
-Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2112][1080,2245]
-22|text=|desc=|id=android:id/navigationBarBackground|class=android.view.View|clickable=false|bounds=[0,0][0,0]
+Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2112][1080,2245]|id=|class=android.view.View|clickable=false|bounds=[0,2112][1080,2245]
+17|text=|desc=|id=android:id/navigationBarBackground|class=android.view.View|clickable=false|bounds=[0,0][0,0]
 UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

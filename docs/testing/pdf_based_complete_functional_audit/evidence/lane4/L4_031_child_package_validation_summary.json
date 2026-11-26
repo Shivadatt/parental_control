@@ -1,0 +1,19 @@
+{
+  "start": "2026-11-26T15:30:46+05:30",
+  "end": "2026-11-26T15:30:46+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell pm list packages",
+  "exit": 0,
+  "duration_seconds": 0.134,
+  "installed_package_count": 343,
+  "server_regex_accepted_count": 341,
+  "server_regex_rejected_count": 2,
+  "rejected_single_segment_count": 2,
+  "rejected_over_150_characters_count": 0,
+  "rejected_other_format_count": 0,
+  "parent_control_package_present": true,
+  "package_identities_retained": false,
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_031_child_package_validation_summary.txt",
+  "sha256": "ded054b126efe52131c7d3f9fbd7e4246e27a82c723771ed8e582f88bcc132bd"
+}

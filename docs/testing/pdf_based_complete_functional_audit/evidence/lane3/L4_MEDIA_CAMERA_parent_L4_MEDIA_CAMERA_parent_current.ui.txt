@@ -1,0 +1,20 @@
+test_id=L4_MEDIA_CAMERA
+label=L4_MEDIA_CAMERA_parent_current
+start=2026-11-26T16:14:14+05:30
+end=2026-11-26T16:14:16+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=22
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|label=Remote assistance|class=android.view.View|clickable=false|bounds=[189,185][639,246]
+11|label=Refresh|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+14|label=Assistance with explicit consent A request is delivered to the child account. Nothing opens until the child accepts it and then taps Join on their own session screen; you join from the session screen on this phone. This phone's camera and microphone are never opened by the app. Nothing is recorded, and no screenshots or screen capture are taken. A pending request expires if it is not answered; once accepted, the session stays open until the guardian ends it. The status on each card is the server's session status, not a media indicator.|class=android.view.View|clickable=false|bounds=[0,310][1080,1066]
+16|label=Request audio|class=android.widget.Button|clickable=true|bounds=[42,1066][527,1197]
+17|label=Request video|class=android.widget.Button|clickable=true|bounds=[553,1066][1038,1197]
+18|label=Audio and video come from the child device only, after the child accepts and joins. This phone's camera and microphone are never opened, so audio assistance is listen-only.|class=android.view.View|clickable=false|bounds=[0,1239][1080,1415]
+19|label=Recent sessions 17|class=android.view.View|clickable=false|bounds=[0,1415][1080,1520]
+20|label=Video assistance Ended Device realme RMX2161 Child [REDACTED_NAME] Media No media is open Requested Nov 26, 2026 3:53 PM · 3 min ago Tap to open the session screen|class=android.view.View|clickable=true|bounds=[0,1520][1080,2197]
+21|label=Audio assistance Ended Device realme RMX2161 Child [REDACTED_NAME] Media No media is open Requested Nov 25, 2026 3:52 PM · 1 d ago Tap to open the session screen|class=android.view.View|clickable=true|bounds=[0,2197][1080,2424]

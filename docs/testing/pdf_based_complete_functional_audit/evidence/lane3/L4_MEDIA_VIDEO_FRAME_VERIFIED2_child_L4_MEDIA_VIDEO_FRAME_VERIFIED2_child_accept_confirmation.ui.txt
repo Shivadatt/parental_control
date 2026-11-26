@@ -1,0 +1,13 @@
+test_id=L4_MEDIA_VIDEO_FRAME_VERIFIED2
+label=L4_MEDIA_VIDEO_FRAME_VERIFIED2_child_accept_confirmation
+start=2026-11-26T16:37:20+05:30
+end=2026-11-26T16:37:24+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=18
+retention=whitelisted visible labels and bounds only; raw XML not retained
+11|label=Accept assistance from [REDACTED_ACCOUNT]?|class=android.view.View|clickable=false|bounds=[192,807][888,999]
+14|label=Cancel|class=android.widget.Button|clickable=true|bounds=[686,1359][888,1503]
+15|label=Accept request|class=android.widget.Button|clickable=true|bounds=[192,1503][888,1653]

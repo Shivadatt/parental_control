@@ -1,0 +1,11 @@
+test_id=L4_MEDIA_VIDEO_FRAME_VERIFIED
+label=L4_MEDIA_VIDEO_FRAME_VERIFIED_child_before_background
+start=2026-11-26T16:33:28+05:30
+end=2026-11-26T16:33:31+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=37
+retention=whitelisted visible labels and bounds only; raw XML not retained
+19|label=Refresh|class=android.widget.ImageView|clickable=false|bounds=[351,719][384,752]

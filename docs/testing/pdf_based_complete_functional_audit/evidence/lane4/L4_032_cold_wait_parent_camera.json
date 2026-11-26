@@ -1,0 +1,17 @@
+{
+  "start": "2026-11-26T15:54:10+05:30",
+  "end": "2026-11-26T15:54:10+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell dumpsys media.camera",
+  "exit": 0,
+  "duration_seconds": 0.061,
+  "raw_stdout_lines": 1986,
+  "selected_stdout_lines": 15,
+  "include": [
+    "Active Camera Clients|parent_control|[REDACTED_PACKAGE]|Device state|Number of camera"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "ba37fe777f23f8fce840031f8d5de8254a16fda0196d2b33926966140da13b91",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_cold_wait_parent_camera.txt"
+}

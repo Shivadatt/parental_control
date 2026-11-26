@@ -1,0 +1,75 @@
+start=2026-11-26T16:18:10+05:30
+end=2026-11-26T16:18:11+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+package=com.parentcontrol.parent_control
+mode=read-only native-state snapshot
+activities_start=2026-11-26T16:18:10+05:30 command=adb -s emulator-5554 shell dumpsys activity activities cwd=D:\parentcontrol_app exit=0 duration_seconds=0.063 stdout_lines=472
+services_start=2026-11-26T16:18:10+05:30 command=adb -s emulator-5554 shell dumpsys activity services com.parentcontrol.parent_control cwd=D:\parentcontrol_app exit=0 duration_seconds=0.051 stdout_lines=2
+camera_start=2026-11-26T16:18:10+05:30 command=adb -s emulator-5554 shell dumpsys media.camera cwd=D:\parentcontrol_app exit=0 duration_seconds=0.061 stdout_lines=1986
+audio_start=2026-11-26T16:18:11+05:30 command=adb -s emulator-5554 shell dumpsys audio cwd=D:\parentcontrol_app exit=0 duration_seconds=0.071 stdout_lines=1025
+camera_op_start=2026-11-26T16:18:11+05:30 command=adb -s emulator-5554 shell cmd appops get com.parentcontrol.parent_control CAMERA cwd=D:\parentcontrol_app exit=0 duration_seconds=0.052 stdout_lines=2
+microphone_op_start=2026-11-26T16:18:11+05:30 command=adb -s emulator-5554 shell cmd appops get com.parentcontrol.parent_control RECORD_AUDIO cwd=D:\parentcontrol_app exit=0 duration_seconds=0.047 stdout_lines=1
+power_start=2026-11-26T16:18:11+05:30 command=adb -s emulator-5554 shell dumpsys power cwd=D:\parentcontrol_app exit=0 duration_seconds=0.065 stdout_lines=1005
+--- summary ---
+{
+  "start": "2026-11-26T16:18:10+05:30",
+  "end": "2026-11-26T16:18:11+05:30",
+  "serial": "emulator-5554",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "foreground_activity_lines": [
+    "topResumedActivity=ActivityRecord{155915219 u0 com.parentcontrol.parent_control/.MainActivity t49}",
+    "mFocusedApp=ActivityRecord{155915219 u0 com.parentcontrol.parent_control/.MainActivity t49}"
+  ],
+  "screen_lines": [
+    "mWakefulness=Awake",
+    "mHoldingDisplaySuspendBlocker=true",
+    "Display Power: [REDACTED_PACKAGE]$1@e6f164f",
+    "mWakefulness=1"
+  ],
+  "services": [],
+  "camera_open": false,
+  "camera_package_in_active_clients": false,
+  "open_camera_devices": [],
+  "recording_active": false,
+  "playback_active": false,
+  "camera_op": "CAMERA: allow",
+  "microphone_op": "unknown"
+}
+--- foreground activity ---
+    topResumedActivity=ActivityRecord{155915219 u0 com.parentcontrol.parent_control/.MainActivity t49}
+  mFocusedApp=ActivityRecord{155915219 u0 com.parentcontrol.parent_control/.MainActivity t49}
+--- screen power ---
+  mWakefulness=Awake
+  mHoldingDisplaySuspendBlocker=true
+Display Power: [REDACTED_PACKAGE]$1@e6f164f
+mWakefulness=1
+--- services ---
+  (nothing)
+--- active camera ---
+Active Camera Clients:
+  11-25 15:24:49 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:07:28 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:01:44 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:01:17 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:29:06 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:27:45 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:27:43 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:24:35 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:37:02 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:35:53 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:33:03 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 0)
+  11-24 16:25:23 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 28628)
+  Device 1 is closed, no client instance
+  Device 10 is closed, no client instance
+  11-25 15:24:49 : Device 10 is open. Client instance dump:
+    Client package: com.parentcontrol.parent_control
+--- audio package state ---
+--- camera app-op ---
+Uid mode: CAMERA: foreground
+CAMERA: allow; time=+1d1h10m40s809ms ago; duration=+17m2s178ms
+
+--- microphone app-op ---
+Uid mode: RECORD_AUDIO: ignore
+

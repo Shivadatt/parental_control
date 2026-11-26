@@ -1,0 +1,68 @@
+start=2026-11-26T15:01:09+05:30
+end=2026-11-26T15:01:12+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+ui_command=adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=19
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2424]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,289]
+9|text=|desc=Back|id=|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|text=|desc=Audit & retention|id=|class=android.view.View|clickable=false|bounds=[189,185][589,246]
+11|text=|desc=Refresh|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
+13|text=|desc=
+14|text=|desc=Assistance session ended
+Actor
+[REDACTED_ACTOR]
+Device
+[REDACTED_DEVICE]
+Time
+Nov 25, 2026 4:10 PM · 22 h ago
+Target
+[REDACTED_TARGET]
+15|text=|desc=Assistance session started
+Actor
+[REDACTED_ACTOR]
+Device
+[REDACTED_DEVICE]
+Time
+Nov 25, 2026 3:53 PM · 23 h ago
+Target
+[REDACTED_TARGET]
+16|text=|desc=Assistance accepted
+Actor
+[REDACTED_ACTOR]
+Device
+[REDACTED_DEVICE]
+Time
+Nov 25, 2026 3:53 PM · 23 h ago
+Target
+[REDACTED_TARGET]
+17|text=|desc=Assistance requested
+Actor
+[REDACTED_ACTOR]
+Device
+[REDACTED_DEVICE]
+Time
+Nov 25, 2026 3:52 PM · 23 h ago
+Target
+[REDACTED_TARGET]
+18|text=|desc=Assistance session ended
+Actor
+[REDACTED_ACTOR]
+Device
+[REDACTED_DEVICE]
+Time
+Nov 25, 2026 12:00 PM · 1 d ago
+Target
+[REDACTED_TARGET]|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

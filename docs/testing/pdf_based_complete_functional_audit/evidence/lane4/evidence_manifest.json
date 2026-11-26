@@ -1,0 +1,3152 @@
+{
+  "generated_at": "2026-11-26T17:05:19+05:30",
+  "file_count": 629,
+  "total_bytes": 908320,
+  "files": [
+    {
+      "path": "00_test_inventory.md",
+      "bytes": 14425,
+      "sha256": "50a6935434a1fb8eadfe91d24ad111162568894f7942e371077652f790cd6789"
+    },
+    {
+      "path": "01_blocked_gate_evidence.md",
+      "bytes": 4019,
+      "sha256": "026526152b306af58e60c43bdbe3af6683a8af167b5b48e6b218f6f3c2ab6682"
+    },
+    {
+      "path": "L4_000_child_native.json",
+      "bytes": 1092,
+      "sha256": "cede5391fb7d6aedf0e8ed2e808effea63ce1689671c64f55d5bbcbb0fcdc09b"
+    },
+    {
+      "path": "L4_000_child_native.txt",
+      "bytes": 7284,
+      "sha256": "9a7633cb02cafaa196293a4ccd297b73cfa9f9a00a7828915e847768ebbcf55e"
+    },
+    {
+      "path": "L4_000_child_start.ui.txt",
+      "bytes": 3067,
+      "sha256": "6ac0f45447b8b13d60955e99619920cabd15f6cc66110d69185c593d5da0baef"
+    },
+    {
+      "path": "L4_000_child_start_ui.json",
+      "bytes": 622,
+      "sha256": "72adcee6d162575690acf8559ec849151322e80a484aa27192459983d6e218f0"
+    },
+    {
+      "path": "L4_000_parent_native.json",
+      "bytes": 1047,
+      "sha256": "43e6c537bb2b342ff79365919c2b794e543ab2e83f007a3c094cc822e871301b"
+    },
+    {
+      "path": "L4_000_parent_native.txt",
+      "bytes": 4383,
+      "sha256": "ec65c8f2a575c7e29fa03ccaad4ed0fbd7de3b752a76b09a20f7e010c1a8e7ee"
+    },
+    {
+      "path": "L4_000_parent_start.ui.txt",
+      "bytes": 31991,
+      "sha256": "f33694aac15496eb4f60af01c77f3c0644d2769550e721f308be09b8deb15e64"
+    },
+    {
+      "path": "L4_000_parent_start_ui.json",
+      "bytes": 617,
+      "sha256": "ca354a1328fa43c13818eb3ccc47a2ced119f15434c1be6317a35f515ab9f71c"
+    },
+    {
+      "path": "L4_001_dashboard_tap.ui.txt",
+      "bytes": 3651,
+      "sha256": "a58a464d118fc7ee38731857b18b6689eafda4a3d4a4059ab031df8947a6ce8c"
+    },
+    {
+      "path": "L4_001_dashboard_tap_ui.json",
+      "bytes": 618,
+      "sha256": "241b005bbe6abb14c4b3b0388f13e970bb5a26bab8ca038ec030be41962d2269"
+    },
+    {
+      "path": "L4_001_detail_back.ui.txt",
+      "bytes": 3651,
+      "sha256": "70dc86116dc74cacd3d54118af1ee7b207cbbc8daa4b49b3d2afaac886cf211f"
+    },
+    {
+      "path": "L4_001_detail_back_tap.json",
+      "bytes": 581,
+      "sha256": "1176725bae3fb9ae3623b1ef1de22ebef33f69efa843189b3a3ff4f4820c3e33"
+    },
+    {
+      "path": "L4_001_detail_back_tap.txt",
+      "bytes": 252,
+      "sha256": "9538dda21b9b0dd4d5d850234563a9b45bfe967f5516b3fc073d57f75b17beda"
+    },
+    {
+      "path": "L4_001_detail_back_ui.json",
+      "bytes": 616,
+      "sha256": "9080138847b9487b55ef21ae191c1b21ec9d0c761aaa40ff6a4e675893d4d5f4"
+    },
+    {
+      "path": "L4_001_device_detail.ui.txt",
+      "bytes": 3651,
+      "sha256": "3e1b7b94b0c37c68c39047829082aac7eaa83ebd0722888c2a035dab7fd790b4"
+    },
+    {
+      "path": "L4_001_device_detail_ui.json",
+      "bytes": 618,
+      "sha256": "f0145b5852a55e73bd22b90ebf581252ea34523830700b28f500c9a94270f31b"
+    },
+    {
+      "path": "L4_001_devices.ui.txt",
+      "bytes": 3176,
+      "sha256": "efd80c498700ac755b53e65b6e019caf05d2f8110fdbcfd303990d2b6f0b5ff1"
+    },
+    {
+      "path": "L4_001_devices_ui.json",
+      "bytes": 612,
+      "sha256": "ad0a35200cdbad536d8d53a2bc931764eb4d100db018a4ed4e31570b374f8ba5"
+    },
+    {
+      "path": "L4_001_location_back.ui.txt",
+      "bytes": 31991,
+      "sha256": "faf37ea3893f71c93e2755624cebc1cf514b56ec855e49fd5aad621b73715e8a"
+    },
+    {
+      "path": "L4_001_location_back_tap.json",
+      "bytes": 583,
+      "sha256": "1995bf4b20ae42825406f7bc84cd78f7882b4500d89fb7703afada1a4f69d35a"
+    },
+    {
+      "path": "L4_001_location_back_tap.txt",
+      "bytes": 252,
+      "sha256": "469fb7260a46d50727ba5f83bcf7255558fb76a2d90a4652712e184ff8f75b1b"
+    },
+    {
+      "path": "L4_001_location_back_ui.json",
+      "bytes": 618,
+      "sha256": "9abb1c506589c4f419f05ffeaf161b31a482ce986e802f0655d2d22bb8ec4ae2"
+    },
+    {
+      "path": "L4_002_dashboard.ui.txt",
+      "bytes": 2843,
+      "sha256": "f9c65e89d2d2e901e943f37b5bf781661c29230cd9d2367ba7d9a535d62ed1a3"
+    },
+    {
+      "path": "L4_002_dashboard_tap.json",
+      "bytes": 581,
+      "sha256": "9dc8594fdd72874b8a0f941c67dd20ef3d6b70ccfd893b80bcba363e5fa2bb82"
+    },
+    {
+      "path": "L4_002_dashboard_tap.txt",
+      "bytes": 254,
+      "sha256": "5c9725d3eb2bb19afef1d378be0d486a6b3a109274e3af97ba6593e5a87e33e4"
+    },
+    {
+      "path": "L4_002_dashboard_ui.json",
+      "bytes": 614,
+      "sha256": "b0cdcff8c4d4243222e11850d13492f6a5032d7ef5bffca3817c8a3d3469cf66"
+    },
+    {
+      "path": "L4_003_dashboard_refresh.ui.txt",
+      "bytes": 2843,
+      "sha256": "f36065db7d7ff51f97d6661f0dc4a850d8ec1045b4753820d7c300478d3f6248"
+    },
+    {
+      "path": "L4_003_dashboard_refresh_tap.json",
+      "bytes": 588,
+      "sha256": "fef05c0adc54863e2aed95dec4f7d72905f1518df218e425388ed4db5c7392cb"
+    },
+    {
+      "path": "L4_003_dashboard_refresh_tap.txt",
+      "bytes": 254,
+      "sha256": "d74af8f584fd530464b3782ccfe3243d0b836b5ca98397c4068f12345921ea9c"
+    },
+    {
+      "path": "L4_003_dashboard_refresh_ui.json",
+      "bytes": 742,
+      "sha256": "b2f28ff3387fdef447ec545923cfa27fea9acba06e0aacda9f52b16ec94a9201"
+    },
+    {
+      "path": "L4_003_dashboard_refreshed.ui.txt",
+      "bytes": 2843,
+      "sha256": "ec915d6c2929c6eea69be99074fd3b919221d2317ffdc88e2ad67de6bcd98714"
+    },
+    {
+      "path": "L4_003_dashboard_refreshed_ui.json",
+      "bytes": 624,
+      "sha256": "86b33a9d3a779cd6cfbba3590d7e9f66ef1e1abcb838102ba9a520742b0cf35d"
+    },
+    {
+      "path": "L4_004_active_detail.ui.txt",
+      "bytes": 3071,
+      "sha256": "ee468b0ae17b5ba4101e644350201a3699384b7e8135e0d2bd358274f7071085"
+    },
+    {
+      "path": "L4_004_active_detail_settled.ui.txt",
+      "bytes": 3071,
+      "sha256": "5bfbbfa4e02e7095a8f0255ebf0b36190a5084f411c2cd18d0b7013e614b7b0e"
+    },
+    {
+      "path": "L4_004_active_detail_settled_ui.json",
+      "bytes": 626,
+      "sha256": "c4fef56f9d887917028f082bacbaf0d9f946aa6708d8db582229b61443e261e5"
+    },
+    {
+      "path": "L4_004_active_detail_ui.json",
+      "bytes": 618,
+      "sha256": "f8352c4b34454c9fd8f9cef0e6cd4d7e2f12f5cd19bc3a4bc8adc727b1edf5f0"
+    },
+    {
+      "path": "L4_004_open_active.ui.txt",
+      "bytes": 2842,
+      "sha256": "7c0e1ceb4d0c611825ccd00711493f67df7756199e6c42b25230910e1e496369"
+    },
+    {
+      "path": "L4_004_open_active_tap.json",
+      "bytes": 583,
+      "sha256": "ea79703f4ddbc097fe5bed7c5c690d068363ab81ea29f42e1cd6ba8f0cfe67c4"
+    },
+    {
+      "path": "L4_004_open_active_tap.txt",
+      "bytes": 254,
+      "sha256": "f2c55d033ddbef23bb2108733ff6f07fbb6d871f22c2b8686ebebd27a3b4a61c"
+    },
+    {
+      "path": "L4_004_open_active_ui.json",
+      "bytes": 616,
+      "sha256": "bac35246973a03f8b50b73f50945c409c108fe19c9a5f34c27871b74837a59fe"
+    },
+    {
+      "path": "L4_004_screen_time.ui.txt",
+      "bytes": 3071,
+      "sha256": "980b8d46466fe3956deef194e46d5cacd46878ab992d55b6f8abdaa04e072e3c"
+    },
+    {
+      "path": "L4_004_screen_time_ui.json",
+      "bytes": 616,
+      "sha256": "804c797912ceb2a7283c40dc00f9a8de07f9c0cd5721e0f09dc49a3f008d11ca"
+    },
+    {
+      "path": "L4_005_active_detail_settled.ui.txt",
+      "bytes": 3120,
+      "sha256": "d06350ddbd17b2f520a50af85aa500b41e914c830ea753fa1c1b587466b4bbf0"
+    },
+    {
+      "path": "L4_005_active_detail_settled_ui.json",
+      "bytes": 626,
+      "sha256": "5d4a7da6b1fcebdcc614e04eedf87ef233175fe7e3d3a110f3b1772b669e6848"
+    },
+    {
+      "path": "L4_005_devices.ui.txt",
+      "bytes": 3188,
+      "sha256": "0bde9fe4e2dfa58bc99b93834906987472ea9f45326b17237efe852e4698ebce"
+    },
+    {
+      "path": "L4_005_devices_tab.ui.txt",
+      "bytes": 2843,
+      "sha256": "680470f6ada25a868f19452fcdb6aafc54430afb793c203f6283b817eeef5e52"
+    },
+    {
+      "path": "L4_005_devices_tab_tap.json",
+      "bytes": 583,
+      "sha256": "5b51339d028c7fe2528f24665fd5ed9669200a3b37514e7bb45e38e17d3724be"
+    },
+    {
+      "path": "L4_005_devices_tab_tap.txt",
+      "bytes": 254,
+      "sha256": "2ed78533d5f5a13ba25a60ce00c550bdf74205a969e90a130ed8ec48a211cb6e"
+    },
+    {
+      "path": "L4_005_devices_tab_ui.json",
+      "bytes": 616,
+      "sha256": "21c7949809c93a4e8b2f453863c161d2ca77ce0cc2b12798da0f68d4a42c0c62"
+    },
+    {
+      "path": "L4_005_devices_ui.json",
+      "bytes": 612,
+      "sha256": "5f4b49b3332fcc15550bc1332459de3dede374b49dd7e8de71a9a9d9ba4ec506"
+    },
+    {
+      "path": "L4_005_open_active.ui.txt",
+      "bytes": 3188,
+      "sha256": "90026e5cc4506f456cf46ed5ca6e276c74ad947da743c7da76da1a1b34dd175a"
+    },
+    {
+      "path": "L4_005_open_active_tap.json",
+      "bytes": 583,
+      "sha256": "4a60911a58f23d37d7a4bf0e44093d02efc339f987be11905da2d1e24423aefc"
+    },
+    {
+      "path": "L4_005_open_active_tap.txt",
+      "bytes": 254,
+      "sha256": "6f78285d6ebba207d4baf72b317f553f970cc1701fe5e6cf0dfd22d490daf2bf"
+    },
+    {
+      "path": "L4_005_open_active_ui.json",
+      "bytes": 616,
+      "sha256": "e9d66072b789ec9a5f0d7be26fcab30ebe6689c5cae7618b20a16da10e3d4bda"
+    },
+    {
+      "path": "L4_005_revoked_back.ui.txt",
+      "bytes": 3071,
+      "sha256": "62a31f56d2f861609add2172b008b0ab4f1397b61b7a11d144d9da14159482db"
+    },
+    {
+      "path": "L4_005_revoked_back_tap.json",
+      "bytes": 582,
+      "sha256": "3d031600aa425cccad441fcbbe8eb7628346d06d2eb5840d4b265fcaf66e814e"
+    },
+    {
+      "path": "L4_005_revoked_back_tap.txt",
+      "bytes": 252,
+      "sha256": "2347d3d48c5bd8fa1400fc42e77a1934e5b770144142a33e602fd5bc525980b8"
+    },
+    {
+      "path": "L4_005_revoked_back_ui.json",
+      "bytes": 617,
+      "sha256": "3cc971deb2934fd906daedb3879c1816012bbe25c4ee87be07b6b3dae7bfa28e"
+    },
+    {
+      "path": "L4_006_detail_top.ui.txt",
+      "bytes": 3308,
+      "sha256": "a590bd49b3121c17d0b7d0c807c985f8ca68705d8d4a8b6c440c8060380fab8d"
+    },
+    {
+      "path": "L4_006_detail_top_ui.json",
+      "bytes": 615,
+      "sha256": "0daed9e1bfec3edb248733ab4ad4bf0c7fc241c902e18ec10bbce22912c63551"
+    },
+    {
+      "path": "L4_006_screen_time.ui.txt",
+      "bytes": 3120,
+      "sha256": "4fe034d8299685996b1fb8c1c1c1a699e611d68ec87ed98d6be948181c8f9166"
+    },
+    {
+      "path": "L4_006_screen_time_settled.ui.txt",
+      "bytes": 3467,
+      "sha256": "7385aecbaf9bc7014dc00cfad2f0ce6fdbecddc0cdc72581080b6de39371b5b5"
+    },
+    {
+      "path": "L4_006_screen_time_settled_ui.json",
+      "bytes": 624,
+      "sha256": "e1a50b6f8a882a5361737ed67407ac12aa6dcf2cb3c224981152af07a3a4ffae"
+    },
+    {
+      "path": "L4_006_screen_time_tap.ui.txt",
+      "bytes": 3308,
+      "sha256": "dbff4dbc68efbf6f1b5d30e2034cb2400e2e3cbcee4d5f29ba316d2f733fd166"
+    },
+    {
+      "path": "L4_006_screen_time_tap_tap.json",
+      "bytes": 587,
+      "sha256": "9a62b28fba6ff3dcffb0763bc23d1fb8f1e05c47190e674bb5afc5f5953d61a9"
+    },
+    {
+      "path": "L4_006_screen_time_tap_tap.txt",
+      "bytes": 254,
+      "sha256": "dac0766532b66178a6bd5d8ae410e723e90dd4f0badd617e2332004c6773cee5"
+    },
+    {
+      "path": "L4_006_screen_time_tap_ui.json",
+      "bytes": 620,
+      "sha256": "24ad1e2f94f13a296d313630a9d124a0caed453946f598a8fffdde0da33cfea3"
+    },
+    {
+      "path": "L4_006_screen_time_ui.json",
+      "bytes": 616,
+      "sha256": "b6722ebde7e83580418893f55edc2324b4809f02089b75afcc6669966652b959"
+    },
+    {
+      "path": "L4_006_scroll_top.json",
+      "bytes": 592,
+      "sha256": "7322f594422038811f3d062802d90a9609c9634fff6d19242cb57977159d5896"
+    },
+    {
+      "path": "L4_006_scroll_top.txt",
+      "bytes": 268,
+      "sha256": "cc65f73eda9fd10a40fba27ce7f843b33c6a17dafa1e2a1174069e54d283b606"
+    },
+    {
+      "path": "L4_007_usage_7d.ui.txt",
+      "bytes": 3467,
+      "sha256": "a12393d1c01480963c87c75e30f137f2055e753a9e12d6a8be5438cc89d15698"
+    },
+    {
+      "path": "L4_007_usage_7d_tap.json",
+      "bytes": 580,
+      "sha256": "d44646664e90e4edd5d886907ddf51507b933aab5260d6b6760360cacfc62d02"
+    },
+    {
+      "path": "L4_007_usage_7d_tap.txt",
+      "bytes": 254,
+      "sha256": "defcdd3bf7eb6960c9c8c03c37114421e274fe72842a913410d89a6963b77d40"
+    },
+    {
+      "path": "L4_007_usage_7d_ui.json",
+      "bytes": 613,
+      "sha256": "40327e5f7a468d58dc6d7709ee689e8494392a8f9c84dc25d8d8914f294924f8"
+    },
+    {
+      "path": "L4_007_usage_refresh.ui.txt",
+      "bytes": 3161,
+      "sha256": "2f33b416d1a7e62773a99b6221921f5451b83f9aa381cf05acf97a97dfb0da63"
+    },
+    {
+      "path": "L4_007_usage_refresh_tap.json",
+      "bytes": 585,
+      "sha256": "6174acb758ac9d6cfe23eb202e799357a9038b10cddd80a7cf73a556a68b5b6b"
+    },
+    {
+      "path": "L4_007_usage_refresh_tap.txt",
+      "bytes": 254,
+      "sha256": "fd856c6c48bd140e75bc2f8b870b0b5d862d53d2b7a1f2bcdb85b87f608a68a3"
+    },
+    {
+      "path": "L4_007_usage_refresh_ui.json",
+      "bytes": 618,
+      "sha256": "6ea54ae0022f9e85a492804da5ed7e9774a61a22140d232d138e349c9e24a580"
+    },
+    {
+      "path": "L4_007_usage_refreshed.ui.txt",
+      "bytes": 3332,
+      "sha256": "1b79f1be35743d0dcb762f1d34a165ce7bea9a851275949626dcb1b980aa2152"
+    },
+    {
+      "path": "L4_007_usage_refreshed_ui.json",
+      "bytes": 620,
+      "sha256": "1a97ac88a66e404d9035e50c5241213bdb6c7c203c564160eef1326d2b33dbf6"
+    },
+    {
+      "path": "L4_007_usage_today.ui.txt",
+      "bytes": 3161,
+      "sha256": "556c646f46c18d086ec1a0aad0e924e844b6f7d51ae6c7e104eba105432f9b32"
+    },
+    {
+      "path": "L4_007_usage_today_tap.json",
+      "bytes": 583,
+      "sha256": "8e6d3c19d8d5564d725852cbe64778d6fda2738b8f5b09f6c4674b94770af8e3"
+    },
+    {
+      "path": "L4_007_usage_today_tap.txt",
+      "bytes": 254,
+      "sha256": "48abd381f357f3bda842ba1b1e48413ad4f108a9334b0f463b2ce4ea3d3c30d5"
+    },
+    {
+      "path": "L4_007_usage_today_ui.json",
+      "bytes": 616,
+      "sha256": "5ef7c759aae2072956fbd418aea65ded1f49ce0ecf2ff3f59d5081598c3cf0d3"
+    },
+    {
+      "path": "L4_008_app_restrictions.ui.txt",
+      "bytes": 3747,
+      "sha256": "71e4229483da847991d241f04bf5bf084ca31cbfb6bd493795d9fb1bcef11a43"
+    },
+    {
+      "path": "L4_008_app_restrictions_tap.json",
+      "bytes": 587,
+      "sha256": "7a2080fcfbef7af609135db94a60ef1c92be23138d5b31947a1ddd6c84636838"
+    },
+    {
+      "path": "L4_008_app_restrictions_tap.txt",
+      "bytes": 254,
+      "sha256": "3c971ce037b4218bcf1bdc87d617f61c3c2dd41108b7fee2de0541c1bba33011"
+    },
+    {
+      "path": "L4_008_app_restrictions_ui.json",
+      "bytes": 621,
+      "sha256": "d118caf4b8cc13dad46d5461e29d5677921e405da5bb2869f0a51ee3c6f3c58b"
+    },
+    {
+      "path": "L4_008_detail.ui.txt",
+      "bytes": 3308,
+      "sha256": "c485cc69efb484ac43642b9db7859c2812131135a2df6a7aefafffae596d39a4"
+    },
+    {
+      "path": "L4_008_detail_ui.json",
+      "bytes": 611,
+      "sha256": "9506bb1929cee996ccddbbb3922601024bb880a366f3e3085783c5d37e29ed41"
+    },
+    {
+      "path": "L4_008_usage_back.ui.txt",
+      "bytes": 3161,
+      "sha256": "9cdbe401fab72309c18e7650927c2f4a983e11e81e116b28b74a3b91323aa730"
+    },
+    {
+      "path": "L4_008_usage_back_tap.json",
+      "bytes": 580,
+      "sha256": "268399b21b4ef11ed60e4710e6306ba42bd4192cfeabe0fb2421b1129306dd1a"
+    },
+    {
+      "path": "L4_008_usage_back_tap.txt",
+      "bytes": 252,
+      "sha256": "883a078a106bf28497519c2c9d981f520f16ad130d7f2caf598e92a5b497f131"
+    },
+    {
+      "path": "L4_008_usage_back_ui.json",
+      "bytes": 615,
+      "sha256": "bac77fb31440487e33a0aa4bbafa1b2ede913e12891614f8a21d3d6fca6e29ef"
+    },
+    {
+      "path": "L4_009_restrictions_scroll.json",
+      "bytes": 601,
+      "sha256": "ac131a9d842bb881b2b74060d00dffb37c11bac658ed1e8f65c6884e53918740"
+    },
+    {
+      "path": "L4_009_restrictions_scroll.txt",
+      "bytes": 268,
+      "sha256": "70d23a41aae3caea04d0e55436be546b4c9d69e85a000bb660c84b6b136f077d"
+    },
+    {
+      "path": "L4_009_restrictions_scrolled.ui.txt",
+      "bytes": 4285,
+      "sha256": "8c7ba35c0bbb2c93290e5ca11ad923898b5601fa6cab842ee507d397e459bcf3"
+    },
+    {
+      "path": "L4_009_restrictions_scrolled_ui.json",
+      "bytes": 626,
+      "sha256": "505ddff2dde3436703f662dd0a5fb93b85fdb96e7fc12856b7244a4d9f8d8fcc"
+    },
+    {
+      "path": "L4_010_restrictions_refresh.ui.txt",
+      "bytes": 4285,
+      "sha256": "c4d381acd081d5d0c3a133e3f481dc70114d2a2eb2415b9f9abc047079cb446e"
+    },
+    {
+      "path": "L4_010_restrictions_refresh_tap.json",
+      "bytes": 592,
+      "sha256": "328e40a7cec0ccd3ef3004e1711a5f3a4ffa23dda16d804eca1649c18b8dcb02"
+    },
+    {
+      "path": "L4_010_restrictions_refresh_tap.txt",
+      "bytes": 254,
+      "sha256": "1152625cefa8bd6d09cf33bbb3e2b88b2697ee04934d50556892e5ca4b72c466"
+    },
+    {
+      "path": "L4_010_restrictions_refresh_ui.json",
+      "bytes": 625,
+      "sha256": "63b855264ef950c884e0b49339e183cce6e90fbba067f700b075b38bc6845d82"
+    },
+    {
+      "path": "L4_010_restrictions_refreshed.ui.txt",
+      "bytes": 3981,
+      "sha256": "c0e738ba8c02958272d6ffcff4b6b91b13f796d12d71ea04ee91bd6d2d2179c0"
+    },
+    {
+      "path": "L4_010_restrictions_refreshed_ui.json",
+      "bytes": 627,
+      "sha256": "2217cfb7fba729256abd047d71980f7f7cc8ff4f60153f7886739ba807067456"
+    },
+    {
+      "path": "L4_011_restrictions_bottom.json",
+      "bytes": 601,
+      "sha256": "9227b92cb7140a200ecc792bf37b7d4e12f1838c4e66a36706f3b55c02f72aa9"
+    },
+    {
+      "path": "L4_011_restrictions_bottom.txt",
+      "bytes": 268,
+      "sha256": "ec425e9a920d9c18df50a3301e3446a2d1971e159f416ba0cadf8a6f493635ef"
+    },
+    {
+      "path": "L4_011_restrictions_bottom.ui.txt",
+      "bytes": 3978,
+      "sha256": "3d6cc058df79c86b71c0ac3f84586930598eb2cf54c2d2db3a7ed66aa05de611"
+    },
+    {
+      "path": "L4_011_restrictions_bottom_ui.json",
+      "bytes": 624,
+      "sha256": "dc7bea54be363ff2c109e34b01d18b5280377eab8740ded28ec1c50fde3eb394"
+    },
+    {
+      "path": "L4_012_allowed_picker.ui.txt",
+      "bytes": 3957,
+      "sha256": "0f5239d451a1309d59c39e7c5de1ba097d8f45e2a72a20e8c5453bee626b0329"
+    },
+    {
+      "path": "L4_012_allowed_picker_tap.json",
+      "bytes": 586,
+      "sha256": "8ad6659eec28a413622112a7b44b533a1ded50fda0124e8fc3c861d32bbb6caf"
+    },
+    {
+      "path": "L4_012_allowed_picker_tap.txt",
+      "bytes": 254,
+      "sha256": "3d2c0627cd3cc71fefd64719fee2ef484bb490a0eb425436f6d8ebc3575b8d39"
+    },
+    {
+      "path": "L4_012_allowed_picker_ui.json",
+      "bytes": 619,
+      "sha256": "898f53e6efaa430ac6b8eb0fa00f03ce7076f19c3b56d8b27791f4c009c35437"
+    },
+    {
+      "path": "L4_013_child_home.ui.txt",
+      "bytes": 2610,
+      "sha256": "99e5c1269f28aecb98ee18aa53d6e67d7c9cdb465b337511cb602a43e94d2ab2"
+    },
+    {
+      "path": "L4_013_child_home_tap.json",
+      "bytes": 588,
+      "sha256": "cd38b2b244f8aed130846e96d34d9ebf910ded264af5a20e3438a5e479ffd2c5"
+    },
+    {
+      "path": "L4_013_child_home_tap.txt",
+      "bytes": 260,
+      "sha256": "ace0ef06931ffd8196c24ec1f0e65723205bba9c17b29e7a9b15897c870f08f7"
+    },
+    {
+      "path": "L4_013_child_home_ui.json",
+      "bytes": 621,
+      "sha256": "d637e6cb4a700bee53843a853761551aeda2b6e23035ca4da9705009afd6de75"
+    },
+    {
+      "path": "L4_013_child_requests.ui.txt",
+      "bytes": 2610,
+      "sha256": "d52037bc32da6f2b4fcc784335933f2b52dd553136643c3fe12ee81c857b6082"
+    },
+    {
+      "path": "L4_013_child_requests_tap.json",
+      "bytes": 592,
+      "sha256": "ff28aae2fdb5aa941e6d9b9d13de0a0e736d8d864e01c31aff7304fc78ab62ec"
+    },
+    {
+      "path": "L4_013_child_requests_tap.txt",
+      "bytes": 260,
+      "sha256": "512955fbd90dda60dfe0803c10167b72dba842290cf07b425f28a8d7b4769398"
+    },
+    {
+      "path": "L4_013_child_requests_ui.json",
+      "bytes": 625,
+      "sha256": "ed283f5177374394253c6f13c826218b069dc425ebe6f824666428645cb35ef8"
+    },
+    {
+      "path": "L4_014_alerts.ui.txt",
+      "bytes": 2711,
+      "sha256": "d2ddf4cfcf4eadd700997d05eb7b25f51674d05a89a397a3942ad9696ef1e182"
+    },
+    {
+      "path": "L4_014_alerts_tab.ui.txt",
+      "bytes": 3188,
+      "sha256": "c024006f41e86c6c54f5b967a4758101979fd6db3f8a3685c6da4dac1f085539"
+    },
+    {
+      "path": "L4_014_alerts_tab_tap.json",
+      "bytes": 582,
+      "sha256": "ae37741bb4eccaaa4ad8e695c0e68a5344212e7770875dc75590761acc550c29"
+    },
+    {
+      "path": "L4_014_alerts_tab_tap.txt",
+      "bytes": 254,
+      "sha256": "b53c05ba47dc671f62ccdc54514b860d11107943645f0c521471cef3305e1f52"
+    },
+    {
+      "path": "L4_014_alerts_tab_ui.json",
+      "bytes": 615,
+      "sha256": "5cb0b7408dce277e436915b510d07603c67516a6a4c480f52771f20b2b6eca67"
+    },
+    {
+      "path": "L4_014_alerts_ui.json",
+      "bytes": 611,
+      "sha256": "ddb702d0865ba648c8c85593ebe23d9773ce0957af29c26c95425aea509bc510"
+    },
+    {
+      "path": "L4_014_detail_back.ui.txt",
+      "bytes": 3308,
+      "sha256": "41af8e5d93f8af9d321b47439809983e704a8a26edba9c40e37bcac15149c910"
+    },
+    {
+      "path": "L4_014_detail_back_tap.json",
+      "bytes": 581,
+      "sha256": "03aa976fecf5989df74ec0bb638aa51ee10ce94321e0c9aee920e0de2d85cf61"
+    },
+    {
+      "path": "L4_014_detail_back_tap.txt",
+      "bytes": 252,
+      "sha256": "a5c2a6abc4426f6d12fb226e616123682b6885f31413e7cb43bc19f74b3a98ea"
+    },
+    {
+      "path": "L4_014_detail_back_ui.json",
+      "bytes": 616,
+      "sha256": "174b2a1ead9f6189a92670ba11f7a71739c26fb419871678009a6004cdf6264f"
+    },
+    {
+      "path": "L4_014_restrictions_back.ui.txt",
+      "bytes": 3957,
+      "sha256": "267f956693eb4bf1c0cfdca9bb43f277a6c47f6f0e60f28ea8b89cf7bcf7095a"
+    },
+    {
+      "path": "L4_014_restrictions_back_tap.json",
+      "bytes": 587,
+      "sha256": "c0c78be0a2595b43d9eecd7831d75ad9904e2e8a108ff204a692acbee2d53c38"
+    },
+    {
+      "path": "L4_014_restrictions_back_tap.txt",
+      "bytes": 252,
+      "sha256": "5bb09b125afe7170cb2a1344b9cfb6e015a3c13ef587324aba2a4734a0a35208"
+    },
+    {
+      "path": "L4_014_restrictions_back_ui.json",
+      "bytes": 622,
+      "sha256": "2d882bd329e912bf7e594dbf99831addf603b21521e0023854eb5c85e0ef537f"
+    },
+    {
+      "path": "L4_015_alerts_all.ui.txt",
+      "bytes": 2711,
+      "sha256": "9afb56c599373346de542c9596151e64301bc50211023d61876808bbcf7cb1e8"
+    },
+    {
+      "path": "L4_015_alerts_all_tap.json",
+      "bytes": 581,
+      "sha256": "acf9dcb6db355fc3a3f48188efb64faabb942aff8389635df2c2527f425ccb2f"
+    },
+    {
+      "path": "L4_015_alerts_all_tap.txt",
+      "bytes": 253,
+      "sha256": "a5c915d1b0d553678eed6c8708434f7219cc8b3089a9df88df08074bd1533ddd"
+    },
+    {
+      "path": "L4_015_alerts_all_ui.json",
+      "bytes": 615,
+      "sha256": "9c0538b84d68af1adffbef8d438da8c1ed9b514db06e0e7cb4cf3bce5e3bad32"
+    },
+    {
+      "path": "L4_015_alerts_critical.ui.txt",
+      "bytes": 2437,
+      "sha256": "5b0e8ccf25279823d8123c86b81abb565c51222506fa0e6f151dad953a9b1986"
+    },
+    {
+      "path": "L4_015_alerts_critical_tap.json",
+      "bytes": 586,
+      "sha256": "400af76a99cb6d1e143605426f4d3bb8edd2da2fbb3715c638f9602d83079c76"
+    },
+    {
+      "path": "L4_015_alerts_critical_tap.txt",
+      "bytes": 253,
+      "sha256": "c8f11546fb169433038041b50126b974f741a8c720a06592217f5ffa4703d494"
+    },
+    {
+      "path": "L4_015_alerts_critical_ui.json",
+      "bytes": 620,
+      "sha256": "d001eb31f973f8526fd64bc93c4d0861886a0e05702e9573d5690b0e424b0d71"
+    },
+    {
+      "path": "L4_015_alerts_info.ui.txt",
+      "bytes": 2437,
+      "sha256": "4939be25cea496d2cff47b7b040c7238b47a52607c06e6ab5dcf0a69297fe362"
+    },
+    {
+      "path": "L4_015_alerts_info_tap.json",
+      "bytes": 582,
+      "sha256": "1b21931b663349c7d12e9c8b22c834d675377a12fa58f713bff97eca921d82f3"
+    },
+    {
+      "path": "L4_015_alerts_info_tap.txt",
+      "bytes": 253,
+      "sha256": "1319e78f31d86b631e93be2e9fd68fad161a93252f78568a33e4d1b1e5a73c82"
+    },
+    {
+      "path": "L4_015_alerts_info_ui.json",
+      "bytes": 616,
+      "sha256": "8f6bb9889991f3b54bb271961bc27736be832ec0e05c222a322a073c3f3d50c1"
+    },
+    {
+      "path": "L4_015_alerts_warning.ui.txt",
+      "bytes": 2711,
+      "sha256": "642f9a5ca1dbd6830757c5ef59b3f9932a92ea4f3174836059f7b49ccb768d54"
+    },
+    {
+      "path": "L4_015_alerts_warning_tap.json",
+      "bytes": 585,
+      "sha256": "f5d89efcf92edbeda2772e526477449c8a51f290e5870d738dc8d30f919c5025"
+    },
+    {
+      "path": "L4_015_alerts_warning_tap.txt",
+      "bytes": 253,
+      "sha256": "f4c629141116e9ad0838c0c68769daae8f5e03a153da4eaae9e5e411d59a5000"
+    },
+    {
+      "path": "L4_015_alerts_warning_ui.json",
+      "bytes": 619,
+      "sha256": "f1c44c521e3f1e92a2179a7ba4fc5478004e9ca1b97bd3c83fb068395a3d8c26"
+    },
+    {
+      "path": "L4_016_settings.ui.txt",
+      "bytes": 4033,
+      "sha256": "a71fd398dffa25a0243f94383efdd6af8371978004168a019d5e51b7fcdce5e0"
+    },
+    {
+      "path": "L4_016_settings_open.ui.txt",
+      "bytes": 2711,
+      "sha256": "427a15208381e663432fb817412b3e881e9095e500432db102be7b17208316d5"
+    },
+    {
+      "path": "L4_016_settings_open_tap.json",
+      "bytes": 585,
+      "sha256": "34043f26a130d8e4bccd8bf1786f5fba301ec1d5feabfd5e5fb9cf4612c6e903"
+    },
+    {
+      "path": "L4_016_settings_open_tap.txt",
+      "bytes": 254,
+      "sha256": "7939e5852401496e6fbd1cce6b7f86cb8e2ec81183cc90c6e4115d5c207fdd93"
+    },
+    {
+      "path": "L4_016_settings_open_ui.json",
+      "bytes": 618,
+      "sha256": "612fcdb7c533e749a047adc8fad1b07e8d1cccd565ae5501142b77910cec830e"
+    },
+    {
+      "path": "L4_016_settings_ui.json",
+      "bytes": 613,
+      "sha256": "c9afa6004fe9f32052d36079265655a9106cb4c43f875ed2d02ec856974fbde7"
+    },
+    {
+      "path": "L4_017_settings_scroll.json",
+      "bytes": 593,
+      "sha256": "af8c2b78e4d3863aceb56b696bac7819a0c4e4021f228e701eac7ca4878ba299"
+    },
+    {
+      "path": "L4_017_settings_scroll.txt",
+      "bytes": 264,
+      "sha256": "8ce29b798fde947ba2ff8344fa9b0d3f83443b1da9b05688198eafd135dd7552"
+    },
+    {
+      "path": "L4_017_settings_scrolled.ui.txt",
+      "bytes": 3511,
+      "sha256": "2487bd1b6b7d9fc6f0eee9dd83c2fd6d5a105e025d37722a1fc6f885459dc91c"
+    },
+    {
+      "path": "L4_017_settings_scrolled_ui.json",
+      "bytes": 622,
+      "sha256": "735325cb40e49d11f1e4e03960c20746ab3bb38945bd5a733247c41351568062"
+    },
+    {
+      "path": "L4_018_settings_bottom.ui.txt",
+      "bytes": 4019,
+      "sha256": "c46ee064d1d1fb57a542af6068b288c4894e14192a4a674c4a22b800ab229db2"
+    },
+    {
+      "path": "L4_018_settings_bottom_ui.json",
+      "bytes": 620,
+      "sha256": "d2428a59592b76d476c69a6a0606e39d53eeb6ee76f21a9a47f787a112d0fe93"
+    },
+    {
+      "path": "L4_018_settings_scroll_bottom.json",
+      "bytes": 600,
+      "sha256": "e64dd917096130fd24f531b17d5bededc17ac8d0b268b3ac5006a252c2877844"
+    },
+    {
+      "path": "L4_018_settings_scroll_bottom.txt",
+      "bytes": 264,
+      "sha256": "e7d91632e32d905a4330dcddf10df6bac2ccdb3c519db132a2ec9a08a6450a91"
+    },
+    {
+      "path": "L4_019_retention.ui.txt",
+      "bytes": 3029,
+      "sha256": "acb9b816b7edfe34bf9345d61a9a1f28eb1696ff7dc85679176363c0edaa3153"
+    },
+    {
+      "path": "L4_019_retention_open.ui.txt",
+      "bytes": 3735,
+      "sha256": "eda371e58fa78003be04d3cca35731ee2f63565cba70e8d615b7501821e7bf1c"
+    },
+    {
+      "path": "L4_019_retention_open_tap.json",
+      "bytes": 586,
+      "sha256": "0fa61878a275ce0c7751ef1c656ed6d09a27a2340e7ca35383f345d4c2be115a"
+    },
+    {
+      "path": "L4_019_retention_open_tap.txt",
+      "bytes": 254,
+      "sha256": "79e8d3d00620a4bfbcc39061c6ca61e92489c06ea0df31b037b06a0c5e0745bf"
+    },
+    {
+      "path": "L4_019_retention_open_ui.json",
+      "bytes": 619,
+      "sha256": "343ea0bf4388266f79afbf7c66e2ddf7d149a69dcea4355abae3e3cf17954994"
+    },
+    {
+      "path": "L4_019_retention_ui.json",
+      "bytes": 614,
+      "sha256": "9823856ef33d4af9fc323de225a0e35a49fb14f59a23c04ea0d7c2b43b9350ac"
+    },
+    {
+      "path": "L4_019_settings_scroll_mid.json",
+      "bytes": 597,
+      "sha256": "343d42892ca5b73388141eb1a37dc5e7f5f024df7c5e175c5fa82d9bce4608c0"
+    },
+    {
+      "path": "L4_019_settings_scroll_mid.txt",
+      "bytes": 264,
+      "sha256": "63171a90d8e07b1c63e6b8a22c2cde9db7208fc1cd575af5729c0f75eba5ed5a"
+    },
+    {
+      "path": "L4_020_retention_scroll.json",
+      "bytes": 594,
+      "sha256": "75bca73156431b48812f2405f070bc3751b8159ef679daeb05e9f2e18f8e2e18"
+    },
+    {
+      "path": "L4_020_retention_scroll.txt",
+      "bytes": 264,
+      "sha256": "cc855306d1b7d61332bb510add3232f574c54f7a8184006b2b8fea666df9423e"
+    },
+    {
+      "path": "L4_020_retention_scrolled.ui.txt",
+      "bytes": 2318,
+      "sha256": "5c7a49c17c71902585eafb04d3d3ec1bbee8453335cb6ff50a510edc7939a918"
+    },
+    {
+      "path": "L4_020_retention_scrolled_ui.json",
+      "bytes": 623,
+      "sha256": "cbe8c81cab5cfec1e641814e5685a501da1e7363d845590193a70593b7e6933a"
+    },
+    {
+      "path": "L4_021_child_home_return.ui.txt",
+      "bytes": 3240,
+      "sha256": "70acb4d38aec766284229d2b33979c9c36e4885e948a084936fd15ff81c9a03f"
+    },
+    {
+      "path": "L4_021_child_home_return_tap.json",
+      "bytes": 595,
+      "sha256": "679b1c297802d7b6e0f2efa970473701d9eba6f4d1249e131112f67d87c7c3a0"
+    },
+    {
+      "path": "L4_021_child_home_return_tap.txt",
+      "bytes": 260,
+      "sha256": "a5e7e723d061975198c7fd4028b69769f210d51f0ecaf53f8643477cfdf02e09"
+    },
+    {
+      "path": "L4_021_child_home_return_ui.json",
+      "bytes": 628,
+      "sha256": "024d85f8573d18b35206073ba46ac584d3f421959982ae6fc29cf8d23d73a991"
+    },
+    {
+      "path": "L4_021_child_rules.ui.txt",
+      "bytes": 3240,
+      "sha256": "cef3473fbeac8cff4955147e11f03de3b83758b063f233bcf192e2a0ecde5b83"
+    },
+    {
+      "path": "L4_021_child_rules_open.ui.txt",
+      "bytes": 3068,
+      "sha256": "cfe681fc1e2f7f51294c34e9c14c54314f77525f23492ec323cb24f6ad55cacd"
+    },
+    {
+      "path": "L4_021_child_rules_open_tap.json",
+      "bytes": 594,
+      "sha256": "20cc20ed3089c2433913b95b8f3e66d710ca00160a0aa235f8ef25aa4115308e"
+    },
+    {
+      "path": "L4_021_child_rules_open_tap.txt",
+      "bytes": 260,
+      "sha256": "c4029415b1a7db90fc47c0ac2287ee8922e338518c94ea6915e9a2efd9647e32"
+    },
+    {
+      "path": "L4_021_child_rules_open_ui.json",
+      "bytes": 627,
+      "sha256": "c22964bfe18931b004abbe1e986346adec869c7ce3d1307644fc1b42df4b5d97"
+    },
+    {
+      "path": "L4_021_child_rules_ui.json",
+      "bytes": 622,
+      "sha256": "b359267921a9e9a46227b5b0df406ffd11bea7dffb4d21a260b1b3754d96ab7f"
+    },
+    {
+      "path": "L4_022_active_detail.ui.txt",
+      "bytes": 3188,
+      "sha256": "486e75307013e36f29bb307f2cb75eec8c2b3a15733bd85e62458645d448fcaf"
+    },
+    {
+      "path": "L4_022_active_detail_settled.ui.txt",
+      "bytes": 3120,
+      "sha256": "33a8e0552daaa52612089e41745284fbcc7a763619780dae7bb2f5f8d417e5ed"
+    },
+    {
+      "path": "L4_022_active_detail_settled_ui.json",
+      "bytes": 626,
+      "sha256": "af8ef144b0b0a720fbc8da8c241e02e9c2a1e61c2c82ecb750dba12f37225044"
+    },
+    {
+      "path": "L4_022_active_detail_tap.json",
+      "bytes": 585,
+      "sha256": "1f30dd61d98422bd01f9dc9ae1ef0fc75920f3b1f71032d85ae8396dda68f817"
+    },
+    {
+      "path": "L4_022_active_detail_tap.txt",
+      "bytes": 254,
+      "sha256": "04b4c1fd4dfd291dacdd1c8f77534e8cae5e7f93026fde2dae0aab69e68a6d01"
+    },
+    {
+      "path": "L4_022_active_detail_ui.json",
+      "bytes": 618,
+      "sha256": "8b5df0aa8b797474e3c075356acc761d1f2fdc963bce986d603572631ca437b2"
+    },
+    {
+      "path": "L4_022_detail_scroll_top.json",
+      "bytes": 595,
+      "sha256": "005e7a165442d87c57654cd3b6dea8600bc91028d9a675a26202f9ddaee2f112"
+    },
+    {
+      "path": "L4_022_detail_scroll_top.txt",
+      "bytes": 264,
+      "sha256": "7a7dbaed29852744855f9c87ec23381b3dc7a2ccd7820c5b87a305a0e5407b20"
+    },
+    {
+      "path": "L4_022_devices.ui.txt",
+      "bytes": 3188,
+      "sha256": "cc39f2fbd19ecb293d85a50eec9b30a22f70cd38a49b7a8f46f8ef330d1d1fec"
+    },
+    {
+      "path": "L4_022_devices_open.ui.txt",
+      "bytes": 3735,
+      "sha256": "47c24f4ffd972eae07fa2288ce2258ccd8020804037106a94abd972590d91112"
+    },
+    {
+      "path": "L4_022_devices_open_tap.json",
+      "bytes": 584,
+      "sha256": "54328904ebf4107a6d5c04411dcbca05fd74ea2618293859cd60d4ca94133270"
+    },
+    {
+      "path": "L4_022_devices_open_tap.txt",
+      "bytes": 254,
+      "sha256": "f4e3498831b7eac544eb2f7cb13fe9ff45d9139a2df5b7a4c10a568955bfdc80"
+    },
+    {
+      "path": "L4_022_devices_open_ui.json",
+      "bytes": 617,
+      "sha256": "3c137ccde46d313d60cafd175cb9b12d92f83efe1cc0d794f1bb5654b90a353e"
+    },
+    {
+      "path": "L4_022_devices_ui.json",
+      "bytes": 612,
+      "sha256": "6912e6de5722741c4078e8dfbec1f77ec98e596bbc75713460525d319dc61ba6"
+    },
+    {
+      "path": "L4_022_retention_back.ui.txt",
+      "bytes": 2318,
+      "sha256": "f49cb93cb9a8f68548f337759cea287f049f9864135803f1ed0499022ebb2f27"
+    },
+    {
+      "path": "L4_022_retention_back_tap.json",
+      "bytes": 584,
+      "sha256": "17274685cdc8ad1a894f84c743b9771fbdf02a7361e4d9591f2fe4623ae2070e"
+    },
+    {
+      "path": "L4_022_retention_back_tap.txt",
+      "bytes": 252,
+      "sha256": "e38250293d5aa0c16c7e89b6ee67cd158926fb6693247e07e690a65a2ffdb9b0"
+    },
+    {
+      "path": "L4_022_retention_back_ui.json",
+      "bytes": 619,
+      "sha256": "66c5380b72e070de74f7c2675af5a847151fab87121d40165fbc1bb016a4f395"
+    },
+    {
+      "path": "L4_023_detail_controls.ui.txt",
+      "bytes": 3210,
+      "sha256": "dd1bf230ca814e811053b39a71f091001a2c58b6725a2cc65d309c8fb0f6fc7d"
+    },
+    {
+      "path": "L4_023_detail_controls_ui.json",
+      "bytes": 620,
+      "sha256": "6b91b8e9e7d8c2b9569148455361b9586b0b03f1e998faba775d0914b8f41c9c"
+    },
+    {
+      "path": "L4_023_detail_scroll_controls.json",
+      "bytes": 600,
+      "sha256": "4cc3f3a45293a6d39b7fe61b0a37bfbdaf85c5a33c6eb65b5919e4f5d90422e0"
+    },
+    {
+      "path": "L4_023_detail_scroll_controls.txt",
+      "bytes": 264,
+      "sha256": "b8a38baec702a326d4ac6c1f1d0a0c095e12d418fac55d41f2a534b2cc7ae05f"
+    },
+    {
+      "path": "L4_023_screen_time_open.ui.txt",
+      "bytes": 3120,
+      "sha256": "ad3295038c6f1d82e85ba7fad2a7849f23601d6aa6f852ab675e5583f0dae61c"
+    },
+    {
+      "path": "L4_023_screen_time_open_ui.json",
+      "bytes": 621,
+      "sha256": "6be101016b6e79127c080e9252ad1b23f3e1e034aaea3b613e5fbdeadea98ee8"
+    },
+    {
+      "path": "L4_024_screen_time_open.ui.txt",
+      "bytes": 3210,
+      "sha256": "40f34f503b19cda71ad3ed9c6b620ec355e8604775992a784542198d6c5250c1"
+    },
+    {
+      "path": "L4_024_screen_time_open_tap.json",
+      "bytes": 588,
+      "sha256": "9dae62fc1f15f20cc504bc0588a65365d13b99debc4cd4830cc7ca9314f568fa"
+    },
+    {
+      "path": "L4_024_screen_time_open_tap.txt",
+      "bytes": 254,
+      "sha256": "4f39ae3c21af2a2830d4b6f517de12db729f4edec551935266377094e8e48b49"
+    },
+    {
+      "path": "L4_024_screen_time_open_ui.json",
+      "bytes": 621,
+      "sha256": "8f0e3f942e92e914e52eb9cbc62ccddff2db12fd516677eb08b7e97d75b6ef45"
+    },
+    {
+      "path": "L4_024_screen_time_top.ui.txt",
+      "bytes": 3468,
+      "sha256": "3eb6a3a9b041b9ec314e877096c25d5d6c05bf85aadf164c341500a6b5403474"
+    },
+    {
+      "path": "L4_024_screen_time_top_ui.json",
+      "bytes": 620,
+      "sha256": "a2726a2ad29b0a9f289bbe8da839aa0cce72b6f6d12f5511a1bf1bb67128a5c8"
+    },
+    {
+      "path": "L4_025_screen_time_policy.ui.txt",
+      "bytes": 3767,
+      "sha256": "c0752fe578d3bdf1384164f0c962d31b1cf8372634707fce3a3eb5792416d7ae"
+    },
+    {
+      "path": "L4_025_screen_time_policy_ui.json",
+      "bytes": 623,
+      "sha256": "24a1ff002868e841dafa2f6bc0a313899829e5d911d2d0bab326cc0cb26126a1"
+    },
+    {
+      "path": "L4_025_screen_time_scroll_policy.json",
+      "bytes": 603,
+      "sha256": "0fe340d9dda86eed1c46faa808f5fee6f87554824d9c12980f5a89c94b8af2c9"
+    },
+    {
+      "path": "L4_025_screen_time_scroll_policy.txt",
+      "bytes": 264,
+      "sha256": "cfc3055583e51d2c4d3c9f056deec2d0c6ace444d74a2b80e0a32640e023af06"
+    },
+    {
+      "path": "L4_026_detail_back.ui.txt",
+      "bytes": 3210,
+      "sha256": "2ba662f5fe62090df1fa031733b20d4c9bc491d9f4b34fce48acf2aa6f09e98b"
+    },
+    {
+      "path": "L4_026_detail_back_tap.json",
+      "bytes": 581,
+      "sha256": "8249a51646b217964e45553bb39a19cc7befc70e4546005cd7c7b04449a45c83"
+    },
+    {
+      "path": "L4_026_detail_back_tap.txt",
+      "bytes": 252,
+      "sha256": "a4982339e2d2a57874640f3f2d0808b2953290ed56ffa055bef92fc320349ff2"
+    },
+    {
+      "path": "L4_026_detail_back_ui.json",
+      "bytes": 616,
+      "sha256": "2d247c05e21f1d63c9d10a4047ee59abd6540f87b7707009149f14f5b7542e86"
+    },
+    {
+      "path": "L4_026_family.ui.txt",
+      "bytes": 3029,
+      "sha256": "28134013e1dbd29b9c1190f222c077cb2030a6cb4e40f7f6fbc57b5aa57b6168"
+    },
+    {
+      "path": "L4_026_family_open.ui.txt",
+      "bytes": 4033,
+      "sha256": "99848323fee882a26d1964e2db505ef0882aad2ada5d0cbbf6fee132f36bfc49"
+    },
+    {
+      "path": "L4_026_family_open_tap.json",
+      "bytes": 583,
+      "sha256": "2609f4076f6f22fe5cafbea48b6336d289bbafd9830b80381c7f5ff85b12a8ef"
+    },
+    {
+      "path": "L4_026_family_open_tap.txt",
+      "bytes": 254,
+      "sha256": "c98eec1141dd2718413b166fa9fa5faba108f980b6f086aa9d3a49e22cd1279c"
+    },
+    {
+      "path": "L4_026_family_open_ui.json",
+      "bytes": 616,
+      "sha256": "45a0170139bda268fecaa3806facee067b65405fb44a112b5e658d5be801f7b1"
+    },
+    {
+      "path": "L4_026_family_ui.json",
+      "bytes": 611,
+      "sha256": "839b490ca14654697186025ee9e5b14dba7cc2c71dedb22b399be39ec91f2559"
+    },
+    {
+      "path": "L4_026_screen_time_back.ui.txt",
+      "bytes": 3767,
+      "sha256": "6a2950a7dda0d500cb7f4ae71189fe988ae190a7cb8cf9d99a8aee974eaa20d8"
+    },
+    {
+      "path": "L4_026_screen_time_back_tap.json",
+      "bytes": 586,
+      "sha256": "5e1dc65f6cbe7dbb29b2e0f7103acecc7f0fd9ddb232b3ce02ba2b19f584d6f2"
+    },
+    {
+      "path": "L4_026_screen_time_back_tap.txt",
+      "bytes": 252,
+      "sha256": "1e6b9a5e5a6b602c19ab559c8b80197c43ce084ade006c08cef8c41bdb5d5a74"
+    },
+    {
+      "path": "L4_026_screen_time_back_ui.json",
+      "bytes": 621,
+      "sha256": "141320acf002709cc9f03487d675687666abfc5cede9346d61291edf063f1c01"
+    },
+    {
+      "path": "L4_026_settings_return.ui.txt",
+      "bytes": 3187,
+      "sha256": "4c0a18e7f7c489b973d65c6f64e0c7382d923cd6d9e2dd30a9993eb6b9e515d6"
+    },
+    {
+      "path": "L4_026_settings_return_tap.json",
+      "bytes": 587,
+      "sha256": "3ea2a82f4941f1ba4480cb4b3ad75eec48bde8bf367a309499ad2e48ffe58a91"
+    },
+    {
+      "path": "L4_026_settings_return_tap.txt",
+      "bytes": 254,
+      "sha256": "e77b45be3b768c807ab2ca7ca3781e5468f2e238e72aef7881b160aaf7551ff8"
+    },
+    {
+      "path": "L4_026_settings_return_ui.json",
+      "bytes": 620,
+      "sha256": "763412a7f94b565d8e295df439ea31982167c2303d3fe70b15f5406cf1239ccf"
+    },
+    {
+      "path": "L4_026_settings_scroll_family.json",
+      "bytes": 600,
+      "sha256": "e6b59e11c7089ca3cb6b94dd0787613c52ea92ffd614c7b464abc0ec7bfb33d7"
+    },
+    {
+      "path": "L4_026_settings_scroll_family.txt",
+      "bytes": 264,
+      "sha256": "47d606594d2d59ea265555f6ff38ed2049f6efda4e5dacb82cd19f7bfd3d57bb"
+    },
+    {
+      "path": "L4_026_settings_scroll_top.json",
+      "bytes": 597,
+      "sha256": "51858e806f954f42a9d45d4a27b3a46b9f5b0edc76bfa82a8ae81d7ae34bd9e2"
+    },
+    {
+      "path": "L4_026_settings_scroll_top.txt",
+      "bytes": 264,
+      "sha256": "b4c0ab28e1f50955cecb6ac6631ad11933f2bc82351aa2e713b342fdfa7996da"
+    },
+    {
+      "path": "L4_026_settings_scroll_top_retry.json",
+      "bytes": 603,
+      "sha256": "20b438b0ae29cf2dc9aca83d59a6b035a3d8b6d294c2096bad86d147f4d4ef86"
+    },
+    {
+      "path": "L4_026_settings_scroll_top_retry.txt",
+      "bytes": 264,
+      "sha256": "4b68eaa28c6dbb83e92bb88a3842ec8c0049123d78ebf9970bd13787cd2428f8"
+    },
+    {
+      "path": "L4_027_family_back.ui.txt",
+      "bytes": 3029,
+      "sha256": "4bfc55b7e6adee63da55645581f55d1421d8d8c483b11982e7575a9268d5d479"
+    },
+    {
+      "path": "L4_027_family_back_tap.json",
+      "bytes": 581,
+      "sha256": "52abb4ba3e006b52b609258eaf60401d72c9633b84b18f09b24982047006c027"
+    },
+    {
+      "path": "L4_027_family_back_tap.txt",
+      "bytes": 252,
+      "sha256": "b8aebbda5c84127f86f64e265c5dd7861c0105c5780171dce40aaf138a4d9169"
+    },
+    {
+      "path": "L4_027_family_back_ui.json",
+      "bytes": 616,
+      "sha256": "19b675dba09482e237cedbac7a6e5dec652938295c798f868de6bb90a52e3a5e"
+    },
+    {
+      "path": "L4_027_switches_original.ui.txt",
+      "bytes": 4098,
+      "sha256": "874b4b78cb2a0154c578035c0f8fb48ed908ba25a681bd04bcaaa96fad90212e"
+    },
+    {
+      "path": "L4_027_switches_original_ui.json",
+      "bytes": 622,
+      "sha256": "b541729fdaf01c6c11dea5d2d14b7474f9cf0fb955a3efe4aa7ff43972371c43"
+    },
+    {
+      "path": "L4_028_local_notifications_off.ui.txt",
+      "bytes": 4098,
+      "sha256": "9f88cf091d5e0099a63657cb244c115521766c00a4aa602178088918bbd9a140"
+    },
+    {
+      "path": "L4_028_local_notifications_off_state.ui.txt",
+      "bytes": 4099,
+      "sha256": "86fa0f7e04b7f84c58598fcd5c7a0bb6cbaeca7632c28e4108709fd073545b30"
+    },
+    {
+      "path": "L4_028_local_notifications_off_state_ui.json",
+      "bytes": 634,
+      "sha256": "c80403bf49cc5880fe2e9e90616980106c482abcfbd9d8b0bc615d47d044f35b"
+    },
+    {
+      "path": "L4_028_local_notifications_off_tap.json",
+      "bytes": 595,
+      "sha256": "72a5f87f579e958766959104c02558109d23538137cf85bee5685c5eaac0b318"
+    },
+    {
+      "path": "L4_028_local_notifications_off_tap.txt",
+      "bytes": 254,
+      "sha256": "3e231e686d3aa6b0ffce7df7f4fc8b751600731e631048f67d79f6505e3ef5a6"
+    },
+    {
+      "path": "L4_028_local_notifications_off_ui.json",
+      "bytes": 628,
+      "sha256": "131047be7dd9c653cb075f62a9bb0eca0f7ec376b127d3cf2b8afbf101d386d4"
+    },
+    {
+      "path": "L4_028_local_notifications_restore.ui.txt",
+      "bytes": 4099,
+      "sha256": "c3b5c53cd1d22f7a6d5499359303ca01af0d72fc86da24ebe0f2820a896292f7"
+    },
+    {
+      "path": "L4_028_local_notifications_restore_tap.json",
+      "bytes": 599,
+      "sha256": "53ee28642f6e40fdc5cc46e8a43f8297b56d8654f1a4759e77c2d465ee05bd01"
+    },
+    {
+      "path": "L4_028_local_notifications_restore_tap.txt",
+      "bytes": 254,
+      "sha256": "408d3f3d06cfb4f1a9fe0b2f72a06869f1d65ad917f8fcda6938e69ee2cfb4ea"
+    },
+    {
+      "path": "L4_028_local_notifications_restore_ui.json",
+      "bytes": 632,
+      "sha256": "c2e93c49c272794c5ce042f35354b9f5de669bdbf5737c8e93d900612601c3cb"
+    },
+    {
+      "path": "L4_028_local_notifications_restored.ui.txt",
+      "bytes": 4098,
+      "sha256": "37d77e55e0ba285bfd2e198054b17f58913a227e14d32c7b9b300e4dd1ad928b"
+    },
+    {
+      "path": "L4_028_local_notifications_restored_ui.json",
+      "bytes": 633,
+      "sha256": "3faa49ebfa653cb2b0960d50dd9ef1242191071955c742fd5e0a466f53f6c4c0"
+    },
+    {
+      "path": "L4_028_location_reminder_off.ui.txt",
+      "bytes": 4098,
+      "sha256": "b40f5e841c7ebe94f7ccc146d796af6b406c5e2a2a208e134e922145d60297e0"
+    },
+    {
+      "path": "L4_028_location_reminder_off_state.ui.txt",
+      "bytes": 4099,
+      "sha256": "1643bec9aa22cd0d1bbd180160740894017489483310d715f19f0fd03f9e4c8d"
+    },
+    {
+      "path": "L4_028_location_reminder_off_state_ui.json",
+      "bytes": 632,
+      "sha256": "3a39e8da378f550e35a3090a7911cf1a5248fc37a43c4768c14d65ce13f1fee9"
+    },
+    {
+      "path": "L4_028_location_reminder_off_tap.json",
+      "bytes": 593,
+      "sha256": "997b1dcbf91e1065a2c87b5de39863763ff5baabc9492114570e1930cd4793f2"
+    },
+    {
+      "path": "L4_028_location_reminder_off_tap.txt",
+      "bytes": 254,
+      "sha256": "5588cff09f6cba8dde2aa995b100f158ae3a0c8a8a2aa049505e49154496e892"
+    },
+    {
+      "path": "L4_028_location_reminder_off_ui.json",
+      "bytes": 626,
+      "sha256": "2a78e12929766ec694fde4aeefcb661ee93c2281ff2501ac1b9007a4209d12c1"
+    },
+    {
+      "path": "L4_028_location_reminder_restore.ui.txt",
+      "bytes": 4099,
+      "sha256": "9b4ebeacdc0d1e00af76703eee75ef8616f0378814f726e31bd77a540736e87a"
+    },
+    {
+      "path": "L4_028_location_reminder_restore_tap.json",
+      "bytes": 597,
+      "sha256": "2e4a87caaaf583820f07743aa00782eab71dff97f19ad394cae81593fe7af597"
+    },
+    {
+      "path": "L4_028_location_reminder_restore_tap.txt",
+      "bytes": 254,
+      "sha256": "30f33411ad31899ca650219c0191b069df7aece679822e30fcee72e9e7ea5e1e"
+    },
+    {
+      "path": "L4_028_location_reminder_restore_ui.json",
+      "bytes": 630,
+      "sha256": "0d976271da2442baed23b110a129447c003c4d56b0f60f434e5b6a9a80ab5b73"
+    },
+    {
+      "path": "L4_028_switches_restored.ui.txt",
+      "bytes": 4098,
+      "sha256": "92704e5cc7d16aa092a6f675a40d7218737738882657cf1a1593504973459629"
+    },
+    {
+      "path": "L4_028_switches_restored_ui.json",
+      "bytes": 622,
+      "sha256": "707f6de83547015cd0189da929590e0a205347d5c784aca477c1cacad96156df"
+    },
+    {
+      "path": "L4_029_family_reopen.ui.txt",
+      "bytes": 4098,
+      "sha256": "7fff5cd1f75b9acbf21978a24d97a027315ddbe7c7152e3453532074d55ac9c8"
+    },
+    {
+      "path": "L4_029_family_reopen_tap.json",
+      "bytes": 585,
+      "sha256": "00198042b2d6935be87b8f733f85a53e6ab66f7d722bb18ee4ae4cfe2ceb3982"
+    },
+    {
+      "path": "L4_029_family_reopen_tap.txt",
+      "bytes": 254,
+      "sha256": "17e32d6c9e67b040c19b352df6298e2ea7bed774091fbf6815491cb425484392"
+    },
+    {
+      "path": "L4_029_family_reopen_ui.json",
+      "bytes": 618,
+      "sha256": "a73c856e270b5e4933d62c950c47aca69ace3da6b9f78294bbd8fe2eb313a6b9"
+    },
+    {
+      "path": "L4_029_pairing_requests.ui.txt",
+      "bytes": 2997,
+      "sha256": "cb97f44065342d25ad4e4b0801b81c49ce83e3fb6b95ce66687d822ec29aaf01"
+    },
+    {
+      "path": "L4_029_pairing_requests_tap.json",
+      "bytes": 588,
+      "sha256": "90fc7bf49de756e9429a5955b2b19c2514a171515a95bed414270a1903ef2ee0"
+    },
+    {
+      "path": "L4_029_pairing_requests_tap.txt",
+      "bytes": 254,
+      "sha256": "f8409b35f05ff9ce4d78a432d04df9e5df2d1b2c112ede7a22f71213569ca4d7"
+    },
+    {
+      "path": "L4_029_pairing_requests_ui.json",
+      "bytes": 621,
+      "sha256": "7585da54e003aa4f1e0124076a26d0ba922cc4dcd70cf631cd197f0e69e4b16a"
+    },
+    {
+      "path": "L4_030_child_home_return.ui.txt",
+      "bytes": 3449,
+      "sha256": "7e609ad3abb81d3c1ea53bf5ca1a60d22280b4b964672f3c7fb08ac12de33e0d"
+    },
+    {
+      "path": "L4_030_child_home_return_tap.json",
+      "bytes": 595,
+      "sha256": "d3983161cd409bfb49261175568836162816a1c8bd31ee3ed5ad0ca4bc0aa769"
+    },
+    {
+      "path": "L4_030_child_home_return_tap.txt",
+      "bytes": 260,
+      "sha256": "07c96afe0a247ca2a377308b3589446ad8b6f691f93e4c85c7b6f6c7acf4356d"
+    },
+    {
+      "path": "L4_030_child_home_return_ui.json",
+      "bytes": 628,
+      "sha256": "b42f0b3b4c722d55e1ee3c66e0b93822e99fff3144207167c8f67a4910e54a4d"
+    },
+    {
+      "path": "L4_030_child_settings.ui.txt",
+      "bytes": 3413,
+      "sha256": "691482e617804254f8eee01b90c01d5da114c6ce73c04bfbaf704c6c84285527"
+    },
+    {
+      "path": "L4_030_child_settings_open.ui.txt",
+      "bytes": 3068,
+      "sha256": "6b713d995e5a2f3925806dbd92be457f4c9077d4332db7d34e906deaa1ab6c9f"
+    },
+    {
+      "path": "L4_030_child_settings_open_tap.json",
+      "bytes": 597,
+      "sha256": "d38705336dc6aa414bb667e20698bc6add88d85eee011ceafbdfadc94edd636a"
+    },
+    {
+      "path": "L4_030_child_settings_open_tap.txt",
+      "bytes": 260,
+      "sha256": "3e5d3f1eb33eae5fa2890ef361d824284e216fc88fc6c560caf4f435b6143c9a"
+    },
+    {
+      "path": "L4_030_child_settings_open_ui.json",
+      "bytes": 630,
+      "sha256": "4d9340d6ec654e4ef7322487859015ed54205057f72a87a812758f8ef457f522"
+    },
+    {
+      "path": "L4_030_child_settings_scroll.json",
+      "bytes": 605,
+      "sha256": "90fd820d74cac6b99bc0a9b8f61bf07433353722a78efb24765f09f27c3c944f"
+    },
+    {
+      "path": "L4_030_child_settings_scroll.txt",
+      "bytes": 270,
+      "sha256": "96c8cde851f6bcfdb815e628fc41c8d5407d10195f86f882b2de60b0192dc561"
+    },
+    {
+      "path": "L4_030_child_settings_scrolled.ui.txt",
+      "bytes": 3443,
+      "sha256": "b1e988e504169f6b6ddc3378ccbcc09af186bd9d5c71ab4b212cd73bfa535564"
+    },
+    {
+      "path": "L4_030_child_settings_scrolled_ui.json",
+      "bytes": 634,
+      "sha256": "1bfe09ba865770ce02515c7537561d76e3689fe2b2c7a5e652542d86584fd5de"
+    },
+    {
+      "path": "L4_030_child_settings_ui.json",
+      "bytes": 625,
+      "sha256": "20ce7237b31b1b3f412bcba748300c49f349ea05777c11bfb12fcb362867bf03"
+    },
+    {
+      "path": "L4_031_child_package_validation_summary.json",
+      "bytes": 790,
+      "sha256": "75083f378cfeccfbb07193788b2ade57804b453888b1c4da328f5b50fe58926f"
+    },
+    {
+      "path": "L4_031_child_package_validation_summary.txt",
+      "bytes": 455,
+      "sha256": "ded054b126efe52131c7d3f9fbd7e4246e27a82c723771ed8e582f88bcc132bd"
+    },
+    {
+      "path": "L4_032_active_detail.ui.txt",
+      "bytes": 3189,
+      "sha256": "a1b1cc6bacb4d6b3eebb638b09f85ac242bf5e15c46562be934f86e89a3b4f1f"
+    },
+    {
+      "path": "L4_032_active_detail_settled.ui.txt",
+      "bytes": 3121,
+      "sha256": "eecefd154499a34de9a63f2a7d065318691df26a7a74acea2673be1e57a3df90"
+    },
+    {
+      "path": "L4_032_active_detail_settled_ui.json",
+      "bytes": 626,
+      "sha256": "981b766b50b37414a3b9e8f8ee5c9e9d538ca3a451234ebcfac2ab2673e32f16"
+    },
+    {
+      "path": "L4_032_active_detail_tap.json",
+      "bytes": 585,
+      "sha256": "882a8351ec8574d582ea0539e12b9dcee2ab3a1d4c8078223109503d7bdf3a0c"
+    },
+    {
+      "path": "L4_032_active_detail_tap.txt",
+      "bytes": 254,
+      "sha256": "ce7575802cda752cffe5507fdd6d6a672084ef7abc43b73fd315e3fefebcd01e"
+    },
+    {
+      "path": "L4_032_active_detail_ui.json",
+      "bytes": 618,
+      "sha256": "6a34221d34e84978c0ce973e832562d8769d0b08924d0cef0707326fa9afaa69"
+    },
+    {
+      "path": "L4_032_active_reopen.ui.txt",
+      "bytes": 3189,
+      "sha256": "6101bade496d7a91b968065f60aae3fa923f4e8364a82ab920f7664721a9fced"
+    },
+    {
+      "path": "L4_032_active_reopen_tap.json",
+      "bytes": 585,
+      "sha256": "9cef77ce87641c331f069eb2228af574235155a22e9fa4379803c4bb0e1286f9"
+    },
+    {
+      "path": "L4_032_active_reopen_tap.txt",
+      "bytes": 254,
+      "sha256": "8799a9bd218e90c791a70a93f109d8b8c6135b79cf05acd439bf2e1289d5c593"
+    },
+    {
+      "path": "L4_032_active_reopen_ui.json",
+      "bytes": 618,
+      "sha256": "6b389ed6a0e8e7b6a8122d51aaebdafab94f4bf69a758723f243ded9193acecf"
+    },
+    {
+      "path": "L4_032_after_child_audio.json",
+      "bytes": 644,
+      "sha256": "ef22eb41b10d590168e47cec4745ce8307b0485b728dca108b5f4610311b76fa"
+    },
+    {
+      "path": "L4_032_after_child_audio.txt",
+      "bytes": 364,
+      "sha256": "6743f44789bf57136bfec7f102b441c51a7c6fca96c543750744ccba46c8ea9a"
+    },
+    {
+      "path": "L4_032_after_child_camera.json",
+      "bytes": 679,
+      "sha256": "0454dd8cba1af20b7a62d47ea4d878c65ba8216428ffff517fecc6399f952acc"
+    },
+    {
+      "path": "L4_032_after_child_camera.txt",
+      "bytes": 1260,
+      "sha256": "f7bf52787ebda2af98a11c8e5f766e5281968bd83c12935d6170e67d26b1774c"
+    },
+    {
+      "path": "L4_032_after_child_refresh.ui.txt",
+      "bytes": 2612,
+      "sha256": "3439a91d45105b954ce017083776d4f412624c5151e018f73b2b4f3ce2260660"
+    },
+    {
+      "path": "L4_032_after_child_refresh_tap.json",
+      "bytes": 597,
+      "sha256": "9e2a8bab306559e9569dcef70502d2ea7219b84aeb14472ceaf5f66e42a3316c"
+    },
+    {
+      "path": "L4_032_after_child_refresh_tap.txt",
+      "bytes": 260,
+      "sha256": "276ca3f9b49d0b207f0911e9b3304131af7b385083c8ec051cdf5b578d68cba1"
+    },
+    {
+      "path": "L4_032_after_child_refresh_ui.json",
+      "bytes": 630,
+      "sha256": "d2f1266d81284403122ef89d009f49584084fbe6c977ee98ea8fe712c23dbc6c"
+    },
+    {
+      "path": "L4_032_after_parent_audio.json",
+      "bytes": 639,
+      "sha256": "e4e2e16e48926ca0aa854681c985e00305a78ac36ddcefea2fce17b2ce0cf5ce"
+    },
+    {
+      "path": "L4_032_after_parent_audio.txt",
+      "bytes": 709,
+      "sha256": "f95f39692f3ecf0a42f7a51deb2f359d7c26740c81e86f1e38f2e4e3ca4c4500"
+    },
+    {
+      "path": "L4_032_after_parent_camera.json",
+      "bytes": 673,
+      "sha256": "0c839a629c45c33d40be140f27f722a39be0f843a2c92a555bc638ef44e3a409"
+    },
+    {
+      "path": "L4_032_after_parent_camera.txt",
+      "bytes": 1720,
+      "sha256": "45fb9572aa30f696c45b7b6efc653c515f4171afbe92bfdd6035b0d1a5ae3e5c"
+    },
+    {
+      "path": "L4_032_after_parent_refresh.ui.txt",
+      "bytes": 2348,
+      "sha256": "40f60e5f84de3f2308c074aa644721548cd36dba2c3adcea1ca85a3e349f446f"
+    },
+    {
+      "path": "L4_032_after_parent_refresh_tap.json",
+      "bytes": 592,
+      "sha256": "9fddbf96838b5a63780cf522e78bd62bf4f09d7dbc26471bb351a9d47ef1f5ce"
+    },
+    {
+      "path": "L4_032_after_parent_refresh_tap.txt",
+      "bytes": 254,
+      "sha256": "bf6144422c6594604bdd63c331d3611f581489f3362384f44cccec43cc491019"
+    },
+    {
+      "path": "L4_032_after_parent_refresh_ui.json",
+      "bytes": 625,
+      "sha256": "49435b07610cbcc2fb3758052d479544241170e1749faf3fbe28fef762f048f6"
+    },
+    {
+      "path": "L4_032_back_active_detail.ui.txt",
+      "bytes": 3495,
+      "sha256": "ae2afa19881ebc37447dc1941485e62e41c99f0cc7bcd3c7d3ac91b57e4d38bb"
+    },
+    {
+      "path": "L4_032_back_active_detail_ui.json",
+      "bytes": 623,
+      "sha256": "76ad7d9d8ac77aae9fadfdf83352bff8154a2592261ac9b4ea0a950f95938fd8"
+    },
+    {
+      "path": "L4_032_before_child_audio.json",
+      "bytes": 645,
+      "sha256": "e12d45083cdd0ca2128f506be1da5f7156daa161a0073c5db7f30053906031f8"
+    },
+    {
+      "path": "L4_032_before_child_audio.txt",
+      "bytes": 364,
+      "sha256": "8e42d08661d0375fd4d591f5e9556ab395684c128833d3fa9f1c941ffb08d991"
+    },
+    {
+      "path": "L4_032_before_child_camera.json",
+      "bytes": 659,
+      "sha256": "81eccde3ce11bc12b7cfe5c2439a41aed31664d926286244b02f35d5e941640c"
+    },
+    {
+      "path": "L4_032_before_child_camera.txt",
+      "bytes": 25645,
+      "sha256": "e1fb8e653b8cb291c4adc2554913886d1a2ce9b64f0ad919616c8031a565900e"
+    },
+    {
+      "path": "L4_032_before_child_ui.ui.txt",
+      "bytes": 3069,
+      "sha256": "50b84f23f4fb665609636943f137713d76bb442daa28cc00e89f9a6527d32dc2"
+    },
+    {
+      "path": "L4_032_before_child_ui_ui.json",
+      "bytes": 626,
+      "sha256": "fef50e173d30ccce14577ef60b7c67ca8cb33c3761958107591d7bca53da9aa7"
+    },
+    {
+      "path": "L4_032_before_parent_audio.json",
+      "bytes": 640,
+      "sha256": "f65f31e08c337db94ad7da61714c429c6aa1f6b91458db683025c4c7de6c24f1"
+    },
+    {
+      "path": "L4_032_before_parent_audio.txt",
+      "bytes": 709,
+      "sha256": "c1524d106b14ba52d04feb5c7178aa5ed80c02d01617f4021794025ad4350f68"
+    },
+    {
+      "path": "L4_032_before_parent_camera.json",
+      "bytes": 652,
+      "sha256": "bdb092830ca66aa2b8b4c55516bbf65b3f83a78a5d520d917bfe9741a3848279"
+    },
+    {
+      "path": "L4_032_before_parent_camera.txt",
+      "bytes": 3985,
+      "sha256": "626c96d635c08e2c17f1d7eba2e0d030481bcad55d045abab2cf0af6f92835b2"
+    },
+    {
+      "path": "L4_032_camera_sections_child.json",
+      "bytes": 698,
+      "sha256": "8cb1ca5bfd23600112403b73753ed717ed8810f25addc4cd55ec5e33b4826694"
+    },
+    {
+      "path": "L4_032_camera_sections_child.txt",
+      "bytes": 3634,
+      "sha256": "eae5705e5766ff693be850d65c37c826b91c42a355361de9b335fc66bb01aa2a"
+    },
+    {
+      "path": "L4_032_camera_sections_parent.json",
+      "bytes": 692,
+      "sha256": "8d698a17ea6158248737b0516006f5953a7ce4593a9a9f602e8f88e878415390"
+    },
+    {
+      "path": "L4_032_camera_sections_parent.txt",
+      "bytes": 1281,
+      "sha256": "bd529c4ee1edab25704585a5c2de346a34b5dda6f7f6919ea65372de94631d0e"
+    },
+    {
+      "path": "L4_032_cancel_confirm.ui.txt",
+      "bytes": 1792,
+      "sha256": "568bf648bd6ae94bba4467b3c46bfb265a3772f98706c59cdbdf2e1d014d9e91"
+    },
+    {
+      "path": "L4_032_cancel_confirm_tap.json",
+      "bytes": 586,
+      "sha256": "f4eaa6e26d2a9406601e485a04040a5ed598d336c012b5d0ee546e66ee7f4513"
+    },
+    {
+      "path": "L4_032_cancel_confirm_tap.txt",
+      "bytes": 254,
+      "sha256": "2b32ee6e2b62944a152b77dcbcca8c0de9435cea2983f3b5dd5991775bda7b9c"
+    },
+    {
+      "path": "L4_032_cancel_confirm_ui.json",
+      "bytes": 619,
+      "sha256": "916f64b4e42001b4b2ca14dc91158a22cef234d330c7a669d2f7b7f65a7c00b5"
+    },
+    {
+      "path": "L4_032_cancel_dialog.ui.txt",
+      "bytes": 1792,
+      "sha256": "caff8994c0df14bad8fa19400316fdc59cc075c85269935e2b0f44a1283eed26"
+    },
+    {
+      "path": "L4_032_cancel_dialog_ui.json",
+      "bytes": 618,
+      "sha256": "084d29b37fa53d9a28c1806cf0c4160015942df70e16ac3d140c62651343eb5a"
+    },
+    {
+      "path": "L4_032_cancel_request.ui.txt",
+      "bytes": 2567,
+      "sha256": "c363b9138f057c0a7d9042a93b0063d2cd267fb3817f055a1bbcd026a15f9b15"
+    },
+    {
+      "path": "L4_032_cancel_request_tap.json",
+      "bytes": 586,
+      "sha256": "4cc2a12ad9ef35f8e2308c4a53c4d45c103852e506e03e138ce4d226018fcca7"
+    },
+    {
+      "path": "L4_032_cancel_request_tap.txt",
+      "bytes": 254,
+      "sha256": "a0c6fb9eb796bf5154c300d41f47598e5a8dd52b5b3a4482835fbb3c33b8c6e5"
+    },
+    {
+      "path": "L4_032_cancel_request_ui.json",
+      "bytes": 619,
+      "sha256": "d96f2672a20a6da2a3fa3180e7c892b5eafd1978abf76cd9d0ec8fff1d77afc6"
+    },
+    {
+      "path": "L4_032_child_after_cancel.ui.txt",
+      "bytes": 2851,
+      "sha256": "d1974ec7f8278ef8e4f097941c147c60a6860d7d3b62cb584948db9310ae7e60"
+    },
+    {
+      "path": "L4_032_child_after_cancel_ui.json",
+      "bytes": 629,
+      "sha256": "27cf66297c6e13b9df359938c6fb52983cef8a6bf42ee2e01a36f802211db5fd"
+    },
+    {
+      "path": "L4_032_child_cancel_refresh.ui.txt",
+      "bytes": 2851,
+      "sha256": "7a3b453e69ba6e03864f8697b27c498f68d308ca6dd1262e89fa610878b4acf2"
+    },
+    {
+      "path": "L4_032_child_cancel_refresh_tap.json",
+      "bytes": 598,
+      "sha256": "284a18dcb403d75d8bc4c5a8a7955ddc0430bde931c320725e2ac6bdd1c33bc9"
+    },
+    {
+      "path": "L4_032_child_cancel_refresh_tap.txt",
+      "bytes": 260,
+      "sha256": "ab9448517bbd42dcf8e5a159238d9e0431cbb40aa64af7ebd44cb6eeead3cc80"
+    },
+    {
+      "path": "L4_032_child_cancel_refresh_ui.json",
+      "bytes": 631,
+      "sha256": "84c64fb6166d09b157f3ce5fa353f9025b7ea64c0d43b620fd74b039d0c94824"
+    },
+    {
+      "path": "L4_032_child_pending.ui.txt",
+      "bytes": 2611,
+      "sha256": "b6ded006bf1eda925b4184409099f73bd078c649b9b3b8fc8dd7fabd03a89217"
+    },
+    {
+      "path": "L4_032_child_pending_refreshed.ui.txt",
+      "bytes": 2611,
+      "sha256": "94e933f0d5650a190ca0783a7f07ddd0763befbef1664a60a3baa2f470f4c2ba"
+    },
+    {
+      "path": "L4_032_child_pending_refreshed_ui.json",
+      "bytes": 634,
+      "sha256": "bd36b300ac4475fea79d8bdd9d884171d591c1e7a8def1490350308bf2599287"
+    },
+    {
+      "path": "L4_032_child_pending_ui.json",
+      "bytes": 624,
+      "sha256": "c8fc10bdec24e535139186120751bc27aa53f79ad1dfcbcb87675d1fac79121b"
+    },
+    {
+      "path": "L4_032_child_refresh.ui.txt",
+      "bytes": 2611,
+      "sha256": "867ed80d16b85e02b40622bddb591794fbe7198df7fdf2f5e0fca81e0c7ee11e"
+    },
+    {
+      "path": "L4_032_child_refresh_tap.json",
+      "bytes": 591,
+      "sha256": "e74aff045efb741e761d55735cad093c5b504bdc62c4f8f9df8f9f2bacc3f6bb"
+    },
+    {
+      "path": "L4_032_child_refresh_tap.txt",
+      "bytes": 260,
+      "sha256": "b1469f0f6d63debd4eab8721131388f922e5123cb66125c7f58e25cd6900b4d3"
+    },
+    {
+      "path": "L4_032_child_refresh_ui.json",
+      "bytes": 624,
+      "sha256": "cfe7067f43eef86ab857b579058caa97e17d2602218a60f74c05e222c49491cb"
+    },
+    {
+      "path": "L4_032_child_requests_tab.ui.txt",
+      "bytes": 3069,
+      "sha256": "38c9575efe124e0b42920cb3557e100cfb1419d5094ed8fba68f4e2cf3ae839f"
+    },
+    {
+      "path": "L4_032_child_requests_tab_tap.json",
+      "bytes": 595,
+      "sha256": "eed8f466b72aca260ae9e86e9af6c89b21762be43a57e046415a393e4e8b97b0"
+    },
+    {
+      "path": "L4_032_child_requests_tab_tap.txt",
+      "bytes": 260,
+      "sha256": "071ac770f7c049074d01c2b5c30cfc8b74f585d688ac2c8f157eac3cf600d0e7"
+    },
+    {
+      "path": "L4_032_child_requests_tab_ui.json",
+      "bytes": 629,
+      "sha256": "2e30787e434e8687cc62aaf3400201b59c18b7ae80427dd09040805621d3bd0a"
+    },
+    {
+      "path": "L4_032_child_terminal.ui.txt",
+      "bytes": 2612,
+      "sha256": "84c22763a41aa96da8401cf6603387920d41f8624758b63bdd1855766b54e410"
+    },
+    {
+      "path": "L4_032_child_terminal_ui.json",
+      "bytes": 625,
+      "sha256": "2557ebeaa5a2f5a9535923d6c3a1d4a0df91f9a7a798de7fbba0e380e9f2cab4"
+    },
+    {
+      "path": "L4_032_close_terminal.ui.txt",
+      "bytes": 2348,
+      "sha256": "789c025da8c0dad58843e15ab13430d34ffb23dd3e5ac3c20ba4c095bf75ff39"
+    },
+    {
+      "path": "L4_032_close_terminal_tap.json",
+      "bytes": 586,
+      "sha256": "9f906725e1544969aa0eee5b11b1cfeadbe9e8b0be27aff84b69fa70da671d88"
+    },
+    {
+      "path": "L4_032_close_terminal_tap.txt",
+      "bytes": 254,
+      "sha256": "f3a257a8dd9fff6a143c4d3377dae3356e909eb0c0f3be531ee020d23bd55ed0"
+    },
+    {
+      "path": "L4_032_close_terminal_ui.json",
+      "bytes": 619,
+      "sha256": "1f7da5f2a12e0db3e53f5dfdcfe36c4b4727ad5c0fe67139a425d6a721d7666f"
+    },
+    {
+      "path": "L4_032_cold_active_detail.ui.txt",
+      "bytes": 3121,
+      "sha256": "37e451afc37d0799dffbe1aa58e0e60355d5c077cac38a38c1dfd942bf08866f"
+    },
+    {
+      "path": "L4_032_cold_active_detail_ui.json",
+      "bytes": 623,
+      "sha256": "07afbc407bede835ff976bc5b892f67a8b4ca025d67d8d9764bc5c18668ff108"
+    },
+    {
+      "path": "L4_032_cold_active_open.ui.txt",
+      "bytes": 3189,
+      "sha256": "245a77bffeab015a2d110ba028055f4f2de2db1e4dfa7799aaca7b6867463b7c"
+    },
+    {
+      "path": "L4_032_cold_active_open_tap.json",
+      "bytes": 588,
+      "sha256": "a2210612c5ff57cb1facf5ade73a58a02decbb796f72cb5941b08401d70433da"
+    },
+    {
+      "path": "L4_032_cold_active_open_tap.txt",
+      "bytes": 254,
+      "sha256": "fe4ace4be6ea667d84d69e79526e721752bfd9e332265a2aeb2d91e323929e12"
+    },
+    {
+      "path": "L4_032_cold_active_open_ui.json",
+      "bytes": 621,
+      "sha256": "882f08c7f7eb0aa48eb29c8965fedceb2b7c87f144a8694b950822642197c3c1"
+    },
+    {
+      "path": "L4_032_cold_child_refresh.ui.txt",
+      "bytes": 2852,
+      "sha256": "44b18274f00c96d66590e87f0f49b3155e13cfb7ec2a64a2d6348b3f63f40419"
+    },
+    {
+      "path": "L4_032_cold_child_refresh_tap.json",
+      "bytes": 595,
+      "sha256": "d4d40176e38e3eb957a4574ac9887840fa0ead22bf834b48533ed9e41dfd04f6"
+    },
+    {
+      "path": "L4_032_cold_child_refresh_tap.txt",
+      "bytes": 260,
+      "sha256": "fe019f51df1315661080168dd26fcd3e7054b49db93e37292392bf045be55e0a"
+    },
+    {
+      "path": "L4_032_cold_child_refresh_ui.json",
+      "bytes": 629,
+      "sha256": "d289fd232ca8423a8d77abe5485532a55ec763c2786167dd5851ac2f00c51692"
+    },
+    {
+      "path": "L4_032_cold_child_result.ui.txt",
+      "bytes": 2852,
+      "sha256": "9827ab3d19e386d6b3c53f81e79ebc9e57d8c282636caf01f3f4572196ebce79"
+    },
+    {
+      "path": "L4_032_cold_child_result_ui.json",
+      "bytes": 628,
+      "sha256": "19e76057e6560e32aea77d6cbbc73d355427c2c45a077b9cdbc107d069b33c78"
+    },
+    {
+      "path": "L4_032_cold_devices.ui.txt",
+      "bytes": 935,
+      "sha256": "02116e04750a9b78b72f24e3ecd7eb08b14f55dabccc0e604bcaca943606102b"
+    },
+    {
+      "path": "L4_032_cold_devices_ready.ui.txt",
+      "bytes": 3189,
+      "sha256": "484fad9b2287574a747641e8ca5496e3af07eedd2938021fcd6adc6b072791ce"
+    },
+    {
+      "path": "L4_032_cold_devices_ready_tap.ui.txt",
+      "bytes": 2844,
+      "sha256": "3dee70d5eb370ecc70d47f9d3df1e1b5d63ce38d60f6e7c948c6d9599c9d59db"
+    },
+    {
+      "path": "L4_032_cold_devices_ready_tap_tap.json",
+      "bytes": 594,
+      "sha256": "836258076d34da6cb2161b94b8100cf7d87084549c13d9671925fef6338d16f7"
+    },
+    {
+      "path": "L4_032_cold_devices_ready_tap_tap.txt",
+      "bytes": 254,
+      "sha256": "de7d08bd2adc1fc3c8eaf72af1bc8d4f7520a22a03b8669208e35e481223a000"
+    },
+    {
+      "path": "L4_032_cold_devices_ready_tap_ui.json",
+      "bytes": 627,
+      "sha256": "cd21e915324ee8752fad4851206cc696e631b6a835fc9001c8601da0cec9a8a7"
+    },
+    {
+      "path": "L4_032_cold_devices_ready_ui.json",
+      "bytes": 623,
+      "sha256": "a00eb13cdd2147b20a3c8a9302da20147c3dbc9260c2c439c8a5820d84e37846"
+    },
+    {
+      "path": "L4_032_cold_devices_scroll.json",
+      "bytes": 596,
+      "sha256": "a2c3f4cad6f40e01ddd735a6c5c37b8a559b4d8a8e286187e3076dfbbf358e5a"
+    },
+    {
+      "path": "L4_032_cold_devices_scroll.txt",
+      "bytes": 264,
+      "sha256": "a15f92ef7ae7b249db6ad976913c0ca418e814d6d5186ff9d1e8c5ad1dce0a42"
+    },
+    {
+      "path": "L4_032_cold_devices_ui.json",
+      "bytes": 616,
+      "sha256": "6ced3b6e0483b933473514790e447c77cf94c1d20f48940ce44df877f4724a62"
+    },
+    {
+      "path": "L4_032_cold_launch.json",
+      "bytes": 645,
+      "sha256": "9813bcfc4544732cdb4d9aee83254ae86aad975c864c47c8a35e6b6aa65df20b"
+    },
+    {
+      "path": "L4_032_cold_launch.txt",
+      "bytes": 841,
+      "sha256": "cce7500e0dcf28121b4e04d2b5c638268b7309d40a679cd99e6b32ae8f17fece"
+    },
+    {
+      "path": "L4_032_cold_manage.ui.txt",
+      "bytes": 3771,
+      "sha256": "7d1c6ae0683c753c336f23613536603898b3f9ae27b07925e17f96955324d0fb"
+    },
+    {
+      "path": "L4_032_cold_manage_ui.json",
+      "bytes": 616,
+      "sha256": "3174654eac62f869d5b04ddcb0012dbd82f70fb588b9060d58fb0b0a0e071b19"
+    },
+    {
+      "path": "L4_032_cold_parent_result.ui.txt",
+      "bytes": 3347,
+      "sha256": "1fca6fc2320912091a77596a5e9cd424bdef616b6baedc5d3ec6d8863bbdbf83"
+    },
+    {
+      "path": "L4_032_cold_parent_result_ui.json",
+      "bytes": 623,
+      "sha256": "bd84e0ad241f005c8e87d521aa95ab9061e51d0ecf7c3459ddef8e625cab8430"
+    },
+    {
+      "path": "L4_032_cold_parent_waiting.ui.txt",
+      "bytes": 2567,
+      "sha256": "bcebac72a4ca72ad3df9d024214185b59ace78fc635c36b1ad184b65996f6576"
+    },
+    {
+      "path": "L4_032_cold_parent_waiting_ui.json",
+      "bytes": 624,
+      "sha256": "cb7304b5aea7b7ed60a308199b37857936d44f3dd7cb7692af32a6b5fe9b7dda"
+    },
+    {
+      "path": "L4_032_cold_remote.ui.txt",
+      "bytes": 3771,
+      "sha256": "c75ef61a874dc966e1c05c6d6053ad2d2cf2469216060b01b72b23b26e7cb2f8"
+    },
+    {
+      "path": "L4_032_cold_remote_loaded.ui.txt",
+      "bytes": 3358,
+      "sha256": "57f7aba76db1468b6835916073bf732fdf43f5055c7784265f0159ae5b3ba152"
+    },
+    {
+      "path": "L4_032_cold_remote_loaded_ui.json",
+      "bytes": 623,
+      "sha256": "301823bc7ea1bffe2150cd53eea34c4ff8d6ed57ea335c5fb11dd1195138809d"
+    },
+    {
+      "path": "L4_032_cold_remote_tap.json",
+      "bytes": 583,
+      "sha256": "59120d53d722a7c35e0866272675606d4cf0beb368a287b4294837c1ae098390"
+    },
+    {
+      "path": "L4_032_cold_remote_tap.txt",
+      "bytes": 254,
+      "sha256": "55a48ca83c01950a01989b190e1017267c700779c98ab4abbd20e3774d319ab4"
+    },
+    {
+      "path": "L4_032_cold_remote_ui.json",
+      "bytes": 616,
+      "sha256": "0916152630410e6a752d9dfa4aa38babd17835606f061aab81c3cd61f0cf0525"
+    },
+    {
+      "path": "L4_032_cold_request_video.ui.txt",
+      "bytes": 3358,
+      "sha256": "f76438f398e33da92c99509121a42057996e8102ce373527f1ca8bc7791921b5"
+    },
+    {
+      "path": "L4_032_cold_request_video_tap.json",
+      "bytes": 590,
+      "sha256": "500fb92d5e9abca8cb7f7bed7d0bae3948fd343d52f67875f353bfd0a1324ae3"
+    },
+    {
+      "path": "L4_032_cold_request_video_tap.txt",
+      "bytes": 254,
+      "sha256": "e492c3a2fd4ff2f17116586ebd3829813262d51f8debd5b404c1472145babd64"
+    },
+    {
+      "path": "L4_032_cold_request_video_ui.json",
+      "bytes": 623,
+      "sha256": "0dd72b7f18a870fca4786e378e61b38cfb06b45e6e0b60fe1b3fc8946d8ce6c9"
+    },
+    {
+      "path": "L4_032_cold_restart.json",
+      "bytes": 608,
+      "sha256": "cc7666d882046ce24fd740069463d6ef42ab9432a683a59fc743f8098374f294"
+    },
+    {
+      "path": "L4_032_cold_restart.txt",
+      "bytes": 282,
+      "sha256": "4bb94a54c6d34b99af19f75cfa7a9ba74975c14b8faffe9a07ab8918a43956ab"
+    },
+    {
+      "path": "L4_032_cold_scroll_one.json",
+      "bytes": 593,
+      "sha256": "65c087dfc4a5307e11dc798f0e7bd10e01b18f36ddbba425cbd0004cfe042e1d"
+    },
+    {
+      "path": "L4_032_cold_scroll_one.txt",
+      "bytes": 264,
+      "sha256": "93f01958316dd767336806c5e14f6411baa1aa8a01f2a49c11f228584868a2be"
+    },
+    {
+      "path": "L4_032_cold_scroll_two.json",
+      "bytes": 593,
+      "sha256": "cfa3d79572e1cbe93d34113acf293cf280a8e78c166d38ca96ed5b6d6e166527"
+    },
+    {
+      "path": "L4_032_cold_scroll_two.txt",
+      "bytes": 264,
+      "sha256": "d17dc600ec7cd87cdb5dc736b9b5d2ae8e38860ba8b20991976b523f09e1189d"
+    },
+    {
+      "path": "L4_032_cold_send.ui.txt",
+      "bytes": 1789,
+      "sha256": "d2c170d8c54a2fecdc0951ddc2dd4fcf7c8f478b0e95026e136e9eebbff911a4"
+    },
+    {
+      "path": "L4_032_cold_send_tap.json",
+      "bytes": 581,
+      "sha256": "aed5d73944f41f399e9437d89e5234ae79cf0e5acbafe1b7be7eb4e03ef92938"
+    },
+    {
+      "path": "L4_032_cold_send_tap.txt",
+      "bytes": 254,
+      "sha256": "31397590801474a7bf7c8f7be0cc1196b6833a95f73ba8d6ce6db43c34ebb195"
+    },
+    {
+      "path": "L4_032_cold_send_ui.json",
+      "bytes": 614,
+      "sha256": "4f803774e28fc8b3d9c0e695239e9cda55e352be0c9825ac445cf5b58d8cf4cc"
+    },
+    {
+      "path": "L4_032_cold_settled.ui.txt",
+      "bytes": 2844,
+      "sha256": "0821ea412f206588b542a43785b1e29f2e12d5802bdcc99bec15c5ed0c4dc7a6"
+    },
+    {
+      "path": "L4_032_cold_settled_ui.json",
+      "bytes": 617,
+      "sha256": "5e8c9db0a21532909429eeab416a9d6a093c2c572798a7ef3bc95d8b13676dce"
+    },
+    {
+      "path": "L4_032_cold_wait_child_audio.json",
+      "bytes": 648,
+      "sha256": "10b0088bf7fbbbbb682b29f06f08abe6c20dec8bf1db726123287002c30b35f9"
+    },
+    {
+      "path": "L4_032_cold_wait_child_audio.txt",
+      "bytes": 364,
+      "sha256": "5d545cb142347b1056bfa98e95337d21607562dfb5b2864a9389a92cf52a0794"
+    },
+    {
+      "path": "L4_032_cold_wait_child_camera.json",
+      "bytes": 683,
+      "sha256": "b230db87b20ed2a2b3c6f4fdf19158ceab72b24318622cacc23fe37186981912"
+    },
+    {
+      "path": "L4_032_cold_wait_child_camera.txt",
+      "bytes": 1260,
+      "sha256": "a1629d251fdc0c5b81f4e1570411ec89fa1a1e5adaaac95e82181df85855b56c"
+    },
+    {
+      "path": "L4_032_cold_wait_parent_audio.json",
+      "bytes": 643,
+      "sha256": "e1a5d2a3e0999a55243f5208ac1ca7ea894df4f6bce01587669b274ac8baecd2"
+    },
+    {
+      "path": "L4_032_cold_wait_parent_audio.txt",
+      "bytes": 709,
+      "sha256": "0c3c864f6ab165145f3069686ba2956f5be24a6003c455041e06d71a0502c8ba"
+    },
+    {
+      "path": "L4_032_cold_wait_parent_camera.json",
+      "bytes": 677,
+      "sha256": "d5cb3fb544914f6ec9651066a424dc277c6a1fdad98e1ed5f6de167c2d7b7fe7"
+    },
+    {
+      "path": "L4_032_cold_wait_parent_camera.txt",
+      "bytes": 1720,
+      "sha256": "ba37fe777f23f8fce840031f8d5de8254a16fda0196d2b33926966140da13b91"
+    },
+    {
+      "path": "L4_032_correct_active_detail.ui.txt",
+      "bytes": 3121,
+      "sha256": "31f13a5d2578999ecbc716065b830c9b4981d322c64c1f0496a2d75648f8e8bd"
+    },
+    {
+      "path": "L4_032_correct_active_detail_ui.json",
+      "bytes": 626,
+      "sha256": "9dda563ae46b83b9bc857c449c35601ba93617a468574a4386de040f3c0f8939"
+    },
+    {
+      "path": "L4_032_correct_active_open.ui.txt",
+      "bytes": 3188,
+      "sha256": "9a5926f4a6ee18d313e98f8095aeae12e3c33e60b3f03c190925d0638f74bc43"
+    },
+    {
+      "path": "L4_032_correct_active_open_tap.json",
+      "bytes": 591,
+      "sha256": "a8b8714ac4f6444d58f4f5d6714de2e5ba40e19cfa30aa47db338bec47c371ae"
+    },
+    {
+      "path": "L4_032_correct_active_open_tap.txt",
+      "bytes": 254,
+      "sha256": "241c7d81aa940e00a0039b318ecca79df257232604e5da90dc1835ea2cb967a6"
+    },
+    {
+      "path": "L4_032_correct_active_open_ui.json",
+      "bytes": 624,
+      "sha256": "76f0f98226f53ffcd76eabcc593e69860ee694321242b1dcc05e445c297a800d"
+    },
+    {
+      "path": "L4_032_correct_child_refresh.ui.txt",
+      "bytes": 2612,
+      "sha256": "d9620c9aa41c86054881a6335b35d044c3ff2a69fa8f72c50146f93675e383b7"
+    },
+    {
+      "path": "L4_032_correct_child_refresh_tap.json",
+      "bytes": 599,
+      "sha256": "80bab8efa4dab5bf10edfef4d8a91fe6f2bb32fe2bb7c9d6d3b77f36f065fbb1"
+    },
+    {
+      "path": "L4_032_correct_child_refresh_tap.txt",
+      "bytes": 260,
+      "sha256": "ba3475db5b836ff463b9179a393574cbeed06942fcc1ec17b7822ca08108c0b4"
+    },
+    {
+      "path": "L4_032_correct_child_refresh_ui.json",
+      "bytes": 632,
+      "sha256": "bbb281e5d267d5ec1dbc19c88373a32101edcba805db6c4668c6041a6f93a018"
+    },
+    {
+      "path": "L4_032_correct_child_result.ui.txt",
+      "bytes": 2612,
+      "sha256": "a0167e056e03be0c0e01c4b6e68b60b2cf5ab8ca946957811f646ffb8af3b27f"
+    },
+    {
+      "path": "L4_032_correct_child_result_ui.json",
+      "bytes": 631,
+      "sha256": "8a13d9b5282cd865f3898877e63642b70f10e3eddc45457ec8293977becc823c"
+    },
+    {
+      "path": "L4_032_correct_devices.ui.txt",
+      "bytes": 3188,
+      "sha256": "a4ce27ff7c918cfe874eb4476e9da77dbc0409e1b895deb01b7494e856657a13"
+    },
+    {
+      "path": "L4_032_correct_devices_ui.json",
+      "bytes": 620,
+      "sha256": "e5f5015a0968541bccfe96ceab1396ace6dee73898b026f5324eacee5cc354f8"
+    },
+    {
+      "path": "L4_032_correct_manage.ui.txt",
+      "bytes": 3780,
+      "sha256": "1426620d41c19d190def895fa0bd3ede483b03b8ca0761565114f128dd6dc571"
+    },
+    {
+      "path": "L4_032_correct_manage_ui.json",
+      "bytes": 619,
+      "sha256": "f81e7a59b1912df48a2aa2ed4f33231efaad288b4e93562b9863fff2e3dfe390"
+    },
+    {
+      "path": "L4_032_correct_parent_result.ui.txt",
+      "bytes": 3228,
+      "sha256": "a92dbce6216ea398f10f9cf4367daae1d0c169ad8f53a5cd3f236b29a6abb90f"
+    },
+    {
+      "path": "L4_032_correct_parent_result_ui.json",
+      "bytes": 626,
+      "sha256": "3a8d01cd4117320ec6faed819a7fdc3127469808c60f60b4d941f64c19d24da3"
+    },
+    {
+      "path": "L4_032_correct_remote.ui.txt",
+      "bytes": 3780,
+      "sha256": "ff82995930917d985700777d40de52ce86e82d4546c659c220517d29045d45b1"
+    },
+    {
+      "path": "L4_032_correct_remote_back.ui.txt",
+      "bytes": 3228,
+      "sha256": "15564e753edfa9f0bf952c35d4dc9047250dfda536ea69c40366b471f841d3bf"
+    },
+    {
+      "path": "L4_032_correct_remote_back_tap.json",
+      "bytes": 589,
+      "sha256": "7f9944e597ac9317c38cefcec20482aef6b13bdb4e453b0187659c8a9598bc4a"
+    },
+    {
+      "path": "L4_032_correct_remote_back_tap.txt",
+      "bytes": 252,
+      "sha256": "e11711a373dde850dca8321c18cbe3a2849f256a1b7f0f73f6fa262668093b31"
+    },
+    {
+      "path": "L4_032_correct_remote_back_ui.json",
+      "bytes": 624,
+      "sha256": "2cc25399589cb7f3c11d84fe40e305a03399eaa270422f753af6e6c97af169e6"
+    },
+    {
+      "path": "L4_032_correct_remote_loaded.ui.txt",
+      "bytes": 3358,
+      "sha256": "91b94287aa101c24618b44a800bb0ca3a05eb76adf675102deeb3322f2ee89c5"
+    },
+    {
+      "path": "L4_032_correct_remote_loaded_ui.json",
+      "bytes": 626,
+      "sha256": "78af7836f0a2e47d5a57c0b8f427c96c3cee076e900397fa007cd1cd20d85a9f"
+    },
+    {
+      "path": "L4_032_correct_remote_tap.json",
+      "bytes": 586,
+      "sha256": "7e2607e606bd4ae141f15e0255c2881ac75fc71d453e674f61a09a855bd0437c"
+    },
+    {
+      "path": "L4_032_correct_remote_tap.txt",
+      "bytes": 254,
+      "sha256": "79f02ba7b0bcfe835f63bdf627049026d91160cffda074982d0c162b18d9b997"
+    },
+    {
+      "path": "L4_032_correct_remote_ui.json",
+      "bytes": 619,
+      "sha256": "20a97694ff106e4f518222b0ba3d7225ef09f7c156f26b5c4f2b791e2e1f9a5d"
+    },
+    {
+      "path": "L4_032_correct_request_video.ui.txt",
+      "bytes": 3358,
+      "sha256": "22760e289b7940d0d3e8fe7ceda387db1366e58a57342694cb184a0c939e04a7"
+    },
+    {
+      "path": "L4_032_correct_request_video_tap.json",
+      "bytes": 593,
+      "sha256": "8426e2f9081ad04dc6254f179dc612e52bb53b9242bb77b01a21c1524248ba0b"
+    },
+    {
+      "path": "L4_032_correct_request_video_tap.txt",
+      "bytes": 254,
+      "sha256": "19773029221bf6349a44c9d18b8d8f5388720bc00c163db8cb4a43539d678ed8"
+    },
+    {
+      "path": "L4_032_correct_request_video_ui.json",
+      "bytes": 626,
+      "sha256": "4a2f0dc4a4d4d253ead3490fd17898d775dcd4d3e0163ae55439db4372f75952"
+    },
+    {
+      "path": "L4_032_correct_revoked_back.ui.txt",
+      "bytes": 3636,
+      "sha256": "8e25181a98c387a51a4b87bf254f65d97fe1ae496913b5a999fa803d44ab5aab"
+    },
+    {
+      "path": "L4_032_correct_revoked_back_tap.json",
+      "bytes": 590,
+      "sha256": "9189ce14b46af1c1c5f96cb27dbcad45911eb48d15ad2461d9688edb97edf355"
+    },
+    {
+      "path": "L4_032_correct_revoked_back_tap.txt",
+      "bytes": 252,
+      "sha256": "3c804df87eb1475172537cda3220ba36da036adc4661ec79a5fae545ed5d1939"
+    },
+    {
+      "path": "L4_032_correct_revoked_back_ui.json",
+      "bytes": 625,
+      "sha256": "a430f5812a7ec77b4eb0e965b32d6ce02dc2b8925cb04de14c1d644006db6232"
+    },
+    {
+      "path": "L4_032_correct_scroll_one.json",
+      "bytes": 596,
+      "sha256": "0d63517f44bf90b85551165fe2f20cb6cc338d7291f72bde9b62f2bccb3cedf6"
+    },
+    {
+      "path": "L4_032_correct_scroll_one.txt",
+      "bytes": 264,
+      "sha256": "d927059aaa558eae71975c112cdd2e1d44dcfce6e06bf81eeb1a44d0c12e9788"
+    },
+    {
+      "path": "L4_032_correct_scroll_two.json",
+      "bytes": 596,
+      "sha256": "e2c372b8ea6f5c41ad1c18dc65f834ae1ccf1944ac069e03fbad47bac0107cea"
+    },
+    {
+      "path": "L4_032_correct_scroll_two.txt",
+      "bytes": 264,
+      "sha256": "867aa4704e4b8502147f13496a65ba0fa7386ad00e95bf9d2fd9fc7560c2d1c6"
+    },
+    {
+      "path": "L4_032_correct_send.ui.txt",
+      "bytes": 1789,
+      "sha256": "f645c27724bd0a7b23eaca582b02a2823b2de453503c637f54151e76092f92f1"
+    },
+    {
+      "path": "L4_032_correct_send_tap.json",
+      "bytes": 584,
+      "sha256": "f557fc26105272afe0ed2be33b4a5fb896511bf3c0138a640c25778838304649"
+    },
+    {
+      "path": "L4_032_correct_send_tap.txt",
+      "bytes": 254,
+      "sha256": "2143635c2ade61acb7aa537ca8ebca57b161524682a581e51acb16210be01495"
+    },
+    {
+      "path": "L4_032_correct_send_ui.json",
+      "bytes": 617,
+      "sha256": "f9949d3917a92154522f0ec993baa90e6c987f908de0ac9002df7f84206e7a62"
+    },
+    {
+      "path": "L4_032_detail_back.ui.txt",
+      "bytes": 3495,
+      "sha256": "c9c377c0d8808032b69e47334cf4b991674e84d5387b3aa112b5db1f9a885460"
+    },
+    {
+      "path": "L4_032_detail_back_tap.json",
+      "bytes": 581,
+      "sha256": "6c655888f4ea0209c2428029baf92ec3a5a2e8897cdc4fe2e226572bdfffbf62"
+    },
+    {
+      "path": "L4_032_detail_back_tap.txt",
+      "bytes": 252,
+      "sha256": "1903d405943f0913e93ec581a1754637689fb9bd78e8b87a50c5e47d540cbc00"
+    },
+    {
+      "path": "L4_032_detail_back_ui.json",
+      "bytes": 616,
+      "sha256": "e6b124c6f9467da4f274cd694c0d41dc5b8054688d018180c275478ea2955e50"
+    },
+    {
+      "path": "L4_032_detail_manage.ui.txt",
+      "bytes": 3210,
+      "sha256": "aad2012db3ef4ff1534e09c344876ee8b2c6ee269440e236fd35e14a1436fc3f"
+    },
+    {
+      "path": "L4_032_detail_manage_ui.json",
+      "bytes": 618,
+      "sha256": "0af9e8721b4778b58f2415aaa802a21f062b7ecef7c3485a36be2153ddeef1f5"
+    },
+    {
+      "path": "L4_032_detail_remote.ui.txt",
+      "bytes": 3495,
+      "sha256": "3478aa6d9e30c7ae49373470101557b61b319b349028021ee786cc83964237f6"
+    },
+    {
+      "path": "L4_032_detail_remote_ui.json",
+      "bytes": 618,
+      "sha256": "c6f648a82bf47b6e1c7cb7a7594e03a4490a5780e1ad126dedb2e2b056cefed4"
+    },
+    {
+      "path": "L4_032_detail_scroll_manage.json",
+      "bytes": 598,
+      "sha256": "e570953577245065c44bccded58b7128f51b0ba6d1547cc6caccbb3eff3083b5"
+    },
+    {
+      "path": "L4_032_detail_scroll_manage.txt",
+      "bytes": 264,
+      "sha256": "2886f80ace1abb7de47fc4760cd5b3c372cdb44c7e07fa19eb3adbc4253aee4b"
+    },
+    {
+      "path": "L4_032_detail_scroll_remote.json",
+      "bytes": 599,
+      "sha256": "05cd7d9a6781164b47a6ca7e006a06d98503fe834bc1fa446121a775eeaae04d"
+    },
+    {
+      "path": "L4_032_detail_scroll_remote.txt",
+      "bytes": 265,
+      "sha256": "547af458874686a535b6f109f9d0a53dc6a8777198c45a26701f2095083294c3"
+    },
+    {
+      "path": "L4_032_devices_open.ui.txt",
+      "bytes": 4099,
+      "sha256": "34c5d69d71f5dd64661842e9b07d92cfb04b5bab1515e3c208287f5a7bdc955c"
+    },
+    {
+      "path": "L4_032_devices_open_tap.json",
+      "bytes": 583,
+      "sha256": "ec911dbdfc176cc2c7578a7713e781a6cd6cb7223cae459afb8a98a27a803679"
+    },
+    {
+      "path": "L4_032_devices_open_tap.txt",
+      "bytes": 254,
+      "sha256": "ef87d7809396bed9c3616e19535f7432e9df5981a94406409b4a95ae8576773b"
+    },
+    {
+      "path": "L4_032_devices_open_ui.json",
+      "bytes": 617,
+      "sha256": "f655c7b27f3d4ec21a3f002b864afb20486201a9f68ea8ac4efff0d5ab62f920"
+    },
+    {
+      "path": "L4_032_family_back.ui.txt",
+      "bytes": 3031,
+      "sha256": "984498e36c97049377e21bf1b2c123130e66e2867bb8e4a5f94674ed8924e878"
+    },
+    {
+      "path": "L4_032_family_back_tap.json",
+      "bytes": 581,
+      "sha256": "fed3f49961518533e4da36c9c4c3f70fef075e4d72e4903d75fa157f0c1773ce"
+    },
+    {
+      "path": "L4_032_family_back_tap.txt",
+      "bytes": 252,
+      "sha256": "25dcc927829719b834ab03c5671012619a708db41a617e9fcf7ff0bbe097a0a1"
+    },
+    {
+      "path": "L4_032_family_back_ui.json",
+      "bytes": 616,
+      "sha256": "308ba8c45a25a2c71e1e7cf4f6997568e7b311a2372b8ec261defa3c8c1531b7"
+    },
+    {
+      "path": "L4_032_pairing_back.ui.txt",
+      "bytes": 2510,
+      "sha256": "e4ff914e62b2d62ddadc4f98e7ade3632fc97da64ac1f97b8b137f16382fc809"
+    },
+    {
+      "path": "L4_032_pairing_back_tap.json",
+      "bytes": 582,
+      "sha256": "c6c51e21871d5ddccfb1e6e93d86b0c7c75a56dc24b377aa78b99fd7d31d7061"
+    },
+    {
+      "path": "L4_032_pairing_back_tap.txt",
+      "bytes": 252,
+      "sha256": "43e580ec07ad164adde631143b102ca1310e5d586701d3b51b12e6fb9dd0646c"
+    },
+    {
+      "path": "L4_032_pairing_back_ui.json",
+      "bytes": 617,
+      "sha256": "4ac5a2af961c1e02da42ed9a7767d0bacb61ff3a8bd9ac4f903d79b08b04b689"
+    },
+    {
+      "path": "L4_032_parent_after_refresh.ui.txt",
+      "bytes": 3228,
+      "sha256": "10ddbe80b243ca721a5fed84b0412906f31a232c9fbee1ec9a27de5dd4734660"
+    },
+    {
+      "path": "L4_032_parent_after_refresh_ui.json",
+      "bytes": 625,
+      "sha256": "122b7dad9fdfecbc31b4bcbb0407854f182dcd8f712a6e7f468e61375df8d57f"
+    },
+    {
+      "path": "L4_032_parent_cancelled.ui.txt",
+      "bytes": 2904,
+      "sha256": "cbc7d700c5e75772ed41c846f6b8d2e770b3ba160af56215dd00d8b7dc90fe08"
+    },
+    {
+      "path": "L4_032_parent_cancelled_ui.json",
+      "bytes": 621,
+      "sha256": "f502c87c43d48de6903314d11e0d9b9831931e2fcc710c4a6815a58cfa8011a1"
+    },
+    {
+      "path": "L4_032_parent_refresh.ui.txt",
+      "bytes": 3228,
+      "sha256": "1db8b4a8a3d497ad6eb2078faa67eb2203aa2d3db7bdfba0f806887f80bed4ab"
+    },
+    {
+      "path": "L4_032_parent_refresh_tap.json",
+      "bytes": 586,
+      "sha256": "219f79fc53469ed156138a9714b4374967addb7d21d8dfcfc058a8e845ed333d"
+    },
+    {
+      "path": "L4_032_parent_refresh_tap.txt",
+      "bytes": 254,
+      "sha256": "f28412f75607477a18e94ef84d4e577f8bc2235d63e0e78db261dd54de778f55"
+    },
+    {
+      "path": "L4_032_parent_refresh_ui.json",
+      "bytes": 619,
+      "sha256": "c57c31189a7a88c7ab14e0f0f7ee971cfcdf90c2bce0fb2187b2e75a2b56a4ea"
+    },
+    {
+      "path": "L4_032_parent_relaunch.json",
+      "bytes": 649,
+      "sha256": "5abdc4a3c2f6237397bcae9757f3e95817706b01e1f3bdfaaf157e686c312a07"
+    },
+    {
+      "path": "L4_032_parent_relaunch.txt",
+      "bytes": 841,
+      "sha256": "0c7da78ddfeb8bd3c3ef0ae5dad9a8ee615eff0b1ba582938853c37ed0ab593a"
+    },
+    {
+      "path": "L4_032_parent_relaunched.ui.txt",
+      "bytes": 1447,
+      "sha256": "59f5e6941c230a3e7a18ad00d4723e70481f79a92b3d8e7a348400b8db46cd52"
+    },
+    {
+      "path": "L4_032_parent_relaunched_ui.json",
+      "bytes": 622,
+      "sha256": "9f85354ad0ed446c2b68395a11224a4290a24a1d7fdbe4df579dc99b5c2d18a9"
+    },
+    {
+      "path": "L4_032_parent_restart.json",
+      "bytes": 610,
+      "sha256": "a9119c5f57462a6b267e82c9adb22c46d5c768c1b52610b2c1da4b75a3cb3da5"
+    },
+    {
+      "path": "L4_032_parent_restart.txt",
+      "bytes": 282,
+      "sha256": "c2a93ecb7111a563ed80d3f638f61e676550fdc77e4c3c6db195aef8c91134ac"
+    },
+    {
+      "path": "L4_032_parent_terminal.ui.txt",
+      "bytes": 2348,
+      "sha256": "da8a6294fd78e3a5a5392915b5f626bec887d167fa9b87c03ea1a9a5d81e913f"
+    },
+    {
+      "path": "L4_032_parent_terminal_ui.json",
+      "bytes": 620,
+      "sha256": "a0431421e1c73293a650101b75abc2ab185799a5805a0bfa6f00275bfd3fdd13"
+    },
+    {
+      "path": "L4_032_parent_waiting.ui.txt",
+      "bytes": 3347,
+      "sha256": "692a66b1ff6fb6ac4630efedd1e1e2fd3eed362b7d465d472b4cf9b0e850b67f"
+    },
+    {
+      "path": "L4_032_parent_waiting_ui.json",
+      "bytes": 619,
+      "sha256": "bb1a7e13c978a1ecc826cba61a2917ff4c109d0c0a7e75d67f4edd32765c5a68"
+    },
+    {
+      "path": "L4_032_remote_back.ui.txt",
+      "bytes": 3228,
+      "sha256": "5f01300270e737bc70ed0d8c492309868f1e938b02d920505a3b8c912f85e277"
+    },
+    {
+      "path": "L4_032_remote_back_tap.json",
+      "bytes": 581,
+      "sha256": "2b927e2942df8d2196e10c77d67c03b3b969c3aaea7fce5079a80e264785872c"
+    },
+    {
+      "path": "L4_032_remote_back_tap.txt",
+      "bytes": 252,
+      "sha256": "da881621d51902291c0bd09ae1ff70eb36c60ad9b4892f78db2acb1f7e857a88"
+    },
+    {
+      "path": "L4_032_remote_back_ui.json",
+      "bytes": 616,
+      "sha256": "35b2a18dbb4d25ee4669e7b60303be6ae42cc86b5be7296125bbec5d872a2e41"
+    },
+    {
+      "path": "L4_032_remote_list_after_cancel.ui.txt",
+      "bytes": 3358,
+      "sha256": "2e21003664681363379dfcade6bf0e092728b58a452150e2bc2a818768a049d4"
+    },
+    {
+      "path": "L4_032_remote_list_after_cancel_ui.json",
+      "bytes": 629,
+      "sha256": "acd141501ceb17b2a24bbd0c963cdcbe5f9254699a783c49e623620f70efbd07"
+    },
+    {
+      "path": "L4_032_remote_loaded.ui.txt",
+      "bytes": 3334,
+      "sha256": "f3021f3111b5597be3703fc1f2a8d060aec094d35bca21c718bb40987a8e5871"
+    },
+    {
+      "path": "L4_032_remote_loaded_ui.json",
+      "bytes": 618,
+      "sha256": "341a8e3ab93f7faa2a6a1c00de82a212e3c73297d423f225fd0ba89bc7962538"
+    },
+    {
+      "path": "L4_032_remote_open.ui.txt",
+      "bytes": 3495,
+      "sha256": "98e8a01d9273fb29c8a83b8d4fe4fa6405bcee543f4bac4d69f11b27cb768dfd"
+    },
+    {
+      "path": "L4_032_remote_open_tap.json",
+      "bytes": 583,
+      "sha256": "3d120eb1839684df65fc6218739d645d83de7f68503eabfab3b5fbec9fb7a8c0"
+    },
+    {
+      "path": "L4_032_remote_open_tap.txt",
+      "bytes": 254,
+      "sha256": "1525dd5d77b2dad6201465c92c349835f73d7ba30eff0aa6db71c1f847b2c7ac"
+    },
+    {
+      "path": "L4_032_remote_open_ui.json",
+      "bytes": 616,
+      "sha256": "0edad2b77fc11b3296e018f27f11543ed15670516ab8831b2dd91b45ffabcba6"
+    },
+    {
+      "path": "L4_032_reopen_detail_remote.ui.txt",
+      "bytes": 3054,
+      "sha256": "de3bb73d5b6e30fbe15d2f81a64dc449ee4cecf5c954bf0cf37908afecd30981"
+    },
+    {
+      "path": "L4_032_reopen_detail_remote_ui.json",
+      "bytes": 625,
+      "sha256": "ebd9373c53ca7d11e7ea9a4b588df8a7d626098b28cea8c0f02b66d860446cef"
+    },
+    {
+      "path": "L4_032_reopen_manage_ready.ui.txt",
+      "bytes": 3121,
+      "sha256": "849cc3d851716f7aa3a7bc7620aa8ad269329314126d619f804e9ad97d45874d"
+    },
+    {
+      "path": "L4_032_reopen_manage_ready_ui.json",
+      "bytes": 624,
+      "sha256": "e2ef5d6f6c2083ce00ff3fbd632e0ae5076a236437f5f6d17a4495dd538ee8bc"
+    },
+    {
+      "path": "L4_032_reopen_remote.ui.txt",
+      "bytes": 3054,
+      "sha256": "27683cd49038029b2c4842fcafe43385ee982c58f5d73ade5b8ab16130c29088"
+    },
+    {
+      "path": "L4_032_reopen_remote_ready.ui.txt",
+      "bytes": 3121,
+      "sha256": "ce1e6e0e79b8efcd732b98a4b2f8320ace039e23e0017b01ed3ae40e9b1e569f"
+    },
+    {
+      "path": "L4_032_reopen_remote_ready_ui.json",
+      "bytes": 624,
+      "sha256": "df46b1935578b90179837b3e8acf9776581d70fc611305395d1a08e2b839d22c"
+    },
+    {
+      "path": "L4_032_reopen_remote_ui.json",
+      "bytes": 618,
+      "sha256": "5511c7cdf10346d6ce7769b4618066cf938d3b723e31ed567fe665217be58638"
+    },
+    {
+      "path": "L4_032_reopen_scroll_manage.json",
+      "bytes": 598,
+      "sha256": "371d3009fb18382d98d7a895ae0c5536eeb1064d6e761ed7ab9ded7c92f47b07"
+    },
+    {
+      "path": "L4_032_reopen_scroll_manage.txt",
+      "bytes": 264,
+      "sha256": "2aeee12093ff434d4f0f86e3cf676d6293b5fb89f2a9206851c9c99a95f436bd"
+    },
+    {
+      "path": "L4_032_reopen_scroll_remote.json",
+      "bytes": 599,
+      "sha256": "f9e1f89e77179424401174f7fa0afc522a36af1402eaaa0268c8be435ecf4fc2"
+    },
+    {
+      "path": "L4_032_reopen_scroll_remote.txt",
+      "bytes": 265,
+      "sha256": "90c7f31f15e132670918ee11ec982ef309c20028253349bc099723cc17a631b7"
+    },
+    {
+      "path": "L4_032_reopen_scroll_up.json",
+      "bytes": 594,
+      "sha256": "2c3c466b742495a659dac77719e46f655e44c9b56f39364ea3a9a2cc49b226bf"
+    },
+    {
+      "path": "L4_032_reopen_scroll_up.txt",
+      "bytes": 264,
+      "sha256": "f69fc58ca84aad0f874335e64eb594488359ccedbc5a7bd9e7064237b1bba6aa"
+    },
+    {
+      "path": "L4_032_request_consent_dialog.ui.txt",
+      "bytes": 1789,
+      "sha256": "e78a9ff78375d2247e2477f10b165f59fbd81b806e3e067d88cbf60d94a9a687"
+    },
+    {
+      "path": "L4_032_request_consent_dialog_ui.json",
+      "bytes": 627,
+      "sha256": "32b2a43aa5962372da7053be351c20f0051f95d3a31a9d937167f745ad4dc425"
+    },
+    {
+      "path": "L4_032_request_video_tap.ui.txt",
+      "bytes": 3358,
+      "sha256": "d331c3c63d34728bbc8f39e261a528cc83870ef0c6910c6da665ad9d84dd0696"
+    },
+    {
+      "path": "L4_032_request_video_tap_tap.json",
+      "bytes": 589,
+      "sha256": "5e21ccc72662f58f32c7db35dac41b475f489744bb5c3e33d984e28fad9f06f1"
+    },
+    {
+      "path": "L4_032_request_video_tap_tap.txt",
+      "bytes": 254,
+      "sha256": "144712de799a6d41c129d994988ef70319c089d0925332a086b8cebba93ebba0"
+    },
+    {
+      "path": "L4_032_request_video_tap_ui.json",
+      "bytes": 622,
+      "sha256": "cff5a2735ec0fd4a81ac60f869537330e8041ac5f79d30ec9498bcbfab24302a"
+    },
+    {
+      "path": "L4_032_restart_active.ui.txt",
+      "bytes": 2900,
+      "sha256": "03e48f851186263d8636422cc5a9d418ab465e248400e82c913fe5b592756f84"
+    },
+    {
+      "path": "L4_032_restart_active_card.ui.txt",
+      "bytes": 3189,
+      "sha256": "1eaea9caca13182009d0006b4415a1ce0d402634f21366041fba228278a26ae9"
+    },
+    {
+      "path": "L4_032_restart_active_card_ui.json",
+      "bytes": 624,
+      "sha256": "cc7ade18d8b4ecfc2a966bde1e12761d2f6e59abcf6bf68ec5c81d9c44a7f0d5"
+    },
+    {
+      "path": "L4_032_restart_active_detail.ui.txt",
+      "bytes": 3072,
+      "sha256": "545d7b0b9e387f96b11d8c991e19764f4e433d8c26965f5b818d6741f8e2116e"
+    },
+    {
+      "path": "L4_032_restart_active_detail_ui.json",
+      "bytes": 626,
+      "sha256": "0e813f07f8f33d5c79b5dd304593272bd57787eb6dd7c81efd5f60ed852e09b6"
+    },
+    {
+      "path": "L4_032_restart_active_open.ui.txt",
+      "bytes": 3189,
+      "sha256": "32c2366dbfa145bf01c332d21685035d4514ad2f9db73cab5c75a6159d09d24f"
+    },
+    {
+      "path": "L4_032_restart_active_open_tap.json",
+      "bytes": 591,
+      "sha256": "2774c30c860294800cc0a3287cfd1f85a7fb34279283a5346330a855301d48c2"
+    },
+    {
+      "path": "L4_032_restart_active_open_tap.txt",
+      "bytes": 254,
+      "sha256": "ade2a67cf103340ac5eeb835824ff4c1e4e89ced0bff6661d8bbb7a501f8f48f"
+    },
+    {
+      "path": "L4_032_restart_active_open_ui.json",
+      "bytes": 624,
+      "sha256": "0719395cf42e324fb88f6f6db1b8b68b4fcda2090ed36b1f00e070d286485ce8"
+    },
+    {
+      "path": "L4_032_restart_active_ui.json",
+      "bytes": 619,
+      "sha256": "41d66427982f5a944e14abed488eef046aad0f0ba065a132881dcb9c38a67944"
+    },
+    {
+      "path": "L4_032_restart_devices.ui.txt",
+      "bytes": 3019,
+      "sha256": "f22f3296bc147cb8802381b939957470daa4317b1534fa08ef3450cfaa281b71"
+    },
+    {
+      "path": "L4_032_restart_devices_scroll.json",
+      "bytes": 600,
+      "sha256": "e7a2d3b7d1cda602847048a3212d874023ad132f3d56f83ba3e6309ac2a51d51"
+    },
+    {
+      "path": "L4_032_restart_devices_scroll.txt",
+      "bytes": 264,
+      "sha256": "802c03835322bfc7e6ac9e1e2602e0283a7964f63245d8fd9cec27e455bcda8c"
+    },
+    {
+      "path": "L4_032_restart_devices_tap.json",
+      "bytes": 586,
+      "sha256": "d8e85421ea38d54d386e2a66e96f372fb8783e104e0ae125658b1f91950e6770"
+    },
+    {
+      "path": "L4_032_restart_devices_tap.txt",
+      "bytes": 254,
+      "sha256": "f24d79a9a7857edf210965deb7c49d86821a50569bddacadc71d2f4796857193"
+    },
+    {
+      "path": "L4_032_restart_devices_ui.json",
+      "bytes": 620,
+      "sha256": "d06e2b399d96aa834473b8931f0d7dfe8f5dcd68e6bfcb21a05d000134cbfd59"
+    },
+    {
+      "path": "L4_032_restart_manage.ui.txt",
+      "bytes": 3636,
+      "sha256": "eefe0033ee88db2369a7749e008882f7fe281d379179854ba37d4aa69b22df40"
+    },
+    {
+      "path": "L4_032_restart_manage_ui.json",
+      "bytes": 619,
+      "sha256": "c1e360732439812212fb03b78a708426957b0a86f6463f777e34a0027206caeb"
+    },
+    {
+      "path": "L4_032_restart_remote.ui.txt",
+      "bytes": 3636,
+      "sha256": "9872e5d34737e82cfcb27b04c3539b8d7f30167c163a0f0c38bef8843269d3c4"
+    },
+    {
+      "path": "L4_032_restart_remote_loaded.ui.txt",
+      "bytes": 3358,
+      "sha256": "8e30784c166276039e66ec8488096e5e1dfa00e257bc740a339a3198f593d33a"
+    },
+    {
+      "path": "L4_032_restart_remote_loaded_ui.json",
+      "bytes": 626,
+      "sha256": "f17c22f8e63ff974ab1db8afdab46254253d9fc70cd50e3ac3b1d9e9246d968f"
+    },
+    {
+      "path": "L4_032_restart_remote_tap.json",
+      "bytes": 586,
+      "sha256": "d1ad0e73210812515383c7c8dc36b9819bf40f2bc7eeb0f7c003d1ef0ede7a3d"
+    },
+    {
+      "path": "L4_032_restart_remote_tap.txt",
+      "bytes": 254,
+      "sha256": "b5d71d7b5894b0b6984f64b80db393009a7c0859dea7b3d55b88eb4fe12d27ad"
+    },
+    {
+      "path": "L4_032_restart_remote_ui.json",
+      "bytes": 619,
+      "sha256": "4a80d31aa2fbb01a8d7e1e4ba1659d22a5ecacb91e910be55ed697c402b359aa"
+    },
+    {
+      "path": "L4_032_restart_request_result.ui.txt",
+      "bytes": 3228,
+      "sha256": "218e93ab2aa089ce7cbe2c5b0525ce09e76e9a928978d981a204e70b7249ce49"
+    },
+    {
+      "path": "L4_032_restart_request_result_ui.json",
+      "bytes": 627,
+      "sha256": "7311101e35600015ff4f07d91b2ab0d4e4a5b05abb8054bdd5352678bb342687"
+    },
+    {
+      "path": "L4_032_restart_request_video.ui.txt",
+      "bytes": 3358,
+      "sha256": "651e27a5810b2f8544ee9ea6a37720d2ef48809a920c1b9eea31d02cd688607d"
+    },
+    {
+      "path": "L4_032_restart_request_video_tap.json",
+      "bytes": 593,
+      "sha256": "3b43bb61d35d77838dafc1579c4c9800848bba5ffef8a24f2e3c27b173c67f04"
+    },
+    {
+      "path": "L4_032_restart_request_video_tap.txt",
+      "bytes": 254,
+      "sha256": "1717ce215946ad8642643915c2a64e957e91fa6f22380d2a459e7e8793a5ec00"
+    },
+    {
+      "path": "L4_032_restart_request_video_ui.json",
+      "bytes": 626,
+      "sha256": "50952e942f52142a9beb737216933ee71cb1e252b3a1020f983109328d77c698"
+    },
+    {
+      "path": "L4_032_restart_scroll_one.json",
+      "bytes": 596,
+      "sha256": "76f274ab5f29fe86974068528bd35f0e70e24077b3175f04f6f1b50997d64174"
+    },
+    {
+      "path": "L4_032_restart_scroll_one.txt",
+      "bytes": 264,
+      "sha256": "10471bb59973af272bf8fd41fa407e1c0e82380f84746fd3fde911f8251b6b72"
+    },
+    {
+      "path": "L4_032_restart_scroll_two.json",
+      "bytes": 596,
+      "sha256": "b5f9e5fbcd8e26514f1457f1156c5d27e604fbd6d88f920381ea8f8cb3e78086"
+    },
+    {
+      "path": "L4_032_restart_scroll_two.txt",
+      "bytes": 264,
+      "sha256": "8762200912dc82c0e714f55104685b8fec2c89fbbf0207a867b9adfbc90c5b9e"
+    },
+    {
+      "path": "L4_032_restart_send.ui.txt",
+      "bytes": 1789,
+      "sha256": "7e95f020e1aac997d69d21382968fdaa8843b43d0bbbfb9175fd304274f04f98"
+    },
+    {
+      "path": "L4_032_restart_send_tap.json",
+      "bytes": 584,
+      "sha256": "1dc395289f6b2c103fe2fc5ce6d8ab2837c38300d47a894dac4b9cda40151892"
+    },
+    {
+      "path": "L4_032_restart_send_tap.txt",
+      "bytes": 254,
+      "sha256": "a6df0fa78747391e8d73cf27e84a3c0ce6a3a75f41dda4228b5ec5483640fa3e"
+    },
+    {
+      "path": "L4_032_restart_send_ui.json",
+      "bytes": 617,
+      "sha256": "ac517c5ef943e1a22769cd09dd034585eca6af47075a785a57f40257a01294c1"
+    },
+    {
+      "path": "L4_032_retry_manage_ready.ui.txt",
+      "bytes": 3652,
+      "sha256": "4c37545638ff6b1d3bebe7ec454c774d2b9cb80ff91c6a6379522591a0f9f89d"
+    },
+    {
+      "path": "L4_032_retry_manage_ready_ui.json",
+      "bytes": 623,
+      "sha256": "6a9f49218961982ec61d995c522e7eee053c5d1fc4c5b3e2c23fa311bfd6afd0"
+    },
+    {
+      "path": "L4_032_retry_ready2_result.ui.txt",
+      "bytes": 3228,
+      "sha256": "e56c8346d25439603baca90ed87eba6ef42903295239763cbaa2056a6693302d"
+    },
+    {
+      "path": "L4_032_retry_ready2_result_ui.json",
+      "bytes": 624,
+      "sha256": "ea8fc098eb6099dc49baee3925d591b410f9a1c786fb14e3729e4e26e7c2dcac"
+    },
+    {
+      "path": "L4_032_retry_remote_loaded.ui.txt",
+      "bytes": 3358,
+      "sha256": "45c0038d85301c5b01734fdce06d88b9944af7ec0dfc94efd15c311c3190b05c"
+    },
+    {
+      "path": "L4_032_retry_remote_loaded_ui.json",
+      "bytes": 624,
+      "sha256": "6058d880fbd3b74c79e6e309126bc837b799261d8fd126f0ef3f385e9729a93b"
+    },
+    {
+      "path": "L4_032_retry_remote_ready.ui.txt",
+      "bytes": 3652,
+      "sha256": "cae4fd7df5dee7a1a83bbb80cd566eb1961aa6ce607dbd05816744218eb61374"
+    },
+    {
+      "path": "L4_032_retry_remote_ready_tap.json",
+      "bytes": 590,
+      "sha256": "21c1b3ccce13cea30633bc6e5d129774c45b555c47ff0341e1e9ce606be0596c"
+    },
+    {
+      "path": "L4_032_retry_remote_ready_tap.txt",
+      "bytes": 254,
+      "sha256": "131129c9488c24284d86a229ed3f877acf253b503c7b7bc1de9c72a8bf49a2c3"
+    },
+    {
+      "path": "L4_032_retry_remote_ready_ui.json",
+      "bytes": 623,
+      "sha256": "1e34dcecfd4e40e5ab3a567a49ab87fcf051293a802ff07e4d2810f62c6a43db"
+    },
+    {
+      "path": "L4_032_retry_scroll_one.json",
+      "bytes": 593,
+      "sha256": "3b81077d6131c8fe2d31bcf7d455307b6846cb85c0232861b3890deb103e46fa"
+    },
+    {
+      "path": "L4_032_retry_scroll_one.txt",
+      "bytes": 264,
+      "sha256": "2f06556168f166a5175e18817bccdcba915be5d02447960023588e6198635c8d"
+    },
+    {
+      "path": "L4_032_retry_scroll_one_ui.ui.txt",
+      "bytes": 3114,
+      "sha256": "9331f9c87ef6235cc43ef77461f0718d1b15950a4de75d5eae0c117dbe49c03a"
+    },
+    {
+      "path": "L4_032_retry_scroll_one_ui_ui.json",
+      "bytes": 624,
+      "sha256": "c80a5b6fc0b09e75110f444ad0a17d4531847f1a4f318f15e975bb8733b25de5"
+    },
+    {
+      "path": "L4_032_retry_scroll_two.json",
+      "bytes": 594,
+      "sha256": "6bf1a76651ac8e9f7dd89fdacac43cea7fbb1fda47fd2d709ffa1aceb5c76700"
+    },
+    {
+      "path": "L4_032_retry_scroll_two.txt",
+      "bytes": 264,
+      "sha256": "dbc6986ac99ce3bcc3becc6805bdf5222019b449971d2dd72b9dc41216bafa21"
+    },
+    {
+      "path": "L4_032_retry_send_ready2.ui.txt",
+      "bytes": 1789,
+      "sha256": "6b5079ca7b0584a002b13ff270d27c65a39ace0d849254010fb435667adc370a"
+    },
+    {
+      "path": "L4_032_retry_send_ready2_tap.json",
+      "bytes": 589,
+      "sha256": "5474c8aa56aca8d405349f9896f41798312ffa02902ec2330d513b54904ed94c"
+    },
+    {
+      "path": "L4_032_retry_send_ready2_tap.txt",
+      "bytes": 254,
+      "sha256": "1726f2b791c39d2e7497177cf9aea8c59ddbc6fa05dc52c0bdf4be1956f9e69d"
+    },
+    {
+      "path": "L4_032_retry_send_ready2_ui.json",
+      "bytes": 622,
+      "sha256": "9abc35f846ae8526f2ee6b197b3d1d1726c64d2ada3c65d4bcb9a10e3d1f5651"
+    },
+    {
+      "path": "L4_032_retry_video_ready2.ui.txt",
+      "bytes": 3358,
+      "sha256": "a256d521e25a95282d02ea37b3678c372effd0cecd0dc21f8ace7b0a340998e7"
+    },
+    {
+      "path": "L4_032_retry_video_ready2_tap.json",
+      "bytes": 590,
+      "sha256": "97c613988602d49db94a3ae785350defb30fcff9660dfd36e87f5da4b42a2b1d"
+    },
+    {
+      "path": "L4_032_retry_video_ready2_tap.txt",
+      "bytes": 254,
+      "sha256": "84ff9ef0fe65885bc9c17248888fcb6b67f5835483b27f07312455e691f5f04e"
+    },
+    {
+      "path": "L4_032_retry_video_ready2_ui.json",
+      "bytes": 623,
+      "sha256": "7deaac2657960daa3bebc596efc398f49a59f53f7a76b6cd41b2b56f0b5fb50c"
+    },
+    {
+      "path": "L4_032_send_request.ui.txt",
+      "bytes": 1789,
+      "sha256": "8ed50a8429ff9e4eda6fb0fee91340ee22e06bec3c37f5f307861d83decc76ee"
+    },
+    {
+      "path": "L4_032_send_request_tap.json",
+      "bytes": 584,
+      "sha256": "ddbdfb85cfb2f73ec7ed2b7c36f1974e6f5ee95fd38808f93373e4bee6daf280"
+    },
+    {
+      "path": "L4_032_send_request_tap.txt",
+      "bytes": 254,
+      "sha256": "d7a5c42e8c5cd0d61fe95c726e596d63447d64c8a55943bcab580b5c95b7ec35"
+    },
+    {
+      "path": "L4_032_send_request_ui.json",
+      "bytes": 617,
+      "sha256": "5ccc33c6994001e29aadfa330d5869b6097e1ec057c37683d85d443d3291df29"
+    },
+    {
+      "path": "L4_032_wait_child_audio.json",
+      "bytes": 643,
+      "sha256": "f9960a512050b7d6a226e7a7869d48cfbb81c7ffed8357a841786ebb71ba22dd"
+    },
+    {
+      "path": "L4_032_wait_child_audio.txt",
+      "bytes": 364,
+      "sha256": "22d45707357f1fc35b87c67a51f9de1767efa1da79048e3c208df407e8a5c93a"
+    },
+    {
+      "path": "L4_032_wait_child_camera.json",
+      "bytes": 678,
+      "sha256": "d504846bd6e8c724b14d7851dee20841e9d7e726f91f24532321cb7a6b253e65"
+    },
+    {
+      "path": "L4_032_wait_child_camera.txt",
+      "bytes": 1260,
+      "sha256": "97e243ecdc6fa0d686dc7d2f3bfcb2e0e1c07a461ea9fdbcc4325be3b2f682dd"
+    },
+    {
+      "path": "L4_032_wait_parent_audio.json",
+      "bytes": 638,
+      "sha256": "e07c05276f29634b0f79c12f949feea39ee43d2ab2e52299f2a4df60726b725b"
+    },
+    {
+      "path": "L4_032_wait_parent_audio.txt",
+      "bytes": 709,
+      "sha256": "28209cace5d44cdc9514035f985556876649744875d0c16a23c55878d0015af8"
+    },
+    {
+      "path": "L4_032_wait_parent_camera.json",
+      "bytes": 672,
+      "sha256": "56e30521187c52cd6c21909816bb1a0a22651a7336e8f81fce2068396fb2e4c2"
+    },
+    {
+      "path": "L4_032_wait_parent_camera.txt",
+      "bytes": 1720,
+      "sha256": "7e92805af4db9ad33334cebf0ea3910c876d280b8f51d18aacefc2b42f7bd497"
+    },
+    {
+      "path": "L4_final_evidence_validation.json",
+      "bytes": 703,
+      "sha256": "7a32b467f1d23df2c655a71b14c36f42197cc6f6fb71a8433bd6d26ff6c70025"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+test_id=L4_MEDIA_VIDEO_FRAME_VERIFIED2
+label=L4_MEDIA_VIDEO_FRAME_VERIFIED2_parent_waiting
+start=2026-11-26T16:36:33+05:30
+end=2026-11-26T16:36:36+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=20
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|label=Assistance session|class=android.view.View|clickable=false|bounds=[189,185][645,246]
+11|label=Refresh status|class=android.widget.Button|clickable=true|bounds=[756,153][882,279]
+12|label=Cancel|class=android.widget.Button|clickable=true|bounds=[882,153][1059,279]
+15|label=Video assistance Waiting for consent Device realme RMX2161 Child [REDACTED_NAME] Requested Nov 26, 2026 4:36 PM · Just now Expires Waiting for consent (9m left) Child consent Not recorded|class=android.view.View|clickable=false|bounds=[0,310][1080,1021]
+16|label=Waiting for consent The child must accept this request. Camera and microphone are off. This request expires shortly; you can cancel it below.|class=android.view.View|clickable=false|bounds=[0,1021][1080,1339]
+18|label=Cancel request|class=android.widget.Button|clickable=true|bounds=[42,1339][1038,1470]
+19|label=This app does not record audio or video, take screenshots, or capture the screen. Ending or leaving stops the media tracks immediately.|class=android.view.View|clickable=false|bounds=[0,1512][1080,1688]

@@ -1,141 +1,136 @@
-# Lane 4 — Parent Feature Runtime Results
+# Lane 4 — Parent Feature Runtime Results — Superseding Report
 
 - Audit: HAVEN PDF-based complete real-time two-device functional audit
 - Lane: 4 of 4 — Parent-side runtime validation
 - Repository: `D:\parentcontrol_app`
-- Branch / HEAD: `main` / `c7b475eb6f0c818a14d298ce4823e69b0d1a55e9`
+- Branch: `main`
 - Timezone: Asia/Kolkata (UTC+05:30)
-- Gate wait: 2026-11-26T10:47:00+05:30 through 2026-11-26T11:02:14+05:30
-- Completion state: **INCOMPLETE / BLOCKED**
-- Required release file: `D:\parentcontrol_app\docs\testing\pdf_based_complete_functional_audit\evidence\03_remote_access_results.md`
-- Release-file state at deadline: absent (therefore not non-empty)
+- Runtime window: approximately `2026-11-26T14:20:00+05:30` through `2026-11-26T15:56:00+05:30`
+- Execution model: main-agent continuation of the blocked lane; no additional subagent was created
+- Remediation: none
 
-## Executive summary
+## 1. Supersession
 
-The mandatory device-serialization gate did not release within the authorized 15-minute bounded wait. In accordance with the instruction to return BLOCKED without touching devices when the gate is unavailable, this lane invoked no ADB command and performed no emulator or physical-device interaction.
+This report supersedes the historical gate-timeout report in which all 28 cases were BLOCKED and zero device actions occurred. That report is retained only as coordination provenance. The executed evidence is under `evidence/lane4/`; the alias definitions remain in `evidence/lane4/00_test_inventory.md`.
 
-Twenty-eight Parent-side cases were identified. Zero were executed. All 28 are classified BLOCKED because their required runtime precondition—the lane 3 release report—was unavailable. No runtime PASS, PARTIAL, FAIL, NOT IMPLEMENTED, or NOT APPLICABLE conclusion is claimed.
+No application/source, backend, dependency, manifest, Gradle, account, pairing, permission, device credential, zone, policy, alert, export, network or Git mutation was performed. The two local reminder switches were toggled and restored to their original `true` values. `QA_Test_Zone_Live` was inspected and preserved.
 
-No account, session, pairing, permission, application, service, policy, alert, safe-zone, export, network, Git, or device state was changed. There is no unrestored runtime state. `QA_Test_Zone_Live` and residual QA data were not accessed or modified.
-
-## Status counts
+## 2. Result accounting
 
 | Status | Count |
 |---|---:|
-| PASS | 0 |
-| PARTIAL | 0 |
-| FAIL | 0 |
-| BLOCKED | 28 |
-| NOT TESTED | 0 |
-| NOT IMPLEMENTED | 0 |
+| PASS | 7 |
+| PARTIAL | 3 |
+| FAIL | 1 |
+| BLOCKED | 7 |
+| NOT TESTED | 1 |
+| NOT IMPLEMENTED | 9 |
 | NOT APPLICABLE | 0 |
-| **Total identified** | **28** |
-| **Total executed** | **0** |
+| **Total** | **28** |
 
-Dedicated Child-background-operation tests executed by this lane: **0**. Parent-initiated remote-access tests executed by this lane: **0**. Those workflows are primarily lane 3 scope and cannot be inferred from this blocked lane.
+The FAIL is `L4-INV-01`: the Parent has no installed-app snapshot because the Child upload is rejected wholesale when two package names fail server validation. Device Owner enforcement is BLOCKED, not passed from policy storage. `L4-FINAL-01` remains NOT TESTED here because the final audit-wide device/Git verification belongs to FIN-01/FIN-02 and is completed separately.
 
-## Shared blocked context for every case
+## 3. Complete alias reconciliation
 
-The following fields apply to every case in the results table:
-
-- **Test start/end:** No test started. Gate observation window: 2026-11-26T10:47:00+05:30 to 2026-11-26T11:02:14+05:30.
-- **Parent identity/version:** Not verified. Historical planning identifiers only: `emulator-5554`, Pixel 9a emulator, Android 17/API 37, package `com.parentcontrol.parent_control`, version 1.0.0/versionCode 1. These were not re-checked and are not asserted current.
-- **Child identity/version:** Not verified. Historical planning identifiers only: `5HXWRGQ4IFU8WS4T`, Realme RMX2161, Android 12/API 31, package `com.parentcontrol.parent_control`, version 1.0.0/versionCode 1. These were not re-checked and are not asserted current.
-- **Exact actions:** No device or application actions. Only repository reads, benchmark extraction, test planning, gate-file checks, and authorized evidence writes were performed.
-- **Actual observation:** `03_remote_access_results.md` remained absent at the deadline; the final bounded gate check exited 124 with `gate_timeout` at 2026-11-26T11:02:14+05:30.
-- **Parent evidence path:** `D:\parentcontrol_app\docs\testing\pdf_based_complete_functional_audit\evidence\lane4\01_blocked_gate_evidence.md`
-- **Child evidence path:** None. No Child evidence exists because no device interaction was permitted.
-- **State/network/permission context:** Not inspected. Current foreground/background state, service state, network state, permission state, heartbeat freshness, Device Owner state, and session state are unknown for this run.
-- **Expected versus actual:** Expected: execute the case after serialization using timestamp-correlated Parent/Child evidence. Actual: the serialization precondition was unavailable, so no runtime behavior could be observed.
-- **Command/cwd/exit/duration/counts:** Gate and integrity commands are recorded in `lane4/01_blocked_gate_evidence.md`; working directory was `D:\parentcontrol_app`. Final gate loop exit: 124; loop budget: 140 seconds; release-file count: 0. Read-only Git check exit: 0; duration: 547 ms; status entries: 107.
-- **Status/reason:** BLOCKED — mandatory gate unavailable before the authorized deadline.
-
-## Complete case results
-
-| Test ID | Feature | Status | Case-specific blocked reason | Evidence |
+| Alias | Official test IDs | Status | Runtime basis | Principal evidence |
 |---|---|---|---|---|
-| L4-ENV-01 | Environment, identity, session, permissions, services, network | BLOCKED | No ADB/device inspection permitted before gate release. | Gate evidence; inventory row L4-ENV-01 |
-| L4-DASH-01 | Dashboard and daily/weekly activity | BLOCKED | Parent dashboard could not be opened or correlated with Child telemetry. | Gate evidence; inventory row L4-DASH-01 |
-| L4-USAGE-01 | App usage and Today/7-day reporting | BLOCKED | Usage Access, upload freshness, totals, and per-app data could not be verified. | Gate evidence; inventory row L4-USAGE-01 |
-| L4-INV-01 | Installed-app inventory | BLOCKED | Parent snapshot and Child package inventory could not be compared. | Gate evidence; inventory row L4-INV-01 |
-| L4-INV-02 | Newly installed app detection / auto-block | BLOCKED | Runtime navigation and event behavior could not be checked; absence is not runtime-confirmed. | Gate evidence; inventory row L4-INV-02 |
-| L4-LIM-01 | App-wise/device-wide daily limit presentation | BLOCKED | Current policy, acknowledgement, quota, and enforcement state could not be read on both ends. | Gate evidence; inventory row L4-LIM-01 |
-| L4-LIM-02 | Shared app-time limit | BLOCKED | No runtime UI or Child behavior could be inspected; absence is not runtime-confirmed. | Gate evidence; inventory row L4-LIM-02 |
-| L4-LIM-03 | Individual per-app time limit | BLOCKED | No runtime UI or Child behavior could be inspected; absence is not runtime-confirmed. | Gate evidence; inventory row L4-LIM-03 |
-| L4-DOWNTIME-01 | Per-app schedule configuration | BLOCKED | Schedule dialog and cancel-without-save behavior could not be exercised. | Gate evidence; inventory row L4-DOWNTIME-01 |
-| L4-DOWNTIME-02 | Bedtime/downtime and enforcement presentation | BLOCKED | Parent/Child policy state and Android enforcement capability could not be verified. | Gate evidence; inventory row L4-DOWNTIME-02 |
-| L4-ALW-01 | Always Allowed picker | BLOCKED | Picker and current allowed list could not be inspected. | Gate evidence; inventory row L4-ALW-01 |
-| L4-BLOCK-01 | Instant Block and duration modes | BLOCKED | Runtime controls could not be inspected; absence is not runtime-confirmed. | Gate evidence; inventory row L4-BLOCK-01 |
-| L4-BLOCK-02 | Actual app block/unblock enforcement | BLOCKED | Device Owner/suspension capability and actual app behavior could not be verified; no policy mutation was attempted. | Gate evidence; inventory row L4-BLOCK-02 |
-| L4-REQ-01 | Restricted-app request review | BLOCKED | Parent review UI and Child request state could not be inspected; absence is not runtime-confirmed. | Gate evidence; inventory row L4-REQ-01 |
-| L4-NOTIF-01 | Notification synchronization/content | BLOCKED | Parent report and Child notification-access context could not be inspected; absence is not runtime-confirmed. | Gate evidence; inventory row L4-NOTIF-01 |
-| L4-NOTIF-02 | App-wise notification configuration / social keywords | BLOCKED | Runtime controls and detection behavior could not be inspected; absence is not runtime-confirmed. | Gate evidence; inventory row L4-NOTIF-02 |
-| L4-IMG-01 | Image detection | BLOCKED | Runtime feature presence could not be inspected; absence is not runtime-confirmed. | Gate evidence; inventory row L4-IMG-01 |
-| L4-WEB-01 | Web restrictions, browsing history, blocked-site alerts | BLOCKED | Runtime feature presence could not be inspected; absence is not runtime-confirmed. | Gate evidence; inventory row L4-WEB-01 |
-| L4-ALERT-01 | Alert list, counts, types, severity filters | BLOCKED | Alert UI and current Child correlation could not be inspected. | Gate evidence; inventory row L4-ALERT-01 |
-| L4-ALERT-02 | Alert acknowledgement | BLOCKED | Explicit no-acknowledgement rule applies, and the gate also prevented UI inspection. | Gate evidence; inventory row L4-ALERT-02 |
-| L4-ZONE-01 | Safe-zone configuration/status and QA zone preservation | BLOCKED | Zone list, active state, radius, and `QA_Test_Zone_Live` could not be read. | Gate evidence; inventory row L4-ZONE-01 |
-| L4-ZONE-02 | Safe-zone create/edit/toggle | BLOCKED | Persistent mutation is unauthorized without a safe exact-restoration path; UI-only inspection was also prevented by the gate. | Gate evidence; inventory row L4-ZONE-02 |
-| L4-ZONE-03 | Geofence entry/exit alert | BLOCKED | No safe boundary crossing or approved zone mutation was available; no runtime event could be observed. | Gate evidence; inventory row L4-ZONE-03 |
-| L4-SET-01 | Settings, privacy, retention, permission presentation | BLOCKED | Parent settings/retention and Child-reported permissions could not be read or compared. | Gate evidence; inventory row L4-SET-01 |
-| L4-SET-02 | Reversible local reminder switches | BLOCKED | Original switch state could not be recorded, so no toggle/restore test was permitted. | Gate evidence; inventory row L4-SET-02 |
-| L4-EXPORT-01 | Privacy export | BLOCKED | Export writes raw private JSON and the audit prohibits retaining or deleting private export data; gate also prevented UI inspection. | Gate evidence; inventory row L4-EXPORT-01 |
-| L4-OFF-01 | Offline/stale-state presentation and recovery | BLOCKED | Original network state and active-session safety could not be established; no network interruption was attempted. | Gate evidence; inventory row L4-OFF-01 |
-| L4-FINAL-01 | Final Parent/Child/session/data/Git state | BLOCKED | Device/session/service/pairing final state could not be inspected. Repository-only integrity was verified separately. | Gate evidence; inventory row L4-FINAL-01 |
+| L4-ENV-01 | ENV-01–ENV-04 | PASS | Both identities, versions, roles, linkage, services and principal permissions inspected; finer ENV limitations are retained in the official statuses | `L4_000_*`, `L4_001_*`, `L4_021_*`, `L4_030_*` |
+| L4-DASH-01 | DASH-01, DASH-02, DASH-04 | PASS | Dashboard/devices/alerts/settings/family navigation; active and revoked records; refresh; heartbeat/policy summary | `L4_002_dashboard.ui.txt`, `L4_003_dashboard_refreshed.ui.txt`, `L4_026_family.ui.txt` |
+| L4-USAGE-01 | USG-01–USG-05 | PARTIAL | Usage Access, Today/7-day totals and per-app rows rendered; Refresh did not advance last upload or prove a new background upload | `L4_006_screen_time_settled.ui.txt`, `L4_007_usage_*.ui.txt` |
+| L4-INV-01 | APP-01, APP-02 | FAIL | Parent showed no snapshot; Child upload failed package validation; 343 installed, 341 accepted, 2 rejected | `L4_011_restrictions_bottom.ui.txt`, `L4_030_child_settings_scrolled.ui.txt`, `L4_031_child_package_validation_summary.json` |
+| L4-INV-02 | APP-13, APP-14, ALT-07 | NOT IMPLEMENTED | No new-install alert or auto-block workflow found on inspected surfaces; no app install attempted | `L4_014_alerts.ui.txt`, restrictions/settings surfaces; mapping C19/C28/C37/C39 |
+| L4-LIM-01 | POL-04, POL-07, POL-08 | PASS | Device-wide limit unset; Device Admin only; Parent warns suspension unsupported; Child warns nothing should be described as blocked | `L4_008_app_restrictions.ui.txt`, `L4_021_child_rules.ui.txt`, `L4_025_screen_time_policy.ui.txt` |
+| L4-LIM-02 | APP-05 | NOT IMPLEMENTED | No selected-group shared allowance control/payload found | Restrictions and Screen-time surfaces; mapping C17/C43 |
+| L4-LIM-03 | APP-06 | NOT IMPLEMENTED | No individual per-app minute budget; only block/schedule controls | Restrictions and Screen-time surfaces; mapping C14/C43 |
+| L4-DOWNTIME-01 | APP-07, APP-08 | BLOCKED | No existing named blocked rule; persistent schedule mutation and exact restoration unauthorized; Device Owner unavailable | `L4_011_restrictions_bottom.ui.txt`, `L4_021_child_rules.ui.txt` |
+| L4-DOWNTIME-02 | POL-04 | PARTIAL | Bedtime controls and unset/unenforced presentation verified; no configured window or enforcement run | `L4_025_screen_time_policy.ui.txt`, `L4_021_child_rules.ui.txt` |
+| L4-ALW-01 | APP-09 | BLOCKED | Allowed-app picker requires a snapshot; snapshot is absent; block-all mutation and Device Owner enforcement unavailable | `L4_012_allowed_picker.ui.txt` |
+| L4-BLOCK-01 | APP-10–APP-12 | NOT IMPLEMENTED | No Instant Block duration/expiry selector or dedicated immediate mode | Restrictions surfaces; mapping C08/C11/C42–C44 |
+| L4-BLOCK-02 | APP-03, APP-04, POL-02, POL-03, POL-05, POL-06 | BLOCKED | Device Owner required for package suspension and is unavailable; no policy mutation performed | `L4_008_app_restrictions.ui.txt`, `L4_021_child_rules.ui.txt` |
+| L4-REQ-01 | APP-15, ALT-01 | NOT IMPLEMENTED | Child Requests covers linking/assistance only; no restricted-app request or Parent approve/refuse inbox | `L4_013_child_requests.ui.txt`, Alerts/Family/Restrictions surfaces |
+| L4-NOTIF-01 | NTF-01, NTF-03, NTF-04 | NOT IMPLEMENTED | No Child notification-content synchronization; service/safety notifications were not treated as app-notification sync | Child permission/service baseline; Parent report surfaces |
+| L4-NOTIF-02 | NTF-02 | NOT IMPLEMENTED | No Child app-wise notification selection/mute; Parent local reminder is explicitly local | `L4_028_switches_restored.ui.txt`, Child settings |
+| L4-IMG-01 | IMG-01 | NOT IMPLEMENTED | No Gallery/image-scanning workflow; camera permission not treated as image detection | Settings/Rules surfaces; mapping C37/C38/C59 |
+| L4-WEB-01 | WEB-01–WEB-04 | NOT IMPLEMENTED | No URL filter/history/blocked-site/safe-search/AI/website-time workflow | Restrictions/Settings/Alerts surfaces; mapping C37/C43/C48/C49 |
+| L4-ALERT-01 | ALT-08 (list/filter portion) | PASS | All/Info/Warning/Critical filters and counts rendered; existing alerts already acknowledged | `L4_014_alerts.ui.txt`, `L4_015_alerts_*.ui.txt` |
+| L4-ALERT-02 | ALT-08 (ack portion) | BLOCKED | Existing alerts acknowledged; acknowledgement mutation explicitly prohibited | `L4_014_alerts.ui.txt` |
+| L4-ZONE-01 | LOC-07 | PASS | Existing active 150 m zone and editor 50–5000 m validation inspected; `QA_Test_Zone_Live` preserved | `L4_019_retention.ui.txt` plus lane-2 `BG02_safe_zones_*` |
+| L4-ZONE-02 | LOC-07 (editor portion) | PARTIAL | Editor/validation/cancel verified; create/edit/toggle persistence prohibited | lane-2 `BG02_zone_editor*.ui.txt`, `BG02_safe_zones_after_cancel.ui.txt` |
+| L4-ZONE-03 | LOC-08–LOC-11, ALT-04, ALT-05 | BLOCKED | No safe physical boundary crossing or approved zone mutation | lane-2 location/zone report; no transition artifact |
+| L4-SET-01 | PRV-01–PRV-05, PRV-07, PRV-08 | PASS | Settings, privacy, retention, audit/security and disclosures inspected read-only; retention 30/90 days | `L4_016_settings.ui.txt`, `L4_018_settings_bottom.ui.txt`, `L4_019_retention.ui.txt`, `L4_030_child_settings_scrolled.ui.txt` |
+| L4-SET-02 | PRV-02 (local-preference portion) | PASS | Both local switches toggled and restored `true`; UI states they do not alter server/Child authorization | `L4_027_switches_original.ui.txt`, `L4_028_switches_restored.ui.txt` |
+| L4-EXPORT-01 | PRV-06 | BLOCKED | Export writes raw private JSON; retention/deletion prohibited; controls and warnings inspected only | `L4_018_settings_bottom.ui.txt` |
+| L4-OFF-01 | DASH-03, ALT-03 | BLOCKED | No approved exact network-interruption/restoration path | lane-4 inventory safety rule |
+| L4-FINAL-01 | FIN-01 | NOT TESTED | Deferred to final audit-wide device/session/service/network and Git verification | final report/evidence index |
 
-## Confirmed defects
+Alias rows are coverage groupings, not additional tests. Final counting uses only the 112 official IDs.
 
-**None.** No runtime behavior was observed, so no defect, severity, reproduction, or root cause can be confirmed.
+## 4. Detailed findings
 
-## Missing, partial, or blocked features
+### 4.1 Installed-app inventory failure
 
-No feature is classified NOT IMPLEMENTED or PARTIAL because runtime navigation and both-end verification were not performed.
+Parent Restrictions showed **“No app snapshot reported”** and **“This device has not reported its installed apps yet.”** The Allowed-app picker correctly refused selection because no snapshot existed.
 
-Read-only planning suggested the following areas warrant later runtime confirmation; these are **not** confirmed missing features or defects:
+Child Settings showed **“App list upload failed: apps[14].package_name is not a valid Android package name.”** A sanitized comparison applied the server regex to the installed-package list without retaining identities:
 
-- Newly installed app detection and automatic new-app blocking.
-- Shared selected-app time allowance and individual per-app time budgets.
-- Instant Block duration modes (fixed period, until midnight, manual off).
-- Parent restricted-app access-request review inbox.
-- Child notification-content synchronization and app-wise notification configuration.
+- Installed packages: **343**
+- Accepted by server regex: **341**
+- Rejected: **2**
+- Rejected single-segment names: **2**
+- Package identities retained: **false**
+
+The upload validates every entry before replacing the snapshot, so one invalid entry rejects the whole batch. This is **BUG-002**, severity High for the inventory-dependent feature family. It does not prove that all 343 names are valid Android application IDs; it proves a producer/validator contract mismatch on this device.
+
+### 4.2 Device Admin versus Device Owner
+
+Parent displayed:
+
+- **“Enforcement: Device admin only”**
+- **“App suspension unsupported on this device”**
+- **“A database flag does not block an app”**
+- Policy `Unverified`, version 3, applied 0 of 0
+- No daily limit configured
+- Enforcement mode `Not enforced`
+
+Child Rules displayed **“Not enforceable on this phone”**, Device Owner required for suspension, rules version 3, and an explicit warning that nothing should be described as blocked. Some dashboard/rules cards also used **“Enforced on device”** wording. That wording tension is retained as a reporting concern, not promoted to a proven enforcement defect without a configured-rule run.
+
+No app blocking, quota blocking, bedtime enforcement or suspension success is claimed.
+
+### 4.3 Usage and freshness
+
+Screen time rendered Usage Access Granted, last upload `1:35 PM · 56 min ago`, Today `9h 20m`, Last 7 days `59h 13m`, per-app durations and last-used values. A later settled view showed Today `10h 20m` and Last 7 days `60h 13m`. Refresh did not advance the upload timestamp in the sampled immediate interval.
+
+This proves report rendering and period switching, not a controlled foreground-use interval or a newly completed background usage upload. USG-01–USG-05 therefore remain PARTIAL/NOT TESTED at official-case level as specified in report 04.
+
+### 4.4 Alerts, zones, settings and local switches
+
+- Alerts showed `0 unacknowledged · 2 total`; All/Info/Warning/Critical controls rendered and existing low-battery alerts were already acknowledged. No acknowledgement was performed.
+- Existing `QA_Test_Zone_Live` remained Active at radius 150 m. The editor disclosed 50–5000 m and Cancel preserved the card.
+- Audit & retention disclosed append-only history, location retention 30 days, usage retention 90 days, global sweep wording and export/deletion safeguards. Save retention and Purge were not activated.
+- Settings showed verified Parent role, family Owner, app version 1.0.0 and security notes. Sign-out was not used.
+- Both local switches were restored to `checked=true`; UI explicitly says they do not grant/revoke permissions or alter Child/server authorization.
+
+### 4.5 Confirmed missing workflow families
+
+Runtime navigation plus source mapping found no workflow for:
+
+- New-install alerts or automatic new-app blocking.
+- Shared selected-app allowance or individual per-app minute budget.
+- Instant Block duration modes.
+- Restricted-app access-request review.
+- Child notification-content synchronization or app-wise notification configuration.
 - Social keyword detection/management.
-- Image detection.
-- Web filtering, browsing history, and blocked-site alerts.
+- Gallery/image scanning.
+- Website filtering/history/blocked-site alerts/safe-search/AI monitoring.
+- Family Chat, SOS or Focus Mode.
+- Per-app mobile-data usage reports.
 
-The current Device Owner state is unknown. Historical planning indicated app suspension may be unsupported without Device Owner, but this run cannot establish the current capability or any resulting defect.
+These are `NOT IMPLEMENTED`, not BLOCKED merely because their privileged permissions are absent.
 
-Privacy export remains blocked by the raw-private-file handling constraint, not by an observed export failure.
+## 5. Safety and restoration
 
-## Android consent, permissions, and background/remote-access conclusions
-
-- Current Usage Access, location, background location, camera, microphone, notification, accessibility, device-admin, and Device Owner states: **unknown**.
-- Current GuardianService, LocationTrackingService, AudioAssistanceService, heartbeat, and network state: **unknown**.
-- Whether ordinary Child background monitoring works without the Child UI open: **not determined by this lane**.
-- Whether Parent receives fresh telemetry while Child UI is backgrounded: **not determined by this lane**.
-- Whether Parent can initiate camera, one-way audio, or screen mirroring with Child UI backgrounded: **not determined by this lane**.
-- Required Child-side or Android system consent interactions: **not determined in this run**.
-- Screen-lock and interruption/recovery behavior: **not determined in this run**.
-
-## Final state and restoration
-
-- Parent authentication: not inspected; no sign-out or account action performed.
-- Child authentication/pairing/family relationship: not inspected; no unlink, re-pair, or account action performed.
-- Remote camera/audio/screen-mirroring sessions: not inspected; this lane initiated none.
-- Test restrictions/policies/alerts/zones: none created, changed, acknowledged, or deleted by this lane.
-- Network: not changed.
-- `QA_Test_Zone_Live` and residual QA data: not accessed or modified.
-- Unrestored state: **none**.
-- Git mutations: **none**.
-- Pre-existing tracked changes: unchanged; unstaged and staged diff digests match the baseline.
-
-## Evidence index
-
-1. `D:\parentcontrol_app\docs\testing\pdf_based_complete_functional_audit\evidence\lane4\00_test_inventory.md` — 28-case preparatory inventory and PDF/HAVEN mapping.
-2. `D:\parentcontrol_app\docs\testing\pdf_based_complete_functional_audit\evidence\lane4\01_blocked_gate_evidence.md` — gate timeline, exact checks, no-device-interaction boundary, and Git integrity evidence.
-3. `D:\parentcontrol_app\docs\testing\pdf_based_complete_functional_audit\evidence\04_parent_features_results.md` — this final lane report.
-
-No Parent or Child runtime screenshot, UI hierarchy, log, telemetry record, or media artifact was produced because device interaction was prohibited until a gate that never released.
-
-## Readiness assessment
-
-Parent-side runtime readiness cannot be assessed from this lane. The audit remains incomplete until the serialization gate is released and the 28 cases are executed with both-end evidence.
+- Existing Parent and Child accounts, family, pairing, device credentials and permissions were preserved.
+- No sign-out, unlink, re-pair, account/device creation, permission change, Device Owner provisioning, policy/zone/alert mutation, export, purge, deletion, network change, reboot, build/install or Git mutation occurred.
+- `QA_Test_Zone_Live` and residual QA data were preserved.
+- Normal remote-session request/cancel evidence from `L4_032_*` is reconciled in `03_remote_access_results.md`; it is not counted as an extra Parent-feature test.
+- Evidence sanitation/hash validation is recorded in `evidence/evidence_reconciliation_summary.json` and the final evidence index.

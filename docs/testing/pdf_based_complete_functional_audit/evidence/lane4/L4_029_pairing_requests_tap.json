@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:11:40+05:30",
+  "end": "2026-11-26T15:11:40+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 1428",
+  "exit": 0,
+  "duration_seconds": 0.054,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "f8409b35f05ff9ce4d78a432d04df9e5df2d1b2c112ede7a22f71213569ca4d7",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_029_pairing_requests_tap.txt"
+}

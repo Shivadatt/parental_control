@@ -1,0 +1,64 @@
+start=2026-11-26T15:42:26+05:30
+end=2026-11-26T15:42:26+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys media.camera
+exit=0
+duration_seconds=0.058
+raw_stdout_lines=1986
+selected_stdout_lines=50
+include=["Device state|Number of|parent_control|[REDACTED_PACKAGE]|Camera"]
+exclude=[]
+--- selected stdout ---
+Number of camera devices: 2
+Number of normal camera devices: 2
+Number of public camera devices visible to API1: 2
+Active Camera Clients:
+== Camera service events log (most recent at top): ==
+  11-25 15:24:49 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:07:28 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:01:44 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:01:17 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:29:06 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:27:45 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:27:43 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:24:35 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:37:02 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:35:53 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:33:03 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 0)
+  11-24 16:25:23 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 28628)
+== Camera device 1 dynamic info: ==
+== Camera device 10 dynamic info: ==
+== Camera Provider HAL android.hardware.camera.provider.ICameraProvider/internal/0-0 (v2.0, remote) static info: 1 devices: ==
+== Camera HAL device device@1.1/internal/1 (v1.4) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 124 / 124 entries, 4600 / 4600 bytes of extra data.
+        [PRIMARY_CAMERA ]
+      android.logicalMultiCamera.physicalIds (1a0000): byte[4]
+      android.logicalMultiCamera.sensorSyncType (1a0001): byte[1]
+        [BACKWARD_COMPATIBLE READ_SENSOR_SETTINGS MANUAL_SENSOR BURST_CAPTURE MANUAL_POST_PROCESSING LOGICAL_MULTI_CAMERA PRIVATE_REPROCESSING ULTRA_HIGH_RESOLUTION_SENSOR YUV_REPROCESSING RAW REMOSAIC_REPROCESSING DYNAMIC_RANGE_TEN_BIT STREAM_USE_CASE COLOR_SPACE_PROFILES ]
+      [REDACTED_PACKAGE] (84000000): int32[1]
+  Physical camera 5 characteristics:
+    Dumping camera metadata array: 112 / 112 entries, 4696 / 4696 bytes of extra data.
+        [PRIMARY_CAMERA ]
+      android.scaler.physicalCameraMultiResolutionStreamConfigurations (d0013): int32[20]
+  Physical camera 4 characteristics:
+    Dumping camera metadata array: 112 / 112 entries, 4408 / 4408 bytes of extra data.
+        [PRIMARY_CAMERA ]
+      android.scaler.physicalCameraMultiResolutionStreamConfigurations (d0013): int32[20]
+== Camera HAL device device@1.1/internal/1 (v1.4) dumpState: ==
+== Camera Provider HAL android.hardware.camera.provider.ICameraProvider/internal/1-1 (v2.0, remote) static info: 1 devices: ==
+== Camera HAL device device@1.1/internal/10 (v1.3) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 80 / 80 entries, 3216 / 3216 bytes of extra data.
+== Camera HAL device device@1.1/internal/10 (v1.3) dumpState: ==
+    0x84000000 (DefaultPhysicalCamId) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+== Camera error traces (0): ==
+  No camera traces collected.
+== Camera device 10 dynamic info: ==
+    Client package: com.parentcontrol.parent_control
+  CameraDeviceClient[10] (0x7a2ae5c07f50) dump:
+    Camera3 Buffer Manager:
+      Dumping camera metadata array: 46 / 46 entries, 48 / 48 bytes of extra data.
+--- stderr ---
+

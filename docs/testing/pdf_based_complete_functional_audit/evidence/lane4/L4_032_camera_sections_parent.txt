@@ -1,0 +1,30 @@
+start=2026-11-26T15:57:27+05:30
+end=2026-11-26T15:57:27+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys media.camera
+exit=0
+duration_seconds=0.062
+raw_stdout_lines=1986
+selected_stdout_lines=16
+include=["^==|^Active Camera Clients|^Number of camera|Client package|Camera device [0-9]+ dynamic|Device state"]
+exclude=[]
+--- selected stdout ---
+== Service global info: ==
+Number of camera devices: 2
+Active Camera Clients:
+== Camera service events log (most recent at top): ==
+== Camera device 1 dynamic info: ==
+== Camera device 10 dynamic info: ==
+== Camera Provider HAL android.hardware.camera.provider.ICameraProvider/internal/0-0 (v2.0, remote) static info: 1 devices: ==
+== Camera HAL device device@1.1/internal/1 (v1.4) static information: ==
+== Camera HAL device device@1.1/internal/1 (v1.4) dumpState: ==
+== Camera Provider HAL android.hardware.camera.provider.ICameraProvider/internal/1-1 (v2.0, remote) static info: 1 devices: ==
+== Camera HAL device device@1.1/internal/10 (v1.3) static information: ==
+== Camera HAL device device@1.1/internal/10 (v1.3) dumpState: ==
+== Vendor tags: ==
+== Camera error traces (0): ==
+== Camera device 10 dynamic info: ==
+    Client package: com.parentcontrol.parent_control
+--- stderr ---
+

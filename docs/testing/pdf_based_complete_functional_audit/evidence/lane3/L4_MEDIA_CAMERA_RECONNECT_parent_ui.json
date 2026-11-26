@@ -1,0 +1,14 @@
+{
+  "start": "2026-11-26T16:18:12+05:30",
+  "end": "2026-11-26T16:18:14+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml",
+  "device_temp_file": "/data/local/tmp/haven_lane2_ui.xml",
+  "device_temp_file_removed": true,
+  "exit": 0,
+  "node_count": 19,
+  "omitted_notification_nodes": 0,
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane3\\L4_MEDIA_CAMERA_RECONNECT_parent.ui.txt",
+  "sha256": "597cf92481e399f59e881a6b7327051fa11109f92ba4ef4ee5d9fbe629c3658a"
+}

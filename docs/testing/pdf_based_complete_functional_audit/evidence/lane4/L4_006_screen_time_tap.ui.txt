@@ -19,7 +19,7 @@ omitted_notification_nodes=0
 10|text=|desc=realme RMX2161|id=|class=android.view.View|clickable=false|bounds=[189,185][599,246]
 11|text=|desc=Refresh device|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
 12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
-13|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+13|text=|desc=
 14|text=|desc=Device permissions
 Reported by the child device. Unknown means it has not reported.
 Usage access
@@ -34,8 +34,8 @@ Granted
 Microphone
 Granted
 Notifications
-Granted|id=|class=android.view.View|clickable=false|bounds=[42,289][1038,647]
-15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,647][1038,679]
+Granted|id=|class=android.view.View|clickable=false|bounds=[42,289][1038,647]|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+14|text=|desc=
 16|text=|desc=Recent commands
 Delivery is confirmed by the device, not by this screen.|id=|class=android.view.View|clickable=false|bounds=[42,679][1038,1760]
 17|text=|desc=Sync policy
@@ -47,11 +47,11 @@ Succeeded · 1 d ago|id=|class=android.view.View|clickable=false|bounds=[87,1212
 20|text=|desc=Apply policy
 Succeeded · 1 d ago|id=|class=android.view.View|clickable=false|bounds=[87,1380][993,1548]
 21|text=|desc=Apply policy
-Succeeded · 1 d ago|id=|class=android.view.View|clickable=false|bounds=[87,1548][993,1716]
-22|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1760][1038,1792]
-23|text=|desc=Manage|id=|class=android.view.View|clickable=false|bounds=[42,1792][1038,2424]
-24|text=|desc=App restrictions|id=|class=android.widget.Button|clickable=true|bounds=[87,1936][993,2083]
-25|text=|desc=Screen time|id=|class=android.widget.Button|clickable=true|bounds=[87,2083][993,2230]
-26|text=|desc=Location|id=|class=android.widget.Button|clickable=true|bounds=[87,2230][993,2377]
-27|text=|desc=Safe zones|id=|class=android.widget.Button|clickable=true|bounds=[87,2377][993,2424]
+Succeeded · 1 d ago|id=|class=android.view.View|clickable=false|bounds=[87,1548][993,1716]|id=|class=android.view.View|clickable=false|bounds=[42,647][1038,679]
+15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1760][1038,1792]
+16|text=|desc=Manage|id=|class=android.view.View|clickable=false|bounds=[42,1792][1038,2424]
+17|text=|desc=App restrictions|id=|class=android.widget.Button|clickable=true|bounds=[87,1936][993,2083]
+18|text=|desc=Screen time|id=|class=android.widget.Button|clickable=true|bounds=[87,2083][993,2230]
+19|text=|desc=Location|id=|class=android.widget.Button|clickable=true|bounds=[87,2230][993,2377]
+20|text=|desc=Safe zones|id=|class=android.widget.Button|clickable=true|bounds=[87,2377][993,2424]
 UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

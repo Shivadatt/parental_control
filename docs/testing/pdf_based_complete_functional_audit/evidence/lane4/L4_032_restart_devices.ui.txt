@@ -1,0 +1,68 @@
+start=2026-11-26T15:47:57+05:30
+end=2026-11-26T15:48:00+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+ui_command=adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=23
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2424]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,289]
+9|text=|desc=[REDACTED_HEADER]|id=|class=android.view.View|clickable=false|bounds=[42,185][175,246]
+10|text=|desc=Refresh dashboard|id=|class=android.widget.Button|clickable=false|bounds=[954,153][1080,279]
+11|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2151]
+12|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2151]
+13|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,310][1038,315]
+14|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,315][1038,347]
+15|text=|desc=[REDACTED_ACCOUNT]
+realme RMX2161
+Revoked
+Last seen
+last seen 317 h ago · Nov 13, 2026 10:18 AM
+Battery
+100% (charging)
+Enforcement
+Device admin only
+Policy
+No policy applied yet
+[REDACTED_ACCOUNT]
+realme RMX2161
+Revoked
+Last seen
+last seen 310 h ago · Nov 13, 2026 5:23 PM
+Battery
+100% (charging)
+Enforcement
+Not enforced
+Policy
+Policy v2 · status not available
+[REDACTED_ACCOUNT]
+realme RMX2161
+Online
+Last seen
+synced 3 min ago · Nov 26, 2026 3:44 PM
+Battery
+100% (charging)
+Enforcement
+Device admin only
+Policy
+Policy v3 · status not available|id=|class=android.view.View|clickable=false|bounds=[42,347][1038,2151]
+16|text=|desc=Open device|id=|class=android.widget.Button|clickable=true|bounds=[647,940][993,1066]
+17|text=|desc=Open device|id=|class=android.widget.Button|clickable=true|bounds=[647,1735][993,1861]
+18|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,2151][1080,2361]
+19|text=|desc=Dashboard
+Tab 1 of 4|id=|class=android.widget.Button|clickable=true|bounds=[0,2151][270,2361]
+20|text=|desc=Devices
+Tab 2 of 4|id=|class=android.widget.Button|clickable=true|bounds=[270,2151][540,2361]
+21|text=|desc=Alerts
+Tab 3 of 4|id=|class=android.widget.Button|clickable=true|bounds=[540,2151][810,2361]
+22|text=|desc=Settings
+Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2151][1080,2361]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

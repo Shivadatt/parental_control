@@ -1,0 +1,14 @@
+test_id=L4_MEDIA_CAMERA_RECONNECT
+label=L4_MEDIA_CAMERA_RECONNECT_child_background_launcher
+start=2026-11-26T16:18:14+05:30
+end=2026-11-26T16:18:17+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+ui_command=adb -s 5HXWRGQ4IFU8WS4T shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=1
+omitted_notification_nodes=0
+retention=activity-summary-only; unrelated launcher labels omitted
+0|text=Child launcher observed|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:52:38+05:30",
+  "end": "2026-11-26T15:52:39+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input swipe 540 1850 540 850",
+  "exit": 0,
+  "duration_seconds": 0.38,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "a15f92ef7ae7b249db6ad976913c0ca418e814d6d5186ff9d1e8c5ad1dce0a42",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_cold_devices_scroll.txt"
+}

@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:54:31+05:30",
+  "end": "2026-11-26T15:54:31+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 1404",
+  "exit": 0,
+  "duration_seconds": 0.056,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "a0c6fb9eb796bf5154c300d41f47598e5a8dd52b5b3a4482835fbb3c33b8c6e5",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_cancel_request_tap.txt"
+}

@@ -1,0 +1,13 @@
+test_id=L4_MEDIA_CAMERA
+label=L4_MEDIA_CAMERA_child_request_detail
+start=2026-11-26T16:15:07+05:30
+end=2026-11-26T16:15:11+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=15
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[12,119][156,263]
+10|label=Requests|class=android.view.View|clickable=false|bounds=[216,157][469,226]
+11|label=Refresh requests|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]

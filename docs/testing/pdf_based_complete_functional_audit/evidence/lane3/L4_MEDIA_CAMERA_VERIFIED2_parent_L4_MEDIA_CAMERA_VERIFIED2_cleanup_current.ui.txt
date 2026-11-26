@@ -1,0 +1,18 @@
+test_id=L4_MEDIA_CAMERA_VERIFIED2
+label=L4_MEDIA_CAMERA_VERIFIED2_cleanup_current
+start=2026-11-26T16:25:00+05:30
+end=2026-11-26T16:25:03+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=21
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|label=Assistance session|class=android.view.View|clickable=false|bounds=[189,185][645,246]
+11|label=Refresh status|class=android.widget.Button|clickable=true|bounds=[765,153][891,279]
+12|label=End|class=android.widget.Button|clickable=true|bounds=[891,153][1059,279]
+15|label=Video assistance Active Device realme RMX2161 Child [REDACTED_NAME] Requested Nov 26, 2026 4:23 PM · 1 min ago Session duration Until you end the session Elapsed 31s Child consent Recorded Accepted Nov 26, 2026 4:24 PM|class=android.view.View|clickable=false|bounds=[0,310][1080,1189]
+16|label=Relay not configured No TURN relay is configured. Audio/video may fail to connect on networks with strict firewalls or carrier NAT.|class=android.view.View|clickable=false|bounds=[0,1189][1080,1462]
+18|label=Media connected Video live Ending stops video streaming.|class=android.view.View|clickable=false|bounds=[0,2104][1080,2282]
+20|label=End session|class=android.widget.Button|clickable=true|bounds=[42,2282][1038,2413]

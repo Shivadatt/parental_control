@@ -1,0 +1,17 @@
+{
+  "start": "2026-11-26T15:55:46+05:30",
+  "end": "2026-11-26T15:55:46+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys media.camera",
+  "exit": 0,
+  "duration_seconds": 0.397,
+  "raw_stdout_lines": 17872,
+  "selected_stdout_lines": 10,
+  "include": [
+    "Active Camera Clients|parent_control|[REDACTED_PACKAGE]|Device state|Number of camera"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "f7bf52787ebda2af98a11c8e5f766e5281968bd83c12935d6170e67d26b1774c",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_after_child_camera.txt"
+}

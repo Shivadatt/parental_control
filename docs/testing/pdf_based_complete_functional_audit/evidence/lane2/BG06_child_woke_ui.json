@@ -9,7 +9,7 @@
   "exit": 0,
   "node_count": 81,
   "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2\\BG06_child_woke.ui.txt",
-  "sha256": "918caf9d0c097cbf18d06c8a1ca985b8e24f020a33a61dbd31d3ca05e002dfa4",
+  "sha256": "a1f59af7db0f128c91268399d4580bc963b3ac354f200fc5984be5bcbae7c0a8",
   "omitted_notification_nodes": 24,
   "_evidence_repair": {
     "reason": "Notification previews were removed after capture; output hash and omission count refreshed."

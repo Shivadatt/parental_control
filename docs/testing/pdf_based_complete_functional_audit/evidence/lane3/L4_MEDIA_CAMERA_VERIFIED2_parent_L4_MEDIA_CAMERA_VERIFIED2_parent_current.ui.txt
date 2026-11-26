@@ -1,0 +1,16 @@
+test_id=L4_MEDIA_CAMERA_VERIFIED2
+label=L4_MEDIA_CAMERA_VERIFIED2_parent_current
+start=2026-11-26T16:23:28+05:30
+end=2026-11-26T16:23:31+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=19
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|label=Assistance session|class=android.view.View|clickable=false|bounds=[189,185][645,246]
+11|label=Refresh status|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+14|label=Video assistance Ended Device realme RMX2161 Child [REDACTED_NAME] Requested Nov 26, 2026 4:20 PM · Just now Child consent Not recorded Ended Nov 26, 2026 4:21 PM|class=android.view.View|clickable=false|bounds=[0,310][1080,1021]
+15|label=Session ended This session is over.|class=android.view.View|clickable=false|bounds=[0,1021][1080,1250]
+18|label=This app does not record audio or video, take screenshots, or capture the screen. Ending or leaving stops the media tracks immediately.|class=android.view.View|clickable=false|bounds=[0,1423][1080,1599]

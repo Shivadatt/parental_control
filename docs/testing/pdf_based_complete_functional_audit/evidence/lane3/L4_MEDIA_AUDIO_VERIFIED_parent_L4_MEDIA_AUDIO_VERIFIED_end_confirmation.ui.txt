@@ -1,0 +1,14 @@
+test_id=L4_MEDIA_AUDIO_VERIFIED
+label=L4_MEDIA_AUDIO_VERIFIED_end_confirmation
+start=2026-11-26T16:42:50+05:30
+end=2026-11-26T16:42:53+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=17
+retention=whitelisted visible labels and bounds only; raw XML not retained
+11|label=End assistance session?|class=android.view.View|clickable=false|bounds=[168,976][912,1060]
+13|label=This stops audio playback and ends the session for both participants.|class=android.view.View|clickable=false|bounds=[168,1102][912,1207]
+14|label=Cancel|class=android.widget.Button|clickable=true|bounds=[735,1270][912,1396]
+15|label=End session|class=android.widget.Button|clickable=true|bounds=[168,1396][912,1527]

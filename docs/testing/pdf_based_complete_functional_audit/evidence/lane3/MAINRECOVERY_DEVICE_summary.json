@@ -45,7 +45,7 @@
   "child_background_restored": {
     "foreground": false,
     "components": [
-      "com.android.launcher/.Launcher"
+      "[REDACTED_PACKAGE]/.Launcher"
     ],
     "exit": 0
   },

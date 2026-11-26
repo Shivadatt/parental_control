@@ -1,0 +1,14 @@
+test_id=L4_MEDIA_VIDEO_STOP_VERIFIED
+label=L4_MEDIA_VIDEO_STOP_VERIFIED_child_join_confirmation
+start=2026-11-26T16:49:21+05:30
+end=2026-11-26T16:49:24+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=18
+retention=whitelisted visible labels and bounds only; raw XML not retained
+11|label=Start the live session?|class=android.view.View|clickable=false|bounds=[192,777][888,969]
+13|label=Your camera and microphone will be used until you end the session. The parent requested this session and you already accepted. Nothing is recorded.|class=android.view.View|clickable=false|bounds=[192,1017][888,1317]
+14|label=Cancel|class=android.widget.Button|clickable=true|bounds=[686,1389][888,1533]
+15|label=Join now|class=android.widget.Button|clickable=true|bounds=[192,1533][888,1683]

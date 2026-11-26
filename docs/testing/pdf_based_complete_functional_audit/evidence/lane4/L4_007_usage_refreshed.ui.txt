@@ -21,16 +21,16 @@ omitted_notification_nodes=0
 12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
 13|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
 14|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,310][1038,315]
-15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,315][1038,347]
+15|text=|desc=
 16|text=|desc=Usage Access
 Reported by the child device
 Granted
-Usage Access is granted on the child device.|id=|class=android.view.View|clickable=false|bounds=[42,347][1038,630]
-17|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,630][1038,662]
+Usage Access is granted on the child device.|id=|class=android.view.View|clickable=false|bounds=[42,347][1038,630]|id=|class=android.view.View|clickable=false|bounds=[42,315][1038,347]
+16|text=|desc=
 18|text=|desc=Last usage upload
 Recent
-Nov 26, 2026 1:35 PM · 56 min ago|id=|class=android.view.View|clickable=false|bounds=[42,662][1038,911]
-19|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,911][1038,943]
+Nov 26, 2026 1:35 PM · 56 min ago|id=|class=android.view.View|clickable=false|bounds=[42,662][1038,911]|id=|class=android.view.View|clickable=false|bounds=[42,630][1038,662]
+17|text=|desc=
 20|text=|desc=Usage
 From usage_daily rows uploaded by the device
 Today
@@ -55,12 +55,12 @@ Last used 16 h ago
 Last used 16 h ago
 [REDACTED_APP]
 0s
-Last used 7 h ago|id=|class=android.view.View|clickable=false|bounds=[42,943][1038,2424]
-21|text=|desc=Today|id=|class=android.widget.Button|clickable=true|bounds=[87,1378][329,1504]
-22|text=|desc=7 days|id=|class=android.widget.Button|clickable=true|bounds=[329,1378][571,1504]
-23|text=|desc=100|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,1688][993,1709]
-24|text=|desc=64|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,1846][993,1867]
-25|text=|desc=4|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,2003][993,2024]
-26|text=|desc=4|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,2161][993,2182]
-27|text=|desc=0|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,2318][993,2339]
+Last used 7 h ago|id=|class=android.view.View|clickable=false|bounds=[42,943][1038,2424]|id=|class=android.view.View|clickable=false|bounds=[42,911][1038,943]
+18|text=|desc=Today|id=|class=android.widget.Button|clickable=true|bounds=[87,1378][329,1504]
+19|text=|desc=7 days|id=|class=android.widget.Button|clickable=true|bounds=[329,1378][571,1504]
+20|text=|desc=100|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,1688][993,1709]
+21|text=|desc=64|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,1846][993,1867]
+22|text=|desc=4|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,2003][993,2024]
+23|text=|desc=4|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,2161][993,2182]
+24|text=|desc=0|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,2318][993,2339]
 UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

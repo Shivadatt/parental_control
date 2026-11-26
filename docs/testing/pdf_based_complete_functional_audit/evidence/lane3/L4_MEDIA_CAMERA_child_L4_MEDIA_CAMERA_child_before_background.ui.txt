@@ -1,0 +1,17 @@
+test_id=L4_MEDIA_CAMERA
+label=L4_MEDIA_CAMERA_child_before_background
+start=2026-11-26T16:14:16+05:30
+end=2026-11-26T16:14:19+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=23
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Requests|class=android.view.View|clickable=false|bounds=[48,157][301,226]
+10|label=Refresh requests|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+16|label=Requests refreshed 18 min ago|class=android.view.View|clickable=false|bounds=[48,1641][1032,1689]
+18|label=Home Tab 1 of 4|class=android.widget.Button|clickable=true|bounds=[0,2112][270,2245]
+19|label=Rules Tab 2 of 4|class=android.widget.Button|clickable=true|bounds=[270,2112][540,2245]
+20|label=Requests Tab 3 of 4|class=android.widget.Button|clickable=true|bounds=[540,2112][810,2245]
+21|label=Settings Tab 4 of 4|class=android.widget.Button|clickable=true|bounds=[810,2112][1080,2245]

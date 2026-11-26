@@ -1,0 +1,50 @@
+start=2026-11-26T15:13:23+05:30
+end=2026-11-26T15:13:26+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+ui_command=adb -s 5HXWRGQ4IFU8WS4T shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=27
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2245]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,275]
+9|text=|desc=[REDACTED_HEADER]|id=|class=android.view.View|clickable=false|bounds=[48,157][581,226]
+10|text=|desc=Refresh settings|id=|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+11|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,275][1080,2112]
+12|text=|desc=
+13|text=|desc=Android control
+Not managed
+Device admin only — app blocking is not available
+Without Device Owner control this app cannot suspend other apps. Rules stay configured but are not described as enforced.|id=|class=android.view.View|clickable=false|bounds=[48,275][1032,903]|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,275][1080,2112]
+13|text=|desc=View rules and verification|id=|class=android.widget.Button|clickable=true|bounds=[99,702][981,852]
+14|text=|desc=
+16|text=|desc=Background protection
+Running
+Service
+Running with a visible notification
+Last command check
+3 h ago
+App list upload failed: apps[14].package_name is not a valid Android package name.|id=|class=android.view.View|clickable=false|bounds=[48,939][1032,1899]|id=|class=android.view.View|clickable=false|bounds=[48,903][1032,939]
+15|text=|desc=Retry background protection|id=|class=android.widget.Button|clickable=true|bounds=[99,1698][981,1848]
+16|text=|desc=
+19|text=|desc=Account actions
+Unlinking stops background protection and location sharing on this phone. Your guardian can no longer see this device.|id=|class=android.view.View|clickable=false|bounds=[48,1935][1032,2112]|id=|class=android.view.View|clickable=false|bounds=[48,1899][1032,1935]
+17|text=|desc=Unlink this phone from the family|id=|class=android.widget.Button|clickable=true|bounds=[99,2100][981,2112]
+18|text=|desc=
+22|text=|desc=Home
+Tab 1 of 4|id=|class=android.widget.Button|clickable=true|bounds=[0,2112][270,2245]
+23|text=|desc=Rules
+Tab 2 of 4|id=|class=android.widget.Button|clickable=true|bounds=[270,2112][540,2245]
+24|text=|desc=Requests
+Tab 3 of 4|id=|class=android.widget.Button|clickable=true|bounds=[540,2112][810,2245]
+25|text=|desc=Settings
+Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2112][1080,2245]|id=|class=android.view.View|clickable=false|bounds=[0,2112][1080,2245]
+19|text=|desc=|id=android:id/navigationBarBackground|class=android.view.View|clickable=false|bounds=[0,0][0,0]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

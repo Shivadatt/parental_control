@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:52:47+05:30",
+  "end": "2026-11-26T15:52:47+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input swipe 540 1900 540 700",
+  "exit": 0,
+  "duration_seconds": 0.379,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "93f01958316dd767336806c5e14f6411baa1aa8a01f2a49c11f228584868a2be",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_cold_scroll_one.txt"
+}

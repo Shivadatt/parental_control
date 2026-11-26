@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:11:10+05:30",
+  "end": "2026-11-26T15:11:10+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 1780",
+  "exit": 0,
+  "duration_seconds": 0.052,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "30f33411ad31899ca650219c0191b069df7aece679822e30fcee72e9e7ea5e1e",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_028_location_reminder_restore_tap.txt"
+}

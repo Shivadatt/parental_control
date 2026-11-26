@@ -19,30 +19,30 @@ omitted_notification_nodes=0
 10|text=|desc=App restrictions|id=|class=android.view.View|clickable=false|bounds=[189,185][566,246]
 11|text=|desc=Refresh restrictions|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
 12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
-13|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+13|text=|desc=
 14|text=|desc=Installed apps
 This device has not reported its installed apps yet. An empty snapshot is not the same as "no apps installed".
 No app snapshot reported
-The device has not reported its installed apps. This screen cannot list installed apps until the child device uploads a snapshot; it does not mean the phone has no apps.|id=|class=android.view.View|clickable=false|bounds=[42,289][1038,534]
-15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,534][1038,566]
-16|text=|desc=Block all except allowed|id=|class=android.view.View|clickable=false|bounds=[42,566][1038,1080]
+The device has not reported its installed apps. This screen cannot list installed apps until the child device uploads a snapshot; it does not mean the phone has no apps.|id=|class=android.view.View|clickable=false|bounds=[42,289][1038,534]|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+14|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,534][1038,566]
+15|text=|desc=Block all except allowed
 17|text=|desc=Block every app except the allowed list
-The allowed list must include launchers and essential apps or the phone may become unusable.|id=|class=android.widget.Switch|clickable=true|bounds=[87,710][993,1035]
-18|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1080][1038,1112]
+The allowed list must include launchers and essential apps or the phone may become unusable.|id=|class=android.widget.Switch|clickable=true|bounds=[87,710][993,1035]|id=|class=android.view.View|clickable=false|bounds=[42,566][1038,1080]
+16|text=|desc=
 19|text=|desc=Blocked apps
 A selection is not enforcement. Apps become restricted only after the device acknowledges.
-No apps selected for blocking.|id=|class=android.view.View|clickable=false|bounds=[42,1112][1038,1437]
-20|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1437][1038,1469]
+No apps selected for blocking.|id=|class=android.view.View|clickable=false|bounds=[42,1112][1038,1437]|id=|class=android.view.View|clickable=false|bounds=[42,1080][1038,1112]
+17|text=|desc=
 21|text=|desc=Allowed apps
 Only used when "block all except allowed" is on. System-critical apps still need to stay available.
-No apps are allowed yet.|id=|class=android.view.View|clickable=false|bounds=[42,1469][1038,1920]
-22|text=|desc=Add allowed app|id=|class=android.widget.Button|clickable=true|bounds=[575,1749][993,1875]
-23|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1920][1038,1962]
-24|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1962][1038,2093]
-25|text=|desc=Save restrictions|id=|class=android.widget.Button|clickable=true|bounds=[42,1962][1038,2093]
-26|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,2093][1038,2120]
-27|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,2120][1038,2251]
-28|text=|desc=Request device sync|id=|class=android.widget.Button|clickable=true|bounds=[42,2120][1038,2251]
-29|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,2251][1038,2277]
-30|text=|desc=The device applies the saved policy on its next check-in. Requests expire server-side; you can send a new sync request.|id=|class=android.view.View|clickable=false|bounds=[42,2277][1038,2361]
+No apps are allowed yet.|id=|class=android.view.View|clickable=false|bounds=[42,1469][1038,1920]|id=|class=android.view.View|clickable=false|bounds=[42,1437][1038,1469]
+18|text=|desc=Add allowed app|id=|class=android.widget.Button|clickable=true|bounds=[575,1749][993,1875]
+19|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1920][1038,1962]
+20|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,1962][1038,2093]
+21|text=|desc=Save restrictions|id=|class=android.widget.Button|clickable=true|bounds=[42,1962][1038,2093]
+22|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,2093][1038,2120]
+23|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,2120][1038,2251]
+24|text=|desc=Request device sync|id=|class=android.widget.Button|clickable=true|bounds=[42,2120][1038,2251]
+25|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,2251][1038,2277]
+26|text=|desc=The device applies the saved policy on its next check-in. Requests expire server-side; you can send a new sync request.|id=|class=android.view.View|clickable=false|bounds=[42,2277][1038,2361]
 UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

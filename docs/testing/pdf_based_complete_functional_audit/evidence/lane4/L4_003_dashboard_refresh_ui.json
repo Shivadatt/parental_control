@@ -10,7 +10,7 @@
   "node_count": 21,
   "omitted_notification_nodes": 0,
   "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_003_dashboard_refresh.ui.txt",
-  "sha256": "b365e7ffb3633e796632d33c307679716a1626cb15101b5cd4fc31066c17d471",
+  "sha256": "f36065db7d7ff51f97d6661f0dc4a850d8ec1045b4753820d7c300478d3f6248",
   "_evidence_repair": {
     "reason": "Parent account display name redacted after capture; output hash refreshed."
   }

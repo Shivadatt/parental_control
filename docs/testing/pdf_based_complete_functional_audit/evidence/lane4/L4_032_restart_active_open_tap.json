@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:48:36+05:30",
+  "end": "2026-11-26T15:48:36+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 820 1185",
+  "exit": 0,
+  "duration_seconds": 0.052,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "ade2a67cf103340ac5eeb835824ff4c1e4e89ced0bff6661d8bbb7a501f8f48f",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_restart_active_open_tap.txt"
+}

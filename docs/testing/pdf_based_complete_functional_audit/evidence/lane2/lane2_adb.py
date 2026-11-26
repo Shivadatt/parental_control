@@ -239,6 +239,7 @@ def node_records(xml: str) -> list[dict]:
             "resource_id": node.attrib.get("resource-id", ""),
             "class": node.attrib.get("class", ""),
             "clickable": node.attrib.get("clickable", ""),
+            "checked": node.attrib.get("checked", ""),
             "bounds": node.attrib.get("bounds", ""),
         })
     return records
@@ -246,6 +247,7 @@ def node_records(xml: str) -> list[dict]:
 
 def redact_account_identifiers(records: list[dict]) -> list[dict]:
     account_names: set[str] = set()
+    family_names: set[str] = set()
     for record in records:
         desc = record["content_desc"]
         if "This account is linked as a child" in desc and desc.splitlines()[0].strip():
@@ -256,6 +258,42 @@ def redact_account_identifiers(records: list[dict]) -> list[dict]:
         dashboard_card = re.match(r"([^\n]+)\n[^\n]+\n(?:Revoked|Online|Offline)\nLast seen", desc)
         if dashboard_card:
             account_names.add(dashboard_card.group(1).strip())
+        session_child = re.search(
+            r"(?:Audio|Video) assistance\n(?:Requested|Accepted|Active|Declined|Expired|Ended|Failed|Waiting for consent)\nDevice\n[^\n]+\nChild\n([^\n]+)",
+            desc,
+        )
+        if session_child:
+            account_names.add(session_child.group(1).strip())
+        assistance_parent = re.search(
+            r"\n([^\n]+)\n(?:Audio|Video) assistance · expires",
+            desc,
+        )
+        if assistance_parent:
+            account_names.add(assistance_parent.group(1).strip())
+        session_parent = re.search(r"(?m)^From\n([^\n]+)", desc)
+        if session_parent:
+            account_names.add(session_parent.group(1).strip())
+        family_name = re.search(r"(?m)^Family name\n([^\n]+)", desc)
+        if family_name:
+            family_names.add(family_name.group(1).strip())
+        if "Requested by\n" in desc and re.search(r"(?m)^(?:Approved|Pending|Denied|Expired)$", desc):
+            lines = desc.splitlines()
+            if len(lines) >= 2:
+                account_names.add(lines[0].strip())
+                family_names.add(lines[1].strip())
+            requested_by = re.search(r"Requested by\n([^\n]+)", desc)
+            if requested_by:
+                account_names.add(requested_by.group(1).strip())
+        if "Family overview" in desc:
+            owner = re.search(r"(?m)^Owner\n([^\n]+?)(?: \(you\))?$", desc)
+            if owner:
+                account_names.add(owner.group(1).strip())
+            guardian = re.search(r"(?m)^([^\n]+) \(you\)\nFamily owner\nActive$", desc)
+            if guardian:
+                account_names.add(guardian.group(1).strip())
+            child = re.search(r"(?m)^([^\n]+)\nActive\nRole\nChild\nJoined$", desc)
+            if child:
+                account_names.add(child.group(1).strip())
     retained: list[dict] = []
     for record in records:
         text = record["text"]
@@ -265,8 +303,18 @@ def redact_account_identifiers(records: list[dict]) -> list[dict]:
         if desc.strip() in account_names:
             desc = "[REDACTED_ACCOUNT]"
         for name in account_names:
-            desc = re.sub(rf"(?m)^{re.escape(name)}$", "[REDACTED_ACCOUNT]", desc)
+            desc = re.sub(rf"(?m)^{re.escape(name)}(?: \(you\))?$", "[REDACTED_ACCOUNT]", desc)
+        for name in family_names:
+            if text.strip() == name:
+                text = "[REDACTED_FAMILY]"
+            if desc.strip() == name:
+                desc = "[REDACTED_FAMILY]"
+            desc = re.sub(rf"(?m)^{re.escape(name)}$", "[REDACTED_FAMILY]", desc)
+            desc = re.sub(rf"(?m)^{re.escape(name)}: ", "[REDACTED_FAMILY]: ", desc)
         desc = re.sub(r"(Signed in as\n)[^\n]+", r"\1[REDACTED_ACCOUNT]", desc)
+        desc = re.sub(r"(?m)^(Actor\n)[^\n]+", r"\1[REDACTED_ACTOR]", desc)
+        desc = re.sub(r"(?m)^(Device\n)[^\n]+", r"\1[REDACTED_DEVICE]", desc)
+        desc = re.sub(r"(?m)^(Target\n)[^\n]+", r"\1[REDACTED_TARGET]", desc)
         if "From usage_daily rows uploaded by the device" in desc:
             desc = re.sub(
                 r"(?m)^(?!Parent Control$)([^\n]+)\n((?:\d+h )?\d+m(?: \d+s)?|\d+s)\nLast used",
@@ -331,9 +379,10 @@ def ui_evidence(serial: str, name: str, timeout: int) -> tuple[int, list[dict], 
     lines.append(f"node_count={len(records)}")
     lines.append(f"omitted_notification_nodes={omitted_notification_nodes}")
     for index, record in enumerate(records):
+        checked = f"|checked={record['checked']}" if record["class"].endswith("Switch") else ""
         lines.append(
             f"{index}|text={sanitize(record['text'])}|desc={sanitize(record['content_desc'])}|"
-            f"id={record['resource_id']}|class={record['class']}|clickable={record['clickable']}|bounds={record['bounds']}"
+            f"id={record['resource_id']}|class={record['class']}|clickable={record['clickable']}|bounds={record['bounds']}{checked}"
         )
     output = ensure_output(f"{name}.ui.txt")
     output.write_text("\n".join(lines) + "\n" + messages, encoding="utf-8", newline="\n")
@@ -410,7 +459,7 @@ def tap_text(serial: str, name: str, text: str, timeout: int, occurrence: int) -
     tab_pattern = re.compile(rf"{re.escape(needle)}\s+Tab \d+ of \d+", re.IGNORECASE)
     for record in records:
         values = (record["text"], record["content_desc"])
-        if any(value.casefold() == needle or tab_pattern.fullmatch(value) for value in values) and parse_bounds(record["bounds"]):
+        if any(value.casefold() == needle or value.splitlines()[0].casefold() == needle or tab_pattern.fullmatch(value) for value in values if value) and parse_bounds(record["bounds"]):
             matches.append(record)
     if occurrence < 0 or occurrence >= len(matches):
         print(json.dumps({"exit": 3, "matches": len(matches), "wanted": sanitize(text), "ui": ui_path}))

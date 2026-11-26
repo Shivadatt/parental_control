@@ -1,7 +1,7 @@
 {
   "root": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2",
-  "generated_at": "2026-11-26T14:07:53+05:30",
-  "json_files_checked": 291,
+  "generated_at": "2026-11-26T17:05:18+05:30",
+  "json_files_checked": 289,
   "invalid_json": [],
   "missing_outputs": [],
   "hash_checks": 288,
@@ -24,7 +24,11 @@
     "BG07_parent_s02_ui.json",
     "BG07_parent_s03_ui.json"
   ],
-  "timestamp_placeholder_note": "Legacy BG-07 sanitizer placeholders remain where original short log timestamps were not reconstructed; outer capture timestamps and monitor summaries are retained.",
+  "timestamp_placeholder_note": "Legacy placeholders remain only where the original short log timestamps were not reconstructed; outer capture timestamps and monitor summaries are retained.",
   "notification_shade_redaction_issues": [],
+  "privacy_findings": [],
+  "remote_identity_redaction_issues": [],
+  "manifest_file_count": 610,
+  "manifest_total_bytes": 1465039,
   "status": "PASS"
 }

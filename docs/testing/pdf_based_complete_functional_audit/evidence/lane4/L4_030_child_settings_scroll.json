@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:13:27+05:30",
+  "end": "2026-11-26T15:13:27+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell input swipe 540 1800 540 500",
+  "exit": 0,
+  "duration_seconds": 0.382,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "96c8cde851f6bcfdb815e628fc41c8d5407d10195f86f882b2de60b0192dc561",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_030_child_settings_scroll.txt"
+}

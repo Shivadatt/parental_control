@@ -1,0 +1,293 @@
+start=2026-11-26T15:42:26+05:30
+end=2026-11-26T15:42:27+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys media.camera
+exit=0
+duration_seconds=0.337
+raw_stdout_lines=17872
+selected_stdout_lines=279
+include=["Device state|Number of|parent_control|[REDACTED_PACKAGE]|Camera"]
+exclude=[]
+--- selected stdout ---
+Number of camera devices: 7
+Number of normal camera devices: 5
+Number of public camera devices visible to API1: 2
+Active Camera Clients:
+== Camera service events log (most recent at top): ==
+  11-25 12:00:11 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:58:45 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:39:15 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:37:44 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:17:38 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:16:25 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 09:41:05 : DISCONNECT device 0 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 09:40:33 : CONNECT device 0 client for package com.parentcontrol.parent_control (PID 13967)
+== Camera device 0 dynamic info: ==
+== Camera device 1 dynamic info: ==
+== Camera device 2 dynamic info: ==
+== Camera device 3 dynamic info: ==
+== Camera device 4 dynamic info: ==
+== Camera device 5 dynamic info: ==
+== Camera device 6 dynamic info: ==
+== Camera Provider HAL internal/0-0 (v2.6, remote) static info: 7 devices: ==
+== Camera HAL device device@3.6/internal/0 (v3.6) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 204 / 204 entries, 35376 / 35376 bytes of extra data.
+        [PRIMARY_CAMERA ]
+      [REDACTED_PACKAGE] (800e0000): int32[1]
+      [REDACTED_PACKAGE] (800e0004): byte[1]
+      [REDACTED_PACKAGE] (90020034): int32[1]
+      [REDACTED_PACKAGE] (9002005c): int32[1]
+      [REDACTED_PACKAGE] (9002005d): int32[8]
+      [REDACTED_PACKAGE] (90020060): byte[1]
+      [REDACTED_PACKAGE] (90020061): byte[8]
+      [REDACTED_PACKAGE] (9002008f): byte[1]
+      [REDACTED_PACKAGE] (900200a0): int32[1]
+== Camera HAL device device@3.6/internal/0 (v3.6) dumpState: ==
+## Camera device [0]
+## Camera device [device@3.6/internal/0]
+== state transition (most recent at bottom): Camera device ==
+  11-25 09:40:34.342 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.436 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.441 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.532 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.565 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.598 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.635 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.664 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.698 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.730 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.763 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.797 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.831 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.864 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.897 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.930 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.963 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.997 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:35.031 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:35.064 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:35.097 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:35.131 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:35.163 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:35.197 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:35.231 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:04.756 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:04.789 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:04.822 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:04.856 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:04.889 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:04.923 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:04.956 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:04.989 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:05.022 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:05.056 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:05.089 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:05.123 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:05.156 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:05.189 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:41:05.222 : E [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-25 09:40:34.341 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.436 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.441 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.532 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.565 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.598 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.635 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.664 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.698 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.730 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.763 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.797 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.831 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.864 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-25 09:40:34.897 : W [0-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+== Camera HAL device device@3.6/internal/1 (v3.6) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 170 / 170 entries, 31944 / 31944 bytes of extra data.
+      [REDACTED_PACKAGE] (800e0000): int32[1]
+      [REDACTED_PACKAGE] (800e0004): byte[1]
+      [REDACTED_PACKAGE] (90020034): int32[1]
+      [REDACTED_PACKAGE] (9002005c): int32[1]
+      [REDACTED_PACKAGE] (9002005d): int32[8]
+      [REDACTED_PACKAGE] (9002008f): byte[1]
+== Camera HAL device device@3.6/internal/1 (v3.6) dumpState: ==
+## Camera device [1]
+## Camera device [device@3.6/internal/1]
+== state transition (most recent at bottom): Camera device ==
+  11-06 11:58:04.945 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:04.945 : E [1-AppRequestUtil::getSceneModeCfgData] match setting:CameraHWConfiguration.config value count 2 error!
+  11-06 11:58:04.955 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:04.965 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:04.969 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.009 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.014 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.083 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.116 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.149 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.179 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.214 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.263 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.314 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.368 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.414 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:05.475 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 12:14:57.717 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 12:14:57.722 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 12:14:57.728 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 12:14:57.736 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 12:56:04.524 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 12:56:04.530 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 12:56:04.544 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 12:56:04.551 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.697 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.731 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.765 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.798 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.830 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.864 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.897 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.931 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.964 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:23.997 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:24.031 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:24.064 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:24.097 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:24.131 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-26 13:20:24.164 : E [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config get 0 value error 1!
+  11-06 11:58:04.945 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:04.955 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:04.964 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:04.969 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.009 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.014 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.083 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.116 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.149 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.179 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.214 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.263 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.314 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.368 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+  11-06 11:58:05.414 : W [1-AppRequestUtil::OplusSetAESceneMode] match setting:CameraHWConfiguration.config value count 0 error!
+== Camera HAL device device@3.6/internal/2 (v3.6) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 162 / 162 entries, 32000 / 32000 bytes of extra data.
+        [PRIMARY_CAMERA ]
+        [SYSTEM_CAMERA BACKWARD_COMPATIBLE MANUAL_SENSOR MANUAL_POST_PROCESSING READ_SENSOR_SETTINGS RAW BURST_CAPTURE PRIVATE_REPROCESSING YUV_REPROCESSING ]
+      [REDACTED_PACKAGE] (800e0000): int32[1]
+      [REDACTED_PACKAGE] (800e0004): byte[1]
+      [REDACTED_PACKAGE] (90020034): int32[1]
+      [REDACTED_PACKAGE] (9002005c): int32[1]
+      [REDACTED_PACKAGE] (9002005d): int32[6]
+      [REDACTED_PACKAGE] (9002008f): byte[1]
+      [REDACTED_PACKAGE] (900200a0): int32[1]
+== Camera HAL device device@3.6/internal/2 (v3.6) dumpState: ==
+## Camera device [2]
+## Camera device [device@3.6/internal/2]
+== state transition (most recent at bottom): Camera device ==
+== Camera HAL device device@3.6/internal/3 (v3.6) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 123 / 123 entries, 31000 / 31000 bytes of extra data.
+        [SYSTEM_CAMERA BACKWARD_COMPATIBLE MANUAL_SENSOR MANUAL_POST_PROCESSING READ_SENSOR_SETTINGS RAW BURST_CAPTURE ]
+      [REDACTED_PACKAGE] (800e0000): int32[1]
+      [REDACTED_PACKAGE] (800e0004): byte[1]
+      [REDACTED_PACKAGE] (9002005c): int32[1]
+      [REDACTED_PACKAGE] (9002005d): int32[4]
+      [REDACTED_PACKAGE] (9002008f): byte[1]
+== Camera HAL device device@3.6/internal/3 (v3.6) dumpState: ==
+## Camera device [3]
+## Camera device [device@3.6/internal/3]
+== state transition (most recent at bottom): Camera device ==
+== Camera HAL device device@3.6/internal/4 (v3.6) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 126 / 126 entries, 29200 / 29200 bytes of extra data.
+        [PRIMARY_CAMERA ]
+        [SYSTEM_CAMERA BACKWARD_COMPATIBLE MANUAL_SENSOR MANUAL_POST_PROCESSING READ_SENSOR_SETTINGS RAW BURST_CAPTURE ]
+      [REDACTED_PACKAGE] (800e0000): int32[1]
+      [REDACTED_PACKAGE] (800e0004): byte[1]
+      [REDACTED_PACKAGE] (9002005c): int32[1]
+      [REDACTED_PACKAGE] (9002005d): int32[4]
+      [REDACTED_PACKAGE] (9002008f): byte[1]
+== Camera HAL device device@3.6/internal/4 (v3.6) dumpState: ==
+## Camera device [4]
+## Camera device [device@3.6/internal/4]
+== state transition (most recent at bottom): Camera device ==
+== Camera HAL device device@3.6/internal/5 (v3.6) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 209 / 209 entries, 37920 / 37920 bytes of extra data.
+        [PRIMARY_CAMERA ]
+        [SYSTEM_CAMERA BACKWARD_COMPATIBLE MANUAL_SENSOR MANUAL_POST_PROCESSING READ_SENSOR_SETTINGS RAW BURST_CAPTURE PRIVATE_REPROCESSING YUV_REPROCESSING LOGICAL_MULTI_CAMERA ]
+      android.logicalMultiCamera.physicalIds (1a0000): byte[4]
+      android.logicalMultiCamera.sensorSyncType (1a0001): byte[1]
+      [REDACTED_PACKAGE] (800e0000): int32[1]
+      [REDACTED_PACKAGE] (800e0004): byte[1]
+      [REDACTED_PACKAGE] (90020034): int32[1]
+      [REDACTED_PACKAGE] (9002005c): int32[1]
+      [REDACTED_PACKAGE] (9002005d): int32[8]
+      [REDACTED_PACKAGE] (90020060): byte[1]
+      [REDACTED_PACKAGE] (9002008f): byte[1]
+      [REDACTED_PACKAGE] (900200a0): int32[1]
+== Camera HAL device device@3.6/internal/5 (v3.6) dumpState: ==
+## Camera device [5]
+## Camera device [device@3.6/internal/5]
+== state transition (most recent at bottom): Camera device ==
+== Camera HAL device device@3.6/internal/6 (v3.6) static information: ==
+  API2 camera characteristics:
+    Dumping camera metadata array: 209 / 209 entries, 37920 / 37920 bytes of extra data.
+        [PRIMARY_CAMERA ]
+        [SYSTEM_CAMERA BACKWARD_COMPATIBLE MANUAL_SENSOR MANUAL_POST_PROCESSING READ_SENSOR_SETTINGS RAW BURST_CAPTURE PRIVATE_REPROCESSING YUV_REPROCESSING ]
+      android.logicalMultiCamera.physicalIds (1a0000): byte[4]
+      android.logicalMultiCamera.sensorSyncType (1a0001): byte[1]
+      [REDACTED_PACKAGE] (800e0000): int32[1]
+      [REDACTED_PACKAGE] (800e0004): byte[1]
+      [REDACTED_PACKAGE] (90020034): int32[1]
+      [REDACTED_PACKAGE] (9002005c): int32[1]
+      [REDACTED_PACKAGE] (9002005d): int32[8]
+      [REDACTED_PACKAGE] (90020060): byte[1]
+      [REDACTED_PACKAGE] (9002008f): byte[1]
+      [REDACTED_PACKAGE] (900200a0): int32[1]
+== Camera HAL device device@3.6/internal/6 (v3.6) dumpState: ==
+## Camera device [6]
+## Camera device [device@3.6/internal/6]
+== state transition (most recent at bottom): Camera device ==
+    0x800e0000 (calibration.available) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x800e0001 (calibration.mode) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x800e0002 (calibration.result) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x800e0003 (calibration.state) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x800e0004 (customization.available) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x800e0005 (customizedResult) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x800e0006 (customizedTorchDuty) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x90020034 (tunning.super.night.camera.mode) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x90020047 (engineercamera.sfr.mode) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x9002005c (supported.cameraid.type) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x9002005d (engineercamera.jpeg.size) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x90020060 (feature.motion.tracking.camera.id) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x90020061 (feature.motion.tracking.camera.name) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x90020064 (enter.camera.type) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x90020088 (engineercamera.eeprom.dualcam.calibration.mode) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x90020089 (aps.sat.snapshot.multicamera.number) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x9002008f (logical.camera.type) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x9002009e (engineercamera.calibration.eeprom.verify) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x9002009f (engineercamera.calibration.persist.file.verify) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x900200a0 (engineercamera.calibration.flashlight.verify) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x900200b2 (is.sdk.camera.package) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x900200bd (engineercamera.eeprom.aesync.mode) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x900200cf (camera.gyro.value.gyrotoeis) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x900200ef (engineercamera.ois.calibration.mode) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x900200f0 (engineercamera.ois.calibration.gyroOffset) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x900200f1 (engineercamera.ois.calibration.result) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x900200f2 (engineercamera.ois.calibration.stateCtrl) with type 0 (byte) defined in section [REDACTED_PACKAGE]
+    0x900200f3 (engineercamera.sois.calibration.parameters) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x900200f4 (engineercamera.sois.calibration.results) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x900200f5 (engineercamera.ois.calibration.sr) with type 2 (float) defined in section [REDACTED_PACKAGE]
+    0x900200f6 (engineercamera.ois.calibration.gyroGain) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x900200f7 (camera.lens.dirty) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x9002010f (engineercamera.dualcamera.aftersale.request) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x90020110 (engineercamera.dualcamera.aftersale.status) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+    0x9002012b (camera.enter.type) with type 1 (int32) defined in section [REDACTED_PACKAGE]
+== Camera error traces (0): ==
+  No camera traces collected.
+--- stderr ---
+

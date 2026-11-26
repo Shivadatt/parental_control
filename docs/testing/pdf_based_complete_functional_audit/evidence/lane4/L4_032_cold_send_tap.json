@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:53:24+05:30",
+  "end": "2026-11-26T15:53:24+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 1661",
+  "exit": 0,
+  "duration_seconds": 0.059,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "31397590801474a7bf7c8f7be0cc1196b6833a95f73ba8d6ce6db43c34ebb195",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_cold_send_tap.txt"
+}

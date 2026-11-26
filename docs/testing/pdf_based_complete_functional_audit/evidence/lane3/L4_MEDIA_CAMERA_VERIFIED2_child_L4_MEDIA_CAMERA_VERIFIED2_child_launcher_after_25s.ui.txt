@@ -1,0 +1,11 @@
+test_id=L4_MEDIA_CAMERA_VERIFIED2
+label=L4_MEDIA_CAMERA_VERIFIED2_child_launcher_after_25s
+start=2026-11-26T16:24:11+05:30
+end=2026-11-26T16:24:14+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=37
+retention=whitelisted visible labels and bounds only; raw XML not retained
+19|label=Refresh|class=android.widget.ImageView|clickable=false|bounds=[351,719][384,752]

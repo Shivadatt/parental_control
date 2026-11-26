@@ -18,7 +18,7 @@ omitted_notification_nodes=0
 9|text=|desc=[REDACTED_HEADER]|id=|class=android.view.View|clickable=false|bounds=[42,185][175,246]
 10|text=|desc=Refresh dashboard|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
 11|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2151]
-12|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2151]
+12|text=|desc=
 13|text=|desc=[REDACTED_ACCOUNT]
 realme RMX2161
 Revoked
@@ -51,10 +51,10 @@ Battery
 Enforcement
 Device admin only
 Policy
-Policy v3 · Enforced on device|id=|class=android.view.View|clickable=false|bounds=[42,310][1038,2151]
-14|text=|desc=Open device|id=|class=android.widget.Button|clickable=true|bounds=[647,903][993,1029]
-15|text=|desc=Open device|id=|class=android.widget.Button|clickable=true|bounds=[647,1699][993,1825]
-16|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,2151][1080,2361]
+Policy v3 · Enforced on device|id=|class=android.view.View|clickable=false|bounds=[42,310][1038,2151]|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2151]
+13|text=|desc=Open device|id=|class=android.widget.Button|clickable=true|bounds=[647,903][993,1029]
+14|text=|desc=Open device|id=|class=android.widget.Button|clickable=true|bounds=[647,1699][993,1825]
+15|text=|desc=
 17|text=|desc=Dashboard
 Tab 1 of 4|id=|class=android.widget.Button|clickable=true|bounds=[0,2151][270,2361]
 18|text=|desc=Devices
@@ -62,5 +62,5 @@ Tab 2 of 4|id=|class=android.widget.Button|clickable=true|bounds=[270,2151][540,
 19|text=|desc=Alerts
 Tab 3 of 4|id=|class=android.widget.Button|clickable=true|bounds=[540,2151][810,2361]
 20|text=|desc=Settings
-Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2151][1080,2361]
+Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2151][1080,2361]|id=|class=android.view.View|clickable=false|bounds=[0,2151][1080,2361]
 UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

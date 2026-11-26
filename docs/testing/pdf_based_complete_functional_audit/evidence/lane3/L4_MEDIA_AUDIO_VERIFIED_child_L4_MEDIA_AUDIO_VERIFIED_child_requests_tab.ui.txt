@@ -1,0 +1,16 @@
+test_id=L4_MEDIA_AUDIO_VERIFIED
+label=L4_MEDIA_AUDIO_VERIFIED_child_requests_tab
+start=2026-11-26T16:41:49+05:30
+end=2026-11-26T16:41:52+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=23
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[12,119][156,263]
+10|label=Requests|class=android.view.View|clickable=false|bounds=[216,157][469,226]
+11|label=Refresh requests|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+17|label=Assistance requests Accepting a request does not turn on the camera or microphone. You can review and start the session on the next screen, and end it at any time. [REDACTED_ACCOUNT] Audio assistance · expires in 9 min Waiting|class=android.view.View|clickable=false|bounds=[48,668][1032,1382]
+18|label=Decline|class=android.widget.Button|clickable=true|bounds=[99,1181][525,1331]
+19|label=Accept|class=android.widget.Button|clickable=true|bounds=[555,1181][981,1331]

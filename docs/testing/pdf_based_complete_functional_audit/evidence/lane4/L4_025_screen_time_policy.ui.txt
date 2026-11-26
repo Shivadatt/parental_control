@@ -1,0 +1,96 @@
+start=2026-11-26T15:04:02+05:30
+end=2026-11-26T15:04:04+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+ui_command=adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=25
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2424]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,289]
+9|text=|desc=Back|id=|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|text=|desc=Screen time|id=|class=android.view.View|clickable=false|bounds=[189,185][472,246]
+11|text=|desc=Refresh screen time|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
+12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
+13|text=|desc=
+14|text=|desc=Usage
+From usage_daily rows uploaded by the device
+Today
+10h 20m
+Last 7 days
+60h 13m
+Last 7 days · 60h 13m total
+Parent Control
+34h 9m
+Last used 28 min ago
+[REDACTED_APP]
+19h 42m
+Last used 2 h ago
+[REDACTED_APP]
+3h 6m
+Last used 3 d ago
+[REDACTED_APP]
+1h 18m
+Last used 17 h ago
+[REDACTED_APP]
+42m
+Last used 1 d ago
+[REDACTED_APP]
+29m
+Last used 2 d ago
+[REDACTED_APP]
+25m
+Last used 1 d ago
+[REDACTED_APP]
+8m
+Last used 1 d ago
+[REDACTED_APP]
+5m
+Last used 1 d ago
+[REDACTED_APP]
+3m
+Last used 1 d ago
+[REDACTED_APP]
+1m
+Last used 17 h ago
+[REDACTED_APP]
+49s
+Last used 2 d ago
+[REDACTED_APP]
+15s
+Last used 1 d ago
+[REDACTED_APP]
+2s
+Last used 8 h ago|id=|class=android.view.View|clickable=false|bounds=[42,289][1038,761]|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+14|text=|desc=0|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,322][993,343]
+15|text=|desc=0|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,480][993,501]
+16|text=|desc=0|id=|class=android.widget.ProgressBar|clickable=false|bounds=[87,637][993,658]
+17|text=|desc=
+19|text=|desc=Screen-time policy
+Daily limit, bedtime and device acknowledgement
+Enforced on device
+Policy v3 acknowledged by the device. Enforcement depends on the guardian service running on the child phone.
+The device acknowledged this policy version. It must keep Usage Access and the guardian service running for limits to be enforced.
+Daily screen-time limit
+No daily limit
+Time remaining today
+No daily limit set
+Limit reached
+No limit to reach
+Enforcement mode
+Device admin only
+Bedtime
+No bedtime window set.|id=|class=android.view.View|clickable=false|bounds=[42,792][1038,2424]|id=|class=android.view.View|clickable=false|bounds=[42,761][1038,792]
+18|text=|desc=Decrease limit|id=|class=android.widget.Button|clickable=true|bounds=[87,1601][213,1727]
+19|text=|desc=Increase limit|id=|class=android.widget.Button|clickable=true|bounds=[867,1601][993,1727]
+20|text=|desc=Set start|id=|class=android.widget.Button|clickable=true|bounds=[87,2189][530,2320]
+21|text=|desc=Set end|id=|class=android.widget.Button|clickable=true|bounds=[551,2189][993,2320]
+22|text=|desc=Refresh policy state|id=|class=android.widget.Button|clickable=true|bounds=[520,2320][993,2424]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

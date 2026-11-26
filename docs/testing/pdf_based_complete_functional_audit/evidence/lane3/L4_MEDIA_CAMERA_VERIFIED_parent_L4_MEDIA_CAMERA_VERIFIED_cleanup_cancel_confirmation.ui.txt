@@ -1,0 +1,13 @@
+test_id=L4_MEDIA_CAMERA_VERIFIED
+label=L4_MEDIA_CAMERA_VERIFIED_cleanup_cancel_confirmation
+start=2026-11-26T16:21:32+05:30
+end=2026-11-26T16:21:34+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=17
+retention=whitelisted visible labels and bounds only; raw XML not retained
+11|label=Cancel assistance request?|class=android.view.View|clickable=false|bounds=[168,960][912,1128]
+14|label=Cancel|class=android.widget.Button|clickable=true|bounds=[735,1286][912,1412]
+15|label=Cancel request|class=android.widget.Button|clickable=true|bounds=[168,1412][912,1543]

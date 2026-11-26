@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:13:23+05:30",
+  "end": "2026-11-26T15:13:23+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell input tap 945 2178",
+  "exit": 0,
+  "duration_seconds": 0.092,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "3e5d3f1eb33eae5fa2890ef361d824284e216fc88fc6c560caf4f435b6143c9a",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_030_child_settings_open_tap.txt"
+}

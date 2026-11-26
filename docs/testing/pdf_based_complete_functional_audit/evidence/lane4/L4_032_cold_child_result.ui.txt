@@ -1,0 +1,42 @@
+start=2026-11-26T15:53:31+05:30
+end=2026-11-26T15:53:34+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+ui_command=adb -s 5HXWRGQ4IFU8WS4T shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=25
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2245]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2245]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2245]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,275]
+9|text=|desc=[REDACTED_HEADER]|id=|class=android.view.View|clickable=false|bounds=[48,157][301,226]
+10|text=|desc=Refresh requests|id=|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+11|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,275][1080,2112]
+12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,275][1080,2112]
+13|text=|desc=Assistance requests
+A parent is asking to speak with you. Camera and microphone stay off until you accept and then start the session.
+ankit
+Video assistance · expires in 9 min|id=|class=android.widget.Button|clickable=true|bounds=[48,299][1032,911]
+14|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[48,911][1032,947]
+15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[48,947][1032,1097]
+16|text=|desc=Review and respond|id=|class=android.widget.Button|clickable=true|bounds=[48,947][1032,1097]
+17|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[48,1097][1032,1145]
+18|text=|desc=Requests refreshed 2 min ago|id=|class=android.view.View|clickable=false|bounds=[48,1145][1032,1193]
+19|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,2112][1080,2245]
+20|text=|desc=Home
+Tab 1 of 4|id=|class=android.widget.Button|clickable=true|bounds=[0,2112][270,2245]
+21|text=|desc=Rules
+Tab 2 of 4|id=|class=android.widget.Button|clickable=true|bounds=[270,2112][540,2245]
+22|text=|desc=1
+Requests
+Tab 3 of 4|id=|class=android.widget.Button|clickable=true|bounds=[540,2112][810,2245]
+23|text=|desc=Settings
+Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2112][1080,2245]
+24|text=|desc=|id=android:id/navigationBarBackground|class=android.view.View|clickable=false|bounds=[0,0][0,0]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

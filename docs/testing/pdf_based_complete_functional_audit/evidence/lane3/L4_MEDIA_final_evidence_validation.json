@@ -1,0 +1,17 @@
+{
+  "root": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane3",
+  "generated_at": "2026-11-26T17:05:17+05:30",
+  "json_files_checked": 33,
+  "invalid_json": [],
+  "missing_outputs": [],
+  "hash_checks": 4,
+  "hash_mismatches": [],
+  "timestamp_placeholder_files": [],
+  "timestamp_placeholder_note": "Legacy placeholders remain only where the original short log timestamps were not reconstructed; outer capture timestamps and monitor summaries are retained.",
+  "notification_shade_redaction_issues": [],
+  "privacy_findings": [],
+  "remote_identity_redaction_issues": [],
+  "manifest_file_count": 286,
+  "manifest_total_bytes": 2009870,
+  "status": "PASS"
+}

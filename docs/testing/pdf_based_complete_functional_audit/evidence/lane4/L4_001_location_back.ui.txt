@@ -20,7 +20,7 @@ omitted_notification_nodes=0
 11|text=|desc=Refresh|id=|class=android.widget.Button|clickable=true|bounds=[828,153][954,279]
 12|text=|desc=Safe zones|id=|class=android.widget.Button|clickable=true|bounds=[954,153][1080,279]
 13|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2424]
-14|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+14|text=|desc=
 15|text=|desc=Latest fix
 Recent
 [REDACTED_COORD]
@@ -31,11 +31,11 @@ Nov 26, 2026 1:50 PM
 Accuracy
 ±100.0 m
 Source
-network|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,1195]
-16|text=|desc=Manage safe zones|id=|class=android.widget.Button|clickable=true|bounds=[87,977][993,1108]
-17|text=|desc=History|id=|class=android.view.View|clickable=false|bounds=[0,1195][1080,1363]
-18|text=|desc=24h|id=|class=android.widget.Button|clickable=true|bounds=[681,1195][886,1321]
-19|text=|desc=7d|id=|class=android.widget.Button|clickable=true|bounds=[907,1195][1038,1321]
+network|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,1195]|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2424]
+15|text=|desc=Manage safe zones|id=|class=android.widget.Button|clickable=true|bounds=[87,977][993,1108]
+16|text=|desc=History|id=|class=android.view.View|clickable=false|bounds=[0,1195][1080,1363]
+17|text=|desc=24h|id=|class=android.widget.Button|clickable=true|bounds=[681,1195][886,1321]
+18|text=|desc=7d
 20|text=|desc=[REDACTED_COORD]
 Nov 26, 2026 1:50 PM · Just now
 ±100 m
@@ -1532,5 +1532,5 @@ Nov 25, 2026 1:52 PM · 23 h ago
 ±8 m
 [REDACTED_COORD]
 Nov 25, 2026 1:51 PM · 23 h ago
-±100 m|id=|class=android.view.View|clickable=false|bounds=[0,1363][1080,2424]
+±100 m|id=|class=android.view.View|clickable=false|bounds=[0,1363][1080,2424]|id=|class=android.widget.Button|clickable=true|bounds=[907,1195][1038,1321]
 UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

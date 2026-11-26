@@ -1,0 +1,15 @@
+test_id=L4_MEDIA_AUDIO_VERIFIED
+label=L4_MEDIA_AUDIO_VERIFIED_child_live_visible
+start=2026-11-26T16:42:18+05:30
+end=2026-11-26T16:42:22+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=18
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[12,119][156,263]
+11|label=Refresh status|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+14|label=Audio assistance Active From [REDACTED_ACCOUNT] Requested Nov 26, 2026 4:41 PM · 1 min ago Session duration Until your guardian ends the session Elapsed 24s Consent Recorded Accepted Nov 26, 2026 4:41 PM|class=android.view.View|clickable=false|bounds=[0,299][1080,1268]
+15|label=Relay not configured No TURN relay is configured. Audio/video may fail to connect on networks with strict firewalls or carrier NAT.|class=android.view.View|clickable=false|bounds=[0,1268][1080,1631]
+16|label=Microphone is live Media connected Microphone live Stop sharing turns off camera and microphone on this phone.|class=android.view.View|clickable=false|bounds=[0,1631][1080,2245]

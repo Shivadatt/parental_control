@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:05:37+05:30",
+  "end": "2026-11-26T15:05:37+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 1005",
+  "exit": 0,
+  "duration_seconds": 0.058,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "c98eec1141dd2718413b166fa9fa5faba108f980b6f086aa9d3a49e22cd1279c",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_026_family_open_tap.txt"
+}

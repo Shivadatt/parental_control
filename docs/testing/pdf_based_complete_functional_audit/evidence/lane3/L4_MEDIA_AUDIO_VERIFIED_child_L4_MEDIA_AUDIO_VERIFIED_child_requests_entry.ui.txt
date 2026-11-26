@@ -1,0 +1,14 @@
+test_id=L4_MEDIA_AUDIO_VERIFIED
+label=L4_MEDIA_AUDIO_VERIFIED_child_requests_entry
+start=2026-11-26T16:41:40+05:30
+end=2026-11-26T16:41:43+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=20
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[12,119][156,263]
+11|label=Refresh status|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+14|label=Video assistance Ended From [REDACTED_ACCOUNT] Requested Nov 26, 2026 4:36 PM · 2 min ago Consent Recorded Accepted Nov 26, 2026 4:37 PM|class=android.view.View|clickable=false|bounds=[0,299][1080,1016]
+15|label=Session ended This session is over.|class=android.view.View|clickable=false|bounds=[0,1016][1080,1277]

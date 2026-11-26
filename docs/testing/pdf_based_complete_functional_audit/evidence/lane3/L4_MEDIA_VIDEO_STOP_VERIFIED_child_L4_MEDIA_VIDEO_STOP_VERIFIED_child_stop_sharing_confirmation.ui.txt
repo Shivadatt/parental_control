@@ -1,0 +1,14 @@
+test_id=L4_MEDIA_VIDEO_STOP_VERIFIED
+label=L4_MEDIA_VIDEO_STOP_VERIFIED_child_stop_sharing_confirmation
+start=2026-11-26T16:50:22+05:30
+end=2026-11-26T16:50:25+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=18
+retention=whitelisted visible labels and bounds only; raw XML not retained
+11|label=Stop sharing?|class=android.view.View|clickable=false|bounds=[192,855][888,951]
+13|label=This turns off your camera and microphone on this phone immediately. The session stays open until your guardian ends it.|class=android.view.View|clickable=false|bounds=[192,999][888,1239]
+14|label=Cancel|class=android.widget.Button|clickable=true|bounds=[686,1311][888,1455]
+15|label=Stop sharing|class=android.widget.Button|clickable=true|bounds=[192,1455][888,1605]

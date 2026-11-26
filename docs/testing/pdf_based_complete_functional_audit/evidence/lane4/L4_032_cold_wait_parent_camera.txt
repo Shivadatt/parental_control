@@ -1,0 +1,29 @@
+start=2026-11-26T15:54:10+05:30
+end=2026-11-26T15:54:10+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys media.camera
+exit=0
+duration_seconds=0.061
+raw_stdout_lines=1986
+selected_stdout_lines=15
+include=["Active Camera Clients|parent_control|[REDACTED_PACKAGE]|Device state|Number of camera"]
+exclude=[]
+--- selected stdout ---
+Number of camera devices: 2
+Active Camera Clients:
+  11-25 15:24:49 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:07:28 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:01:44 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-25 15:01:17 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:29:06 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:27:45 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:27:43 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 17:24:35 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:37:02 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:35:53 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 31810)
+  11-24 16:33:03 : DISCONNECT device 10 client for package com.parentcontrol.parent_control (PID 0)
+  11-24 16:25:23 : CONNECT device 10 client for package com.parentcontrol.parent_control (PID 28628)
+    Client package: com.parentcontrol.parent_control
+--- stderr ---
+

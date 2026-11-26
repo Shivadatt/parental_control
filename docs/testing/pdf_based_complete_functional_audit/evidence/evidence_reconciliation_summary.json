@@ -1,0 +1,87 @@
+{
+  "generated_at": "2026-11-26T17:05:19+05:30",
+  "lane4_sanitation": {
+    "ui_files_changed": 0,
+    "metadata_hashes_refreshed": 0,
+    "changed_files": []
+  },
+  "lane2_sanitation": {
+    "notification_scroller_files_changed": 0,
+    "metadata_hashes_refreshed": 0
+  },
+  "lane2_package_sanitation": {
+    "package_identity_files_changed": 0,
+    "metadata_hashes_refreshed": 0,
+    "changed_files": []
+  },
+  "lane4_package_sanitation": {
+    "package_identity_files_changed": 0,
+    "metadata_hashes_refreshed": 0,
+    "changed_files": []
+  },
+  "lane3_sanitation": {
+    "ui_files_changed": 1,
+    "metadata_hashes_refreshed": 1,
+    "changed_files": [
+      "L4_MEDIA_CAMERA_RECONNECT_child.ui.txt"
+    ]
+  },
+  "lane3_notification_sanitation": {
+    "notification_scroller_files_changed": 0,
+    "metadata_hashes_refreshed": 0
+  },
+  "lane3_package_sanitation": {
+    "package_identity_files_changed": 0,
+    "metadata_hashes_refreshed": 0,
+    "changed_files": []
+  },
+  "lane3_validation": {
+    "root": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane3",
+    "generated_at": "2026-11-26T17:05:17+05:30",
+    "json_files_checked": 33,
+    "invalid_json": [],
+    "missing_outputs": [],
+    "hash_checks": 4,
+    "hash_mismatches": [],
+    "timestamp_placeholder_note": "Legacy placeholders remain only where the original short log timestamps were not reconstructed; outer capture timestamps and monitor summaries are retained.",
+    "notification_shade_redaction_issues": [],
+    "privacy_findings": [],
+    "remote_identity_redaction_issues": [],
+    "manifest_file_count": 286,
+    "manifest_total_bytes": 2009870,
+    "status": "PASS"
+  },
+  "lane2_validation": {
+    "root": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane2",
+    "generated_at": "2026-11-26T17:05:18+05:30",
+    "json_files_checked": 289,
+    "invalid_json": [],
+    "missing_outputs": [],
+    "hash_checks": 288,
+    "hash_mismatches": [],
+    "timestamp_placeholder_note": "Legacy placeholders remain only where the original short log timestamps were not reconstructed; outer capture timestamps and monitor summaries are retained.",
+    "notification_shade_redaction_issues": [],
+    "privacy_findings": [],
+    "remote_identity_redaction_issues": [],
+    "manifest_file_count": 610,
+    "manifest_total_bytes": 1465039,
+    "status": "PASS"
+  },
+  "lane4_validation": {
+    "root": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4",
+    "generated_at": "2026-11-26T17:05:19+05:30",
+    "json_files_checked": 313,
+    "invalid_json": [],
+    "missing_outputs": [],
+    "hash_checks": 313,
+    "hash_mismatches": [],
+    "timestamp_placeholder_note": "Legacy placeholders remain only where the original short log timestamps were not reconstructed; outer capture timestamps and monitor summaries are retained.",
+    "notification_shade_redaction_issues": [],
+    "privacy_findings": [],
+    "remote_identity_redaction_issues": [],
+    "manifest_file_count": 629,
+    "manifest_total_bytes": 908320,
+    "status": "PASS"
+  },
+  "status": "PASS"
+}

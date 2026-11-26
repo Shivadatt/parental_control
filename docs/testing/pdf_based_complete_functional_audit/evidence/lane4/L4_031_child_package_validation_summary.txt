@@ -1,0 +1,15 @@
+start=2026-11-26T15:30:46+05:30
+end=2026-11-26T15:30:46+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell pm list packages
+exit=0
+duration_seconds=0.134
+installed_package_count=343
+server_regex_accepted_count=341
+server_regex_rejected_count=2
+rejected_single_segment_count=2
+rejected_over_150_characters_count=0
+rejected_other_format_count=0
+parent_control_package_present=True
+package_identities_retained=False

@@ -1,0 +1,63 @@
+start=2026-11-26T15:35:27+05:30
+end=2026-11-26T15:35:30+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+ui_command=adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=22
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2424]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2151]
+9|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,0][1080,2151]
+10|text=|desc=Account
+Email
+[REDACTED_EMAIL]
+Display name
+[REDACTED_NAME]
+Role
+Parent
+Email verification
+Verified|id=|class=android.view.View|clickable=false|bounds=[0,21][1080,596]
+11|text=|desc=Family
+Family name
+[REDACTED_NAME]
+Your family role
+Owner|id=|class=android.view.View|clickable=false|bounds=[0,596][1080,1158]
+12|text=|desc=Family details|id=|class=android.widget.Button|clickable=true|bounds=[87,940][993,1071]
+13|text=|desc=Notifications and reminders
+These switches are local to this phone only. They do not change server authorization, alert creation, or what the child device reports.|id=|class=android.view.View|clickable=false|bounds=[0,1158][1080,1998]
+14|text=|desc=Show local notifications
+A local reminder preference. Safety alerts are still recorded by the server.|id=|class=android.widget.Switch|clickable=true|bounds=[87,1439][993,1649]|checked=true
+15|text=|desc=Location sharing reminder
+A local reminder only. It does not grant or revoke location permission on any device.|id=|class=android.widget.Switch|clickable=true|bounds=[87,1649][993,1911]|checked=true
+16|text=|desc=Privacy & data
+Export or delete your own account, and see the retention windows the server enforces.
+Counts cover the whole family, not just this account.
+[REDACTED_FAMILY]: location retention
+30 days
+[REDACTED_FAMILY]: usage retention
+90 days
+[REDACTED_FAMILY]: older than the window (all members)
+0 location events · 0 usage days
+Last retention sweep
+Not recorded yet
+The sweep timestamp is when the server-wide retention sweep last ran — one global marker row, not this family’s own run time. The sweep deletes signaling rows after 7 days and audit rows after 365 days; location and usage follow each family’s windows above. It runs from the scheduled cron function, not on this phone.
+The server decides the scope. A parent export contains the location, usage, alert and audit rows of every family they belong to — including rows recorded about other members — while a child export is limited to their own devices. A copy is saved in this device's app storage and the JSON can be copied to the clipboard.
+Deleting requires two confirmations: a warning, then typing DELETE and your account email. Other members’ data is never deleted; an owner with remaining members or active devices is refused.|id=|class=android.view.View|clickable=false|bounds=[0,1998][1080,2151]
+17|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,2151][1080,2361]
+18|text=|desc=Dashboard
+Tab 1 of 4|id=|class=android.widget.Button|clickable=true|bounds=[0,2151][270,2361]
+19|text=|desc=Devices
+Tab 2 of 4|id=|class=android.widget.Button|clickable=true|bounds=[270,2151][540,2361]
+20|text=|desc=Alerts
+Tab 3 of 4|id=|class=android.widget.Button|clickable=true|bounds=[540,2151][810,2361]
+21|text=|desc=Settings
+Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2151][1080,2361]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

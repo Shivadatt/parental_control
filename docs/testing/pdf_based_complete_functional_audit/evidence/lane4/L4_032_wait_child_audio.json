@@ -1,0 +1,17 @@
+{
+  "start": "2026-11-26T15:43:31+05:30",
+  "end": "2026-11-26T15:43:31+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell dumpsys media.audio_flinger",
+  "exit": 0,
+  "duration_seconds": 0.092,
+  "raw_stdout_lines": 892,
+  "selected_stdout_lines": 0,
+  "include": [
+    "parent_control|[REDACTED_PACKAGE]|Record|record"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "22d45707357f1fc35b87c67a51f9de1767efa1da79048e3c208df407e8a5c93a",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_wait_child_audio.txt"
+}

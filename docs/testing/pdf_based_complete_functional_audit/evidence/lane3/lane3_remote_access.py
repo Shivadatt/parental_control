@@ -46,6 +46,7 @@ SAFE_PREFIXES = (
     "Assistance session", "This phone's camera", "This app does not record", "This app never records",
     "You accepted this request", "Ready when you are", "Join with camera and microphone",
     "Join with microphone", "Accept", "Decline", "Review and respond", "Linking requests",
+    "Requests", "Review requests", "Refresh requests", "Refresh status",
     "Assistance requests", "A parent is asking", "Camera and microphone stay off",
     "Accept this assistance request?", "Accepting records your consent", "Start the live session?",
     "Your camera and microphone will be used", "Your microphone will be used", "Join now",
@@ -529,6 +530,10 @@ def start_request(audit: Audit, kind: str, prefix: str, background_child: bool =
 
 def child_consent_and_join(audit: Audit, kind: str, prefix: str) -> None:
     nodes, _, _ = audit.ui(CHILD, f"{prefix}_child_requests_entry")
+    if has_prefix(nodes, "Session ended") or has_prefix(nodes, "Request ended"):
+        tap(audit, CHILD, nodes, "Back", "Leave terminal assistance screen before opening current request")
+        time.sleep(1)
+        nodes, _, _ = audit.ui(CHILD, f"{prefix}_child_requests_list_entry")
     if has(nodes, "Review requests"):
         tap(audit, CHILD, nodes, "Review requests", "Open pending assistance request after manual reopen")
     else:

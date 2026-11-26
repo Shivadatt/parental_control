@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:03:34+05:30",
+  "end": "2026-11-26T15:03:34+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 2345",
+  "exit": 0,
+  "duration_seconds": 0.061,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "4f39ae3c21af2a2830d4b6f517de12db729f4edec551935266377094e8e48b49",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_024_screen_time_open_tap.txt"
+}

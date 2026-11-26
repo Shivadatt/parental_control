@@ -1,0 +1,154 @@
+{
+  "test_id": "L4_MEDIA_VIDEO_FRAME_VERIFIED",
+  "start": "2026-11-26T16:33:21+05:30",
+  "baseline": {
+    "parent_device": {
+      "role": "parent",
+      "serial": "emulator-5554",
+      "model": "sdk_gphone64_x86_64",
+      "android_release": "17",
+      "sdk": "37",
+      "security_patch": "2026-08-05",
+      "timezone": "Asia/Calcutta",
+      "device_time": "2026-11-26T16:33:20+0530",
+      "version_name": "1.0.0",
+      "version_code": "1",
+      "display_size": "Physical size: 1080x2424",
+      "display_density": "Physical density: 420"
+    },
+    "child_device": {
+      "role": "child",
+      "serial": "5HXWRGQ4IFU8WS4T",
+      "model": "RMX2161",
+      "android_release": "12",
+      "sdk": "31",
+      "security_patch": "2023-01-05",
+      "timezone": "Asia/Kolkata",
+      "device_time": "2026-11-26T16:33:22+0530",
+      "version_name": "1.0.0",
+      "version_code": "1",
+      "display_size": "Physical size: 1080x2400",
+      "display_density": "Physical density: 480"
+    },
+    "parent_activity": {
+      "foreground": true,
+      "components": [
+        "com.parentcontrol.parent_control/.MainActivity"
+      ],
+      "exit": 0
+    },
+    "child_activity": {
+      "foreground": false,
+      "components": [
+        "[REDACTED_PACKAGE]/.Launcher"
+      ],
+      "exit": 0
+    },
+    "parent_native": {
+      "services": [],
+      "foreground_ids": [],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "none",
+      "microphone_mode": "unknown",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=108;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "child_native": {
+      "services": [
+        "GuardianService",
+        "LocationTrackingService"
+      ],
+      "foreground_ids": [
+        "4101",
+        "4202"
+      ],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "stop",
+      "microphone_mode": "RECORD_AUDIO: allow",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=146;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "child_foreground_before_request": false,
+  "background_request_observation": {
+    "child_foreground_after_25s": false,
+    "child_camera_open_before_reopen": false,
+    "child_recording_before_reopen": false,
+    "manual_reopen_performed": true
+  },
+  "error": "RuntimeError:Visible control not found on 5HXWRGQ4IFU8WS4T: Requests",
+  "cleanup_teardown": {
+    "clean": true,
+    "end_confirmed_at": "2026-11-26T16:34:21+05:30",
+    "clean_observed_at": "2026-11-26T16:34:25+05:30",
+    "seconds_from_end_confirmation": 3.919,
+    "parent_terminal_ui": true,
+    "parent_native": {
+      "services": [],
+      "foreground_ids": [],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "none",
+      "microphone_mode": "unknown",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=108;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "child_native": {
+      "services": [
+        "GuardianService",
+        "LocationTrackingService"
+      ],
+      "foreground_ids": [
+        "4101",
+        "4202"
+      ],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "stop",
+      "microphone_mode": "RECORD_AUDIO: allow",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=146;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "status": "COLLECTION_ERROR",
+  "end": "2026-11-26T16:34:25+05:30",
+  "duration_seconds": 64.069
+}

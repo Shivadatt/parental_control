@@ -1,0 +1,24 @@
+start=2026-11-26T15:43:30+05:30
+end=2026-11-26T15:43:31+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys media.camera
+exit=0
+duration_seconds=0.587
+raw_stdout_lines=17872
+selected_stdout_lines=10
+include=["Active Camera Clients|parent_control|[REDACTED_PACKAGE]|Device state|Number of camera"]
+exclude=[]
+--- selected stdout ---
+Number of camera devices: 7
+Active Camera Clients:
+  11-25 12:00:11 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:58:45 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:39:15 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:37:44 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:17:38 : DISCONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 11:16:25 : CONNECT device 1 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 09:41:05 : DISCONNECT device 0 client for package com.parentcontrol.parent_control (PID 13967)
+  11-25 09:40:33 : CONNECT device 0 client for package com.parentcontrol.parent_control (PID 13967)
+--- stderr ---
+

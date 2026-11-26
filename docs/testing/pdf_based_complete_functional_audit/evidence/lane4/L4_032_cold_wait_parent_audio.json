@@ -1,0 +1,17 @@
+{
+  "start": "2026-11-26T15:54:11+05:30",
+  "end": "2026-11-26T15:54:11+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell dumpsys media.audio_flinger",
+  "exit": 0,
+  "duration_seconds": 0.051,
+  "raw_stdout_lines": 390,
+  "selected_stdout_lines": 1,
+  "include": [
+    "parent_control|[REDACTED_PACKAGE]|Record|record"
+  ],
+  "exclude": [],
+  "sha256_sanitized_output": "0c3c864f6ab165145f3069686ba2956f5be24a6003c455041e06d71a0502c8ba",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_cold_wait_parent_audio.txt"
+}

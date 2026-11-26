@@ -1,0 +1,14 @@
+{
+  "start": "2026-11-26T15:53:24+05:30",
+  "end": "2026-11-26T15:53:27+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml",
+  "device_temp_file": "/data/local/tmp/haven_lane2_ui.xml",
+  "device_temp_file_removed": true,
+  "exit": 0,
+  "node_count": 22,
+  "omitted_notification_nodes": 0,
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_cold_parent_result.ui.txt",
+  "sha256": "1fca6fc2320912091a77596a5e9cd424bdef616b6baedc5d3ec6d8863bbdbf83"
+}

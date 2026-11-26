@@ -1,0 +1,246 @@
+{
+  "test_id": "L4_MEDIA_AUDIO_VERIFIED",
+  "start": "2026-11-26T16:40:47+05:30",
+  "baseline": {
+    "parent_device": {
+      "role": "parent",
+      "serial": "emulator-5554",
+      "model": "sdk_gphone64_x86_64",
+      "android_release": "17",
+      "sdk": "37",
+      "security_patch": "2026-08-05",
+      "timezone": "Asia/Calcutta",
+      "device_time": "2026-11-26T16:40:46+0530",
+      "version_name": "1.0.0",
+      "version_code": "1",
+      "display_size": "Physical size: 1080x2424",
+      "display_density": "Physical density: 420"
+    },
+    "child_device": {
+      "role": "child",
+      "serial": "5HXWRGQ4IFU8WS4T",
+      "model": "RMX2161",
+      "android_release": "12",
+      "sdk": "31",
+      "security_patch": "2023-01-05",
+      "timezone": "Asia/Kolkata",
+      "device_time": "2026-11-26T16:40:48+0530",
+      "version_name": "1.0.0",
+      "version_code": "1",
+      "display_size": "Physical size: 1080x2400",
+      "display_density": "Physical density: 480"
+    },
+    "parent_activity": {
+      "foreground": true,
+      "components": [
+        "com.parentcontrol.parent_control/.MainActivity"
+      ],
+      "exit": 0
+    },
+    "child_activity": {
+      "foreground": false,
+      "components": [
+        "[REDACTED_PACKAGE]/.Launcher"
+      ],
+      "exit": 0
+    },
+    "parent_native": {
+      "services": [],
+      "foreground_ids": [],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "none",
+      "microphone_mode": "unknown",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=108;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "child_native": {
+      "services": [
+        "GuardianService",
+        "LocationTrackingService"
+      ],
+      "foreground_ids": [
+        "4101",
+        "4202"
+      ],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "stop",
+      "microphone_mode": "RECORD_AUDIO: allow",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=146;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "child_foreground_before_request": false,
+  "background_request_observation": {
+    "child_foreground_after_25s": false,
+    "child_camera_open_before_reopen": false,
+    "child_recording_before_reopen": false,
+    "manual_reopen_performed": true
+  },
+  "after_accept_before_join": {
+    "services": [
+      "GuardianService",
+      "LocationTrackingService"
+    ],
+    "foreground_ids": [
+      "4101",
+      "4202"
+    ],
+    "camera_devices": [],
+    "recording": false,
+    "playback": false,
+    "latest_recording": "stop",
+    "microphone_mode": "RECORD_AUDIO: allow",
+    "camera_mode": "CAMERA: allow",
+    "network": "id=146;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+    "exits": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "parent_join_mode": "automatic_receive_only_parent_join",
+  "child_visible_live_labels": [
+    "Back",
+    "Assistance",
+    "Refresh status",
+    "Audio assistance Active From [REDACTED_ACCOUNT] Requested Nov 26, 2026 4:41 PM · 1 min ago Session duration Until your guardian ends the session Elapsed 24s Consent Recorded Accepted Nov 26, 2026 4:41 PM",
+    "Relay not configured No TURN relay is configured. Audio/video may fail to connect on networks with strict firewalls or carrier NAT.",
+    "Microphone is live Media connected Microphone live Stop sharing turns off camera and microphone on this phone."
+  ],
+  "privacy_notification": {
+    "title": false,
+    "text": false,
+    "stop_action_present": true
+  },
+  "live_samples": [
+    {
+      "sampled_at": "2026-11-26T16:42:27+05:30",
+      "parent_media_connected": true,
+      "parent_live": true,
+      "parent_playback": true,
+      "parent_camera_open": false,
+      "parent_recording": false,
+      "child_foreground": false,
+      "child_camera_open": false,
+      "child_recording": true,
+      "child_audio_service": true,
+      "parent_rtp": null
+    },
+    {
+      "sampled_at": "2026-11-26T16:42:36+05:30",
+      "parent_media_connected": true,
+      "parent_live": true,
+      "parent_playback": true,
+      "parent_camera_open": false,
+      "parent_recording": false,
+      "child_foreground": false,
+      "child_camera_open": false,
+      "child_recording": true,
+      "child_audio_service": true,
+      "parent_rtp": null
+    },
+    {
+      "sampled_at": "2026-11-26T16:42:46+05:30",
+      "parent_media_connected": true,
+      "parent_live": true,
+      "parent_playback": true,
+      "parent_camera_open": false,
+      "parent_recording": false,
+      "child_foreground": false,
+      "child_camera_open": false,
+      "child_recording": true,
+      "child_audio_service": true,
+      "parent_rtp": null
+    }
+  ],
+  "all_parent_media_live": true,
+  "all_parent_capture_inactive": true,
+  "all_child_background": true,
+  "all_child_capture_active": true,
+  "teardown": {
+    "clean": true,
+    "end_confirmed_at": "2026-11-26T16:42:53+05:30",
+    "clean_observed_at": "2026-11-26T16:43:44+05:30",
+    "seconds_from_end_confirmation": 51.051,
+    "parent_terminal_ui": false,
+    "parent_native": {
+      "services": [],
+      "foreground_ids": [],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "none",
+      "microphone_mode": "unknown",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=108;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    "child_native": {
+      "services": [
+        "GuardianService",
+        "LocationTrackingService"
+      ],
+      "foreground_ids": [
+        "4101",
+        "4202"
+      ],
+      "camera_devices": [],
+      "recording": false,
+      "playback": false,
+      "latest_recording": "stop",
+      "microphone_mode": "RECORD_AUDIO: allow",
+      "camera_mode": "CAMERA: allow",
+      "network": "id=146;transport=WIFI;capabilities=INTERNET,VALIDATED,NOT_RESTRICTED,TRUSTED,NOT_VPN",
+      "exits": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    }
+  },
+  "child_terminal_labels": [
+    "Back",
+    "Assistance",
+    "Refresh status",
+    "Audio assistance Ended From [REDACTED_ACCOUNT] Requested Nov 26, 2026 4:41 PM · 2 min ago Consent Recorded Accepted Nov 26, 2026 4:41 PM",
+    "Session ended This session is over.",
+    "Close",
+    "Nothing is recorded. Camera and microphone are used only while you are sharing and stop when you tap Stop sharing, when the session ends, or when this phone loses camera or microphone permission. The app never takes screenshots or reads messages."
+  ],
+  "status": "COLLECTED",
+  "end": "2026-11-26T16:43:51+05:30",
+  "duration_seconds": 183.841
+}

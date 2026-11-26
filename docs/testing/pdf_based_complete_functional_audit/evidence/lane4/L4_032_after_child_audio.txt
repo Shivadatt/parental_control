@@ -1,0 +1,15 @@
+start=2026-11-26T15:55:47+05:30
+end=2026-11-26T15:55:47+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+command=adb -s 5HXWRGQ4IFU8WS4T shell dumpsys media.audio_flinger
+exit=0
+duration_seconds=0.083
+raw_stdout_lines=895
+selected_stdout_lines=0
+include=["parent_control|[REDACTED_PACKAGE]|Record|record"]
+exclude=[]
+--- selected stdout ---
+
+--- stderr ---
+

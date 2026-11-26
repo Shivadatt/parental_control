@@ -11,7 +11,7 @@
   "screen_lines": [
     "mWakefulness=Awake",
     "mHoldingDisplaySuspendBlocker=true",
-    "Display Power: com.android.server.power.PowerManagerService$1@e6f164f",
+    "Display Power: [REDACTED_PACKAGE]$1@e6f164f",
     "mWakefulness=1"
   ],
   "services": [],

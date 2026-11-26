@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:50:48+05:30",
+  "end": "2026-11-26T15:50:48+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 1515",
+  "exit": 0,
+  "duration_seconds": 0.055,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "79f02ba7b0bcfe835f63bdf627049026d91160cffda074982d0c162b18d9b997",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_correct_remote_tap.txt"
+}

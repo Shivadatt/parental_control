@@ -1,0 +1,64 @@
+start=2026-11-26T15:35:20+05:30
+end=2026-11-26T15:35:23+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+ui_command=adb -s emulator-5554 shell uiautomator dump /data/local/tmp/haven_lane2_ui.xml
+exit=0
+node_count=17
+omitted_notification_nodes=0
+0|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+1|text=|desc=|id=|class=android.widget.LinearLayout|clickable=false|bounds=[0,0][1080,2424]
+2|text=|desc=|id=android:id/content|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+3|text=|desc=|id=|class=android.widget.FrameLayout|clickable=false|bounds=[0,0][1080,2424]
+4|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+5|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
+8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,289]
+9|text=|desc=Back|id=|class=android.widget.Button|clickable=true|bounds=[11,153][137,279]
+10|text=|desc=Pairing requests|id=|class=android.view.View|clickable=false|bounds=[189,185][576,246]
+11|text=|desc=Refresh now|id=|class=android.widget.Button|clickable=false|bounds=[954,153][1080,279]
+12|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,289][1080,2361]
+13|text=|desc=|id=|class=android.widget.ScrollView|clickable=false|bounds=[0,289][1080,2361]
+14|text=|desc=This list refreshes from the server every 20 seconds while the screen is open, and whenever you pull down.|id=|class=android.view.View|clickable=false|bounds=[42,310][1038,399]
+15|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[42,399][1038,431]
+16|text=|desc=[REDACTED_ACCOUNT]
+[REDACTED_FAMILY]
+Approved
+Status
+Approved
+Requested by
+[REDACTED_ACCOUNT]
+Requested
+Nov 24, 2026 4:37 PM
+Expires
+Nov 25, 2026 4:37 PM
+Responded
+Nov 24, 2026 4:38 PM
+[REDACTED_ACCOUNT]
+[REDACTED_FAMILY]
+Approved
+Status
+Approved
+Requested by
+[REDACTED_ACCOUNT]
+Requested
+Nov 13, 2026 12:56 PM
+Expires
+Nov 14, 2026 12:56 PM
+Responded
+Nov 13, 2026 12:58 PM
+[REDACTED_ACCOUNT]
+[REDACTED_FAMILY]
+Approved
+Status
+Approved
+Requested by
+[REDACTED_ACCOUNT]
+Requested
+Oct 29, 2026 11:16 AM
+Expires
+Oct 30, 2026 11:16 AM
+Responded
+Oct 29, 2026 11:17 AM|id=|class=android.view.View|clickable=false|bounds=[42,431][1038,2361]
+UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

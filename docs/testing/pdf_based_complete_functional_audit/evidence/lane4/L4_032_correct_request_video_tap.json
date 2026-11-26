@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:51:07+05:30",
+  "end": "2026-11-26T15:51:07+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 795 1131",
+  "exit": 0,
+  "duration_seconds": 0.059,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "19773029221bf6349a44c9d18b8d8f5388720bc00c163db8cb4a43539d678ed8",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_correct_request_video_tap.txt"
+}

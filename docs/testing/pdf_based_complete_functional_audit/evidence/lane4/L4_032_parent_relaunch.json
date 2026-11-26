@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:47:53+05:30",
+  "end": "2026-11-26T15:47:53+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell monkey -p com.parentcontrol.parent_control -c android.intent.category.LAUNCHER 1",
+  "exit": 0,
+  "duration_seconds": 0.553,
+  "stdout_lines": 7,
+  "stderr_lines": 8,
+  "stdout_bytes_sanitized": 239,
+  "stderr_bytes_sanitized": 288,
+  "sha256_sanitized_output": "0c7da78ddfeb8bd3c3ef0ae5dad9a8ee615eff0b1ba582938853c37ed0ab593a",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_parent_relaunch.txt"
+}

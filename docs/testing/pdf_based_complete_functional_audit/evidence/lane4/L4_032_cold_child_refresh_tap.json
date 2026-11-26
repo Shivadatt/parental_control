@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:53:30+05:30",
+  "end": "2026-11-26T15:53:31+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell input tap 1008 191",
+  "exit": 0,
+  "duration_seconds": 0.09,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "fe019f51df1315661080168dd26fcd3e7054b49db93e37292392bf045be55e0a",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_cold_child_refresh_tap.txt"
+}

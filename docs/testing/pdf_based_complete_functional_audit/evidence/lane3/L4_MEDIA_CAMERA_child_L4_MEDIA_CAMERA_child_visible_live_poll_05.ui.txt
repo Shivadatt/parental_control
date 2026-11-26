@@ -1,0 +1,10 @@
+test_id=L4_MEDIA_CAMERA
+label=L4_MEDIA_CAMERA_child_visible_live_poll_05
+start=2026-11-26T16:16:10+05:30
+end=2026-11-26T16:16:12+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=255
+read_exit=4294967295
+node_count=0
+retention=whitelisted visible labels and bounds only; raw XML not retained

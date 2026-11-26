@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:46:57+05:30",
+  "end": "2026-11-26T15:46:57+05:30",
+  "serial": "emulator-5554",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s emulator-5554 shell input tap 540 1661",
+  "exit": 0,
+  "duration_seconds": 0.076,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "1726f2b791c39d2e7497177cf9aea8c59ddbc6fa05dc52c0bdf4be1956f9e69d",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_retry_send_ready2_tap.txt"
+}

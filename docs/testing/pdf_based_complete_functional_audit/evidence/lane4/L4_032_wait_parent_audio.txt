@@ -1,0 +1,15 @@
+start=2026-11-26T15:43:31+05:30
+end=2026-11-26T15:43:31+05:30
+serial=emulator-5554
+cwd=D:\parentcontrol_app
+command=adb -s emulator-5554 shell dumpsys media.audio_flinger
+exit=0
+duration_seconds=0.051
+raw_stdout_lines=390
+selected_stdout_lines=1
+include=["parent_control|[REDACTED_PACKAGE]|Record|record"]
+exclude=[]
+--- selected stdout ---
+  (idle) uid: 10238 com.parentcontrol.parent_control  sessions: 5  actual_seconds: [REDACTED_COORD] { }{ { 00:57:[REDACTED_COORD], 01:02:[REDACTED_COORD]} { 03:18:[REDACTED_COORD], ~:19:[REDACTED_COORD]} { ~:39:[REDACTED_COORD], ~:41:[REDACTED_COORD]} { 04:00:[REDACTED_COORD], ~:02:[REDACTED_COORD]} { 07:55:[REDACTED_COORD], ~:57:[REDACTED_COORD]} }
+--- stderr ---
+

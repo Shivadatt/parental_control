@@ -15,20 +15,20 @@ omitted_notification_nodes=0
 6|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
 7|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2424]
 8|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2151]
-9|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2151]
+9|text=|desc=
 10|text=|desc=Alerts
-0 unacknowledged · 2 total|id=|class=android.view.View|clickable=false|bounds=[0,21][1080,341]
-11|text=|desc=Refresh|id=|class=android.widget.Button|clickable=true|bounds=[912,21][1038,147]
-12|text=|desc=All|id=|class=android.widget.Button|clickable=true|bounds=[42,173][175,299]
-13|text=|desc=Info|id=|class=android.widget.Button|clickable=true|bounds=[196,173][351,299]
-14|text=|desc=Warning|id=|class=android.widget.Button|clickable=true|bounds=[372,173][651,299]
-15|text=|desc=Critical|id=|class=android.widget.Button|clickable=true|bounds=[672,173][880,299]
+0 unacknowledged · 2 total|id=|class=android.view.View|clickable=false|bounds=[0,21][1080,341]|id=|class=android.view.View|clickable=false|bounds=[0,0][1080,2151]
+10|text=|desc=Refresh|id=|class=android.widget.Button|clickable=true|bounds=[912,21][1038,147]
+11|text=|desc=All|id=|class=android.widget.Button|clickable=true|bounds=[42,173][175,299]
+12|text=|desc=Info|id=|class=android.widget.Button|clickable=true|bounds=[196,173][351,299]
+13|text=|desc=Warning|id=|class=android.widget.Button|clickable=true|bounds=[372,173][651,299]
+14|text=|desc=Critical
 16|text=|desc=Device battery is low (4%).
 Low battery
 Warning
 Acknowledged
 Device
-realme RMX2161
+[REDACTED_DEVICE]
 Time
 Nov 3, 2026 5:47 PM · Nov 3, 2026|id=|class=android.view.View|clickable=false|bounds=[0,341][1080,858]
 17|text=|desc=Device battery is low (1%).
@@ -36,10 +36,10 @@ Low battery
 Warning
 Acknowledged
 Device
-realme RMX2161
+[REDACTED_DEVICE]
 Time
-Oct 30, 2026 7:45 AM · Oct 30, 2026|id=|class=android.view.View|clickable=false|bounds=[0,858][1080,1376]
-18|text=|desc=|id=|class=android.view.View|clickable=false|bounds=[0,2151][1080,2361]
+Oct 30, 2026 7:45 AM · Oct 30, 2026|id=|class=android.view.View|clickable=false|bounds=[0,858][1080,1376]|id=|class=android.widget.Button|clickable=true|bounds=[672,173][880,299]
+15|text=|desc=
 19|text=|desc=Dashboard
 Tab 1 of 4|id=|class=android.widget.Button|clickable=true|bounds=[0,2151][270,2361]
 20|text=|desc=Devices
@@ -47,5 +47,5 @@ Tab 2 of 4|id=|class=android.widget.Button|clickable=true|bounds=[270,2151][540,
 21|text=|desc=Alerts
 Tab 3 of 4|id=|class=android.widget.Button|clickable=true|bounds=[540,2151][810,2361]
 22|text=|desc=Settings
-Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2151][1080,2361]
+Tab 4 of 4|id=|class=android.widget.Button|clickable=true|bounds=[810,2151][1080,2361]|id=|class=android.view.View|clickable=false|bounds=[0,2151][1080,2361]
 UI hierchary dumped to: /data/local/tmp/haven_lane2_ui.xml

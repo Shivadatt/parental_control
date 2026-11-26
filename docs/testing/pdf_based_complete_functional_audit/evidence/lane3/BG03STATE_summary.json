@@ -4,7 +4,7 @@
   "child_background_after_inspection": {
     "foreground": false,
     "components": [
-      "com.android.launcher/.Launcher"
+      "[REDACTED_PACKAGE]/.Launcher"
     ],
     "exit": 0
   },

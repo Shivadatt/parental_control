@@ -1,0 +1,27 @@
+{
+  "start": "2026-11-26T16:18:10+05:30",
+  "end": "2026-11-26T16:18:11+05:30",
+  "serial": "emulator-5554",
+  "package": "com.parentcontrol.parent_control",
+  "cwd": "D:\\parentcontrol_app",
+  "foreground_activity_lines": [
+    "topResumedActivity=ActivityRecord{155915219 u0 com.parentcontrol.parent_control/.MainActivity t49}",
+    "mFocusedApp=ActivityRecord{155915219 u0 com.parentcontrol.parent_control/.MainActivity t49}"
+  ],
+  "screen_lines": [
+    "mWakefulness=Awake",
+    "mHoldingDisplaySuspendBlocker=true",
+    "Display Power: [REDACTED_PACKAGE]$1@e6f164f",
+    "mWakefulness=1"
+  ],
+  "services": [],
+  "camera_open": false,
+  "camera_package_in_active_clients": false,
+  "open_camera_devices": [],
+  "recording_active": false,
+  "playback_active": false,
+  "camera_op": "CAMERA: allow",
+  "microphone_op": "unknown",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane3\\L4_MEDIA_CAMERA_RECONNECT_parent.txt",
+  "sha256": "9c802eec790eabb5e74753db81e10e7ff30f60347e3483073dde7613c0a25594"
+}

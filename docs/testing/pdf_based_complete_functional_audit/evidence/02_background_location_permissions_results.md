@@ -1,7 +1,7 @@
 # Lane 2 — Background, Location, Permissions and Recovery Results
 
-**Overall lane status: PARTIAL — runtime evidence obtained; important limitations and two remote-access failures remain.**  
-**Supersedes:** the gate-timeout version of this file dated `2026-11-26T10:59:18+05:30`. That earlier version is retained below only as coordination provenance; it is not a current result.  
+**Overall lane status: PARTIAL — runtime evidence obtained; remote media later worked with material proof and teardown limitations.**  
+**Supersedes:** the gate-timeout version dated `2026-11-26T10:59:18+05:30` and the earlier BG-03/BG-04 FAIL conclusions in this file. The later remote-access evidence in `03_remote_access_results.md` is authoritative for those two cases.  
 **Runtime window:** `2026-11-26T12:22:00+05:30` through `2026-11-26T14:03:43+05:30`  
 **Report timestamp:** `2026-11-26T14:08:00+05:30`  
 **Repository:** `D:\parentcontrol_app`  
@@ -31,10 +31,10 @@ Official case IDs are reconciled to `03_COMPLETE_RUNTIME_TEST_CASES.md`.
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | ENV-01–ENV-04 | 1 | 3 | 0 | 0 | 0 | 0 | 0 | 4 |
 | LOC-01–LOC-13 | 7 | 3 | 0 | 2 | 0 | 1 | 0 | 13 |
-| BG-01–BG-07 | 1 | 3 | 2 | 0 | 0 | 1 | 0 | 7 |
-| **Lane-2 total** | **9** | **9** | **2** | **2** | **0** | **2** | **0** | **24** |
+| BG-01–BG-07 | 1 | 5 | 0 | 0 | 0 | 1 | 0 | 7 |
+| **Lane-2 total** | **9** | **11** | **0** | **2** | **0** | **2** | **0** | **24** |
 
-The two FAIL cases are BG-03 and BG-04: Parent-initiated camera and one-way audio requests failed before Child consent or media could begin. Their full remote-access evidence and CAM/AUD/MIR reconciliation are in `03_remote_access_results.md`.
+BG-03 and BG-04 are now **PARTIAL**, not FAIL. Later active-device cold-start runs delivered both requests to a background Child, enforced explicit Accept then Join, reached live media state, and kept Parent capture inactive. Camera frame variation was measured in memory; audio reached Parent live/playback state but audible phrase/RTP proof was not collected. Parent End released Child capture only after 52.624 seconds for video and 51.051 seconds for audio. See `03_remote_access_results.md` for the authoritative CAM/AUD/MIR reconciliation and BUG-001.
 
 ## 3. Runtime baseline
 
@@ -257,21 +257,21 @@ Evidence: `evidence/lane2/BG02_device_detail.ui.txt`, `BG02_child_final_visible.
 
 ### BG-03 — Parent-initiated camera while Child is background
 
-- **Window:** remote-access lane before `2026-11-26T12:08:35+05:30`; Child background/foreground rechecks remained blocked before this final lane report.
-- **Actions:** Parent attempted the camera request while Child was background and again while Child app was foreground. Child consent/Join was never reached.
-- **Expected:** Child must visibly consent/Join before actual camera media reaches Parent; Parent camera remains inactive; End stops capture.
-- **Actual:** Parent displayed **“Request failed The device is not active.”** No Child consent UI, WebRTC media, RTP, received frames, camera switch, Stop sharing or End flow could be exercised.
-- **Status:** **FAIL** — request delivery failed before consent/media. This is not a media-quality failure and not a successful request.
-- **Evidence:** `03_remote_access_results.md`; `evidence/lane3/` remote-attempt artifacts.
+- **Window:** verified active-device run `2026-11-26T16:36:13+05:30`–`16:39:25+05:30`; independent Stop-sharing run ended `16:50:43+05:30`.
+- **Actions:** Cold Parent selected the active Child card, requested video while Child was background, and observed Child pending request. Child explicitly accepted, then explicitly joined. Parent joined receive-only; native capture and Parent-rendered frame metrics were sampled. Child Stop sharing and Parent End were tested independently.
+- **Expected:** Child must visibly consent/Join before actual camera media reaches Parent; Parent camera remains inactive; End stops capture promptly.
+- **Actual:** Request delivery, consent gating, Child capture and Parent receive-only behavior passed. Parent raw UI showed `Media connected Video live`; three in-memory frame samples were nonblack and varied. Child Stop sharing released capture in 1.759 seconds. Parent End released Child capture only after 52.624 seconds. No TURN relay was configured; direct RTP counters were unavailable.
+- **Status:** **PARTIAL** — actual changing video and role safety were demonstrated, but direct RTP/scene-change proof is absent and Parent-End teardown was materially delayed (BUG-001).
+- **Evidence:** `03_remote_access_results.md`; `evidence/lane3/L4_MEDIA_VIDEO_FRAME_VERIFIED2_summary.json`; `L4_MEDIA_VIDEO_STOP_VERIFIED_summary.json`.
 
 ### BG-04 — Parent-initiated one-way audio while Child is background
 
-- **Window:** remote-access lane before `2026-11-26T12:08:35+05:30`; Child background/foreground rechecks remained blocked.
-- **Actions:** Parent attempted one-way audio while Child was background and foreground. Child consent/Join was never reached.
-- **Expected:** actual one-way audio flows only after visible consent/Join; Parent microphone remains unpublished; End releases Child microphone/service.
-- **Actual:** Parent displayed **“Request failed The device is not active.”** No Child consent, RTP/audio, Parent-mic test or teardown flow occurred.
-- **Status:** **FAIL** — request delivery failed before consent/media.
-- **Evidence:** `03_remote_access_results.md`; `evidence/lane3/` remote-attempt artifacts.
+- **Window:** verified active-device run `2026-11-26T16:40:47+05:30`–`16:43:51+05:30`.
+- **Actions:** Parent requested audio while Child was background; Child explicitly accepted and joined. Parent joined receive-only; Parent live/playback state, Child recording/service state and role-specific native capture were sampled; Parent End teardown was timed.
+- **Expected:** actual one-way audio flows only after visible consent/Join; Parent microphone remains unpublished; End releases Child microphone/service promptly.
+- **Actual:** Request delivery and consent gating passed. Parent showed `One-way audio live` and playback; Child recording and `AudioAssistanceService` were active; Parent capture remained inactive. No harmless spoken phrase or direct inbound RTP counter was collected, so audible content delivery remains unproven. Parent End released Child capture only after 51.051 seconds. No TURN relay was configured.
+- **Status:** **PARTIAL** — live/playback and role safety were demonstrated, but actual audio content and prompt teardown were not proven (BUG-001).
+- **Evidence:** `03_remote_access_results.md`; `evidence/lane3/L4_MEDIA_AUDIO_VERIFIED_summary.json`.
 
 ### BG-05 — Screen mirroring while Child is background
 
@@ -315,10 +315,12 @@ The initial location problem was therefore intermittent and recoverable, not a d
 
 ### 7.2 Remote command/access observations
 
-- Parent camera and one-way audio requests failed with **“The device is not active”** even while Child Guardian/Location services were running, network state was valid, and Child app was foreground.
-- Child Settings showed **“Last command check 20 h ago”** and **“App list upload failed: apps[14].package_name is not a valid Android package name.”**
-- **Retry background protection** advanced Last command check to **Just now**, but the app-list validation error and remote request failure remained.
-- These observations are retained in `03_remote_access_results.md` and `evidence/lane3/MAINRECOVERY_*` artifacts. They require source/backend tracing in report 09; no cause is asserted here.
+- The early **“The device is not active”** result was caused by selecting a revoked device record. The server correctly rejected it. A cold Parent process selecting the active card delivered both camera and audio requests to the background Child.
+- A separate same-process revoked-to-active navigation defect retained the stale revoked target (BUG-003). This does not bypass authorization.
+- Verified media runs demonstrated explicit Accept then Join, no pre-consent capture, receive-only Parent behavior, live camera state and live/playback audio state.
+- Child Settings showed **“App list upload failed: apps[14].package_name is not a valid Android package name.”** A sanitized package comparison found 343 installed packages, 341 accepted by the server regex and 2 rejected; one invalid entry rejects the whole snapshot (BUG-002).
+- Parent End eventually stopped capture but took 52.624 seconds for video and 51.051 seconds for audio (BUG-001). Child Stop sharing stopped video capture in 1.759 seconds.
+- No TURN relay was configured. Direct RTP counters and a harmless spoken audio phrase were not collected. Full reconciliation is in `03_remote_access_results.md`; root-cause traces are in report 09.
 
 ### 7.3 Device Admin versus Device Owner
 
@@ -367,6 +369,6 @@ Evidence: `BG02_parent_final_state.txt`, `BG02_child_final_state.txt`, `BG02_chi
 
 - **Report 04:** use the 24 reconciled statuses in Section 2 and the per-case records in Sections 4–6.
 - **Report 05:** preserve the distinctions in Sections 7.1–7.4; do not convert provider activity into upload proof or Device Admin into Device Owner enforcement.
-- **Report 07:** remote request delivery failures BG-03/BG-04 are confirmed runtime failures; app-list validation error is an observed Child-side error requiring source/backend trace before root-cause attribution.
+- **Report 07:** BUG-001 is delayed Child capture release after Parent End; BUG-002 is wholesale app-snapshot rejection from invalid package names; BUG-003 is stale same-process remote targeting. Direct revoked-device rejection is expected authorization behavior.
 - **Report 08:** LOC-09/LOC-10 are BLOCKED by unavailable safe physical movement; BG-07 network interruption/reboot remain untested; driving detection and screen mirroring are NOT IMPLEMENTED.
-- **Report 09:** trace the “device is not active” command path, app-list package validation error, Refresh/new-fix semantics, delayed location upload and policy-status wording only after all runtime lanes are aggregated.
+- **Report 09:** trace delayed capture teardown, package validation, stale GetX targeting, Refresh/new-fix semantics, delayed location upload and policy-status wording without converting evidence gaps into proven causes.

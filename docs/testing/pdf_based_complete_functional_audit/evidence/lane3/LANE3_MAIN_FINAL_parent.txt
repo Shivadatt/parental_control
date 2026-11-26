@@ -25,7 +25,7 @@ power_start=2026-11-26T12:08:35+05:30 command=adb -s emulator-5554 shell dumpsys
   "screen_lines": [
     "mWakefulness=Awake",
     "mHoldingDisplaySuspendBlocker=true",
-    "Display Power: com.android.server.power.PowerManagerService$1@e6f164f",
+    "Display Power: [REDACTED_PACKAGE]$1@e6f164f",
     "mWakefulness=1"
   ],
   "services": [],
@@ -43,7 +43,7 @@ power_start=2026-11-26T12:08:35+05:30 command=adb -s emulator-5554 shell dumpsys
 --- screen power ---
   mWakefulness=Awake
   mHoldingDisplaySuspendBlocker=true
-Display Power: com.android.server.power.PowerManagerService$1@e6f164f
+Display Power: [REDACTED_PACKAGE]$1@e6f164f
 mWakefulness=1
 --- services ---
   (nothing)

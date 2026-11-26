@@ -40,7 +40,7 @@
     "child_activity": {
       "foreground": false,
       "components": [
-        "com.android.launcher/.Launcher"
+        "[REDACTED_PACKAGE]/.Launcher"
       ],
       "exit": 0
     },

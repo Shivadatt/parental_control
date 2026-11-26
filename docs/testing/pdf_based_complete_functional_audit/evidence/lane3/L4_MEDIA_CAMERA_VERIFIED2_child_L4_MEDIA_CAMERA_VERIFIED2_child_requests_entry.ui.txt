@@ -1,0 +1,16 @@
+test_id=L4_MEDIA_CAMERA_VERIFIED2
+label=L4_MEDIA_CAMERA_VERIFIED2_child_requests_entry
+start=2026-11-26T16:24:17+05:30
+end=2026-11-26T16:24:20+05:30
+serial=5HXWRGQ4IFU8WS4T
+cwd=D:\parentcontrol_app
+dump_exit=0
+read_exit=0
+node_count=20
+retention=whitelisted visible labels and bounds only; raw XML not retained
+9|label=Back|class=android.widget.Button|clickable=true|bounds=[12,119][156,263]
+10|label=Requests|class=android.view.View|clickable=false|bounds=[216,157][469,226]
+11|label=Refresh requests|class=android.widget.Button|clickable=true|bounds=[936,119][1080,263]
+14|label=Assistance requests Accepting a request does not turn on the camera or microphone. You can review and start the session on the next screen, and end it at any time. [REDACTED_ACCOUNT] Video assistance · expires in 9 min Waiting|class=android.view.View|clickable=false|bounds=[48,299][1032,1013]
+15|label=Decline|class=android.widget.Button|clickable=true|bounds=[99,812][525,962]
+16|label=Accept|class=android.widget.Button|clickable=true|bounds=[555,812][981,962]

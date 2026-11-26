@@ -5,13 +5,13 @@
   "package": "com.parentcontrol.parent_control",
   "cwd": "D:\\parentcontrol_app",
   "foreground_activity_lines": [
-    "mResumedActivity: ActivityRecord{e19029b u0 com.android.launcher/.Launcher t293}",
-    "mFocusedApp=ActivityRecord{e19029b u0 com.android.launcher/.Launcher t293}"
+    "mResumedActivity: ActivityRecord{e19029b u0 [REDACTED_PACKAGE]/.Launcher t293}",
+    "mFocusedApp=ActivityRecord{e19029b u0 [REDACTED_PACKAGE]/.Launcher t293}"
   ],
   "screen_lines": [
     "mWakefulness=Awake",
     "mHoldingDisplaySuspendBlocker=true",
-    "Display Power: com.android.server.power.PowerManagerService$1@30f78dd"
+    "Display Power: [REDACTED_PACKAGE]$1@30f78dd"
   ],
   "services": [
     "GuardianService",

@@ -1,0 +1,15 @@
+{
+  "start": "2026-11-26T15:51:16+05:30",
+  "end": "2026-11-26T15:51:16+05:30",
+  "serial": "5HXWRGQ4IFU8WS4T",
+  "cwd": "D:\\parentcontrol_app",
+  "command": "adb -s 5HXWRGQ4IFU8WS4T shell input tap 1008 191",
+  "exit": 0,
+  "duration_seconds": 0.083,
+  "stdout_lines": 0,
+  "stderr_lines": 0,
+  "stdout_bytes_sanitized": 0,
+  "stderr_bytes_sanitized": 0,
+  "sha256_sanitized_output": "ba3475db5b836ff463b9179a393574cbeed06942fcc1ec17b7822ca08108c0b4",
+  "output": "D:\\parentcontrol_app\\docs\\testing\\pdf_based_complete_functional_audit\\evidence\\lane4\\L4_032_correct_child_refresh_tap.txt"
+}
